@@ -1,0 +1,77 @@
+body {
+	align-items: center; 		/* 수평 중앙 정렬 */
+	margin: 0;
+	padding: 0;
+	background-color: #fafafa;
+	font-family: Pretendard;
+	min-height: 100vh; 			/* 화면 높이에 맞추어 최소 높이 설정 */
+}
+
+
+/* page제목 스타일 */
+#pageTitle {
+	height: 100px; 
+	text-align : center;
+	color: #323232;
+	font-size: 45px;
+	font-weight: bold;
+	text-align: center;
+}
+
+/* 제목 스타일 */
+h1 {
+	text-align: center;
+	color: #313131;
+}
+
+
+
+#full {
+	width: 1320px;
+	display: flex;
+	flex-direction: row; 		/* 다단 */
+	align-items: center; 		/* 수평 중앙 정렬 */
+	justify-content: center; 	/* 수직 중앙 정렬 */
+	padding-left: 300px;
+	padding-right: 300px;
+}
+
+#leftColumn {
+	min-height: 100vh; 			/* 화면 높이에 맞추어 최소 높이 설정 */
+	width: 700px;
+	float: left;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+#rightColumn {
+	min-height: 100vh; 			/* 화면 높이에 맞추어 최소 높이 설정 */
+	width: 500px;
+	float: left;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+/* clear:both; -> float을 이용하여 컬럼을 나눈경우 float속성의 해제가 필요함. */
+#footer {
+	clear: both;
+	width: 100%x;
+	align-items: center;
+    position: relative;
+    transform: translatY(-100%);
+}
+
+#payButton{
+	text-align: center;
+}
+
+#btn-kakao {
+
+	background-color: #FF4714;
+	color: #FDFDFD;
+	font-weight: 800;
+	border: none;
+	border-radius: 12px;
+	padding: 10px 20px;
+	cursor: pointer;
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.dto.KHTableMapper">
+	<select id="selectCarBySellId"			parameterType="long"		resultType="Car_General_Info">
+		SELECT *
+		FROM car_general_info
+		WHERE sell_num = #{sell_num}
+	</select>
+	
+	<select id="selectPaymentByUserId"		parameterType="String"		resultType="Payment">
+		SELECT *
+		FROM payment
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="selectPaymentBySellId"		parameterType="long"		resultType="Payment">
+		SELECT *
+		FROM payment
+		WHERE sell_num = #{sell_num}
+	</select>
+		
+	<select id="targetPaymentByTid"			parameterType="String"		resultType="Payment">
+		SELECT *	
+		FROM payment
+		WHERE approval_num = #{tid}
+	</select>
+	
+	<select id="userDetail"					parameterType="String"		resultType="User_Table">
+		SELECT *	
+		FROM user_table
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="expertReviewDetail"			parameterType="long"		resultType="Expert_Review">
+		SELECT *	
+		FROM expert_review
+		WHERE expert_review_num = #{expert_review_num}
+	</select>	
+	
+	<insert id="InsertPayment"				parameterType="Payment">
+		INSERT INTO Payment (
+							user_id,
+							approval_num,
+							approval_date,
+							sell_num,
+							expert_review_num,
+							price,
+							tax,
+							fee,
+							total_price,
+							buz_fee,
+							buz_money,
+							receiver_name,
+							receiver_tel,
+							receiver_zipcode,
+							receiver_addr1,
+							receiver_addr2,
+							insure_img_name,
+							insure_img_url,
+							delivery_date,
+							buy_type
+						)		
+				VALUES ( 
+						 	#{user_id},
+							#{approval_num},
+							#{approval_date},
+							#{sell_num},
+							#{expert_review_num},
+							#{price},
+							#{tax},
+							#{fee},
+							#{total_price},
+							#{buz_fee},
+							#{buz_money},
+							#{receiver_name},
+							#{receiver_tel},
+							#{receiver_zipcode},
+							#{receiver_addr1},
+							#{receiver_addr2},
+							#{insure_img_name},
+							#{insure_img_url},
+							#{delivery_date},
+							#{buy_type}
+						)	
+
+	</insert>
+	
+	<select id="getBrand"					parameterType="String"		resultType="String">
+		SELECT content	
+		FROM common
+		WHERE brand = #{brand}
+	</select>
+	
+</mapper> 
