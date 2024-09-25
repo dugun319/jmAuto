@@ -1,5 +1,6 @@
 package com.oracle.jmAuto.dao.kh;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -25,10 +26,9 @@ public class KHTableDaoImplementation implements KHTableDao {
 		System.out.println("KHTableDaoImplementation carDetail(long sell_num) is called");
 
 		try {
-			carDetail = session.selectOne("com.oracle.jmAuto.dto.KHTableMapper.selectCarBySellId", sell_num);
-			String brand = session.selectOne("com.oracle.jmAuto.dto.KHTableMapper.getBrand", carDetail.getBrand());
+			carDetail = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.selectCarBySellId", sell_num);
+			String brand = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getBrand", carDetail.getBrand());
 			carDetail.setBrand(brand);
-			System.out.println("KHTableDaoImplementation carDetail() carDetail -> " + carDetail);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation carDetail() e.getMessage() -> " + e.getMessage());
 		}
@@ -43,8 +43,7 @@ public class KHTableDaoImplementation implements KHTableDao {
 		System.out.println("KHTableDaoImplementation paymentDetailCall() is called");
 
 		try {
-			paymentDetail = session.selectOne("com.oracle.jmAuto.dto.KHTableMapper.selectPaymentBySellId", sell_num);
-			System.out.println("KHTableDaoImplementation paymentDetailCall() paymentDetail -> " + paymentDetail);
+			paymentDetail = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.selectPaymentBySellId", sell_num);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation paymentDetailCall() e.getMessage() -> " + e.getMessage());
 		}
@@ -59,8 +58,7 @@ public class KHTableDaoImplementation implements KHTableDao {
 		System.out.println("KHTableDaoImplementation paymentListCall() is called");
 
 		try {
-			paymetList = session.selectList("com.oracle.jmAuto.dto.KHTableMapper.selectPaymentByUserId", user_id);
-			System.out.println("KHTableDaoImplementation paymentListCall() paymentDetail -> " + paymetList);
+			paymetList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.selectPaymentByUserId", user_id);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation paymentListCall() e.getMessage() -> " + e.getMessage());
 		}
@@ -75,8 +73,7 @@ public class KHTableDaoImplementation implements KHTableDao {
 		System.out.println("KHTableDaoImplementation targetPaymentByTid() is called");
 
 		try {
-			paymentDetail = session.selectOne("com.oracle.jmAuto.dto.KHTableMapper.targetPaymentByTid", tid);
-			System.out.println("KHTableDaoImplementation targetPaymentByTid() paymentDetail -> " + paymentDetail);
+			paymentDetail = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.targetPaymentByTid", tid);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation targetPaymentByTid() e.getMessage() -> " + e.getMessage());
 		}
@@ -90,8 +87,7 @@ public class KHTableDaoImplementation implements KHTableDao {
 		User_Table buyer = null;
 
 		try {
-			buyer = session.selectOne("com.oracle.jmAuto.dto.KHTableMapper.userDetail", user_id);
-			System.out.println("KHTableDaoImplementation userDetail() buyer -> " + buyer);
+			buyer = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.userDetail", user_id);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation userDetail() e.getMessage() -> " + e.getMessage());
 		}		
@@ -105,8 +101,7 @@ public class KHTableDaoImplementation implements KHTableDao {
 		Expert_Review expertReviewDetail = null;
 
 		try {
-			expertReviewDetail = session.selectOne("com.oracle.jmAuto.dto.KHTableMapper.expertReviewDetail", expert_review_num);
-			System.out.println("KHTableDaoImplementation expertReviewDetail() buyer -> " + expertReviewDetail);
+			expertReviewDetail = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.expertReviewDetail", expert_review_num);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation expertReviewDetail() e.getMessage() -> " + e.getMessage());
 		}		
@@ -116,14 +111,57 @@ public class KHTableDaoImplementation implements KHTableDao {
 
 	@Override
 	public void insertPayment(Payment payment) {
-		System.out.println("KHTableDaoImplementation insertPayment() is called");		
+		System.out.println("KHTableDaoImplementation insertPayment() is called");
 		
 		try {
-			session.insert("com.oracle.jmAuto.dto.KHTableMapper.InsertPayment", payment);
+			session.insert("com.oracle.jmAuto.dto.kh_TableMapper.InsertPayment", payment);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation insertPayment() e.getMessage() -> " + e.getMessage());
 		}
 				
+	}
+
+	@Override
+	public List<Car_General_Info> getCarList() {
+		List<Car_General_Info> carList 	= null;
+		
+		try {
+			carList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getCarList");
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getCarList() e.getMessage() -> " + e.getMessage());
+		}
+		return carList;
+	}
+
+	@Override
+	public List<Expert_Review> getExpertReviewList(long sell_num) {
+		List<Expert_Review> expertReviewList 	= null;
+		
+		try {
+			expertReviewList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getExpertReviewList", sell_num);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getExpertReviewList() e.getMessage() -> " + e.getMessage());
+		}
+		return expertReviewList;
+	}
+
+	@Override
+	public int getPurchaseExpert(String user_id, long expert_review_num) {
+		List<Long> userPurchase 	= null;
+		int result 					= 0;
+		
+		try {
+			userPurchase = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getPurchaseExpert", user_id);
+			if(userPurchase != null) {
+				if(userPurchase.contains(expert_review_num)) {
+					result = 1;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getPurchaseExpert() e.getMessage() -> " + e.getMessage());
+		}
+				
+		return result;
 	}
 
 }

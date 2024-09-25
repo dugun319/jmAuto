@@ -1,5 +1,6 @@
 package com.oracle.jmAuto.service.kh;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -60,7 +61,6 @@ public class KHTableServiceImplementation implements KHTableService {
 		System.out.println("KHTableServiceImplementation expertDetail expert_review_num -> " + expert_review_num);
 		
 		Expert_Review expertReviewDetail  = khTableDao.expertReviewDetail(expert_review_num);
-		System.out.println("KHTableServiceImplementation expertDetail expertReviewDetail -> " + expertReviewDetail);		
 		
 		return expertReviewDetail;
 	}
@@ -71,5 +71,27 @@ public class KHTableServiceImplementation implements KHTableService {
 		System.out.println("KHTableServiceImplementation insertPayment() payment -> " + payment);
 		
 		khTableDao.insertPayment(payment);		
+	}
+
+	@Override
+	public List<Car_General_Info> getCarList() {
+		List<Car_General_Info> carList 	= new ArrayList<>();
+		carList 						= khTableDao.getCarList(); 		
+		return carList;
+	}
+
+	@Override
+	public List<Expert_Review> getExpertReviewList(long sell_num) {
+		List<Expert_Review> expertReviewList 	= new ArrayList<>();
+		expertReviewList 						= khTableDao.getExpertReviewList(sell_num); 		
+		return expertReviewList;
+	}
+
+	@Override
+	public int getPurchaseExpert(String user_id, long expert_review_num) {
+		
+		int result	= khTableDao.getPurchaseExpert(user_id, expert_review_num);
+		
+		return result;
 	}
 }

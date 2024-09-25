@@ -9,10 +9,14 @@ import com.oracle.jmAuto.dto.User_Table;
 
 public interface KHTableService {
 
-	Car_General_Info 	carDetail(long sell_num);
-	Payment 			paymentDetailCall(long sell_num);
-	List<Payment> 		paymentListCall(String user_id);
-	User_Table 			userDetail(String stringAttributeValue);
-	Expert_Review 		expertReviewDetail(long expert_review_num);
-	void 				insertPayment(Payment payment);	
+	Car_General_Info 		carDetail(long sell_num);
+	Payment 				paymentDetailCall(long sell_num);
+	List<Payment> 			paymentListCall(String user_id);
+	User_Table 				userDetail(String stringAttributeValue);
+	Expert_Review 			expertReviewDetail(long expert_review_num);
+	void 					insertPayment(Payment payment);
+	List<Car_General_Info> 	getCarList();
+	List<Expert_Review> 	getExpertReviewList(long sell_num);
+	int					 	getPurchaseExpert(String user_id, long expert_review_num);	
+	
 }

@@ -2,6 +2,8 @@ package com.oracle.jmAuto.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,23 +44,23 @@ public class KhController {
 	@Value("${spring.file.upload.path}")
 	private String uploadPath;
 
-	@GetMapping(value = "/kCar")
-	public String kCarDetail(Car_General_Info car, Model model) {
+	@GetMapping(value = "/goPay")
+	public String goCarPay(long sell_num, Model model) {
 		// 매물번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
 		// 매물번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
 		// 매물번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
 		
-		log.info("KhController kCarDetail is called");
-		
-		SessionUtils.addAttribute("buyer_id", car.getUser_id());
+		log.info("KhController goCarPay is called");
+		String user_id				= SessionUtils.getStringAttributeValue("user_id");
+		SessionUtils.addAttribute("buyer_id", user_id);
 		// 구매자 아이디 받아옴
 		
-		Car_General_Info carDetail	= khTableService.carDetail(car.getSell_num());		// get mothd로 받아온 sell_num
-		User_Table buyer 			= khTableService.userDetail(car.getUser_id());		// get mothd로 받아온 user_num (buyer)
+		Car_General_Info carDetail	= khTableService.carDetail(sell_num);
+		User_Table buyer 			= khTableService.userDetail(user_id);
 		User_Table seller 			= khTableService.userDetail(carDetail.getUser_id());
 		long rawPrice 				= carDetail.getPrice() * 10000;
 
-		System.out.println("KhController kCarDetail carDetail -> " + carDetail);
+		System.out.println("KhController goCarPay carDetail -> " + carDetail);
 
 		SessionUtils.addAttribute("rawPrice", rawPrice);
 		model.addAttribute("carDetail", carDetail);
@@ -69,7 +71,7 @@ public class KhController {
 	}
 	
 	
-	@PostMapping(value = "/readyCar")
+	@PostMapping(value = "/readyPay")
 	public @ResponseBody RedirectView kakaoPayReadyCar(@RequestParam("insureFile") MultipartFile multipartFile, Payment payment) {
 		log.info("sell_num: " + payment.getSell_num());
 		
@@ -108,23 +110,22 @@ public class KhController {
 	}
 	
 	
-	@GetMapping(value = "/kExpert")
-	public String expertDetail(Expert_Review expertReview, Model model) {
-		// 전문가리뷰번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
-		// 전문가리뷰번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
+	@GetMapping(value = "/goExpertPay")
+	public String goExpertPay(long expert_review_num, Model model) {
 		// 전문가리뷰번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
 		
-		log.info("KhController expertDetail is called");	
+		log.info("KhController expertDetail is called");
 		
-		SessionUtils.addAttribute("buyer_id", expertReview.getUser_id());
+		String user_id						= SessionUtils.getStringAttributeValue("user_id");
+		SessionUtils.addAttribute("buyer_id", user_id);
 		// 구매자 아이디 받아옴
 
-		System.out.println("KhController expertDetail expertReview.expertReview.getExpert_review_num() -> " + expertReview.getExpert_review_num());
-		Expert_Review expertReviewDetail 	= khTableService.expertReviewDetail(expertReview.getExpert_review_num());
+		
+		Expert_Review expertReviewDetail 	= khTableService.expertReviewDetail(expert_review_num);
 		Car_General_Info carDetail 			= khTableService.carDetail(expertReviewDetail.getSell_num());
-		User_Table buyer 					= khTableService.userDetail(expertReview.getUser_id());
+		User_Table buyer 					= khTableService.userDetail(user_id);
 		User_Table seller 					= khTableService.userDetail(expertReviewDetail.getUser_id());
-
+		
 		model.addAttribute("expertReviewDetail", expertReviewDetail);
 		model.addAttribute("carDetail", carDetail);
 		model.addAttribute("buyer", buyer);
@@ -134,7 +135,7 @@ public class KhController {
 	}
 		
 
-	@PostMapping(value = "/readyExpert")
+	@PostMapping(value = "/readyExpertPay")
 	public @ResponseBody RedirectView kakaoPayReadyExpert(Payment payment) {
 		log.info("expert_review_num: " + payment.getExpert_review_num());
 
@@ -185,6 +186,7 @@ public class KhController {
 			buz_fee		= 500;
 			buz_money	= price - buz_fee;
 			payment.setExpert_review_num(readyPayment.getExpert_review_num());
+			System.out.println("KhController kakaoPayApprove if(readyPayment.getBuy_type() == 2) is TRUE");
 			
 		} else {
 			price 		= Long.parseLong(SessionUtils.getStringAttributeValue("rawPrice"));
@@ -258,6 +260,66 @@ public class KhController {
 		System.out.println("KhController refundPayment refundDetail -> " + refundDetail);
 
 		return "view_kh/refundPayment";
+	}
+	
+	@GetMapping(value = "/carBasicInfo")
+	public String carBasicInfo(long sell_num, Model model) {
+		
+		Car_General_Info carDetail	= khTableService.carDetail(sell_num);
+		model.addAttribute("carDetail", carDetail);
+		
+		return "view_kh/carBasicInfo";
+	}
+	
+	@GetMapping(value = "/carList")
+	public String carList(String user_id, Model model) {
+		
+		SessionUtils.addAttribute("user_id",  user_id);
+		List<Car_General_Info> carList 	= new ArrayList<>();
+		carList 						= khTableService.getCarList();
+		System.out.println("KhController carList carList -> " + carList);
+				
+		model.addAttribute("carList", carList);
+		
+		return "view_kh/carList";
+	}
+	
+	@GetMapping(value = "/carDetail")
+	public String carDetail(long sell_num, Model model) {
+		
+		List<Expert_Review> expertReviewList 	= new ArrayList<>();
+		expertReviewList 						= khTableService.getExpertReviewList(sell_num);
+		Car_General_Info carDetail				= khTableService.carDetail(sell_num);
+				
+		model.addAttribute("carDetail", carDetail);
+		model.addAttribute("expertReviewList", expertReviewList);
+		
+		return "view_kh/carDetail";
+	}
+	
+	
+	@GetMapping(value = "/expertReviewPage")
+	public String expertReviewPage(long expert_review_num, Model model) {
+		
+		String user_id 	= SessionUtils.getStringAttributeValue("user_id");
+		int result 		= khTableService.getPurchaseExpert(user_id, expert_review_num);
+		
+		model.addAttribute("result", result);
+		
+		return "view_kh/expertReview";	
+	}
+	
+	@GetMapping(value = "/purchasePage")
+	public String purchasePage(long expert_review_num, Model model) {
+		
+		List<Payment> paymentList 	= new ArrayList<>();
+		
+		String user_id 	= SessionUtils.getStringAttributeValue("user_id");
+		// paymentList		= khTableService.getPurchaseExpert(user_id, expert_review_num);
+		
+		model.addAttribute("paymentList", paymentList);
+		
+		return "view_kh/purchasePage";	
 	}
 
 }

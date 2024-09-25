@@ -137,18 +137,19 @@ public class KHPayServiceImplementation implements KHPayService {
 	public KakaoPayReadyResponse kakaoPayReadyExpert(long expert_review_num) {
 		Map<String, Object> payParams = new HashMap<>();
 		
-		Expert_Review expertReviewDetail = 	khTableDao.expertReviewDetail(expert_review_num);
+		Expert_Review expertReviewDetail = khTableDao.expertReviewDetail(expert_review_num);
+		Car_General_Info carDetail		 = khTableDao.carDetail(expertReviewDetail.getSell_num());	
 
 		payParams.put("cid", "TC0ONETIME"); // 테스트 결제는 가맹점 코드로 'TC0ONETIME'를 사용
 		payParams.put("partner_order_id", expertReviewDetail.getExpert_review_num());
 		payParams.put("partner_user_id", expertReviewDetail.getUser_id());
-		payParams.put("item_name", "전문가 리뷰 " + expertReviewDetail.getSell_num());
+		payParams.put("item_name", "전문가 리뷰 " + carDetail.getCar_num());
 		payParams.put("quantity", "1");
 		payParams.put("total_amount", "5500");
 		payParams.put("tax_free_amount", "0");
-		payParams.put("approval_url", "http://localhost:8888/order/pay/completed"); // 결제 성공시 넘어갈 url
-		payParams.put("cancel_url", "http://localhost:8888/order/pay/cancel"); // 결제 취소시 넘어갈 url
-		payParams.put("fail_url", "http://localhost:8888/order/pay/fail"); // 결제 실패시 넘어갈 url
+		payParams.put("approval_url", "http://localhost:8888/KH/pay/completed"); 	// 결제 성공시 넘어갈 url
+		payParams.put("cancel_url", "http://localhost:8888/KH/pay/cancel"); 		// 결제 취소시 넘어갈 url
+		payParams.put("fail_url", "http://localhost:8888/KH/pay/fail"); 			// 결제 실패시 넘어갈 url
 		payParams.put("payment_method_type", "CARD");
 		payParams.put("install_month", "0");
 

@@ -1,0 +1,121 @@
+/* page제목 스타일 */
+#pageTitle {
+	text-align : center;
+	color: #323232;
+	font-size: 30px;
+	font-weight: 900;
+	text-align: center;
+}
+
+body {
+	text-align: center;
+	align-items: center; 		/* 수평 중앙 정렬 */
+	margin: 0;
+	padding: 0;
+	background-color: #fafafa;
+	font-family: "맑은 고딕", Pretendard;
+}
+
+#full {
+	height: 900px;
+	padding: 25px;
+	align-items: center; 		/* 수평 중앙 정렬 */
+	justify-content: center; 	/* 수직 중앙 정렬 */
+}
+
+#intro{
+	text-align: left;
+}
+
+#carBasiclInfo {
+	width: 480px;
+	border: 1px solid #d3d3d3;
+}
+
+.carInfoTitle {
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;	
+}
+
+
+.carInfoLeft {
+	width: 150px;
+	height: 30px;
+	font-size: 15px;
+	font-weight: 900;
+	color: #d3d3d3;
+	text-align: center;	
+}
+
+
+.carInfoRight {
+	font-size: 15px;
+	font-weight: 900;
+	color: #323232;
+	text-align: center;	
+}
+
+
+#paymentInfo {
+	width: 480px;
+	border: 1px solid #d3d3d3;
+}
+
+#payButton {
+	justify-content: center;
+	text-align: center;	
+}
+
+#paymentSumTitle {
+	width: 150px;
+	height: 100px;
+	font-size: 25px;
+	font-weight: bold;
+	color: #323232;
+}
+
+#paymentSumAmount {
+	font-size: 25px;
+	font-weight: bold;
+	color: #FF4714;
+}
+
+.paymentSumLeft {
+	width: 150px;
+	height: 50px;
+	font-size: 15px;
+	font-weight: bold;
+	color: #939393;
+}
+
+.paymentSumRight {
+	font-size: 15px;
+	font-weight: bold;
+	color: #323232;
+}
+
+#payButton #btn-kakao {
+	width: 350px;
+	height: 50px;
+	background-color: #FF4714;
+	color: #FDFDFD;
+	font-size: 25px;
+	border: none;
+	cursor: pointer;
+	margin: 5px;
+	margin-left: 50px;
+}
+
+#payButton #btn-cancel {
+	width: 350px;
+	height: 50px;
+	background-color: #FDFDFD;
+	color: #FF4714;
+	font-size: 25px;
+	border: 2px solid #FF4714;
+	cursor: pointer;
+	margin: 5px;
+	margin-left: 50px;
+}
+

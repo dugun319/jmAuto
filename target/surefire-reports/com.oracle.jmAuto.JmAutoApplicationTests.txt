@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.oracle.jmAuto.JmAutoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.061 s -- in com.oracle.jmAuto.JmAutoApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.477 s -- in com.oracle.jmAuto.JmAutoApplicationTests

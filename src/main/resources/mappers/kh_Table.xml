@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
- <mapper namespace="com.oracle.jmAuto.dto.KHTableMapper">
+ <mapper namespace="com.oracle.jmAuto.dto.kh_TableMapper">
 	<select id="selectCarBySellId"			parameterType="long"		resultType="Car_General_Info">
 		SELECT *
 		FROM car_general_info
@@ -92,5 +92,31 @@
 		FROM common
 		WHERE brand = #{brand}
 	</select>
+	
+	<select id="getCarList" 				resultType="Car_General_Info">
+		SELECT * 
+    	FROM Car_General_Info
+    	ORDER BY sell_num
+	</select>
+	
+	
+	<select id="getExpertReviewList" 		parameterType="long"		resultType="Expert_Review">
+		SELECT * 
+    	FROM Expert_Review
+    	WHERE sell_num = #{sell_num}
+	</select>
+	
+	<select id="getPurchaseExpert"			parameterType="String"		resultType="long">
+		SELECT expert_review_num	
+		FROM payment
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="getPurchaseCar"				parameterType="String"		resultType="long">
+		SELECT sell_num	
+		FROM payment
+		WHERE user_id = #{user_id}
+	</select>
+	
 	
 </mapper> 

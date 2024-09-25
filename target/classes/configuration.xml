@@ -2,8 +2,39 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--
+properties
+
+settings
+
+typeAliases
+
+typeHandlers
+
+objectFactory
+
+objectWrapperFactory
+
+reflectorFactory
+
+plugins
+
+environments
+
+databaseIdProvider
+
+mappers
+
+순서로 들어가야 함
+
+-->
   
 <configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
+	</settings>
+
 	<typeAliases>
 		<typeAlias alias="Car_General_Info"
 			type="com.oracle.jmAuto.dto.Car_General_Info" />
@@ -23,6 +54,9 @@
 			type="com.oracle.jmAuto.dto.Business" />
 		<typeAlias alias="Account"
 			type="com.oracle.jmAuto.dto.Account" />
-	
-	</typeAliases>		
+		<typeAlias alias="Expert_Review"
+			type="com.oracle.jmAuto.dto.Expert_Review" />	
+	</typeAliases>	
+		
 </configuration> 
+

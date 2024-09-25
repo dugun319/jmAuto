@@ -4,398 +4,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
+<link href="<%=request.getContextPath()%>/css/carPayment.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-			
-<style>
-table {
-	margin-top: 30px;
-	margin-bottom: 30px
-}
-
-#title{
-	font-size: 35px;
-	font-weight: bold;
-}
-
-/* page제목 스타일 */
-#pageTitle {
-	height: 100px; 
-	text-align : center;
-	color: #323232;
-	font-size: 45px;
-	font-weight: bold;
-	text-align: center;
-}
-
-body {
-	align-items: center; 		/* 수평 중앙 정렬 */
-	margin: 0;
-	padding: 0;
-	background-color: #fafafa;
-	font-family: "맑은 고딕", Pretendard;
-	min-height: 100vh; 			/* 화면 높이에 맞추어 최소 높이 설정 */
-}
-
-#full {
-	width: 1320px;
-	display: flex;
-	flex-direction: row; 		/* 다단 */
-	align-items: center; 		/* 수평 중앙 정렬 */
-	justify-content: center; 	/* 수직 중앙 정렬 */
-	padding-left: 300px;
-	padding-right: 300px;
-}
-
-#leftColumn {
-	min-height: 100vh; 			/* 화면 높이에 맞추어 최소 높이 설정 */
-	width: 750px;
-	float: left;
-	padding-left: 30px;
-	padding-right: 30px;
-}
-
-
-#intro{
-	line-height: 300%;
-}
-
-
-#carInfo{
-	border-top: 1px solid black;
-		border-top-width: 3px;
-	border-bottom: 1px solid #d3d3d3;
-	text-align: center;
-	border-left: 0;
-	border-right: 0;
-	border-collapse: collapse;
-}
-
-#carInfoLabelLeft {
-	width: 250px;
-	height: 30px;
-	padding: 0;
-	margin: 0;
-	border-bottom: 1px solid #d3d3d3;
-}
-
-#carInfoLabelRight {
-	width: 500px;
-	height: 30px;
-	padding: 0;
-	margin: 0;
-	border-bottom: 1px solid #d3d3d3;
-}
-
-#carInfoModel{
-	font-size: 25px;
-	font-weight: bold;
-	text-align: center;
-	vertical-align: bottom;
-}
-
-#carInfoDetail{
-	font-size: 14px;
-	text-align: center;
-	vertical-align: center;
-	color: #808080;
-}
-
-
-#buyer{
-	width: 750px;
-	height: 250px;
-	border: 2px solid;
-	border-color: #d3d3d3;
-	padding: 20px;
-	vertical-align: center;
-}
-
-
-#buyer .buyerInput {
-	font-size: 15px;
-	padding-left: 15px;
-	height: 30px;
-	width: 500px;
-	border-color: #d3d3d3
-}
-
-
-#buyer #buyerRow1{
-	height: 100px;
-	vertical-align: bottom;
-}
-
-#buyer .tableLeftColumn{
- 	width: 150px;
- 	font-size: 15px;
-	font-weight: bold;
-	vertical-align: center;
-	padding-left: 15px;
- }
-
-#buyer .innerLine {
-	width: 100%;
-	margin-left : auto;
-  	margin-right : auto;
-  	margin-top: 10px;
-  	margin-bottom: 30px;
-}
-
-
-#oder{
-	width: 750px;
-	height: 500px;
-	border: 2px solid;
-	border-color: #d3d3d3;
-	padding: 20px;
-	vertical-align: center;
-}
-
-#oder .innerLine {
-	width: 100%;
-	margin-left : auto;
-  	margin-right : auto;
-  	margin-top: 10px;
-  	margin-bottom: 30px;
-}
-
-#oder .tableLeftColumn{
- 	width: 150px;
- 	font-size: 15px;
-	font-weight: bold;
-	vertical-align: center;
-	padding-left: 15px;
- }
-
-#oderRow1{
-	height: 100px;
-	vertical-align: bottom;
-}
-
-#oderRow2 #postcodeButton:disabled  {
-	width: 150px;
-	height: 30px;
-	font-size: 15px;
-	background-color: #d3d3d3;
-	cursor: not-allowed;
-}
-
-#oderRow2 #postcodeButton{
-	width: 150px;
-	height: 30px;
-	background-color: #FF4714;
-	color: #FDFDFD;
-	font-size: 15px;
-	border: none;
-	cursor: pointer;
-}
-
-
-#oderRow2 input, #oderRow4 input, #oderRow5 input, #oderRow6 input {
-	font-size: 15px;
-	padding-left: 15px;
-	height: 30px;
-	width: 238px;
-	border-color: #d3d3d3
-}
-
-
-#oderRow3 input {
-	font-size: 15px;
-	padding-left: 15px;
-	height: 30px;
-	width: 500px;
-	border-color: #d3d3d3
-}
-
-#oderRow5 #upload-name {
-    display: inline-block;
-    padding-left: 20px;
-    width: 300px;
-    height: 30px;
-    padding: 0px;
-    vertical-align: middle;
-    border: 1px solid #dddddd;
-    color: #999999;
-}
-
-#oderRow5 label {
-    display: inline-block;
-    padding-top: 5px;
-    text-align:center;
-    color: #fff;
-    vertical-align: middle;
-    background-color: #FF4714;
-    cursor: pointer;
-    width: 150px;
-    height: 30px;
-    margin-left: 10px;
-}
-
-#oderRow5 #insureFileTitle{
- 	width: 150px;
- 	font-size: 15px;
-	font-weight: bold;
-	vertical-align: top;
-	padding-top: 25px;
-	padding-left: 15px;
- }
-
-#oderRow5 #insureFile {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-}
-
-#oderRow5 .insureFileCaption {
-	font-size: 12px;
-	font-weight: bold;
-	margin: 0px;
-	line-height: 120%;
-}
-
-#rightColumn {
-	min-height: 100vh; 			/* 화면 높이에 맞추어 최소 높이 설정 */
-	width: 450px;
-	float: left;
-	padding-left: 30px;
-	padding-right: 30px;
-}
-
-#sellerInfo
-
-#sellerInfoTitle{
-	font-size: 20px;
-	font-weight: bold;
-	padding-bottom: 30px;
-	text-align: left;
-}
-
-#sellerImage{
-	width: 150px;
-    height: 150px;
-    border-radius: 70%;
-    overflow: hidden;
-}
-
-#sellerImageFile{
-	width: 150px;
-    height: 150px;
-    object-fit: cover;
-}
-
-#sellerInfoDetail{
-	line-height: 250%;
-}
-
-#sellerInfoName{
-	font-size: 25px;
-	font-weight: bold;
-	padding-left: 10px;
-	text-align: left;
-}
-
-#sellerInfoComp{
-	font-size: 20px;
-	font-weight: bold;
-	padding-left: 10px;
-	text-align: left;
-}
-
-#sellerInfoTele{
-	font-size: 30px;
-	font-weight: bold;
-	color: #FF4714;
-	padding-left: 10px;
-	text-align: left;
-}
-
-#sellerMap {
-	 width:400px;
-	 height:300px;
-	 margin: 20px;
-
-}
-
-.sellerInfoLinkCell{
-	 width:140px;
-	 height:140px;
-	 text-align: center;
-	 
-}
-
-.sellerInfoLinkCell img{
-	 width:100px;
-	 height:100px;
-	 margin-bottom: 15px;
-}
-
-.sellerInfoLinkCaption{
-	font-size: 20px;
-	font-weight: 900;
-	color: #323232;
-	text-align: center;
-	line-height: 160%;
-}
-
-.sellerInfoLinkCaptionHref{
-	font-size: 20px;
-	font-weight: 900;
-	color: blue;
-	text-decoration: underline;
-	cursor: pointer;
-}
-
-#payButton {
-	text-align: center;
-}
-
-#payButton #btn-kakao {
-	width: 400px;
-	height: 50px;
-	background-color: #FF4714;
-	color: #FDFDFD;
-	font-size: 25px;
-	border: none;
-	cursor: pointer;
-	margin: 5px;
-}
-
-#payButton #btn-cancel {
-	width: 400px;
-	height: 50px;
-	background-color: #FDFDFD;
-	color: #FF4714;
-	font-size: 25px;
-	border: 2px solid #FF4714;
-	cursor: pointer;
-	margin: 5px;
-}
-
- 
-/* clear:both; -> float을 이용하여 컬럼을 나눈경우 float속성의 해제가 필요함. */
-/* lreft & right column 분리*/
-
- #footer {
-	clear: both;
-	width: 100%;
-	align-items: center;
-    position: relative;
-    transform: translatY(-100%);
-}
-
-</style>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e660012c6487ac925e5d3920ee4c05b&libraries=services"></script>			
 
 <script>
 
@@ -546,9 +164,52 @@ body {
 	
 	function payCancel() {
 		alert("결제를 취소합니다");
-		location.href = "/";
+		location.href = "/KH/pay/carList";
 	}
 	
+	//카카오맵 구현
+	$(function() {
+
+		var mapContainer = document.getElementById('sellerMap'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				level : 3
+			// 지도의 확대 레벨
+			};
+	
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+	
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch('${seller.user_addr1}',
+				function(result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+
+					var coords = new kakao.maps.LatLng(result[0].y,result[0].x);
+
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					var marker = new kakao.maps.Marker({
+									map : map,
+									position : coords
+					});
+
+					// 인포윈도우로 장소에 대한 설명을 표시합니다
+					var infowindow = new kakao.maps.InfoWindow({
+										content : '<div style="width:150px;text-align:center;padding:6px 0;">회사위치</div>'
+					});
+					infowindow.open(map, marker);
+
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					}
+		});
+
+	});
 </script>
 
 </head>
@@ -561,7 +222,7 @@ body {
 	<div id="pageTitle">차량구매</div>
 
 	<div id="full">
-		<form action="/KH/pay/readyCar"	method="post"	enctype="multipart/form-data">
+		<form action="/KH/pay/readyPay"	method="post"	enctype="multipart/form-data">
 		<input	type="hidden"	name="user_id"	value="${buyer.user_id }" />
 		<input	type="hidden"	name="sell_num"	value="${carDetail.sell_num }" />
 		<input	type="hidden"	name="buy_type"	value="1" /> 
@@ -681,14 +342,15 @@ body {
 					<tr id="oderRow5">	
 						<td id="insureFileTitle">보험가입증명서</td>
 						<td>					
-							<input	id="upload-name"								
-									value="첨부파일"
-									placeholder="첨부파일" />
+							<input	id="upload-name"
+									placeholder="첨부파일" 
+									required="required" />
 							<label 	for="insureFile">파일찾기</label> 
 	    					<input 	type="file" 
 	    							id="insureFile"
 	    							name="insureFile"
-	    							accept=".jpg, .gif, .png" />
+	    							accept=".jpg, .gif, .png" 
+	    							required="required" />
 	    					<br>
 	    					<p class="insureFileCaption">.jpg, .gif, .png 파일만 첨부가능합니다.</p>
 							<p class="insureFileCaption">파일크기는 10MB 이하만 가능합니다.</p>
@@ -700,7 +362,8 @@ body {
 						<td>
 							<input	type="date"
 									id="deilveryDate" 
-									name="delivery_date" />	
+									name="delivery_date" 
+									required="required" />	
 						</td>
 					</tr>	
 				</table>
@@ -734,6 +397,7 @@ body {
 							판매자 정보
 						</th>
 					</tr>
+					<%-- 
 					<tr>
 						<td id="sellerImageColumn">
 							<div id="sellerImage">
@@ -753,7 +417,8 @@ body {
 								${seller.user_tel }
 							</span>
 						</td>
-					</tr>
+					</tr> 
+					--%>
 					<tr>
 						<td colspan="2">
 							<div id="sellerMap"></div>
@@ -777,17 +442,17 @@ body {
 								<c:choose>
 									<c:when test="${status eq repair}">
 										<div	class="sellerInfoLinkCaptionHref"	
-												onclick="location.href='https://www.carhistory.or.kr/main.car?realm='">
-												이력있음
+												onclick="window.open('https://www.carhistory.or.kr/main.car?realm=', '보험이력조회', 'width=500,height=700,location=no,status=no,scrollbars=yes,top=300,left=300')">
+												단순수리
 										</div>
 									</c:when>
 									<c:when test="${status eq accident}">
 										<div	class="sellerInfoLinkCaptionHref"	
-												onclick="location.href='https://www.carhistory.or.kr/main.car?realm='">
-												이력있음
+												onclick="window.open('https://www.carhistory.or.kr/main.car?realm=', '보험이력조회', 'width=500,height=700,location=no,status=no,scrollbars=yes,top=300,left=300')">
+												사고
 										</div>
 									</c:when>
-									<c:otherwise>이력없음</c:otherwise>
+									<c:otherwise>무사고</c:otherwise>
 								</c:choose>
 							</a>
 						</td>
@@ -815,8 +480,8 @@ body {
 								<br>
 								<a 	class="sellerInfoLinkCaptionHref"
 									id="sellerInfoPopup"	
-									onclick="location.href='https://www.carhistory.or.kr/main.car?realm='">
-								보기
+									onclick="window.open('/KH/pay/carBasicInfo?sell_num=${carDetail.sell_num }', '차량기본정보', 'width=500,height=600,location=no,status=no,scrollbars=no,top=300,left=300')">
+									보기
 								</a>								
 							</div>
 						</td>
@@ -824,48 +489,84 @@ body {
 				</table>			
 			</div>
 
-			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e660012c6487ac925e5d3920ee4c05b&libraries=services"></script>
-			<script>
-			var mapContainer = document.getElementById('sellerMap'), // 지도를 표시할 div 
-			    mapOption = {
-			        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-			        level: 3 // 지도의 확대 레벨
-			    };  
-			
-			// 지도를 생성합니다    
-			var map = new kakao.maps.Map(mapContainer, mapOption); 
-			
-			// 주소-좌표 변환 객체를 생성합니다
-			var geocoder = new kakao.maps.services.Geocoder();
-			
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch('${seller.user_addr1}', function(result, status) {
-			
-			    // 정상적으로 검색이 완료됐으면 
-			     if (status === kakao.maps.services.Status.OK) {
-			
-			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-			
-			        // 결과값으로 받은 위치를 마커로 표시합니다
-			        var marker = new kakao.maps.Marker({
-			            map: map,
-			            position: coords
-			        });
-			
-			        // 인포윈도우로 장소에 대한 설명을 표시합니다
-			        var infowindow = new kakao.maps.InfoWindow({
-			            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-			        });
-			        infowindow.open(map, marker);
-			
-			        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-			        map.setCenter(coords);
-			    } 
-			});    
-			</script>
-		
-			<hr>
-			<hr>
+			<div id="paymentInfo">
+				<table id="paymentInfoTable">
+					<tr>
+						<td colspan="2">
+							<span id="paymentInfoTele">
+								<img	src="<%=request.getContextPath()%>/images/main/icon_tel.png"
+										width="40px" 
+										height="40px">
+								${seller.user_tel }								
+							</span>					
+							<hr class="innerLine"/>	
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="2" id="paymentInfoCarName">
+							${carDetail.brand }
+							<br>
+							${carDetail.model }
+						</td>
+					</tr>
+						
+					<tr>
+						<td colspan="2" id="paymentInfoCarDetail">
+							<c:set var="manu_date" value="${carDetail.manu_date }"/>
+							${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) } 월&emsp;|&emsp;				
+							<fmt:formatNumber 	value="${carDetail.mileage }" 	pattern="#,###,###"/> km &emsp;|&emsp;
+							${carDetail.fuel }&emsp;|&emsp;
+						    ${seller.user_addr1}
+						</td>
+					</tr>
+					
+					<tr>
+						<th id="paymentSumTitle">합계</th>
+						<td id="paymentSumAmount">
+							<fmt:formatNumber 	value="${carDetail.price * 11700 + 50000}" 	pattern="#,###,###"/>
+						 원
+						</td>					
+					</tr>
+					<tr>
+						<th class="paymentSumLeft">차량가격</th>
+						<td class="paymentSumRight">
+							<fmt:formatNumber 	value="${carDetail.price * 10000}" 	pattern="#,###,###"/>
+						 원
+						</td>					
+					</tr>
+					<tr>
+						<th class="paymentSumLeft">세 금</th>
+						<td class="paymentSumRight">
+							<fmt:formatNumber 	value="${carDetail.price * 1700}" 	pattern="#,###,###"/>
+						 원
+						</td>					
+					</tr>
+					<tr>
+						<th class="paymentSumLeft">대행수수료</th>
+						<td class="paymentSumRight">
+							<fmt:formatNumber 	value="50000" 	pattern="#,###,###"/>
+						 원
+						</td>					
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div id="payButton">
+								<button	id="btn-kakao"	
+										type="submit">
+									<i class="fa-solid fa-comment">결제요청</i>
+								</button>
+								<br>
+								<button	id="btn-cancel"	
+										onclick="payCancel()">
+									<i class="fa-solid fa-comment">결제취소</i>
+								</button>
+								
+							</div>						
+						</td>
+					</tr>				
+				</table>
+			<%-- 					
 			<h1>매물정보</h1>
 
 			<h5>매물번호 : ${carDetail.sell_num }</h5>
@@ -880,7 +581,7 @@ body {
 			<h5>변속기 : ${carDetail.transmission }</h5>
 			<h5>사고유무 : ${carDetail.accident }</h5>
 			<h5>압류유무 : ${carDetail.repossession }</h5>
-			<h5>차량가격 : ${carDetail.price * 10000 } 원</h5>
+			<h5>차량가격 : ${carDetail.price * 11700} 원</h5>
 			<h5>자동차등록증경로 : ${carDetail.sell_regi }</h5>
 			<h5>자동차세완납증명서경로 : ${carDetail.sell_certi_tax }</h5>
 			<h5>신분증사본 경로 : ${carDetail.sell_shinbun }</h5>
@@ -889,9 +590,6 @@ body {
 			<h5>등록일자 : ${carDetail.reg_date }</h5>
 			<h5>삭제여부 : ${carDetail.del_state }</h5>
 
-
-			<hr>
-			<hr>
 			<h1>판매자정보</h1>
 			<h5>아이디 : ${seller.user_id }</h5>
 			<h5>비밀번호 : ${seller.user_pw }</h5>
@@ -908,68 +606,17 @@ body {
 			<h5>유형 : ${seller.user_type }</h5>
 			<h5>삭제여부 : ${seller.del_state }</h5>
 			<h5>승인여부 : ${seller.approval.total }</h5>
-
-			<div id="payButton">
-				<button	id="btn-kakao"	
-						type="submit">
-					<i class="fa-solid fa-comment">결제요청</i>
-				</button>
-				<br>
-				<button	id="btn-cancel"	
-						onclick="payCancel()">
-					<i class="fa-solid fa-comment">결제취소</i>
-				</button>
-				
+ 			--%>
+ 			
 			</div>
-
 		</div>
 		</form>
 
 	</div>
-	
-<!-- 	<a href="#pop_info_1" class="btn_open">팝업 열기</a>
-<a href="#pop_info_2" class="btn_open">팝업 열기2</a>
 
-팝업1
-<div id="pop_info_1" class="pop_wrap" style="display:none;">
-  <div class="pop_inner">
-    <p class="dsc">팝업 안내문구 입니다.</p>
-    <button type="button" class="btn_close">닫기</button>
-  </div>
-</div>
-
-팝업2
-<div id="pop_info_2" class="pop_wrap" style="display:none;">
-  <div class="pop_inner">
-    <p class="dsc">팝업 안내문구 입니다222.</p>
-    <button type="button" class="btn_close">닫기</button>
-  </div>
-</div>
-
-
-<script>
-  var target = document.querySelectorAll('.btn_open');
-  var targetID;
-
-  // 팝업 열기
-  for(var i = 0; i < target.length; i++){
-    target[i].addEventListener('click', function(){
-      targetID = this.getAttribute('href');
-      document.querySelector(targetID).style.display = 'block';
-    });
-  }
-  
-  // 팝업 닫기
-  for(var j = 0; j < target.length; j++){
-    btnPopClose[j].addEventListener('click', function(){
-      this.parentNode.parentNode.style.display = 'none';
-    });
-  }
-</script> -->
 	
 	<footer id="footer">
-		<img	src="<%=request.getContextPath()%>/images/main/footer.png"
-				width="100%">
+		<%@ include file="../footer.jsp"%>		
 	</footer>
 
 

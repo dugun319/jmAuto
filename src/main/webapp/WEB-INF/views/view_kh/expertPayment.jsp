@@ -1,109 +1,119 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+<link href="<%=request.getContextPath()%>/css/expertPayment.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<style>
-#btn-kakao {
-	background-color: #FF4714;
-	color: #FDFDFD;
-	font-weight: 800;
-	border: none;
-	border-radius: 12px;
-	padding: 10px 20px;
-	cursor: pointer;
-}
-</style>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+	function payCancel() {
+		alert("결제를 취소합니다");
+		window.opener.location.reload();    //부모창 reload
+		window.close();
+	}
+	
+</script>
 </head>
 <body>
-	<%@ include file="../header_white.jsp"%>
-	<%
-			String expert_review_num =  request.getParameter("expert_review_num");
-	%>
-	<h2>expert_review_num = <%=expert_review_num %></h2>
+	<div id="pageTitle">전문가 리뷰 구매</div>
 
-	<hr>
-	<hr>
-	<h1>구매자정보</h1>
+	<div id="full">
+		<form 	name="payForm"  action="/KH/pay/readyExpertPay"	method="post" >
+		<input	type="hidden"	name="user_id"	value="${buyer.user_id }" />
+		<input	type="hidden"	name="expert_review_num"	value="${expertReviewDetail.expert_review_num }" />
+		<input	type="hidden"	name="buy_type"	value="2" /> 
 
-	<h5>아이디 : ${buyer.user_id }</h5>
-	<h5>비밀번호 : ${buyer.user_pw }</h5>
-	<h5>이름 : ${buyer.user_name }</h5>
-	<h5>전화번호 : ${buyer.user_tel }</h5>
-	<h5>우편번호 : ${buyer.user_zipcode }</h5>
-	<h5>주소1 : ${buyer.user_addr1}</h5>
-	<h5>주소2 : ${buyer.user_addr2}</h5>
-	<h5>이메일 : ${buyer.user_email}</h5>
-	<h5>등록일 : ${buyer.user_regdate}</h5>
-	<h5>사업자번호 : ${buyer.buz_num}</h5>
-	<h5>자격증번호 : ${buyer.cert_num}</h5>
-	<h5>등급 : ${buyer.user_level}</h5>
-	<h5>유형 : ${buyer.user_type }</h5>
-	<h5>삭제여부 : ${buyer.del_state }</h5>
-	<h5>승인여부 : ${buyer.approval.total }</h5>
+		<div id="intro">
+			<h3>안녕하세요, ${buyer.user_name } 고객님.</h3>
+			<h3>전문가리뷰 구매를 시작하겠습니다.</h3>
+			<h3>대상정보와 예상 결제 금액을 확인해 주세요.</h3>
+		</div>
 
+		<div id="carBasiclInfo">
+			<table id="carInfo">
+				<tr>
+					<th class="carInfoTitle" colspan="2">리뷰 대상차량 기본정보</th>
+				</tr>
+				<tr>
+					<th class="carInfoTitle">구분</th>
+					<th class="carInfoTitle">내용</th>
+				</tr>
+				<tr>
+					<td class="carInfoLeft">리뷰어</td>
+					<td class="carInfoRight">${seller.user_name }</td>
+				</tr>
+				<tr>
+					<td class="carInfoLeft">차량번호</td>
+					<td class="carInfoRight">${carDetail.car_num }</td>
+				</tr>
+				<tr>
+					<td class="carInfoLeft">차량모델</td>
+					<td class="carInfoRight">${carDetail.brand } ${carDetail.model }</td>
+				</tr>
+				<tr>
+					<td class="carInfoLeft">제작년도</td>
+					<td class="carInfoRight">
+						<c:set var="manu_date"	value="${carDetail.manu_date }" />
+						${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) }	월
+					</td>
+				</tr>
+				<tr>
+					<td class="carInfoLeft">주행거리</td>
+					<td class="carInfoRight">
+						<fmt:formatNumber value="${carDetail.mileage }"	pattern="#,###,###" /> km
+					</td>
+				</tr>
+				<tr>
+					<td class="carInfoLeft">차량연료</td>
+					<td class="carInfoRight">${carDetail.fuel }</td>
+				</tr>				
+			</table>
+		</div>
 
-	<hr>
-	<hr>
-	<h1>제품정보</h1>
+		<div id="paymentInfo">
+			<table id="paymentInfoTable">
 
-	<h5>리뷰번호 : ${expertReviewDetail.expert_review_num }</h5>
-	<h5>매물번호 : ${expertReviewDetail.sell_num }</h5>	
-	<h5>작성일 : ${expertReviewDetail.write_date }</h5>
-	<h5>차량번호 : ${carDetail.car_num }</h5>
-	<h5>차량모델 : ${carDetail.model }</h5>
-	<h5>총점 : ${expertReviewDetail.score }</h5>	
-	<h5>작성자 : ${seller.user_name } (${expertReviewDetail.user_id })</h5>
-	
-	<hr>
-	<h3>기본사항</h3>
-	<h5>성능/상태기록점검부 : ${expertReviewDetail.ess_state }</h5>
-	<h5>주행거리 : ${expertReviewDetail.ess_mileage }</h5>
-	<h5>자동차등록증 : ${expertReviewDetail.ess_regi }</h5>
-	
-	<hr>
-	<h4>총평</h4>
-	<h5>${expertReviewDetail.content }</h5>
-	
-	<hr>
-	<h3>소모품</h3>
-	<h5>엔진오일 : ${expertReviewDetail.egine_oil }</h5>
-	<h5>엔진오일 : ${expertReviewDetail.brake_oil }</h5>
-	<h5>냉각수 : ${expertReviewDetail.coolant }</h5>
-	<h5>타이어 : ${expertReviewDetail.tire }</h5>
-	<h5>브레이크패드 : ${expertReviewDetail.brake_pad}</h5>
-	
-	<h3>결제금액 : 5,500 원</h3>
-	
-	
-	<hr>
-	<hr>
-	<h1>판매자정보</h1>
-	<h5>아이디 : ${seller.user_id }</h5>
-	<h5>비밀번호 : ${seller.user_pw }</h5>
-	<h5>이름 : ${seller.user_name }</h5>
-	<h5>전화번호 : ${seller.user_tel }</h5>
-	<h5>우편번호 : ${seller.user_zipcode }</h5>
-	<h5>주소1 : ${seller.user_addr1}</h5>
-	<h5>주소2 : ${seller.user_addr2}</h5>
-	<h5>이메일 : ${seller.user_email}</h5>
-	<h5>등록일 : ${seller.user_regdate}</h5>
-	<h5>사업자번호 : ${seller.buz_num}</h5>
-	<h5>자격증번호 : ${seller.cert_num}</h5>
-	<h5>등급 : ${seller.user_level}</h5>
-	<h5>유형 : ${seller.user_type }</h5>
-	<h5>삭제여부 : ${seller.del_state }</h5>
-	<h5>승인여부 : ${seller.approval.total }</h5>
-	
+				<tr>
+					<th id="paymentSumTitle">합계</th>
+					<td id="paymentSumAmount">5,500 원</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumLeft">리뷰가격</th>
+					<td class="paymentSumRight">5,000 원</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumLeft">세 금</th>
+					<td class="paymentSumRight">500 원</td>					
+				</tr>
 
-	<button id="btn-kakao">
-		KakaoPay<br>결제요청 <i class="fa-solid fa-comment"></i>
-	</button>
-	<%@ include file="../footer.jsp"%>
+				<tr>
+					<td id="payButton" colspan="2">
+						<button	id="btn-kakao"
+								type="submit">
+							<i class="fa-solid fa-comment">결제요청</i>
+						</button>
+						<br>
+						<button	id="btn-cancel"	
+								onclick="payCancel()">
+							<i class="fa-solid fa-comment">결제취소</i>
+						</button>													
+					</td>
+				</tr>				
+			</table>
+		</div>
+		
+	</form>
+
+</div>
+
 </body>
+
 </html>
 

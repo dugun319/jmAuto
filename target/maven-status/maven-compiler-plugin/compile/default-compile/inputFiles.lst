@@ -7,9 +7,13 @@ C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\controller
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\controller\MhController.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\controller\MsController.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\controller\ShController.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dao\jm\JmDao.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dao\jm\JmDaoImpl.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dao\kh\KHTableDao.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dao\kh\KHTableDaoImplementation.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dao\main\MainDao.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\domain\Account5.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\domain\MailProperties.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\domain\Payment_domain.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\domain\User_Table5.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dto\Account.java
@@ -33,6 +37,10 @@ C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dto\Sessio
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dto\User_Table.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\dto\Zzim.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\JmAutoApplication.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\jm\EmailService.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\jm\EmailServiceImpl.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\jm\JmService.java
+C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\jm\JmServiceImpl.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\kh\KHPayService.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\kh\KHPayServiceImplementation.java
 C:\Users\admin\Desktop\project\jmAuto\src\main\java\com\oracle\jmAuto\service\kh\KHTableService.java
