@@ -19,7 +19,7 @@
 		<nav>
 			<ul class="menu">
 				<li><a href="KH/pay/carList?user_id=n$Xro9764">국내</a></li>
-				<li><a href="KH/pay/paymentDetail?sell_num=10000000001">해외</a></li>
+				<li><a href="KH/pay/paymentList">해외</a></li>
 				<li><a href="KH/pay/kExpert?expert_review_num=50000000001&user_id=n$Xro9764">친환경</a></li>
 				<li><a href="/view_sh/sellMyCar">내차팔기</a></li>
 				<li><a href="/view_jw/cs">고객지원</a></li>

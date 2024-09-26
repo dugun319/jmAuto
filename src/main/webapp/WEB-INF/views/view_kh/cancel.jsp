@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <script type="text/javascript">
-	alert("결제가 취소되었습니다")
-	location.href="/"
+	alert("결제가 취소되었습니다");
+	location.href="/";
 </script>
 <body>
 	<%@ include file="../header_white.jsp" %>

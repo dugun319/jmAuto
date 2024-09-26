@@ -20,47 +20,47 @@ public class KHTableServiceImplementation implements KHTableService {
 	private final KHTableDao khTableDao;
 	
 	@Override
-	public Car_General_Info carDetail(long sell_num) {
-		System.out.println("KHTableServiceImplementation carDetail(long sell_num) is called");
-		System.out.println("KHTableServiceImplementation carDetail sell_num -> " + sell_num);
-		Car_General_Info carDetail = khTableDao.carDetail(sell_num);
+	public Car_General_Info getCarBySellId(long sell_num) {
+		System.out.println("KHTableServiceImplementation getCarBySellId(long sell_num) is called");
+		System.out.println("KHTableServiceImplementation getCarBySellId sell_num -> " + sell_num);
+		Car_General_Info carDetail = khTableDao.getCarBySellId(sell_num);
 
 		return carDetail;
 	}
 
 	@Override
-	public Payment paymentDetailCall(long sell_num) {
+	public Payment getPaymentBySellId(long sell_num) {
 		System.out.println("KHTableServiceImplementation paymentDetailCall() is called");
 		System.out.println("KHTableServiceImplementation paymentDetailCall getSell_num -> " + sell_num);
-		Payment paymentDetail = khTableDao.paymentDetailCall(sell_num);
+		Payment paymentDetail = khTableDao.getPaymentBySellId(sell_num);
 		return paymentDetail;
 	}
 
 	@Override
-	public List<Payment> paymentListCall(String user_id) {
+	public List<Payment> getPaymentList(String user_id) {
 		System.out.println("KHTableServiceImplementation paymentListCall() is called");
 		System.out.println("KHTableServiceImplementation paymentListCall User_id -> " + user_id);
-		List<Payment> paymentList = khTableDao.paymentListCall(user_id);
+		List<Payment> paymentList = khTableDao.getPaymentList(user_id);
 		return paymentList;
 	}
 
 	@Override
-	public User_Table userDetail(String user_id) {
+	public User_Table getUserById(String user_id) {
 		System.out.println("KHTableServiceImplementation userDetail() is called");
 		System.out.println("KHTableServiceImplementation userDetail User_id -> " + user_id);
 		
-		User_Table buyer = khTableDao.userDetail(user_id);
+		User_Table buyer = khTableDao.getUserById(user_id);
 		System.out.println("KHTableServiceImplementation userDetail buyer -> " + buyer);		
 		
 		return buyer;
 	}
 
 	@Override
-	public Expert_Review expertReviewDetail(long expert_review_num) {
+	public Expert_Review getExpertReviewDetail(long expert_review_num) {
 		System.out.println("KHTableServiceImplementation expertDetail() is called");
 		System.out.println("KHTableServiceImplementation expertDetail expert_review_num -> " + expert_review_num);
 		
-		Expert_Review expertReviewDetail  = khTableDao.expertReviewDetail(expert_review_num);
+		Expert_Review expertReviewDetail  = khTableDao.getExpertReviewDetail(expert_review_num);
 		
 		return expertReviewDetail;
 	}

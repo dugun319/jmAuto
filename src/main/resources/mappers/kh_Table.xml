@@ -13,6 +13,7 @@
 		SELECT *
 		FROM payment
 		WHERE user_id = #{user_id}
+			AND del_state = 1
 	</select>
 	
 	<select id="selectPaymentBySellId"		parameterType="long"		resultType="Payment">
@@ -21,13 +22,13 @@
 		WHERE sell_num = #{sell_num}
 	</select>
 		
-	<select id="targetPaymentByTid"			parameterType="String"		resultType="Payment">
+	<select id="selectPaymentByTid"			parameterType="String"		resultType="Payment">
 		SELECT *	
 		FROM payment
 		WHERE approval_num = #{tid}
 	</select>
 	
-	<select id="userDetail"					parameterType="String"		resultType="User_Table">
+	<select id="selectUserById"				parameterType="String"		resultType="User_Table">
 		SELECT *	
 		FROM user_table
 		WHERE user_id = #{user_id}
@@ -60,7 +61,9 @@
 							insure_img_name,
 							insure_img_url,
 							delivery_date,
-							buy_type
+							buy_type,
+							del_state,
+							refund_password
 						)		
 				VALUES ( 
 						 	#{user_id},
@@ -82,7 +85,9 @@
 							#{insure_img_name},
 							#{insure_img_url},
 							#{delivery_date},
-							#{buy_type}
+							#{buy_type},
+							#{del_state},
+							#{refund_password}
 						)	
 
 	</insert>
@@ -106,17 +111,28 @@
     	WHERE sell_num = #{sell_num}
 	</select>
 	
-	<select id="getPurchaseExpert"			parameterType="String"		resultType="long">
+	<select id="getPurchaseExpertList"			parameterType="String"		resultType="long">
 		SELECT expert_review_num	
 		FROM payment
 		WHERE user_id = #{user_id}
 	</select>
 	
-	<select id="getPurchaseCar"				parameterType="String"		resultType="long">
+	<select id="getPurchaseCarList"				parameterType="String"		resultType="long">
 		SELECT sell_num	
 		FROM payment
 		WHERE user_id = #{user_id}
 	</select>
 	
+	<select id="getRefundPassword"				parameterType="String"		resultType="String">
+		SELECT refund_password	
+		FROM payment
+		WHERE approval_num = #{approval_num}
+	</select>	
+	
+	<update id="updateRefundPayment"			parameterType="String">
+		UPDATE payment
+			SET	del_state = '0'
+			WHERE approval_num = #{approval_num}
+	</update>
 	
 </mapper> 

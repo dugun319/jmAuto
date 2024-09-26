@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e660012c6487ac925e5d3920ee4c05b&libraries=services"></script>			
 
@@ -411,7 +411,7 @@
 							<span id="sellerInfoComp">${seller.buz_num} (주)</span>
 							<br>
 							<span id="sellerInfoTele">
-								<img	src="<%=request.getContextPath()%>/images/main/icon_tel.png"
+								<img	src="<%=request.getContextPath()%>/images/main/kh_icon_tel.png"
 										width="30px" 
 										height="30px">
 								${seller.user_tel }
@@ -429,7 +429,7 @@
 				<table id="sellerInfoLink">
 					<tr>
 						<td class="sellerInfoLinkCell">
-							<img	src="<%=request.getContextPath()%>/images/main/repair.png"
+							<img	src="<%=request.getContextPath()%>/images/main/kh_repair.png"
 									width="100px" 
 									height="100px">
 							<br>
@@ -457,7 +457,7 @@
 							</a>
 						</td>
 						<td class="sellerInfoLinkCell">
-							<img	src="<%=request.getContextPath()%>/images/main/mileage.png" />
+							<img	src="<%=request.getContextPath()%>/images/main/kh_mileage.png" />
 							<br>
 							<a class="sellerInfoLinkCaption">
 								주행거리
@@ -473,7 +473,7 @@
 							</a>
 						</td>
 						<td class="sellerInfoLinkCell">
-							<img	src="<%=request.getContextPath()%>/images/main/carInfo.png" />
+							<img	src="<%=request.getContextPath()%>/images/main/kh_carInfo.png" />
 							<br>
 							<div class="sellerInfoLinkCaption">
 								기본정보
@@ -494,7 +494,7 @@
 					<tr>
 						<td colspan="2">
 							<span id="paymentInfoTele">
-								<img	src="<%=request.getContextPath()%>/images/main/icon_tel.png"
+								<img	src="<%=request.getContextPath()%>/images/main/kh_icon_tel.png"
 										width="40px" 
 										height="40px">
 								${seller.user_tel }								
@@ -618,7 +618,8 @@
 	<footer id="footer">
 		<%@ include file="../footer.jsp"%>		
 	</footer>
-
+	
+	
 
 </body>
 

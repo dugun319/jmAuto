@@ -26,5 +26,6 @@ public class Payment {
 	private String	insure_img_url;		/* 보험증명파일경로 */
 	private String	delivery_date;		/* 배송일자 */
 	private int		buy_type;			/* 결제구분 */	 
-	private String 	install_month;		/* 할부기간 */
+	private int 	del_state;			/* 환불여부 */
+	private String	refund_password;	/* 환불비밀번호 */	
 }

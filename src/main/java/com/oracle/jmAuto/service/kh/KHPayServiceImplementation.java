@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -27,12 +30,13 @@ public class KHPayServiceImplementation implements KHPayService {
 
 	private KakaoPayReadyResponse readyResponse;
 	private final KHTableDao khTableDao;
+	private final MailSender mailSender;
 
 	@Override
 	public KakaoPayReadyResponse kakaoPayReadyCar(long sell_num) {
 
 		Map<String, Object> payParams = new HashMap<>();
-		Car_General_Info carDetail = khTableDao.carDetail(sell_num);
+		Car_General_Info carDetail = khTableDao.getCarBySellId(sell_num);
 
 		payParams.put("cid", "TC0ONETIME"); // 테스트 결제는 가맹점 코드로 'TC0ONETIME'를 사용
 		payParams.put("partner_order_id", carDetail.getSell_num());
@@ -107,7 +111,7 @@ public class KHPayServiceImplementation implements KHPayService {
 
 	@Override
 	public KaKaoPayCancelResponse refundPayment(String tid) {
-		Payment targetPayment = khTableDao.targetPaymentByTid(tid);
+		Payment targetPayment = khTableDao.getPaymentByTid(tid);
 		System.out.println("KHServiceImplementation refundPayment() targetPayment -> " + targetPayment);
 				
 		Map<String, String> cancelParams = new HashMap<>();
@@ -129,6 +133,8 @@ public class KHPayServiceImplementation implements KHPayService {
 												url, 
 												requestEntity,
 												KaKaoPayCancelResponse.class);
+		
+		khTableDao.updateRefundPayment(tid);
 
 		return cancelResponse;
 	}
@@ -137,8 +143,8 @@ public class KHPayServiceImplementation implements KHPayService {
 	public KakaoPayReadyResponse kakaoPayReadyExpert(long expert_review_num) {
 		Map<String, Object> payParams = new HashMap<>();
 		
-		Expert_Review expertReviewDetail = khTableDao.expertReviewDetail(expert_review_num);
-		Car_General_Info carDetail		 = khTableDao.carDetail(expertReviewDetail.getSell_num());	
+		Expert_Review expertReviewDetail = khTableDao.getExpertReviewDetail(expert_review_num);
+		Car_General_Info carDetail		 = khTableDao.getCarBySellId(expertReviewDetail.getSell_num());	
 
 		payParams.put("cid", "TC0ONETIME"); // 테스트 결제는 가맹점 코드로 'TC0ONETIME'를 사용
 		payParams.put("partner_order_id", expertReviewDetail.getExpert_review_num());
@@ -148,8 +154,8 @@ public class KHPayServiceImplementation implements KHPayService {
 		payParams.put("total_amount", "5500");
 		payParams.put("tax_free_amount", "0");
 		payParams.put("approval_url", "http://localhost:8888/KH/pay/completed"); 	// 결제 성공시 넘어갈 url
-		payParams.put("cancel_url", "http://localhost:8888/KH/pay/cancel"); 		// 결제 취소시 넘어갈 url
-		payParams.put("fail_url", "http://localhost:8888/KH/pay/fail"); 			// 결제 실패시 넘어갈 url
+		payParams.put("cancel_url", "http://localhost:8888/KH/pay/cancel"); 				// 결제 취소시 넘어갈 url
+		payParams.put("fail_url", "http://localhost:8888/KH/pay/fail"); 					// 결제 실패시 넘어갈 url
 		payParams.put("payment_method_type", "CARD");
 		payParams.put("install_month", "0");
 
@@ -176,6 +182,33 @@ public class KHPayServiceImplementation implements KHPayService {
 		System.out.println("readyResponse -> " + readyResponse);
 
 		return readyResponse;
+	}
+
+	@Override
+	public String sendRefundPassword(String tid) {
+		SimpleMailMessage msg = new SimpleMailMessage();
+		String mailAddress	  =	"dugun319@gmail.com";
+		String refundPassword = khTableDao.getRefundPassword(tid);
+		String mailStr		  = "환불비밀번호는 " + refundPassword + "입니다";
+		
+		// 받는 사람 이메일
+		msg.setTo(mailAddress);
+		
+		// 이메일 제목
+        msg.setSubject("jmAuto에서 발송하는 환불비밀번호입니다");
+        
+        // 이메일 내용
+        msg.setText(mailStr);
+        
+        try {
+            // 메일 보내기
+            this.mailSender.send(msg);
+            System.out.println("KHPayServiceImplementation sendRefundPassword is completed!");
+        } catch (MailException e) {
+            throw e;
+        }
+        
+        return refundPassword;
 	}
 
 }
