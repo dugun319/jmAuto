@@ -9,11 +9,11 @@
 		WHERE sell_num = #{sell_num}
 	</select>
 	
-	<select id="selectPaymentByUserId"		parameterType="String"		resultType="Payment">
+	<select id="selectPaymentListByUserId"	parameterType="String"		resultType="Payment">
 		SELECT *
 		FROM payment
 		WHERE user_id = #{user_id}
-			AND del_state = 1
+			AND del_state = 0
 	</select>
 	
 	<select id="selectPaymentBySellId"		parameterType="long"		resultType="Payment">
@@ -101,6 +101,7 @@
 	<select id="getCarList" 				resultType="Car_General_Info">
 		SELECT * 
     	FROM Car_General_Info
+    		WHERE del_state = 0	
     	ORDER BY sell_num
 	</select>
 	
@@ -121,6 +122,7 @@
 		SELECT sell_num	
 		FROM payment
 		WHERE user_id = #{user_id}
+			AND del_state = 0
 	</select>
 	
 	<select id="getRefundPassword"				parameterType="String"		resultType="String">
@@ -131,8 +133,15 @@
 	
 	<update id="updateRefundPayment"			parameterType="String">
 		UPDATE payment
-			SET	del_state = '0'
+			SET	del_state = 1
 			WHERE approval_num = #{approval_num}
 	</update>
+	
+	<update id="updateCarDelState"				parameterType="long">
+		UPDATE car_general_info
+			SET	del_state = 1
+			WHERE sell_num = #{sell_num}
+	</update>
+	
 	
 </mapper> 

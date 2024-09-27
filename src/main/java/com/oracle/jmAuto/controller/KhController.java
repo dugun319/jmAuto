@@ -28,6 +28,7 @@ import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.service.kh.KHPayService;
 import com.oracle.jmAuto.service.kh.KHTableService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -225,10 +226,11 @@ public class KhController {
 		payment.setInsure_img_url(readyPayment.getInsure_img_url());
 		payment.setDelivery_date(readyPayment.getDelivery_date());
 		payment.setBuy_type(readyPayment.getBuy_type());
-		payment.setDel_state(1);
+		payment.setDel_state(0);
 		payment.setRefund_password(uuid);
 
 		khTableService.insertPayment(payment);
+		khTableService.updateCarDelState(payment.getSell_num());
 
 		model.addAttribute("approveResponse", approveResponse);
 		model.addAttribute("buyer", buyer);
@@ -286,6 +288,7 @@ public class KhController {
 	
 	
 	// 관리자 환불관련 페이지
+	@Transactional
 	@GetMapping(value = "/requestRefundPayment")
 	public String refundPayment(String tid, Model model) {
 		log.info("KhController refundPayment is called");
@@ -350,10 +353,14 @@ public class KhController {
 	public String goExpertReviewPage(long expert_review_num, Model model) {
 		log.info("KhController goExpertReviewPage is called");
 
-		String user_id = SessionUtils.getStringAttributeValue("user_id");
-		int result = khTableService.getPurchaseExpert(user_id, expert_review_num);
-
+		String user_id 					= SessionUtils.getStringAttributeValue("user_id");
+		int result 						= khTableService.getPurchaseExpert(user_id, expert_review_num);
+		Expert_Review experReviewDetail = khTableService.getExpertReviewDetail(expert_review_num);
+		Car_General_Info carDetail		= khTableService.getCarBySellId(experReviewDetail.getSell_num());
+		
 		model.addAttribute("result", result);
+		model.addAttribute("experReviewDetail", experReviewDetail);
+		model.addAttribute("carDetail", carDetail);
 
 		return "view_kh/expertReview";
 	}

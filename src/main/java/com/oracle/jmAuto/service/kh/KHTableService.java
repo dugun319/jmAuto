@@ -17,6 +17,6 @@ public interface KHTableService {
 	void 					insertPayment(Payment payment);
 	List<Car_General_Info> 	getCarList();
 	List<Expert_Review> 	getExpertReviewList(long sell_num);
-	int					 	getPurchaseExpert(String user_id, long expert_review_num);	
-	
+	int					 	getPurchaseExpert(String user_id, long expert_review_num);
+	void 					updateCarDelState(long sell_num);		
 }

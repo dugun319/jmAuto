@@ -38,16 +38,28 @@
 
 </script>
 <style type="text/css">
-input #caption {
-	font-size: 12px;
-	border: none;	
+#requestButton {
+	background-color: #FF4714;
+	color: #323232;
+	font-size: 20px;
+	font-weight: 900px;
+	text-align: center;
+	width: 200px;
+	height: 50px;
 }
+
+#caption {
+	border-width: 0px;
+	font-size: 10px;
+	outline: none;	
+}
+
 </style>
 
 </head>
 	<body>
-	<h1>${tid }</h1>
-	<h1>${sendRefundPassword }</h1>
+	<h1>승인번호: ${tid }</h1>
+	<h1>환불비밀번호: ${sendRefundPassword }</h1>
 		<input 	type="hidden"		
 				id="sendRefundPassword"
 				value="${sendRefundPassword }" />
@@ -58,13 +70,16 @@ input #caption {
 		<input 	type="text"		
 				id="inputRefundPassword"/>
 				
+		<input	type="button"
+				id="requestButton"
+				onclick="requestButton()" 
+				disabled="disabled"
+				value="환불승인" />
+		<br>		
 		<input 	type="text" 
 				id="caption" />
 				
-		<button id="requestButton"
-				onclick="requestButton()" 
-				disabled="disabled">
-			환불승인
-		</button>
+
+
 	</body>
 </html>

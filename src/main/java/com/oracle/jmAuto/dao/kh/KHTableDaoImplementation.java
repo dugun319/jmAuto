@@ -58,7 +58,7 @@ public class KHTableDaoImplementation implements KHTableDao {
 		System.out.println("KHTableDaoImplementation getPaymentList() is called");
 
 		try {
-			paymetList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.selectPaymentByUserId", user_id);
+			paymetList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.selectPaymentListByUserId", user_id);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation getPaymentList() e.getMessage() -> " + e.getMessage());
 		}
@@ -184,6 +184,18 @@ public class KHTableDaoImplementation implements KHTableDao {
 			session.update("com.oracle.jmAuto.dto.kh_TableMapper.updateRefundPayment", approval_num);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation updateRefundPayment() e.getMessage() -> " + e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void updateCarDelState(Long sell_num) {
+		System.out.println("com.oracle.jmAuto.dto.kh_TableMapper.updateCarDelState -> " + sell_num);
+		try {
+			session.update("com.oracle.jmAuto.dto.kh_TableMapper.updateCarDelState", sell_num);
+		} catch (Exception e) {
+			
+			System.out.println("KHTableDaoImplementation updateCarDelState() e.getMessage() -> " + e.getMessage());
 		}
 		
 	}

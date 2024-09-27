@@ -94,4 +94,13 @@ public class KHTableServiceImplementation implements KHTableService {
 		
 		return result;
 	}
+
+	@Override
+	public void updateCarDelState(long sell_num) {
+		
+		System.out.println("KHTableServiceImplementation updateCarDelState() sell_num -> " + sell_num);
+		
+		khTableDao.updateCarDelState(sell_num);
+		
+	}
 }

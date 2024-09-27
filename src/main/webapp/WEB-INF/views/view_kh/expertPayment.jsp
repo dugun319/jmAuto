@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	function payCancel() {
 		alert("결제를 취소합니다");
-		window.opener.location.reload();    //부모창 reload
+		//window.opener.location.reload();    //부모창 reload
 		window.close();
 	}
 	

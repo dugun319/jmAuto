@@ -1,7 +1,5 @@
 package com.oracle.jmAuto.dto;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -9,7 +7,7 @@ public class Expert_Review {
 	
 	private long	expert_review_num;		/* 전문가평가번호 */
 	private long	sell_num;				/* 매물번호 */
-	private Date	write_date;				/* 작성일 */
+	private String	write_date;				/* 작성일 */
 	private int		score;					/* 평가점수 */
 	private String	content;				/* 평가내용 */
 	private String	user_id;				/* 전문가(아이디) */

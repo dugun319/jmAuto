@@ -343,14 +343,16 @@
 						<td id="insureFileTitle">보험가입증명서</td>
 						<td>					
 							<input	id="upload-name"
-									placeholder="첨부파일" 
+									placeholder="첨부파일"
+									readonly="readonly" 
 									required="required" />
 							<label 	for="insureFile">파일찾기</label> 
 	    					<input 	type="file" 
 	    							id="insureFile"
 	    							name="insureFile"
 	    							accept=".jpg, .gif, .png" 
-	    							required="required" />
+	    							required="required" 
+	    							readonly="readonly" />
 	    					<br>
 	    					<p class="insureFileCaption">.jpg, .gif, .png 파일만 첨부가능합니다.</p>
 							<p class="insureFileCaption">파일크기는 10MB 이하만 가능합니다.</p>
