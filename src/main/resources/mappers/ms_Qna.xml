@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
+	<select id="QnaList"  parameterType="Qna" resultType="Qna">
+		select  *
+		from Qna
+		where user_id=#{user_id}
+	</select>
+	
+
+	<update id="deleteQna" parameterType="map">
+		update qna
+		set del_state = 1
+		where user_id =#{user_id}
+		and qna_num=#{qna_num}
+	</update>
+	
+</mapper> 

@@ -31,9 +31,10 @@
 		<input	type="hidden"	name="buy_type"	value="2" /> 
 
 		<div id="intro">
-			<h3>안녕하세요, ${buyer.user_name } 고객님.</h3>
-			<h3>전문가리뷰 구매를 시작하겠습니다.</h3>
-			<h3>대상정보와 예상 결제 금액을 확인해 주세요.</h3>
+			안녕하세요, ${buyer.user_name } 고객님.<br>
+			전문가리뷰 구매를 시작하겠습니다.<br>
+			대상정보와 예상 결제 금액을 확인해 주세요.<br>
+			<br>
 		</div>
 
 		<div id="carBasiclInfo">
@@ -78,6 +79,7 @@
 		</div>
 
 		<div id="paymentInfo">
+		
 			<table id="paymentInfoTable">
 
 				<tr>
@@ -92,21 +94,17 @@
 					<th class="paymentSumLeft">세 금</th>
 					<td class="paymentSumRight">500 원</td>					
 				</tr>
-
-				<tr>
-					<td id="payButton" colspan="2">
-						<button	id="btn-kakao"
-								type="submit">
-							<i class="fa-solid fa-comment">결제요청</i>
-						</button>
-						<br>
-						<button	id="btn-cancel"	
-								onclick="payCancel()">
-							<i class="fa-solid fa-comment">결제취소</i>
-						</button>													
-					</td>
-				</tr>				
 			</table>
+
+				<div id="btnDiv">
+					<button	id="btn-kakao"	type="submit">
+						결제요청
+					</button>
+					<button	id="btn-cancel"	onclick="payCancel()">
+						결제취소
+					</button>													
+				</div>				
+			
 		</div>
 		
 	</form>

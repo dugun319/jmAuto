@@ -145,7 +145,7 @@ a {
 <body>
 	<div id="wrapper">
 		<header>
-			<%@ include file="../header2.jsp"%>
+			<%@ include file="../header_white.jsp"%>
 		</header>
 
 		<div class="contents">

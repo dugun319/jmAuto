@@ -89,7 +89,7 @@ h1 {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
 	background-color: #fdfdfd; /* 박스 배경색 */
 	top: 400px;
-	width: 800px;
+	width: 600px;
 	height: auto;
 }
 .form-group {
@@ -207,55 +207,91 @@ button:hover {
 	height: 40px;
 }
 </style>
+<script>
+function validateBuz_num() {
+    // 사업자 번호 입력 필드의 값을 가져와 공백을 제거
+    var buz_num = $("#buz_num").val().trim();
+    const buz_numRegex = /^\d{10}$/;  // 정확히 10자리 숫자 정규 표현식
+
+    // 사업자 번호가 유효한지 검사
+    if (!buz_numRegex.test(buz_num)) {
+        // 유효하지 않은 경우 경고 메시지 표시
+        alert("사업자 번호는 10자리 숫자여야 합니다."); // 경고 메시지
+        return false; // 유효하지 않으면 false 반환
+    }
+
+    return true; // 유효할 경우 true 반환
+}
+
+// 하이픈을 제외한 숫자만 입력되도록 하는 함수
+const restrictInput = (event) => {
+    // 입력된 값이 숫자가 아닌 경우, 입력을 무시합니다.
+    if (!/^\d*$/.test(event.target.value)) {
+        event.target.value = event.target.value.replace(/[^0-9]/g, ''); // 숫자가 아닌 모든 문자를 제거
+    }
+};
+
+// 예를 들어 입력 필드의 change 이벤트에 validateBuz_num 함수를 연계하여 사용
+$("#submit").on("click", function(event) {
+    // validateBuz_num 함수 호출
+    if (!validateBuz_num()) {
+        event.preventDefault(); // 유효하지 않은 경우 폼 제출 방지
+    }
+});
+</script>
 
 <body>
-	<header>
-		<%@ include file="../header2.jsp"%>
-	</header>
-	<div class="contents">
-		<div class="content">
-			<h1>회원가입</h1>
-		</div>
-		<div class="content">
-			<ul class="join_step">
-				<li><img src="../images/join/joinAgree_after.png"><span>약관동의</span></li>
-				<li><img src="../images/join/buzInfo.png"><span>사업자
-						정보 입력</span></li>
-				<li><img src="../images/join/joinInfo_before.png"><span>회원
-						정보 입력</span></li>
-				<li><img src="../images/join/joinOk_before.png"><span>가입신청</span></li>
-			</ul>
-		</div>
-		<div class="content">
-			<div class="container">
-				<form method="post" name="frm" action="/view_jm/sellerJoinInfo_1"
-					enctype="multipart/form-data">
-					<div class="form-group">
-						<label for="buz_num">사업자 번호</label> <input type="text"
-							id="buz_num" name="buz_num" required="required">
-					</div>
-					<div class="form-group">
-						<label for="buz_name">사업자 상호명</label> <input type="text"
-							id="buz_name" name="buz_name" required="required">
-					</div>
-					<div class="form-group">
-						<label for="buz_addr">사업자 주소</label> <input type="text"
-							id="buz_addr" name="buz_addr" required="required">
-					</div>
+    <header>
+        <%@ include file="../header_white.jsp"%>
+    </header>
+    <div class="contents">
+        <div class="content">
+            <h1>회원가입</h1>
+        </div>
+        <div class="content">
+            <ul class="join_step">
+                <li><img src="../images/join/joinAgree_after.png"><span>약관동의</span></li>
+                <li><img src="../images/join/buzInfo.png"><span>사업자 정보 입력</span></li>
+                <li><img src="../images/join/joinInfo_before.png"><span>회원 정보 입력</span></li>
+                <li><img src="../images/join/joinOk_before.png"><span>가입신청</span></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="container">
+                <form method="post" name="frm" action="/view_jm/sellerJoinInfo_2" enctype="multipart/form-data">
+                    <!-- 사업자 번호 입력 -->
+                    <div class="form-group">
+                        <label for="buz_num">사업자 번호</label> 
+                        <input type="text" id="buz_num" name="buz_num" required="required" oninput="hypenBuz_num(this)" maxlength="14"> <!-- 하이픈 포함 길이 14 -->
+                    </div>
 
-					<div class="form-group">
-						<label for="user_name">사업자 등록증</label> <input type="file"
-							name="fileUpload" id="fileUpload"><p>
-					</div>
-					<div class="submit_btn">
-						<button type="submit" id="submit">다음</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<footer>
-	<%@ include file="../footer.jsp" %>
-	</footer>
+                    <!-- 사업자 상호명 입력 -->
+                    <div class="form-group">
+                        <label for="buz_name">사업자 상호명</label> 
+                        <input type="text" id="buz_name" name="buz_name" required="required">
+                    </div>
+
+                    <!-- 사업자 주소 입력 -->
+                    <div class="form-group">
+                        <label for="buz_addr">사업자 주소</label> 
+                        <input type="text" id="buz_addr" name="buz_addr" required="required">
+                    </div>
+
+                    <!-- 사업자 등록증 입력 -->
+                    <div class="form-group">
+                        <label for="user_name">사업자 등록증</label> 
+                        <input type="file" name="fileUpload" id="fileUpload">
+                    </div>
+
+                    <div class="submit_btn">
+                        <button type="submit" id="submit">다음</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <%@ include file="../footer.jsp" %>
+    </footer>
 </body>
 </html>

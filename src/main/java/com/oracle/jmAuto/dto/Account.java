@@ -6,6 +6,6 @@ import lombok.Data;
 public class Account { // 계좌정보
 	private String account_num;
 	private String account_name;
-	private String account_back;
+	private String account_bank;
 	private String user_id;
 }

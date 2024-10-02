@@ -1,5 +1,6 @@
 package com.oracle.jmAuto.dao.jm;
 
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -17,13 +18,19 @@ public class JmDaoImpl implements JmDao {
 
 	// 로그인
 	@Override
-	public User_Table login(String user_id, String user_pw) {
+	public User_Table login(String user_id) {
 		System.out.println("JmDaoImpl.login start...");
 		User_Table user_table = new User_Table();
+		//Map<String, Object> user_table = new HashMap<>();
+		
 		try {
+			System.out.println("JmDaoImpl.login() user_id" +user_id );
 			user_table.setUser_id(user_id);
-			user_table.setUser_pw(user_pw);
-			user_table = session.selectOne("loginUser", user_table);
+			//user_table.put("user_id", user_id);
+			//user_table.put("user_pw", user_pw);
+			
+			user_table = session.selectOne("com.oracle.jmAuto.dto.Mapper.jm.loginUser", user_table);
+			System.out.println(user_table);
 		} catch (Exception e) {
 			System.out.println("JmDaoImpl.login error" + e.getMessage());
 		}
@@ -35,7 +42,7 @@ public class JmDaoImpl implements JmDao {
 	@Override
 	public int join(User_Table user) {
 		System.out.println("JmDaoImpl.join start...");
-		int joinResult = session.insert("joinUser", user);
+		int joinResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.joinUser", user);
 		return joinResult;
 	}
 
@@ -43,7 +50,7 @@ public class JmDaoImpl implements JmDao {
 	@Override
 	public int confirmId(String user_id) {
 		System.out.println("JmDaoImpl.confirmId... start!!");
-		int result = session.selectOne("confirmId", user_id);
+		int result = session.selectOne("com.oracle.jmAuto.dto.Mapper.jm.confirmId", user_id);
 		System.out.println("JmDaoImpl.confirmId result--->" + result);
 
 		return result;
@@ -65,7 +72,7 @@ public class JmDaoImpl implements JmDao {
 		System.out.println("JmDaoImpl.insertBuz start...");
 		System.out.println("JmDaoImpl.insertBuz business -->" + account);
 
-		int accountResult = session.insert("insertAccount", account);
+		int accountResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.insertAccount", account);
 
 		return accountResult;
 	}
@@ -94,13 +101,13 @@ public class JmDaoImpl implements JmDao {
 				// user_table ---> buz num set
 				user_table.setBuz_num(business.getBuz_num());
 				// user table 정보 입력
-				int userInsertResult = session.insert("joinUser", user_table);
+				int userInsertResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.joinUser", user_table);
 				if (userInsertResult > 0) {
 					System.out.println("userInsert Ok --> " + userInsertResult);
 					// account table ---> user id set
 					account.setUser_id(user_table.getUser_id());
 					// account 정보 입력
-					int accountIncertResult = session.insert("insertAccount", account);
+					int accountIncertResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.insertAccount", account);
 					if (accountIncertResult > 0) {
 						System.out.println("account Ok ---> result " + accountIncertResult);
 
@@ -135,7 +142,7 @@ public class JmDaoImpl implements JmDao {
 
 		try {
 			// business table 정보 입력
-			certInsertResult = session.insert("insertProf", certified);
+			certInsertResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.insertProf", certified);
 			// user table 정보 입력
 			// int userInsertResult = session.insert("joinUser", user_table);
 			// account Table 정보 입력
@@ -146,13 +153,13 @@ public class JmDaoImpl implements JmDao {
 				// user_table ---> buz num set
 				user_table.setCert_num(certified.getCert_num());
 				// user table 정보 입력
-				int userInsertResult = session.insert("joinUser", user_table);
+				int userInsertResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.joinUser", user_table);
 				if (userInsertResult > 0) {
 					System.out.println("userInsert Ok --> " + userInsertResult);
 					// account table ---> user id set
 					account.setUser_id(user_table.getUser_id());
 					// account 정보 입력
-					int accountIncertResult = session.insert("insertAccount", account);
+					int accountIncertResult = session.insert("com.oracle.jmAuto.dto.Mapper.jm.insertAccount", account);
 					if (accountIncertResult > 0) {
 						System.out.println("account Ok ---> result " + accountIncertResult);
 
@@ -177,11 +184,11 @@ public class JmDaoImpl implements JmDao {
 
 	// 아이디 찾기
 	@Override
-	public String findId(String user_email) {
+	public String findId(User_Table user) {
 		System.out.println("JmDaoImpl.findId start...");
-		System.out.println("JmDaoImpl.findId user_email >>>" + user_email);
+		
 
-		String user_id = session.selectOne("findId", user_email);
+		String user_id = session.selectOne("com.oracle.jmAuto.dto.Mapper.jm.findId", user);
 
 		System.out.println("JmDaoImpl.findId user_id >>>" + user_id);
 
@@ -193,21 +200,21 @@ public class JmDaoImpl implements JmDao {
 	public User_Table findPw(User_Table user) {
 		System.out.println("JmDaoImpl.findPw() start...");
 		User_Table user_table = new User_Table();
-		user_table = session.selectOne("findPw", user);
+		user_table = session.selectOne("com.oracle.jmAuto.dto.Mapper.jm.findPw", user);
 		return user_table;
 	}
 
 	// 임시 비밀번호 발급 
 	@Override
-	public void updateTempPw(String user_id, String tempPassword) {
+	public void updateTempPw(String user_id, String hashedTempPw) {
 		System.out.println("JmDaoImpl.updateTempPw start/////");
 
 			User_Table user = new User_Table();
 			
 			user.setUser_id(user_id);
-			user.setUser_pw(tempPassword);
+			user.setUser_pw(hashedTempPw);
 
-			int updateTempPw = session.update("updateTempPw", user);		
+			int updateTempPw = session.update("com.oracle.jmAuto.dto.Mapper.jm.updateTempPw", user);		
 
 			if(updateTempPw > 0){
 				System.out.println("JmDaoImpl.updateTempPw() update 성공*****");
@@ -219,11 +226,10 @@ public class JmDaoImpl implements JmDao {
 
 	@Override
 	public String getUserEmail(String user_id) {
-		System.out.println("JmDaoImpl.getUserEmail start///////");		
+		System.out.println("JmDaoImpl.getUserEmail start !!!!!!!");		
 
-		String user_email = session.selectOne("getUserEmail" , user_id);
+		String user_email = session.selectOne("com.oracle.jmAuto.dto.Mapper.jm.getUserEmail" , user_id);
 		System.out.println("JmDaoImpl.getUserEmail [user_email] : " + user_email );
-
 		
 		return user_email;
 	}

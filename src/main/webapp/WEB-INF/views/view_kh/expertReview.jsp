@@ -20,7 +20,7 @@
 			$('#expertReviewBody').hide();
 			$('#goBeforeDiv').show();
 		}  else {
-			$('#"expertReviewBody"').show();
+			$('#expertReviewBody').show();
 			$('#goBeforeDiv').hide();
 		}
 		
@@ -36,6 +36,7 @@
 		} else if(score > 40) {
 			gaugeColor = "yellow";
 		} else {
+			
 			gaugeColor = "orange";
 		}
 		
@@ -56,7 +57,7 @@
 	function goPay() {
 		
 		document.payForm.target = goPay
-		window.open('', payForm.target, 'width=550,height=900,location=no,status=no,scrollbars=no,top=100,left=300');
+		window.open('', payForm.target, 'width=700,height=900,location=no,status=no,scrollbars=no,top=100,left=300');
 		document.payForm.action = "/KH/pay/goExpertPay";
 		document.payForm.submit();
 		window.close();
@@ -448,11 +449,11 @@ table {
 						브레이크패드
 					</th>
 					<td id="expertExpendablesDetail">
-						<c:set var="egine_oil" value="${experReviewDetail.egine_oil }"/>
-						<c:set var="brake_oil" value="${experReviewDetail.brake_oil }"/>
-						<c:set var="coolant" value="${experReviewDetail.coolant }"/>
-						<c:set var="tire" value="${experReviewDetail.tire }"/>
-						<c:set var="brake_pad" value="${experReviewDetail.brake_pad }"/>
+						<c:set var="egine_oil"	value="${experReviewDetail.egine_oil }"/>
+						<c:set var="brake_oil" 	value="${experReviewDetail.brake_oil }"/>
+						<c:set var="coolant" 	value="${experReviewDetail.coolant }"/>
+						<c:set var="tire" 		value="${experReviewDetail.tire }"/>
+						<c:set var="brake_pad" 	value="${experReviewDetail.brake_pad }"/>
 						<c:choose>
 							<c:when test="${egine_oil eq 1}">
 								<span class="expertDetail1">

@@ -4,7 +4,6 @@
 	color: #323232;
 	font-size: 30px;
 	font-weight: 900;
-	text-align: center;
 }
 
 body {
@@ -13,26 +12,34 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: #fafafa;
-	font-family: "맑은 고딕", Pretendard;
+	font-family: Pretendard;
 }
 
 #full {
-	height: 900px;
+	width: 690;
+	margin-top: 15px;
+	margin-left: 100px;
 	padding: 25px;
+	height: 900px;
 	align-items: center; 		/* 수평 중앙 정렬 */
 	justify-content: center; 	/* 수직 중앙 정렬 */
+	border: 1px solid #dcdcdc;
 }
 
 #intro{
+	width: 480;
+	font-size: 18px;
+	font-weight: bold;
 	text-align: left;
+	
 }
 
 #carBasiclInfo {
 	width: 480px;
-	border: 1px solid #d3d3d3;
 }
 
 .carInfoTitle {
+	height: 40px;
 	font-size: 20px;
 	font-weight: bold;
 	text-align: center;	
@@ -40,9 +47,9 @@ body {
 
 
 .carInfoLeft {
-	width: 150px;
-	height: 30px;
-	font-size: 15px;
+	height: 35px;
+	width: 200px;
+	font-size: 16px;
 	font-weight: 900;
 	color: #d3d3d3;
 	text-align: center;	
@@ -50,26 +57,25 @@ body {
 
 
 .carInfoRight {
-	font-size: 15px;
+	height: 35px;
+	width: 280px;
+	font-size: 16px;
 	font-weight: 900;
 	color: #323232;
 	text-align: center;	
 }
 
 
-#paymentInfo {
-	width: 480px;
-	border: 1px solid #d3d3d3;
+#paymentInfoTable {
+	width: 400px;
+	margin: 40px;
+	background-color: #dcdcdc;
 }
 
-#payButton {
-	justify-content: center;
-	text-align: center;	
-}
 
 #paymentSumTitle {
-	width: 150px;
-	height: 100px;
+	width: 200px;
+	height: 80px;
 	font-size: 25px;
 	font-weight: bold;
 	color: #323232;
@@ -82,7 +88,7 @@ body {
 }
 
 .paymentSumLeft {
-	width: 150px;
+	width: 200px;
 	height: 50px;
 	font-size: 15px;
 	font-weight: bold;
@@ -90,32 +96,41 @@ body {
 }
 
 .paymentSumRight {
+	width: 280px;
+	height: 50px;
 	font-size: 15px;
 	font-weight: bold;
 	color: #323232;
 }
 
-#payButton #btn-kakao {
-	width: 350px;
+
+#btnDiv{
+	width: 400px;
+	margin: 40px;
+}
+
+#btn-kakao {
+	width: 320px;
 	height: 50px;
 	background-color: #FF4714;
 	color: #FDFDFD;
-	font-size: 25px;
+	font-size: 16px;
+	font-weight: 900px;
 	border: none;
 	cursor: pointer;
-	margin: 5px;
-	margin-left: 50px;
+	margin: 5px 20px;
+	
 }
 
-#payButton #btn-cancel {
-	width: 350px;
+#btn-cancel {
+	width: 320px;
 	height: 50px;
 	background-color: #FDFDFD;
 	color: #FF4714;
-	font-size: 25px;
+	font-size: 16px;
+	font-weight: 900px;
 	border: 2px solid #FF4714;
 	cursor: pointer;
-	margin: 5px;
-	margin-left: 50px;
+	margin: 5px 20px;
 }
 

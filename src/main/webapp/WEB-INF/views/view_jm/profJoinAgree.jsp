@@ -88,7 +88,7 @@ h1 {
 	gap: 40px; /* 박스들 사이의 간격 */
 	height: auto;
 	padding: 100px; /* 컨테이너 내부 여백 */
-	width: 800px;
+	width: 600px;
 	background-color: #fdfdfd; /* 박스 배경색 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
 	margin-bottom: 100px;
@@ -183,7 +183,7 @@ button:disabled {
 <body>
 	<div id="wrapper">
 		<header>
-			<%@ include file="../header2.jsp"%>
+			<%@ include file="../header_white.jsp"%>
 		</header>
 		<div class="contents">
 			<div class="content">
@@ -377,7 +377,7 @@ button:disabled {
 						<button>
 							<a href="/">취소</a>
 						</button>
-							<a href="/view_jm/sellerJoinInfo_1"><button id="nextButton">다음</button></a>					
+							<a href="/view_jm/profJoinInfo_1"><button id="nextButton">다음</button></a>					
 					</div>
 					</div>
 				</div>

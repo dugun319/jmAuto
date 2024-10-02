@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
+ 
+ 	<select id="expertReview" parameterType="Expert_Review" resultType="Expert_Review">
+ 		select *
+		from expert_review 	
+		where sell_num IN(
+         		           	select p.sell_num
+                		    from user_table u, payment p
+ 							where u.user_id = p.user_id
+                    		and u.user_id = #{user_id}
+                    	)
+ 	</select>
+ 	
+ 	<select id="reviewDetail" parameterType="map" resultType="Expert_Review">
+ 		select *
+		from expert_review 	
+		where sell_num IN(
+         		           	select p.sell_num
+                		    from user_table u, payment p
+ 							where u.user_id = p.user_id
+                    		and u.user_id = #{user_id}
+                    	)
+        and expert_review_num = #{expert_review_num}
+ 	</select>
+ 	
+ 	<select id="myExpertReview" parameterType="String" resultType="Expert_Review">
+ 		select *
+ 		from expert_review
+ 		where user_id =#{user_id}
+ 	</select>
+ 	
+ 	<select id="myExpertReviewDetail" parameterType="Expert_Review" resultType="Expert_Review">
+ 		select *
+ 		from expert_review
+ 		where user_id =#{user_id}
+ 		and expert_review_num=#{expert_review_num}
+ 	</select>
+ 	
+ 	<insert id="ZzimReviewWrite" parameterType="map" >
+ 		insert into 
+ 	</insert>
+	
+</mapper> 

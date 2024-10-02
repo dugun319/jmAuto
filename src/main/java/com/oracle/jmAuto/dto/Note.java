@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class Note {
 	
-	private int 	sell_num; 		/*매물 번호*/
-	private int 	note_num; 		/*쪽지 번호*/
+	private Long 	sell_num; 		/*매물 번호*/
+	private Long 	note_num; 		/*쪽지 번호*/
 	private String 	note_sd; 		/*구매자*/
 	private String 	note_rd; 		/*판매자*/
 	private String 	note_title; 	/*쪽지 제목*/

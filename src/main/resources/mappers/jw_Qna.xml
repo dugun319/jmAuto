@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.QnaMapper.jw">
+ 
+ 	<select id="qnaPop" resultType="Qna">
+ 		SELECT distinct qna_cls
+ 		FROM qna
+ 	</select>
+ 
+ 	<insert id="insertQna" parameterType="Qna">
+ 		INSERT into qna (
+ 						qna_num,
+ 						qna_date,
+ 						user_id,
+ 						qna_cls,
+ 						qna_title,
+ 						qna_content,
+ 						qna_useyn,
+ 						del_state 						
+ 						)
+ 		VALUES ( qna_seq.nextval,
+ 				sysdate,
+ 				#{user_id},
+ 				#{qna_cls}, 
+ 				#{qna_title}, 
+ 				#{qna_content},
+ 				0,
+ 				0 
+ 				)
+ 
+ 	</insert>
+ 
+ </mapper>

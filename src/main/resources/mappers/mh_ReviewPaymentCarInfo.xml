@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.jmAuto.dto.Mapper.mh">
+	<select id="RevInfoList" resultType="ReviewPaymentCarInfo">
+		select r.EVALUATION,
+		       r.review_title,
+		       c.manu_date,
+               SUBSTR(c.manu_date,1,2) || '년' || substr(c.manu_date,3,4) || '월식' manu_date_char,
+		       c.mileage,
+		       c.fuel,
+		       r.review_content,
+		       r.review_date
+		from review r
+		join 
+		    payment p
+		    on r.APPROVAL_NUM = p.APPROVAL_NUM
+		join   
+		    car_general_info c
+		    on p.SELL_NUM = c.SELL_NUM
+	</select>
+</mapper>

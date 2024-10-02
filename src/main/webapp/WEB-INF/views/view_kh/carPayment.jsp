@@ -214,162 +214,151 @@
 
 </head>
 <body>
-	<div id="header">
+	<header id="header">
 		<%@ include file="../header_white.jsp"%>
-	</div>
+		<span id="pageTitle">차량구매</span>
+	</header>
 
+	<div class="container">
 
-	<div id="pageTitle">차량구매</div>
-
-	<div id="full">
-		<form action="/KH/pay/readyPay"	method="post"	enctype="multipart/form-data">
-		<input	type="hidden"	name="user_id"	value="${buyer.user_id }" />
-		<input	type="hidden"	name="sell_num"	value="${carDetail.sell_num }" />
-		<input	type="hidden"	name="buy_type"	value="1" /> 
+		<div class="item:nth-child(1)">
+			<span id="intro">
+				안녕하세요, ${buyer.user_name } 고객님.<br>
+				차량구매를 시작하겠습니다.<br>
+				차량 정보와 예상 결제 금액을 확인해 주세요.<br>
+			</span>
+			<table id="carInfo">
+				<tr>
+					<th id="carInfoLabelLeft">상품정보</th>
+					<th id="carInfoLabelRight" colspan="4">내용</th>
+				</tr> 
+				<tr>
+					<td rowspan="2">
+						<img	src="<%=request.getContextPath()%>/images/main/logo_web.png"
+								width="250px" 
+								height="200px">
+					</td>
+					<td id="carInfoModel">${carDetail.brand } ${carDetail.model }</td>
+				</tr>
+				
+				<tr>
+					<td id="carInfoDetail">
+						<c:set var="manu_date" value="${carDetail.manu_date }"/>
+						${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) } 월&emsp;|&emsp;				
+						<fmt:formatNumber 	value="${carDetail.mileage }" 	pattern="#,###,###"/> km &emsp;|&emsp;
+						${carDetail.fuel }&emsp;|&emsp;
+					    ${seller.user_addr1}
+					</td>
+				</tr>			
+			</table>
 		
-		<div id="leftColumn">
-			<div id="intro">
-				<h2>안녕하세요, ${buyer.user_name } 고객님.</h2>
-				<h2>차량구매를 시작하겠습니다.</h2>
-				<h2>차량 정보와 예상 결제 금액을 확인해 주세요.</h2>
-			</div>
+			<table id="buyer">
+				<tr id="buyerRow1">
+					<td  colspan="2">
+						<a id="title">주문자 정보</a>&emsp;&emsp;
+						주문자 정보는 수정이 불가능합니다
+						<hr class="innerLine"/>
+					</td>
+				</tr>	
+				
+				<tr id="buyerRow2">										
+					<td class="tableLeftColumn">이름</td>
+					<td>
+						<input class="buyerInput" value="${buyer.user_name }" readonly="readonly" />
+					</td>					
+				</tr>
+					
+				<tr id="buyerRow3">	
+					<td class="tableLeftColumn">연락처</td>
+					<td>
+						<input class="buyerInput" value="${buyer.user_tel }" readonly="readonly" />	
+					</td>
+				</tr>		
+			</table>
 			
-			<div id="carGeneralInfo">
-				<table id="carInfo">
-					<tr>
-						<th id="carInfoLabelLeft">상품정보</th>
-						<th id="carInfoLabelRight" colspan="4">내용</th>
-					</tr> 
-					<tr>
-						<td rowspan="2">
-							<img	src="<%=request.getContextPath()%>/images/main/logo_web.png"
-									width="250px" 
-									height="200px">
-						</td>
-						<td id="carInfoModel">${carDetail.brand } ${carDetail.model }</td>
-					</tr>
-					<tr>
-						<td id="carInfoDetail">
-							<c:set var="manu_date" value="${carDetail.manu_date }"/>
-							${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) } 월&emsp;|&emsp;				
-							<fmt:formatNumber 	value="${carDetail.mileage }" 	pattern="#,###,###"/> km &emsp;|&emsp;
-							${carDetail.fuel }&emsp;|&emsp;
-						    ${seller.user_addr1}
-						</td>
-					</tr>			
-				</table>
-			</div>
-			
-			<div id="buyerOrderInfo">
-				<table id="buyer">
-					<tr id="buyerRow1">
-						<td  colspan="2">
-							<a id="title">주문자 정보</a>&emsp;&emsp;
-							주문자 정보는 수정이 불가능합니다
-							<hr class="innerLine"/>
-						</td>
-	
-					</tr>	
+			<table id="oder">
+				<tr id="oderRow1">
+					<td colspan="2">
+						<a  id="title">구매 정보</a>&emsp;&emsp;&emsp;
+						<input type="checkbox" id="ModifyAddress" />&nbsp;
+						배송지를 수정합니다
+						<hr class="innerLine"/>
+					</td>
+				</tr>	
 					
-					<tr id="buyerRow2">										
-						<td class="tableLeftColumn">이름</td>
-						<td>
-							<input class="buyerInput" value="${buyer.user_name }" readonly="readonly" />
-						</td>					
-					</tr>
+				<tr id="oderRow2">										
+					<td class="tableLeftColumn">우편번호</td>
+					<td>
+						<input	type="text" 
+								id="postcode"
+								name="receiver_zipcode"
+								value="${buyer.user_zipcode }" 
+								readonly="readonly" />
+						<input 	type="button"
+								id="postcodeButton" 
+								onclick="execDaumPostcode()"
+								value="우편번호 찾기"
+								disabled="disabled" />						
+					</td>					
+				</tr>
+				
+				<tr id="oderRow3">	
+					<td class="tableLeftColumn">기본주소</td>
+					<td>
+						<input	type="text" 
+								id="address"
+								name="receiver_addr1"
+								value="${buyer.user_addr1}" 
+								readonly="readonly" />
+					</td>
+				</tr>
 					
-					<tr id="buyerRow3">	
-						<td class="tableLeftColumn">연락처</td>
-						<td>
-							<input class="buyerInput" value="${buyer.user_tel }" readonly="readonly" />	
-						</td>
-					</tr>
-							
-				</table>
-			
-				<table id="oder">
-					<tr id="oderRow1">
-						<td colspan="2">
-							<a  id="title">구매 정보</a>&emsp;&emsp;&emsp;
-							<input type="checkbox" id="ModifyAddress" />&nbsp;
-							배송지를 수정합니다
-							<hr class="innerLine"/>
-						</td>
-					</tr>	
-					
-					<tr id="oderRow2">										
-						<td class="tableLeftColumn">우편번호</td>
-						<td>
-							<input	type="text" 
-									id="postcode"
-									name="receiver_zipcode"
-									value="${buyer.user_zipcode }" 
-									readonly="readonly" />
-							<input 	type="button"
-									id="postcodeButton" 
-									onclick="execDaumPostcode()"
-									value="우편번호 찾기"
-									disabled="disabled" />						
-						</td>					
-					</tr>
-					
-					<tr id="oderRow3">	
-						<td class="tableLeftColumn">기본주소</td>
-						<td>
-							<input	type="text" 
-									id="address"
-									name="receiver_addr1"
-									value="${buyer.user_addr1}" 
-									readonly="readonly" />
-						</td>
-					</tr>
-					
-					<tr id="oderRow4">	
-						<td class="tableLeftColumn">상세주소</td>
-						<td>
-							<input	type="text" 
-									id="detailAddress"
-									name="receiver_addr2"
-									value="${buyer.user_addr2}" 
-									readonly="readonly" />								
-							<input	type="text" 
-									id="extraAddress" 
-									name="receiver_addr3" 
-									placeholder="참고항목" />
-						</td>
-					</tr>
-					
-					<tr id="oderRow5">	
-						<td id="insureFileTitle">보험가입증명서</td>
-						<td>					
-							<input	id="upload-name"
-									placeholder="첨부파일"
-									readonly="readonly" 
-									required="required" />
-							<label 	for="insureFile">파일찾기</label> 
-	    					<input 	type="file" 
-	    							id="insureFile"
-	    							name="insureFile"
-	    							accept=".jpg, .gif, .png" 
-	    							required="required" 
-	    							readonly="readonly" />
-	    					<br>
-	    					<p class="insureFileCaption">.jpg, .gif, .png 파일만 첨부가능합니다.</p>
-							<p class="insureFileCaption">파일크기는 10MB 이하만 가능합니다.</p>
-						</td>
-					</tr>
-					
-					<tr id="oderRow6">	
-						<td class="tableLeftColumn">희망배송일</td>
-						<td>
-							<input	type="date"
-									id="deilveryDate" 
-									name="delivery_date" 
-									required="required" />	
-						</td>
-					</tr>	
-				</table>
-			</div>
+				<tr id="oderRow4">	
+					<td class="tableLeftColumn">상세주소</td>
+					<td>
+						<input	type="text" 
+								id="detailAddress"
+								name="receiver_addr2"
+								value="${buyer.user_addr2}" 
+								readonly="readonly" />								
+						<input	type="text" 
+								id="extraAddress" 
+								name="receiver_addr3" 
+								placeholder="참고항목" />
+					</td>
+				</tr>
+				
+				<tr id="oderRow5">	
+					<td id="insureFileTitle">보험가입증명서</td>
+					<td>					
+						<input	id="upload-name"
+								placeholder="첨부파일"
+								readonly="readonly" 
+								required="required" />
+						<label 	for="insureFile">파일찾기</label> 
+    					<input 	type="file" 
+    							id="insureFile"
+    							name="insureFile"
+    							accept=".jpg, .gif, .png" 
+    							required="required" 
+    							readonly="readonly" />
+    					<br>
+    					<p class="insureFileCaption">.jpg, .gif, .png 파일만 첨부가능합니다.</p>
+						<p class="insureFileCaption">파일크기는 10MB 이하만 가능합니다.</p>
+					</td>
+				</tr>
+				
+				<tr id="oderRow6">	
+					<td class="tableLeftColumn">희망배송일</td>
+					<td>
+						<input	type="date"
+								id="deilveryDate" 
+								name="delivery_date" 
+								required="required" />	
+					</td>
+				</tr>	
+			</table>
+		</div>
 			<%-- 			
 			<h5>아이디 : ${buyer.user_id }</h5>
 			<h5>비밀번호 : ${buyer.user_pw }</h5>
@@ -388,17 +377,21 @@
 			<h5>승인여부 : ${buyer.approval }</h5> --%>
 
 
-		</div>
 
-		<div id="rightColumn">
 			
-			<div id="sellerInfo">
-				<table id="sellerInfoTable">
-					<tr>
-						<th id="sellerInfoTitle"	colspan="2">
-							판매자 정보
-						</th>
-					</tr>
+		<div class="item:nth-child(2)">
+		
+			<form action="/KH/pay/readyPay"	method="post"	enctype="multipart/form-data">
+			<input	type="hidden"	name="user_id"	value="${buyer.user_id }" />
+			<input	type="hidden"	name="sell_num"	value="${carDetail.sell_num }" />
+			<input	type="hidden"	name="buy_type"	value="1" /> 
+			
+			<table id="sellerInfoTable">
+				<tr>
+					<th id="sellerInfoTitle"	colspan="2">
+						판매자위치
+					</th>
+				</tr>
 					<%-- 
 					<tr>
 						<td id="sellerImageColumn">
@@ -421,155 +414,150 @@
 						</td>
 					</tr> 
 					--%>
-					<tr>
-						<td colspan="2">
-							<div id="sellerMap"></div>
-						</td>
-					</tr>						
-				</table>
-				
-				<table id="sellerInfoLink">
-					<tr>
-						<td class="sellerInfoLinkCell">
-							<img	src="<%=request.getContextPath()%>/images/main/kh_repair.png"
-									width="100px" 
-									height="100px">
+				<tr>
+					<td colspan="2">
+						<div id="sellerMap"></div>
+					</td>
+				</tr>						
+			</table>
+			
+			<table id="sellerInfoLink">
+				<tr>
+					<td class="sellerInfoLinkCell">
+						<img	src="<%=request.getContextPath()%>/images/main/kh_repair.png"
+								width="100px" 
+								height="100px">
+						<br>
+						<a class="sellerInfoLinkCaption">
+							보험이력
 							<br>
-							<a class="sellerInfoLinkCaption">
-								보험이력
-								<br>
-								<c:set var="status"	value="${carDetail.accident }" />
-								<c:set var="repair"		value="단순수리" />
-								<c:set var="accident"	value="사고" />
-								<c:choose>
-									<c:when test="${status eq repair}">
-										<div	class="sellerInfoLinkCaptionHref"	
-												onclick="window.open('https://www.carhistory.or.kr/main.car?realm=', '보험이력조회', 'width=500,height=700,location=no,status=no,scrollbars=yes,top=300,left=300')">
-												단순수리
-										</div>
-									</c:when>
-									<c:when test="${status eq accident}">
-										<div	class="sellerInfoLinkCaptionHref"	
-												onclick="window.open('https://www.carhistory.or.kr/main.car?realm=', '보험이력조회', 'width=500,height=700,location=no,status=no,scrollbars=yes,top=300,left=300')">
-												사고
-										</div>
-									</c:when>
-									<c:otherwise>무사고</c:otherwise>
-								</c:choose>
-							</a>
-						</td>
-						<td class="sellerInfoLinkCell">
-							<img	src="<%=request.getContextPath()%>/images/main/kh_mileage.png" />
+							<c:set var="status"	value="${carDetail.accident }" />
+							<c:set var="repair"		value="단순수리" />
+							<c:set var="accident"	value="사고" />
+							<c:choose>
+								<c:when test="${status eq repair}">
+									<div	class="sellerInfoLinkCaptionHref"	
+											onclick="window.open('https://www.carhistory.or.kr/main.car?realm=', '보험이력조회', 'width=500,height=700,location=no,status=no,scrollbars=yes,top=300,left=300')">
+											단순수리
+									</div>
+								</c:when>
+								<c:when test="${status eq accident}">
+									<div	class="sellerInfoLinkCaptionHref"	
+											onclick="window.open('https://www.carhistory.or.kr/main.car?realm=', '보험이력조회', 'width=500,height=700,location=no,status=no,scrollbars=yes,top=300,left=300')">
+											사고
+									</div>
+								</c:when>
+								<c:otherwise>무사고</c:otherwise>
+							</c:choose>
+						</a>
+					</td>
+					<td class="sellerInfoLinkCell">
+						<img	src="<%=request.getContextPath()%>/images/main/kh_mileage.png" />
+						<br>
+						<a class="sellerInfoLinkCaption">
+							주행거리
 							<br>
-							<a class="sellerInfoLinkCaption">
-								주행거리
-								<br>
-								<c:set var="mileage" value="${carDetail.mileage }" />
-								<c:set var="good" 	 value="60000"  />
-								<c:set var="normal"	 value="100000" />
-								<c:choose>
-									<c:when test="${mileage lt good}">평균미만</c:when>
-									<c:when test="${mileage gt normal}">평균초과</c:when>
-									<c:otherwise>평균</c:otherwise>
-								</c:choose>
-							</a>
-						</td>
-						<td class="sellerInfoLinkCell">
-							<img	src="<%=request.getContextPath()%>/images/main/kh_carInfo.png" />
+							<c:set var="mileage" value="${carDetail.mileage }" />
+							<c:set var="good" 	 value="60000"  />
+							<c:set var="normal"	 value="100000" />
+							<c:choose>
+								<c:when test="${mileage lt good}">평균미만</c:when>
+								<c:when test="${mileage gt normal}">평균초과</c:when>
+								<c:otherwise>평균</c:otherwise>
+							</c:choose>
+						</a>
+					</td>
+					<td class="sellerInfoLinkCell">
+						<img	src="<%=request.getContextPath()%>/images/main/kh_carInfo.png" />
+						<br>
+						<div class="sellerInfoLinkCaption">
+							기본정보
 							<br>
-							<div class="sellerInfoLinkCaption">
-								기본정보
-								<br>
-								<a 	class="sellerInfoLinkCaptionHref"
-									id="sellerInfoPopup"	
-									onclick="window.open('/KH/pay/carBasicInfo?sell_num=${carDetail.sell_num }', '차량기본정보', 'width=500,height=600,location=no,status=no,scrollbars=no,top=300,left=300')">
-									보기
-								</a>								
-							</div>
-						</td>
-					</tr>
-				</table>			
-			</div>
-
-			<div id="paymentInfo">
-				<table id="paymentInfoTable">
-					<tr>
-						<td colspan="2">
-							<span id="paymentInfoTele">
-								<img	src="<%=request.getContextPath()%>/images/main/kh_icon_tel.png"
-										width="40px" 
-										height="40px">
-								${seller.user_tel }								
-							</span>					
-							<hr class="innerLine"/>	
-						</td>
-					</tr>
-
-					<tr>
-						<td colspan="2" id="paymentInfoCarName">
-							${carDetail.brand }
-							<br>
-							${carDetail.model }
-						</td>
-					</tr>
+							<a 	class="sellerInfoLinkCaptionHref"
+								id="sellerInfoPopup"	
+								onclick="window.open('/KH/pay/carBasicInfo?sell_num=${carDetail.sell_num }', '차량기본정보', 'width=500,height=600,location=no,status=no,scrollbars=no,top=300,left=300')">
+								보기
+							</a>								
+						</div>
+					</td>
+				</tr>
+			</table>			
+		
+			<table id="paymentInfoTable">
+				<tr>
+					<td colspan="2">
+						<span id="paymentInfoTele">
+							<img	src="<%=request.getContextPath()%>/images/main/kh_icon_tel.png"
+									width="40px" 
+									height="40px">
+							${seller.user_tel }								
+						</span>					
+						<hr class="innerLine"/>	
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" id="paymentInfoCarName">
+						${carDetail.brand }
+						<br>
+						${carDetail.model }
+					</td>
+				</tr>
 						
-					<tr>
-						<td colspan="2" id="paymentInfoCarDetail">
-							<c:set var="manu_date" value="${carDetail.manu_date }"/>
-							${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) } 월&emsp;|&emsp;				
-							<fmt:formatNumber 	value="${carDetail.mileage }" 	pattern="#,###,###"/> km &emsp;|&emsp;
-							${carDetail.fuel }&emsp;|&emsp;
-						    ${seller.user_addr1}
-						</td>
-					</tr>
+				<tr>
+					<td colspan="2" id="paymentInfoCarDetail">
+						<c:set var="manu_date" value="${carDetail.manu_date }"/>
+						${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) } 월&emsp;|&emsp;				
+						<fmt:formatNumber 	value="${carDetail.mileage }" 	pattern="#,###,###"/> km &emsp;|&emsp;
+						${carDetail.fuel }&emsp;|&emsp;
+					    ${seller.user_addr1}
+					</td>
+				</tr>
 					
-					<tr>
-						<th id="paymentSumTitle">합계</th>
-						<td id="paymentSumAmount">
-							<fmt:formatNumber 	value="${carDetail.price * 11700 + 50000}" 	pattern="#,###,###"/>
-						 원
-						</td>					
-					</tr>
-					<tr>
-						<th class="paymentSumLeft">차량가격</th>
-						<td class="paymentSumRight">
-							<fmt:formatNumber 	value="${carDetail.price * 10000}" 	pattern="#,###,###"/>
-						 원
-						</td>					
-					</tr>
-					<tr>
-						<th class="paymentSumLeft">세 금</th>
-						<td class="paymentSumRight">
-							<fmt:formatNumber 	value="${carDetail.price * 1700}" 	pattern="#,###,###"/>
-						 원
-						</td>					
-					</tr>
-					<tr>
-						<th class="paymentSumLeft">대행수수료</th>
-						<td class="paymentSumRight">
-							<fmt:formatNumber 	value="50000" 	pattern="#,###,###"/>
-						 원
-						</td>					
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div id="payButton">
-								<button	id="btn-kakao"	
-										type="submit">
-									<i class="fa-solid fa-comment">결제요청</i>
-								</button>
-								<br>
-								<button	id="btn-cancel"	
-										onclick="payCancel()">
-									<i class="fa-solid fa-comment">결제취소</i>
-								</button>
-								
-							</div>						
-						</td>
-					</tr>				
-				</table>
-			<%-- 					
-			<h1>매물정보</h1>
+				<tr>
+					<th id="paymentSumTitle">합계</th>
+					<td id="paymentSumAmount">
+						<fmt:formatNumber 	value="${carDetail.price * 11700 + 50000}" 	pattern="#,###,###"/>
+					 원
+					</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumLeft">차량가격</th>
+					<td class="paymentSumRight">
+						<fmt:formatNumber 	value="${carDetail.price * 10000}" 	pattern="#,###,###"/>
+					 원
+					</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumLeft">세 금</th>
+					<td class="paymentSumRight">
+						<fmt:formatNumber 	value="${carDetail.price * 1700}" 	pattern="#,###,###"/>
+					 원
+					</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumLeft">대행수수료</th>
+					<td class="paymentSumRight">
+						<fmt:formatNumber 	value="50000" 	pattern="#,###,###"/>
+					 원
+					</td>					
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div id="payButton">
+							<button	id="btn-kakao"	type="submit">
+								결제요청
+							</button>
+							<br>
+							<button	id="btn-cancel"	onclick="payCancel()">
+								결제취소
+							</button>
+							
+						</div>						
+					</td>
+				</tr>				
+			</table>
+		<%-- 					
+		<h1>매물정보</h1>
 
 			<h5>매물번호 : ${carDetail.sell_num }</h5>
 			<h5>차종 : ${carDetail.car_type }</h5>
@@ -609,19 +597,16 @@
 			<h5>삭제여부 : ${seller.del_state }</h5>
 			<h5>승인여부 : ${seller.approval.total }</h5>
  			--%>
+ 			</form>
  			
-			</div>
 		</div>
-		</form>
-
+		
+		
 	</div>
-
-	
+		
 	<footer id="footer">
 		<%@ include file="../footer.jsp"%>		
 	</footer>
-	
-	
 
 </body>
 

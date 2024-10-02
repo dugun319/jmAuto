@@ -1,0 +1,221 @@
+@charset "UTF-8";
+
+/* 사이드바+가운데 내용들 포함 틀 */
+.notice {
+	display: flex;
+	flex-direction: row;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	white-space: nowrap;
+	text-align: center;
+	justify-content: space-between;
+	background-color: #fafafa;
+	width: 1620px;
+}
+
+/* 사이드바 스타일 */
+.noticeSidebar {
+	background-color: #fdfdfd;
+	border-right: 1px solid #ddd;
+	padding: 14px;
+	box-sizing: border-box;
+	width: 400px;
+	
+}
+
+.sidebar {
+	border-right: 1px solid #fdfdfd;
+	
+}
+
+ul {
+	list-style-type: none;
+	padding: 0 0 0 130px;
+}
+
+/* 메뉴와 아이콘 정렬 */
+.sidebar ul li {
+	display: flex;
+	flex-direction: row;
+	margin: 50px 0;
+}
+
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: #333;
+	font-size: 20px;
+	font-weight: bold;
+	color: inherit;
+}
+
+/* 마우스 올렸을때 아이콘 색과 글씨 색 변경 */
+.mainHover a:hover {
+	color: #ff4714;
+}
+
+.mainHover a:hover img {
+	content: url("../images/cs/고객센터_icon_after.png");
+}
+
+.commonHover a:hover {
+	color: #ff4714;
+}
+
+.commonHover a:hover img {
+	content: url("../images/cs/cs상세카테고리_icon_after.png");
+}
+
+/* 사이드바 이미지 스타일 */
+/* .navbar ul li a img {
+	height: 75px;
+	width: auto; 비율 유지
+	margin: 0 50px 0 0;
+}
+
+#rrr {
+	margin-top: 100px;
+	height: 200px;
+	width: 20%;
+}
+
+#rcc {
+	margin-top: 100px;
+	height: 150px;
+	width: 150px;
+}
+
+#mainImage {
+	margin-top: 50px;
+	height: 500px;
+	width: 100%;
+	margin-bottom: 100px;
+}
+ */
+
+
+
+/* 가운데 모든 내용 전체 틀 */
+.noticeContainer {
+	display: flex;
+	flex-direction: column;
+	width: 1320px;
+}
+
+/* 제목 */
+h1 {
+	font-size: 40px;
+	margin-top: 70px;
+}
+
+/* 안내멘트 */
+.noticeMent {
+	font-size: 15px;
+	margin: 10px;
+}
+
+/* 상단 메뉴 카테고리 */
+.noticeTopMenu {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 30px;
+}
+
+.noticeTopMenu a {
+	float: left;
+	text-align: center;
+	margin: 0 30px;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 23px;
+	font-weight: bold;
+	color: #070707;;
+	
+}
+
+/* 메뉴에 커서 올렸을때 색*/
+.noticeTopMenu a:hover {
+	color: #ff4714;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: #ff4714;
+	font-weight: bold;
+}
+
+/* 메뉴를 눌렀을때 변경된 색이 그대로 머물도록 */
+.noticeTopMenu a.active {
+	color: #ff4714;
+    border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: #ff4714;
+    font-weight: bold;
+}
+
+/* DB에서 끌어온 공지 제목 */
+.noticeList{
+	display: flex;
+	flex-direction: row;
+	padding: 0 100px;
+	width: 83%;
+	font-weight: bold;
+	font-size: 15px; 
+}
+
+/* 테이블 태그 이용한 테두리 디자인*/
+.noticeTable{
+	border-collapse: collapse;
+	background-color: white;
+	width: 100%;
+}
+
+.noticeTable tr, td{
+	border-top: 3px solid #ededed;  /* 상단 테두리 */
+    border-bottom: 3px solid #ededed;  /* 하단 테두리 */
+    padding: 18px;  /* 셀 간격 */
+    text-align: left;
+}
+
+
+
+/* 리스트 디자인 */
+
+/* 공지,약관,이벤트 머리말 디자인 */
+span.gongji {
+	font-size: 12px;
+	color: #ff4714;
+	font-weight: bold;
+	border-color: #ff4714;
+	border-style: solid;
+	border-width: 1.5px;
+	margin: 0 80px 0 10px;
+	padding: 7px;
+}
+
+
+span.eYong {
+	font-size: 12px;
+	color: #FF9914;
+	font-weight: bold;
+	border-color: #FF9914;
+	border-style: solid;
+	border-width: 1.5px;
+	margin: 0 80px 0 10px;
+	padding: 7px;
+}
+
+span.event {
+	font-size: 12px;
+	color: #0092EB;
+	font-weight: bold;
+	border-color: #0092EB;
+	border-style: solid;
+	border-width: 1.5px;
+	margin: 0 80px 0 10px;
+	padding: 6px 13px;
+}
+
+span.date {
+	float: right;
+}
+

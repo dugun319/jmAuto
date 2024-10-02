@@ -7,7 +7,7 @@ import com.oracle.jmAuto.dto.User_Table;
 
 public interface JmDao {
 
-	User_Table login(String user_id, String user_pw);
+	User_Table login(String user_id);
 
 	int join(User_Table user);
 
@@ -21,11 +21,11 @@ public interface JmDao {
 
 	int profJoin(Certified certified, User_Table user_table, Account account);
 
-	String findId(String user_email);
+	String findId(User_Table user);
 
 	User_Table findPw(User_Table user);
 
-    void updateTempPw(String user_id, String tempPassword);
+    void updateTempPw(String user_id, String hashedTempPw);
 
 	String getUserEmail(String user_id);
 

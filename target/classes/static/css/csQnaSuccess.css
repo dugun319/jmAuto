@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+/* 사이드바+가운데 내용들 포함 틀 */
+.csQnsSuccess {
+	display: flex;
+	flex-direction: row;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	white-space: nowrap;
+	text-align: center;
+	justify-content: space-between;
+	background-color: #fafafa;
+	width: 1620px;
+}
+
+/* 사이드바 스타일 */
+.successSidebar {
+	background-color: #fdfdfd;
+	border-right: 1px solid #ddd;
+	padding: 14px;
+	box-sizing: border-box;
+	width: 400px;
+	
+}
+
+.sidebar {
+	border-right: 1px solid #fdfdfd;
+	
+}
+
+ul {
+	list-style-type: none;
+	padding: 0 0 0 130px;
+}
+
+/* 메뉴와 아이콘 정렬 */
+.sidebar ul li {
+	display: flex;
+	flex-direction: row;
+	margin: 50px 0;
+}
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: #333;
+	font-size: 20px;
+	font-weight: bold;
+	color: inherit;
+}
+
+/* 마우스 올렸을때 아이콘 색과 글씨 색 변경 */
+.mainHover a:hover {
+	color: #ff4714;
+}
+
+.mainHover a:hover img {
+	content: url("../images/cs/고객센터_icon_after.png");
+}
+
+.commonHover a:hover {
+	color: #ff4714;
+}
+
+.commonHover a:hover img {
+	content: url("../images/cs/cs상세카테고리_icon_after.png");
+}
+
+
+/* 메인 내용 디자인 */
+.successContainer {
+	display: flex;
+	flex-direction: column;
+	font-size: 20px;
+	justify-content: space-between;
+	text-align: center;
+	background-color: #fafafa;
+	margin: 0 auto;
+	padding: 50px 0 50px 0;
+	width: 1700px;
+}
+
+h1 {
+	font-size: 40px;
+	margin-top: 70px;
+}
+
+.successContainer img {
+	margin: 80px auto 30px auto;
+	width: 140px;
+	height: 140px;	
+}
+
+.successMent {
+	font-size: 30px;
+	font-weight: bold;
+	padding: 20px 0 20px 0;
+}
+
+.sorry {
+	font-size: 20px;
+	padding: 20px 0 40px 0;
+}
+
+/* 문의내역, 돌아가기 버튼 디자인 */
+.successButton {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+
+}
+
+.successButton a {
+	float: left;
+	background-color: #fdfdfd;
+	border-style:solid;
+	border-width:2px;
+	border-color: #ff4714;
+	color: #070707;
+	text-align: center;
+	margin: 15px;
+	padding: 15px 50px;
+	text-decoration: none;
+	font-size: 25px;
+	font-weight: bold;
+	width: 200px;
+}
+
+/* 버튼에 커서 올렸을때 색*/
+.successButton a:hover {
+  background-color: #ff4714;
+  color: #fdfdfd;
+  font-weight: bold;
+}
+
+/* 버튼을 눌렀을때 변경된 색이 그대로 머물도록 */
+.successButton a.active {
+    background-color: #ff4714; 
+    color: #fdfdfd;
+    font-weight: bold;
+}

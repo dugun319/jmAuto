@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
+ 	<insert id="hoogiwrite" parameterType="map">
+ 		insert into review (user_id, approval_num, review_title, review_content, review_date,evaluation, del_state)	
+ 		values (#{user_id},(select approval_num
+ 						   	from payment
+ 						    where sell_num =#{sell_num}),
+ 						    #{review_title}, #{review_content}, sysdate, #{evaluation},0) 
+ 	</insert>
+ 	
+ 	<select id="myhoogi" parameterType="String" resultType="Review">
+ 		select *
+ 		from review
+ 		where user_id =#{user_id}
+ 	</select>
+
+ 	
+ 	<update id="hoogiDelete" parameterType="map">
+ 		update review
+ 		set del_state =1
+ 		where user_id=#{user_id}
+ 		and approval_num =#{approval_nums}
+ 	</update>
+
+	
+</mapper> 

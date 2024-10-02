@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,7 @@ public class KhController {
 
 	private final KHPayService payService;
 	private final KHTableService khTableService;
+	// private final BCryptPasswordEncoder passwordEncoder; 
 
 	@Value("${spring.file.upload.path}")
 	private String uploadPath;
@@ -47,17 +49,26 @@ public class KhController {
 	// 차량구매 관련 정보입력 페이지로 이동
 	@GetMapping(value = "/goPay")
 	public String goCarPay(long sell_num, Model model) {
-		// 매물번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
-		// 매물번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
-		// 매물번호와 구매자 아이디는 반드시 받아와야 함!!! Get Method
-
+		
 		log.info("KhController goCarPay is called");
-		String user_id = SessionUtils.getStringAttributeValue("user_id");
-		SessionUtils.addAttribute("buyer_id", user_id);
+		String user_id 		= SessionUtils.getStringAttributeValue("user_id");
+		
+		if(user_id.length() != 4) {
+			User_Table buyer 	= khTableService.getUserById(user_id);
+			SessionUtils.addAttribute("buyer_id", user_id);
+			model.addAttribute("buyer", buyer);
+			System.out.println("KhController goCarPay if loop is started");
+		} else {			
+			model.addAttribute("loginError", "먼저 로그인 해주세요");
+			System.out.println("KhController goCarPay user_id -> " + SessionUtils.getStringAttributeValue("user_id").isEmpty());
+						
+			return "view_jm/login";			// 로그인 페이지로 리다이렉트
+		}
+		
+		
 		// 구매자 아이디 받아옴
 
 		Car_General_Info carDetail = khTableService.getCarBySellId(sell_num);
-		User_Table buyer = khTableService.getUserById(user_id);
 		User_Table seller = khTableService.getUserById(carDetail.getUser_id());
 		long rawPrice = carDetail.getPrice() * 10000;
 
@@ -65,7 +76,6 @@ public class KhController {
 
 		SessionUtils.addAttribute("rawPrice", rawPrice);
 		model.addAttribute("carDetail", carDetail);
-		model.addAttribute("buyer", buyer);
 		model.addAttribute("seller", seller);
 
 		return "view_kh/carPayment";
@@ -120,6 +130,7 @@ public class KhController {
 
 		String user_id = SessionUtils.getStringAttributeValue("user_id");
 		SessionUtils.addAttribute("buyer_id", user_id);
+		System.out.println("KhController goExpertPay user_id -> " + user_id);
 		// 구매자 아이디 받아옴
 
 		Expert_Review expertReviewDetail = khTableService.getExpertReviewDetail(expert_review_num);
@@ -317,14 +328,20 @@ public class KhController {
 	
 	//차량리스트	
 	@GetMapping(value = "/carList")
-	public String getCarList(String user_id, Model model) {
+	public String getCarList(Model model) {
 		log.info("KhController getCarList is called");
-
-		SessionUtils.addAttribute("user_id", user_id);
+		System.out.println("KhController getCarList user_id -> " + SessionUtils.getStringAttributeValue("user_id"));
 		
 		List<Car_General_Info> carList = new ArrayList<>();
 		carList = khTableService.getCarList();
 		System.out.println("KhController carList carList -> " + carList);
+		
+		/*
+		for(int i=0 ; i<10 ; i++) {
+			String pass = passwordEncoder.encode("1111");
+			System.out.println("pass -> " + pass);
+		}
+		*/		
 
 		model.addAttribute("carList", carList);
 
@@ -337,11 +354,11 @@ public class KhController {
 		log.info("KhController getCarDetail is called");
 
 		List<Expert_Review> expertReviewList = new ArrayList<>();
-		expertReviewList = khTableService.getExpertReviewList(sell_num);
-		Car_General_Info carDetail = khTableService.getCarBySellId(sell_num);
-
-		model.addAttribute("carDetail", carDetail);
+		expertReviewList 			= khTableService.getExpertReviewList(sell_num);
 		model.addAttribute("expertReviewList", expertReviewList);
+		
+		Car_General_Info carDetail = khTableService.getCarBySellId(sell_num);
+		model.addAttribute("carDetail", carDetail);
 
 		return "view_kh/carDetail";
 	}

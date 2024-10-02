@@ -21,7 +21,7 @@ public interface JmService {
 
 	int profJoin(Certified certified, User_Table user_table, Account account);
 
-	String findId(String user_email);
+	String findId(User_Table user);
 
 	User_Table findPw(User_Table user);
 

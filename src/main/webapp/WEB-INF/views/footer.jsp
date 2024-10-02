@@ -2,12 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <link href="/css/footer.css" rel="stylesheet" type="text/css">
+<meta charset="UTF-8">
 </head>
 <body>
 	<div class="footer_container">
@@ -15,11 +14,11 @@
 			<img alt="logo이미지" src="<%=request.getContextPath()%>/images/main/logo_web.png" class="footer_img">
 		</div>
 		<div class="footer_text_hed">
-			<a href="" class="footer_text_hed_a1">개인정보 처리방침</a>
+			<a href="../view_jw/csNotice?noticeCls=6200" class="footer_text_hed_a1">개인정보 처리방침</a>
 			<div class="footer_text_hed_text1">│</div>
-			<a href="" class="footer_text_hed_a2">서비스 이용약관</a>
+			<a href="../view_jw/csNotice?noticeCls=6200" class="footer_text_hed_a2">서비스 이용약관</a>
 			<div class="footer_text_hed_text1">│</div>
-			<a href="" class="footer_text_hed_a2">이용약관</a>
+			<a href="../view_jw/csNotice?noticeCls=6200" class="footer_text_hed_a2">이용약관</a>
 		</div>
 		<div class="footer_text_body">
 			<div class="footer_text_hed_text2">상호명:JM카</div>

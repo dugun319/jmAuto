@@ -88,7 +88,7 @@ h1 {
 	gap: 40px; /* 박스들 사이의 간격 */
 	height: auto;
 	padding: 100px; /* 컨테이너 내부 여백 */
-	width: 800px;
+	width: 600px;
 	background-color: #fdfdfd; /* 박스 배경색 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
 	margin-bottom: 100px;
@@ -183,7 +183,7 @@ button:disabled {
 <body>
 	<div id="wrapper">
 		<header>
-			<%@ include file="../header2.jsp"%>
+			<%@ include file="../header_white.jsp"%>
 		</header>
 		<div class="contents">
 			<div class="content">
@@ -192,7 +192,7 @@ button:disabled {
 			<div class="content">
 				<ul class="join_step">
 					<li><img src="../images/join/joinAgree.png"><span>약관동의</span></li>
-					<li><img src="../images/join/certInfo_before.png"><span>자격인증</span></li>
+					<li><img src="../images/join/buzInfo_before.png"><span>자격인증</span></li>
 					<li><img src="../images/join/joinInfo_before.png"><span>회원
 							정보 입력</span></li>
 					<li><img src="../images/join/joinOk_before.png"><span>가입신청</span></li>

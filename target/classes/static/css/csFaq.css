@@ -1,0 +1,241 @@
+@charset "UTF-8";
+
+/* 사이드바+가운데 내용들 포함 틀 */
+.faq {
+	display: flex;
+	flex-direction: row;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	white-space: nowrap;
+	text-align: center;
+	justify-content: space-between;
+	background-color: #fafafa;
+	width: 1620px;
+}
+
+/* 사이드바 스타일 */
+.faqSidebar {
+	background-color: #fdfdfd;
+	border-right: 1px solid #ddd;
+	padding: 14px;
+	box-sizing: border-box;
+	width: 400px;
+	
+}
+
+.sidebar {
+	border-right: 1px solid #fdfdfd;
+	
+}
+
+ul {
+	list-style-type: none;
+	padding: 0 0 0 130px;
+}
+
+/* 메뉴와 아이콘 정렬 */
+.sidebar ul li {
+	display: flex;
+	flex-direction: row;
+	margin: 50px 0;
+}
+
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: #333;
+	font-size: 20px;
+	font-weight: bold;
+	color: inherit;
+}
+
+/* 마우스 올렸을때 아이콘 색과 글씨 색 변경 */
+.mainHover a:hover {
+	color: #ff4714;
+}
+
+.mainHover a:hover img {
+	content: url("../images/cs/고객센터_icon_after.png");
+}
+
+.commonHover a:hover {
+	color: #ff4714;
+}
+
+.commonHover a:hover img {
+	content: url("../images/cs/cs상세카테고리_icon_after.png");
+}
+
+/* 사이드바 이미지 스타일 */
+/* .navbar ul li a img {
+	height: 75px;
+	width: auto; 비율 유지
+	margin: 0 50px 0 0;
+}
+
+#rrr {
+	margin-top: 100px;
+	height: 200px;
+	width: 20%;
+}
+
+#rcc {
+	margin-top: 100px;
+	height: 150px;
+	width: 150px;
+}
+
+#mainImage {
+	margin-top: 50px;
+	height: 500px;
+	width: 100%;
+	margin-bottom: 100px;
+}
+ */
+
+
+
+/* 가운데 모든 내용 전체 틀 */
+.csContainer {
+	display: flex;
+	flex-direction: column;
+	width: 1320px;
+}
+
+/* 제목 */
+h1 {
+	font-size: 40px;
+	margin-top: 70px;
+}
+
+/* 안내멘트 */
+.faqMent {
+	font-size: 15px;
+	margin: 10px;
+}
+
+/* 상단 메뉴 카테고리 */
+.faqTopMenu {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 30px 150px;
+	
+
+}
+
+.faqTopMenu a {
+	float: left;
+	color: #070707;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 19px;
+	font-weight: bold;
+	
+}
+
+/* 메뉴에 커서 올렸을때 색*/
+.faqTopMenu a:hover {
+  background-color: #ff4714;
+  color: #fdfdfd;
+  font-weight: bold;
+}
+
+/* 메뉴를 눌렀을때 변경된 색이 그대로 머물도록 */
+.faqTopMenu a.active {
+    background-color: #ff4714; 
+    color: #fdfdfd;
+    font-weight: bold;
+}
+
+/* DB에서 끌어온 질문과 답변들 */
+.faqList{
+	display: flex;
+	flex-direction: row;
+	padding: 0 100px;
+
+}
+
+/* DB에서 불러온 분류, 문의내용, 문의제목 */
+.faqItem {
+	width: calc(100% - 20px);
+}
+
+/* 테이블 태그 이용한 테두리 디자인*/
+.faqTable{
+	border-collapse: collapse;
+	background-color: white;
+	width: 100%;
+}
+
+.faqTable th, td{
+	border-top: 3px solid #ededed;  /* 상단 테두리 */
+    border-bottom: 3px solid #ededed;  /* 하단 테두리 */
+    padding: 5px;  /* 셀 간격 */
+    text-align: left;
+}
+
+details {
+	margin-bottom: 10px;	
+}
+
+/* 질문 */
+details > summary {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	text-align: left;
+	color: #070707;
+	font-weight: bold;
+	font-size: 17px;
+	cursor: pointer;
+	margin: 10px 0 10px 0;
+	max-width: 500px;
+	
+}
+
+
+.Q {
+	width: 30px;
+	margin: 0 50px 0 0;
+	color: #ff4714; 
+	font-size: 30px;
+	font-weight: bold;
+	font-family: BMDOHYEON_ttf;
+}
+
+
+.A {
+	width: 30px;
+	margin-right: 30px;
+	color: #ff4714; 
+	font-size: 30px;
+	font-weight: bold;
+	font-family: BMDOHYEON_ttf;
+}
+
+details > summary:hover {
+	color: #ff4714; 
+	font-weight: bold;
+}
+
+/* 클릭하면 나오는 답변글 */
+.answer {
+	display: inline-flex;
+	align-items: center;
+	width: 500px;
+	margin: 20px;
+	border: 3px solid #ededed; 
+    padding: 8px 15px 8px 30px; 
+    background-color: #fafafa; 
+}
+
+/* 내용이 보일 때만 테두리를 나타내기 */
+details[open] .answer {
+    border: 2px solid #ededed; 
+    padding: 20px;
+    margin-top: 5px;
+    background-color: #fafafa;  
+    width: 70%;
+}

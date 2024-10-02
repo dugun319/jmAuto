@@ -5,109 +5,248 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	#btn-kakao {
-     	background-color: #FAE300;
-    	color: #3C1E1E;
-        font-weight: 800;
-        border: none;
-        border-radius: 12px;
-        padding: 10px 20px;
-        cursor: pointer;
-      }
-</style>
-
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-	$(function() {
-		$("#btn-kakao").click(function() {
-			
-			let data = {
-					item_name: 'TerraKahnEX290_2007',
-	                quantity: "1",
-	                total_amount: "12000000",
-	                tax_free_amount: "0",
-					
-			}
-			
-			alert("Before ajax start")
-			
-	    	$.ajax({
-	    			url: '/order/pay/ready',
-	                type: 'POST',
-	                data: data,
-	                success: function(response) {
-	                			alert(response.next_redirect_pc_url); //kakao payment api에서 알아서 응답해주는 url
-	                			location.href = response.next_redirect_pc_url;
-	                		},
-	                error: function(xhr, err, status) {
-	                console.log(xhr.responseText);
-	                alert(err + "이(가) 발생했습니다: " + status);
-	                }
-	            });
-	        });
-	      });
-</script>
-
 </head>
-	  <body>
-	  	<input type="text" id="sample6_postcode" placeholder="우편번호">
-		<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="sample6_address" placeholder="주소"><br>
-		<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-		<input type="text" id="sample6_extraAddress" placeholder="참고항목">
 
-		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<script>
-		    function sample6_execDaumPostcode() {
-		        new daum.Postcode({
-		            oncomplete: function(data) {
-		                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	<style>
+		body {
+			/* background-color: #ededed; */
+			background-color: red;
+		}
 		
-		                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-		                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-		                var addr = ''; // 주소 변수
-		                var extraAddr = ''; // 참고항목 변수
+		body h1 {
+			margin-top: 50px;
+			text-align: center;
+			font-weight: bold;
+		}
 		
-		                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-		                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-		                    addr = data.roadAddress;
-		                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-		                    addr = data.jibunAddress;
-		                }
+		.img{
+			display: block;
+			margin: 0,auto;
+			/* background-image: url('/images/main/sellMyCar/차량등록_box.png'); */
+		}
 		
-		                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-		                if(data.userSelectedType === 'R'){
-		                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-		                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-		                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-		                        extraAddr += data.bname;
-		                    }
-		                    // 건물명이 있고, 공동주택일 경우 추가한다.
-		                    if(data.buildingName !== '' && data.apartment === 'Y'){
-		                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-		                    }
-		                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-		                    if(extraAddr !== ''){
-		                        extraAddr = ' (' + extraAddr + ')';
-		                    }
-		                    // 조합된 참고항목을 해당 필드에 넣는다.
-		                    document.getElementById("sample6_extraAddress").value = extraAddr;
-		                
-		                } else {
-		                    document.getElementById("sample6_extraAddress").value = '';
-		                }
+		.circle{
+			margin-top: 50px;
+			text-align:center;
+		}
 		
-		                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-		                document.getElementById('sample6_postcode').value = data.zonecode;
-		                document.getElementById("sample6_address").value = addr;
-		                // 커서를 상세주소 필드로 이동한다.
-		                document.getElementById("sample6_detailAddress").focus();
-		            }
-		        }).open();
-		    }
-		</script>
-		<br>
-	    <button id="btn-kakao">KakaoPay<br>결제요청 <i class="fa-solid fa-comment"></i></button>  
-	  </body>
+		 .contract .requtxt{
+			text-align: left;
+			margin-bottom: 10px;
+			
+		}
+		
+		#orange{
+			margin-top:50px;
+			display: inline;
+			color:  #ff4714;
+			font-weight: bold;
+		}
+		#black{
+			margin-top:50px;
+			display: inline;
+			color:  #070707;
+			font-weight: bold;
+		}
+		
+		.contract {
+			margin: 10px auto 10px;
+		    width: 1200px;
+		    text-align: right;
+		}
+		
+		.contract .text {
+			text-align: left;
+		    height: 230px; 
+		    border: 1px solid black; 
+		    /* background-color: white; */
+		    white-space: pre-line; 
+		    overflow-y: scroll; 
+		    margin: 0 auto 20px;
+		}
+		
+		.text{
+			margin-top: 5px;
+		}
+		
+		.butt {
+		    display: flex; /* Flexbox를 사용하여 버튼들을 가로로 나란히 배치 */
+		    justify-content: space-between; /* 버튼들 사이에 공간을 균등하게 배분 */
+		    margin: 20px 0; /* 상하 여백 추가 */
+		}
+		
+		.butt button {
+		    background: none; /* 버튼 배경 제거 */
+		    border: none; /* 버튼 테두리 제거 */
+		    padding: 0; /* 버튼 패딩 제거 */
+		}
+		
+		
+		.contract .chk {
+		    display: inline-block;
+		    margin-bottom: 100px;
+		}
+		
+		.contract .chk h5 {
+		    display: inline;
+		    color: #070707;
+		    font-weight: bold;
+		    margin-left: 5px;
+		}
+		
+		.content {
+			display: flex;
+			flex-direction: column; /* 세로 방향으로 배치 */
+			align-items: center; /* 수평 중앙 정렬 */
+			justify-content: center; /* 수직 중앙 정렬 */
+            margin-bottom: 300px;
+		}
+		
+		.join_step {
+	display: flex;
+	position: absolute;
+	/* 플렉스 박스 레이아웃 사용 */
+	top: 200px;
+	justify-content: center;
+	/* 가로 가운데 정렬 */
+	list-style: none;
+	/* 리스트 스타일 제거 */
+	padding: 0;
+	/* 기본 패딩 제거 */
+	margin-bottom: 30px;
+}
+
+.join_step li {
+	margin: 0 10px;
+	/* 항목 간의 간격 설정 */
+	position: relative;
+	/* 텍스트 위치를 조정하기 위해 relative 유지 */
+}
+
+.join_step li img {
+	width: 150px;
+	/* 리스트 항목 내 이미지의 크기를 설정 */
+}
+
+.join_step li span {
+	position: absolute;
+	/* 텍스트를 절대 위치로 설정 */
+	bottom: 0;
+	left: 50%;
+	/* 텍스트를 중앙 하단에 위치 */
+	color: #666;
+	/* 텍스트 색상 설정 */
+	line-height: 1.462em;
+	/* 텍스트 줄 간격 설정 */
+	white-space: nowrap;
+	/* 텍스트가 줄바꿈되지 않도록 설정 */
+	transform: translate(-50%, 0);
+	/* 텍스트를 중앙 정렬 */
+}
+	</style>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!-- aJax 사용을 위한 jQuery -->
+<script type="text/javascript" src="../js/jquery.js"></script>
+
+			<%@ include file="../header_white.jsp" %>
+		<%@ include file="../kakao.jsp" %>
+		
+<body>
+<h1>차량등록</h1>
+	<div class="img">
+		<div class="content">
+				<ul class="join_step">
+					<li><img src="../images/sellMyCar/약관동의_선택.png"><span>약관동의</span></li>
+					<li><img src="../images/sellMyCar/차량등록_전.png"><span>차량정보 입력</span></li>
+					<li><img src="../images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
+				</ul>
+			</div>
+
+		<form class="contract" action="/sellCarInfor">
+			<div class="requtxt">
+				<h4 id="orange">[필수]</h4><h4 id="black">약관동의</h4>
+			</div>
+            <div class="text">
+            	가. 개인정보의 수집 및 이용 목적
+ 
+                국가공간정보포털은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.
+        
+                나. 정보주체와 법정대리인의 권리ㆍ의무 및 행사방법
+                ① 정보주체(만 14세 미만인 경우에는 법정대리인을 말함)는 언제든지 개인정보 열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다.
+                ② 제1항에 따른 권리 행사는 개인정보보호법 시행규칙 별지 제8호 서식에 따라 작성 후 서면, 전자우편 등을 통하여 하실 수 있으며, 기관은 이에 대해 지체 없이 조치하겠습니다.
+                ③ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 개인정보 보호법 시행규칙 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.
+                ④ 개인정보 열람 및 처리정지 요구는 개인정보 보호법 제35조 제5항, 제37조 제2항에 의하여 정보주체의 권리가 제한 될 수 있습니다.
+                ⑤ 개인정보의 정정 및 삭제 요구는 다른 법령에서 그 개인정보가 수집 대상으로 명시되어 있는 경우에는 그 삭제를 요구할 수 없습니다.
+                ⑥ 정보주체 권리에 따른 열람의 요구, 정정ㆍ삭제의 요구, 처리정지의 요구 시 열람 등 요구를 한 자가 본인이거나 정당한 대리인인지를 확인합니다.
+                
+                다. 수집하는 개인정보의 항목
+                국가공간정보포털 회원정보(필수): 이름, 이메일(아이디), 비밀번호
+                
+                라. 개인정보의 보유 및 이용기간
+                국가공간정보포털은 법령에 따른 개인정보 보유ㆍ이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유ㆍ이용기간 내에서 개인정보를 처리ㆍ보유합니다.
+                
+                - 수집근거: 정보주체의 동의
+                - 보존기간: 회원 탈퇴 요청 전까지(1년 경과 시 재동의)
+                - 보존근거: 정보주체의 동의
+                
+                마. 동의 거부 권리 및 동의 거부에 따른 불이익
+                위 개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으나, 동의를 거부할 경우 회원 가입이 제한됩니다.
+            </div>
+            <div class="chk">
+                <input type="checkbox" required="required"><h5> 동의합니다.</h5>
+            </div>
+            
+            <div class="requtxt">
+				<h4 id="orange">[필수]</h4><h4 id="black">약관동의</h4>
+			</div>
+            <div class="text">
+            	가. 개인정보의 수집 및 이용 목적
+ 
+                국가공간정보포털은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.
+        
+                나. 정보주체와 법정대리인의 권리ㆍ의무 및 행사방법
+                ① 정보주체(만 14세 미만인 경우에는 법정대리인을 말함)는 언제든지 개인정보 열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다.
+                ② 제1항에 따른 권리 행사는 개인정보보호법 시행규칙 별지 제8호 서식에 따라 작성 후 서면, 전자우편 등을 통하여 하실 수 있으며, 기관은 이에 대해 지체 없이 조치하겠습니다.
+                ③ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 개인정보 보호법 시행규칙 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.
+                ④ 개인정보 열람 및 처리정지 요구는 개인정보 보호법 제35조 제5항, 제37조 제2항에 의하여 정보주체의 권리가 제한 될 수 있습니다.
+                ⑤ 개인정보의 정정 및 삭제 요구는 다른 법령에서 그 개인정보가 수집 대상으로 명시되어 있는 경우에는 그 삭제를 요구할 수 없습니다.
+                ⑥ 정보주체 권리에 따른 열람의 요구, 정정ㆍ삭제의 요구, 처리정지의 요구 시 열람 등 요구를 한 자가 본인이거나 정당한 대리인인지를 확인합니다.
+                
+                다. 수집하는 개인정보의 항목
+                국가공간정보포털 회원정보(필수): 이름, 이메일(아이디), 비밀번호
+                
+                라. 개인정보의 보유 및 이용기간
+                국가공간정보포털은 법령에 따른 개인정보 보유ㆍ이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유ㆍ이용기간 내에서 개인정보를 처리ㆍ보유합니다.
+                
+                - 수집근거: 정보주체의 동의
+                - 보존기간: 회원 탈퇴 요청 전까지(1년 경과 시 재동의)
+                - 보존근거: 정보주체의 동의
+                
+                마. 동의 거부 권리 및 동의 거부에 따른 불이익
+                위 개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으나, 동의를 거부할 경우 회원 가입이 제한됩니다.
+            </div>
+            <div class="chk">
+               	<input type="checkbox" required="required"><h5> 동의합니다.</h5>
+            </div>
+            
+            
+            <div class="butt">
+		        <a href="/">
+		            <img alt="" src="/images/sellMyCar/취소_but.png">
+		        </a>
+
+                <button type="submit">
+                	<img alt="" src="/images/sellMyCar/다음_but.png">
+                </button>
+            </div>
+           </form>
+	</div>
+</body>
+<%@ include file="../footer.jsp" %>
 </html>

@@ -18,15 +18,13 @@ body, html {
 
 
 .container {
- 	position:relative;
- 	left: 35%;
     width: 400px; /* 컨테이너의 너비를 400px로 설정 */
     height: 700px; /* 컨테이너의 높이를 600px로 설정 */
     padding: 40px; /* 컨테이너의 내부 여백을 40px로 설정 */
     background-color: #fdfdfd; /* 컨테이너의 배경을 흰색으로 설정 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 컨테이너에 그림자 효과 추가 */
     text-align: center; /* 컨테이너 내부의 텍스트를 가운데 정렬 */
-    margin: 100px 0;
+    margin: 100px auto;
 }
 
 .logo{
@@ -77,6 +75,8 @@ body, html {
     margin-top: 20px; /* 목록의 위쪽 여백을 20px로 설정 */
     padding: 0; /* 목록의 패딩을 제거 */
     list-style: none; /* 목록의 기본 불릿 제거 */
+    position: relative;
+    left: 10px;
 }
 
 ul.links li {
@@ -85,12 +85,25 @@ ul.links li {
 
 ul.userChoose li a {
     text-decoration: none; /* 링크의 밑줄을 제거 */
-    color: grey; /* 링크의 글자 색을 주황색으로 설정 */
+    color: gray; /* 링크의 글자 색을 주황색으로 설정 */
     font-size: 14px; /* 링크의 글자 크기를 14px로 설정 */
+}
+
+ul.userChoose li span{
+    color: gray;
 }
 
 ul.userChoose li a:hover {
     text-decoration: underline; /* 링크에 마우스를 올렸을 때 밑줄을 추가 */
+}
+
+.errMessage{
+float: left;
+color: red;
+font-size: 12px;
+margin: 5px 0;
+position: relative;
+left: 15px;
 }
 </style>
 
@@ -100,23 +113,34 @@ ul.userChoose li a:hover {
 </head>
 <body>
 <header>
- <%@ include file="../header2.jsp" %>
+ <%@ include file="../header_white.jsp"%>
 </header>
+
+	<c:if test="${not empty loginError}">
+    <script type="text/javascript">
+       	alert("먼저 로그인해 주세요");
+    </script>
+    </c:if>
+        	
     <div class="container">
         <div class="logo">
             <img src="/images/main/logo_web.png" width="40%">
-
         </div>
         <div class="userForm">
             <form action="/view_jm/login" method="post">
-                <input type="text" placeholder="아이디" name="user_id" required="required"><p>
+            <c:if test="${not empty loginError}">
+            <p class="errMessage">${loginError}</p>
+        	</c:if>
+                <input type="text" placeholder="아이디" name="user_id" value="${user_id}" required="required"><p>
                     <input type="password" placeholder="비밀번호" name="user_pw" required="required"><p>
                     <input type="submit" value="로그인">
             </form>
             <ul class="userChoose">
-                <li><a href="/view_jm/joinType">회원가입 |&nbsp;</a></li>
-                <li><a href="/findPw">&nbsp; 비밀번호 찾기 |&nbsp;</a></li>
-                <li><a href="/findId">&nbsp; 아이디 찾기</a></li>
+                <li><a href="/view_jm/joinType">회원가입</a></li>
+                <li><span>&nbsp;|&nbsp;</span></li>
+                <li><a href="/view_jm/findPw">비밀번호 찾기</a></li>
+                <li><span>&nbsp;|&nbsp;</span></li>
+                <li><a href="/view_jm/findId">아이디 찾기</a></li>
             </ul>
         </div>
 	</div>

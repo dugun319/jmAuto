@@ -25,6 +25,7 @@
 		<h5>상품수량 : ${approveResponse.quantity} </h5>
 		<h5>결제요청시간 : ${approveResponse.created_at}</h5>
 		<h5>결제승인시간 : ${approveResponse.approved_at }</h5>
+		
 		<h5>결제금액정보 : ${approveResponse.amount }</h5>
 		<h5>총결재금액 : ${approveResponse.amount.total }</h5>
 		<h5>비과제 : ${approveResponse.amount.tax_free }</h5>
@@ -50,7 +51,7 @@
 		<h5>등급 : ${buyer.user_level}</h5>
 		<h5>유형 : ${buyer.user_type }</h5>
 		<h5>삭제여부 : ${buyer.del_state }</h5>
-		<h5>승인여부 : ${buyer.approval.total }</h5>
+		<h5>승인여부 : ${buyer.approval }</h5>
 		
 		
 		<hr>

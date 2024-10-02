@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
+ 
+ 	<select id="sellCar" parameterType="String" resultType="Car_General_Info">
+ 		select *
+ 		from car_general_info
+ 		where user_id =#{user_id}
+ 	</select>
+ 	
+ 	<select id="mySellWan" parameterType="String" resultType="Car_General_Info">
+ 		select *
+ 		from Car_general_info
+ 		
+ 		  
+ 		where user_id =#{user_id}
+ 		and sale = 0
+ 	</select>
+	
+	
+</mapper> 

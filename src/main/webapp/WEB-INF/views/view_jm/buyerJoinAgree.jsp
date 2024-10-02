@@ -89,7 +89,7 @@ h1 {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
 	background-color: #fdfdfd; /* 박스 배경색 */
 	top: 400px;
-	width: 800px;
+	width: 600px;
 	height: auto;
 }
 
@@ -182,7 +182,7 @@ button:disabled {
 <body>
 	<div id="wrapper">
 		<header>
-			<%@ include file="../header2.jsp"%>
+			<%@ include file="../header_white.jsp"%>
 		</header>
 		<div class="contents">
 			<div class="content">

@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 	
 	private final MainService ms;
-	@GetMapping(value = "/")
+	@GetMapping(value = "/main")
 	public String main() {
 		log.info("MainController main() is started");	
 		System.out.println("controller 정민 고침");
@@ -24,8 +24,5 @@ public class MainController {
 		System.out.println("---->>>>"+result);
 		return "main";
 	}
-	
-
-
 	
 }
