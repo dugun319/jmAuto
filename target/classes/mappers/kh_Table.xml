@@ -143,5 +143,64 @@
 			WHERE sell_num = #{sell_num}
 	</update>
 	
+	<select id="getUserIdByApprovalNum"				parameterType="String"		resultType="String">
+		SELECT user_id	
+		FROM payment
+		WHERE approval_num = #{approval_num}
+	</select>
+	
+		<insert id="insertExpertReview"				parameterType="Expert_Review">
+		INSERT INTO Expert_Review (
+							expert_review_num,
+							sell_num,
+							write_date,
+							score,
+							content,
+							user_id,
+							ess_state,
+							ess_mileage,
+							ess_regi,
+							egine_oil,
+							brake_oil,
+							coolant,
+							tire,
+							brake_pad,
+							del_state
+						)		
+				VALUES ( 
+						 	expertReview_seq.nextval,
+							#{sell_num},
+							sysdate,
+							#{score},
+							#{content},
+							#{user_id},
+							#{ess_state},
+							#{ess_mileage},
+							#{ess_regi},
+							#{egine_oil},
+							#{brake_oil},
+							#{coolant},
+							#{tire},
+							#{brake_pad},
+							0
+						)	
+
+	</insert>
+	
+	<update id="updateExpertReview"				parameterType="Expert_Review">
+		UPDATE Expert_Review
+			SET	expert_review_num 	= #{expert_review_num}
+				score 				= #{score},
+				content 			= #{content},
+				ess_state			= #{ess_state},
+				ess_mileage 		= #{ess_mileage},
+				ess_regi			= #{ess_regi},
+				egine_oil			= #{egine_oil},
+				brake_oil			= #{brake_oil},
+				coolant				= #{coolant},
+				tire				= #{tire},
+				brake_pad			= #{brake_pad}
+			WHERE expert_review_num = #{expert_review_num}
+	</update>
 	
 </mapper> 

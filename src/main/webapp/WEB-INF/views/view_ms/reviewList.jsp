@@ -1,346 +1,175 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
-<link rel="stylesheet" href="../myPage.css">
 <script type="text/javascript" src="../js/jquery.js"></script>
-</head>
-<style>
-* {
-	margin: 0;
-	white-space: nowrap;
+<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
+
+<title>구매자 - 내가 쓴 후기</title>
+<link rel="stylesheet" href="../css/myPage.css">
+<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
+<div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
+<style type="text/css">
+.content{
+	background-color:#f1f1f1;
+	width: 1380px;
 }
-.mp {
-	display: grid;
-	grid-template-areas: "nav" "header" "main" "footer";
-}
-/* 네비게이션 바 스타일 */
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	/* justify-content: center; */
-	align-items: center;
-	background-color: #ffffff;
-	height: 150px;
-	width: 100%;
-	padding: 0;
-}
-/* 로고 이미지 스타일 */
-.navbar img {
-	height: 75px;
-	width: auto; /* 비율 유지*/
-	margin: 0 50px;
-}
-/* 메뉴바 스타일 */
-.menu {
-	display: flex;
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-/* 메뉴 항목 스타일 */
-.menu li {
-	float: left;
-	margin: 15px 75px;
-}
-/* 메뉴 링크 스타일 */
-.menu a {
-	text-align: center;
-	color: rgb(0, 0, 0);
-	font-size: 20px;
-	font-weight: bold;
-	text-decoration: none;
-	transition: color 0.3s;
-}
-/* 메뉴 항목에 마우스를 올렸을 때 */
-.menu a:hover {
-	color: #000000cc;
-}
-.but_logout:hover {
-	border-style: none;
-	background-color: #000000;
-	width: 100px;
-	height: 35px;
-	color: #fdfdfd;
-	margin: 0px 50px;
-	font-size: 15px;
-	font-weight: bold;
-}
-.but_logout {
-	border-style: none;
-	background-color: #ffffff;
-	width: 100px;
-	height: 35px;
-	color: #323232;
-	margin: 0px 50px;
-	font-size: 15px;
-	font-weight: bold;
-}
-a {
-	text-decoration: none;
-	color: inherit;
-}
-.user {
-	font-size: 15px;
-	font-weight: bold;
-}
-.menu_mypage {
-	color: #000000;
-	text-decoration-line: none;
-}
-.header {
-	height: 738px;
-	width: 100%;
-	/* border: 1px solid black; */
-	align-items: center;
-	margin: auto;
-	text-align: center;
-}
-.main {
-	width: 100%;
-	max-width: 75%; /* 화면 너비를 넘지 않도록 설정 */
-	overflow: hidden; /* 요소가 넘칠 경우 숨김 */
-	margin: 0 auto; /* 가운데 정렬 */
-	text-align: center; /* 내부 콘텐츠 가운데 정렬 */
-}
-.main img {
-	width: 100%;
-	height: auto; /* 비율을 유지하면서 높이 조정 */
-	max-width: 100%; /* 부모 요소의 크기를 넘지 않도록 제한 */
-	display: block; /* 이미지 하단에 여백 제거 */
-	margin: 0 auto; /* 이미지 가운데 정렬 */
-}
-#rrr {
-	margin-top: 100px;
-	height: 200px;
-	width: 20%;
-}
-#rcc {
-	margin-top: 100px;
-	height: 150px;
-	width: 150px;
-}
-#mainImage {
-	margin-top: 50px;
-	height: 500px;
-	width: 100%;
-	margin-bottom: 100px;
-}
-.footer {
-	height: 100px;
-	width: 100%;
-}
-#floatMenu {
-	position: absolute;
-	display: flex;
-	justify-content: space-between;
-	right: 50px;
-	bottom: 50px;
-	color: #fff;
-}
-.block {
-	padding: 50px 50px;
-	margin: 30px 30px;
-	background-color: rgb(255, 255, 255);
-	border-bottom: 1px solid #000000;
-}
-/* 기본 스타일 초기화 */
-body, h1, h2, p {
-	margin: 0;
-	padding: 0;
-}
-body {
-	font-family: Arial, sans-serif;
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	margin: 20px;
-}
-.text-center {
-	text-align: center;
-}
-table {
-	width: 100%;
-	border-collapse: collape;
-	margin-top: 20px;
-}
-.container {
-	display: flex;
-	flex: 1;
-}
-.sidebar {
-	width: 200px;
-	background-color: #ffffff;
-	border-right: 1px solid #ddd;
-	padding: 20px;
-	box-sizing: border-box;
-}
-.sidebar.left {
-	border-right: 1px solid #ffffff;
-}
-.sidebar.right {
-	border-left: 1px solid #ffffff;
+.block{
+	background-color: white;
+	width: 1240px;
 }
 .content {
-	flex: 1;
-	padding: 20px;
-	background-color: #f3efef;
-	box-sizing: border-box;
-	align-items: center;
-	text-align: center;
+	background-color: white;
+	border-bottom: 10px;
+	border-top: 10px;
+	display: center;
+	margin-top: 50px;
+	padding-top: 50px;
+	
 }
-th, td {
-	border: 1px solid #ccc; /* 경계선 색 */
-	padding: 10px;
-	text-align: left;
-}
-th {
-	background-color: #f2f2f2; /* 헤더 배경색 */
-}
-tr:nth-child(even) {
-	background-color: #f9f9f9; /* 짝수 행 배경색 */
-}
-h2 {
+
+.border {
+	border-bottom: 10px;
+	border-top: 10px;
+	width: 1280px;
+	padding-left: 50px;
+	display: center;
+	padding-top: 40px;
+	padding-bottom: 100px;
 	font-size: 16px;
-	margin-bottom: 20px;
+	
 }
-ul {
-	list-style-type: none;
-	padding: 0;
+.container{
+	display:center;
+	background-color: #f1f1f1;
 }
-ul li {
-	margin: 10px 0;
+
+tbody tr {
+	background-image: url('../images/note.png'); /* 노트 이미지 경로 */
+	background-size: cover; /* 이미지 크기 조정 */
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 50px; /* 행 높이 조정 */
 }
-ul li a {
-	text-decoration: none;
-	color: #333;
-	font-size: 14px;
+
+tbody tr:last-child {
+	background-image: none; /* 마지막 행은 이미지 제거 */
 }
-ul li a:hover {
-	color: #e95a21;
+tbody td,
+thead td{
+	padding: 10px;
 }
-button {
-	margin-top: 20px;
-	padding: 10px 15px;
-	background-color: #007BFF;
-	color: white;
-	border: none;
-	cursor: pointer;
-	border-radius: 5px;
+
+tbody tr {
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.10); /* 아래쪽으로 그림자 효과 */
+	margin-bottom: 10px; /* 간격 조정 */
 }
-button:hover {
-	background-color: #0056b3; /* 버튼 호버 색상 */
+.block{
+	display: center;
+}
+.rating {
+    font-size: 24px; /* 별 크기 조절 */
+}
+
+.star {
+    color: gray; /* 기본 색상 */
+    margin-right: 2px; /* 간격 조정 */
+}
+
+.star.filled {
+    color: gold; /* 채워진 별 색상 */
 }
 </style>
+</head>
+
 
 
 <script type="text/javascript">
-	
 	/* 체크박스 함수 */
-	function handleSubmit(){
-		const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-		//querySelectorAll이라는 메서드를 사용해 현재 문서에 체크된 :checked요소를 모두 선택해 결과를 nodeList로 반환
-		const selectedPosts = Array.from(checkboxes).map(checkbox => checkbox.value);
-		//map 메서드를 사용해 checkbox.value를 호출해 체크박스 값을 수집
-		//alert('' + selectedPosts.join(', '));
-		//선택한 게시물에 id를 서버로 전송하는 등의 작업을 수행할 수 있다.
-		if(selectedPosts.length===0){
-			alert('삭제할 게시물을 선택해주세요');
-			return;
-		}
-		
-		//서버에 삭제요청을 보낸다.
-		fetch('/myQnaDelete', {
-			method:'POST',
-			headers:{
-				'Content-Type': 'application/selectedPosts'})
-		}).then(response => {
-			if(reponse.ok){
-				alert('선택한 게시물이 삭제되었습니다.');
-				location.reload();
-			}else{
-				alert('삭제 실패 :'+response.statusText);
+		function handleSubmit(){
+			const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+			//querySelectorAll이라는 메서드를 사용해 현재 문서에 체크된 :checked요소를 모두 선택해 결과를 nodeList로 반환
+			const selectedPosts = Array.from(checkboxes).map(checkbox => (checkbox.value));
+			//map 메서드를 사용해 checkbox.value를 호출해 체크박스 값을 수집				이거는 string이니까 형변환X
+			if(selectedPosts.length===0){
+				alert('삭제할 게시물을 선택해주세요');
+				return;
 			}
-		}).catch(error =>{
-			console.error('Error:', error);
-			alert('오류가 발생했습니다');
-		});
-	}
+			//서버에 삭제요청을 보낸다.
+			$.ajax({
+				url: '/myHoogiDelete',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(selectedPosts),
+				success: function(response){
+					alert('선택한 게시물이 삭제되었습니다.');
+					location.reload();
+				},
+				error: function(xhr, status, error){
+					alert('삭제실패:' + xhr.statusText);
+				}
+			});
+		}
 </script>
 
+
 <body>
-	<header>
-		<%@ include file="../header_white.jsp"%>
-	</header>
-<!-------------------------------------------- 헤더 --------------------------------------->
 	<div class="container">
-		<nav class="sidebar left">
-			<ul>
-				<li><img src="../images/main/mypage.png" width="40px"> 
-				<a href="/view_ms/myPage">마이페이지</a></li>
-				<li><img src="../images/main/mypage_list.png" width="40px">
-					<a href="/view_ms/buyList">구매 내역</a></li>
-				<li><img src="../images/main/mypage_list.png" width="40px">
-					<a href="/view_ms/myZzim">관심목록</a></li>
-				<li><img src="../images/main/mypage_list.png" width="40px">
-					<a href="/view_ms/reviewList">구매한 리뷰</a></li>
-				<li><img src="../images/main/mypage_list.png" width="40px">
-					<a href="/view_ms/myQna">문의 내역</a></li>
-				<li><img src="../images/main/mypage_list.png" width="40px">
-					<a href="/view_ms/myPageEditCheck">회원정보수정</a></li>
-			</ul>
-		</nav>
-<!-------------------------------------leftsidebar---------------------------------------->
 		<main class="content">
-			<h1 class="text-center"><a href="#">내가 구매한 전문가리뷰</a></h1><br><br>
+			<h1 class="text-center" style="font-size: 40px; text-align: center;"><a href="#">구매한 전문가리뷰</a></h1><br><br>
 			<div class="block">
-				<table>
+				<table class="border">
 					<thead>
 						<tr>
-							<th>선택</th>
-							<th>리뷰번호</th>
-							<th>매물번호</th>
-							<th>리뷰작성일</th>
-							<th>리뷰내용</th>
-							<th>전문가id</th>
+							<td></td>
+							<td>리뷰번호</td>
+							<td>리뷰내용</td>
+							<td>리뷰평점</td>
+							<td>작성일자</td>
+							<td>가격</td>
+							<td>진행상태</td>
 						</tr>
 					</thead>
-					<tbody>
-						<c:forEach var="Expert_Review" items="${Expert_Review}">
-							<tr>
-								<td><input type="checkbox" name="post1" value="${Expert_Review.expert_review_num}"></td>	
-								<td><a href="/view_ms/reviewListDetail?expert_num=${Expert_Review.expert_review_num}">${Expert_Review.expert_review_num }</a></td>												
-								<td>${Expert_Review.sell_num }</td>												
-								<td>${Expert_Review.write_date}</td>												
-								<td>${Expert_Review.content}</td>
-								<td>${Expert_Review.user_id}</td>
-							</tr>
+					<tbody>	
+						<c:forEach var ="Expert_Review" items="${Expert_Review}">
 						
-						</c:forEach>
+							<tr>
+								<td><input type="checkbox" name="post1" value=${Expert_Review.expert_review_num}></td>
+								<td><a href="/view_ms/reviewListDetail?expert_review_num=${Expert_Review.expert_review_num}">${Expert_Review.expert_review_num}</td>
+								<td><c:choose>
+										<c:when test="${fn:length(Expert_Review.content) > 10}">
+           								 	${fn:substring(Expert_Review.content, 0, 10)}...
+        								</c:when>
+										<c:otherwise> 
+										${Expert_Review.content}
+	        							</c:otherwise>
+									</c:choose></td>
+								<td>
+									<div class="rating">
+									<c:set var="starCount" value="${Expert_Review.score/20}" />
+										<c:forEach var="i" begin="1" end="5">
+											<span
+												class="${i <= starCount ? 'star filled' : 'star'}">&#9733;</span>
+										</c:forEach>
+									</div>
+								</td>
+								<td>${Expert_Review.write_date}</td>
+								<td>${Expert_Review.price}원</td>
+								<td><img alt="" src="../images/main/구매완료.png"> </td>
+							</tr>
+						</c:forEach>	
 					</tbody>
 				</table>
 			</div>
-			<button type="button" onclick="handleSubmit()">문의하기</button>
+						
 		</main>
-<!--------------------------------------- right-sidebar ------------------------------------------>
-		<nav class="sidebar right">
-			<h2>나의 프로필</h2>
-			<ul>
-				<li><a href="#info1"><img src="../images/main/미쑥쑥.png"
-						width="100px">
-						<p>프로필</a></li>
-				<li><a href="#info2">미쑥쑥</a></li>
-				<li><a href="#info3">Lv.1</a></li>
-			</ul>
-		</nav>
-	</div>
-
-<!------------------------------------- 푸터 ----------------------------------------->
+		<!-- <img src="../images/main/삭제_but.png" alt="삭제하기" onclick="handleSubmit()" style="cursor: pointer;"> -->
+</div>
+	<!--------------------------------------- 푸터 --------------------------------------->
 	<%@ include file="../footer.jsp" %>
 </body>
-
 </html>

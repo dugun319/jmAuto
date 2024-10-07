@@ -200,4 +200,41 @@ public class KHTableDaoImplementation implements KHTableDao {
 		
 	}
 
+	@Override
+	public String getUserIdByApprovalNum(String approval_num) {
+		String user_id = "";
+		
+		try {
+			user_id = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getUserIdByApprovalNum", approval_num);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getUserIdByApprovalNum() e.getMessage() -> " + e.getMessage());
+		}		
+		
+		return user_id;
+	}
+
+	@Override
+	public void insertExpertReview(Expert_Review expertReview) {
+		System.out.println("KHTableDaoImplementation insertExpertReview() is called");
+		
+		try {
+			session.insert("com.oracle.jmAuto.dto.kh_TableMapper.insertExpertReview", expertReview);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation insertExpertReview() e.getMessage() -> " + e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void updateExpertReview(Expert_Review expertReview, long expert_review_num) {
+		System.out.println("KHTableDaoImplementation updateExpertReview() is called");
+		System.out.println("KHTableDaoImplementation updateExpertReview() expert_review_num -> " + expert_review_num);
+		
+		try {
+			session.insert("com.oracle.jmAuto.dto.kh_TableMapper.updateExpertReview", expertReview);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation insertExpertReview() e.getMessage() -> " + e.getMessage());
+		}
+	}
+
 }

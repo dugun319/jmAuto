@@ -160,12 +160,7 @@
 			$("#deilveryDate").prop("max", maxDate.toISOString().substring(0,10));
 		});
 	});
-	
-	
-	function payCancel() {
-		alert("결제를 취소합니다");
-		location.href = "/KH/pay/carList";
-	}
+
 	
 	//카카오맵 구현
 	$(function() {
@@ -210,10 +205,41 @@
 		});
 
 	});
+	
+	
+	
+	function goPay() {
+		
+		var fileName 	= $("#insureFile").val();
+		var delivery	= $("#deilveryDate").val();
+		
+		// alert("fileName.length -> " + fileName.length);
+		// alert("delivery.length -> " + delivery.length);
+		
+		if(fileName.length == 0) {
+			alert("보험가입증명서를 업로드하세요");
+			$("#insureFile").focus();
+			return false;
+		} else if(delivery.length == 0 ) {
+			alert("배송일자를 지정하세요");
+			$("#deilveryDate").focus();
+			return false;;
+		} else {		
+			alert("결제를 실행합니다");
+			$("#byuerInfoForm").submit();
+		}
+	}
+	
+	function payCancel() {
+		alert("결제를 취소합니다");
+		location.href = "/KH/pay/carList";
+	}
 </script>
 
 </head>
 <body>
+	<%@ include file="../kakao.jsp" %>
+
 	<header id="header">
 		<%@ include file="../header_white.jsp"%>
 		<span id="pageTitle">차량구매</span>
@@ -222,6 +248,12 @@
 	<div class="container">
 
 		<div class="item:nth-child(1)">
+		
+		<form id="byuerInfoForm"	action="/KH/pay/readyPay"	method="post"	enctype="multipart/form-data">
+			<input	type="hidden"	name="user_id"	value="${buyer.user_id }" />
+			<input	type="hidden"	name="sell_num"	value="${carDetail.sell_num }" />
+			<input	type="hidden"	name="buy_type"	value="1" /> 
+		
 			<span id="intro">
 				안녕하세요, ${buyer.user_name } 고객님.<br>
 				차량구매를 시작하겠습니다.<br>
@@ -358,34 +390,10 @@
 					</td>
 				</tr>	
 			</table>
+			</form>
 		</div>
-			<%-- 			
-			<h5>아이디 : ${buyer.user_id }</h5>
-			<h5>비밀번호 : ${buyer.user_pw }</h5>
-			<h5>이름 : ${buyer.user_name }</h5>
-			<h5>전화번호 : ${buyer.user_tel }</h5>
-			<h5>우편번호 : ${buyer.user_zipcode }</h5>
-			<h5>주소1 : ${buyer.user_addr1}</h5>
-			<h5>주소2 : ${buyer.user_addr2}</h5>
-			<h5>이메일 : ${buyer.user_email}</h5>
-			<h5>등록일 : ${buyer.user_regdate}</h5>
-			<h5>사업자번호 : ${buyer.buz_num}</h5>
-			<h5>자격증번호 : ${buyer.cert_num}</h5>
-			<h5>등급 : ${buyer.user_level}</h5>
-			<h5>유형 : ${buyer.user_type }</h5>
-			<h5>삭제여부 : ${buyer.del_state }</h5>
-			<h5>승인여부 : ${buyer.approval }</h5> --%>
-
-
-
 			
 		<div class="item:nth-child(2)">
-		
-			<form action="/KH/pay/readyPay"	method="post"	enctype="multipart/form-data">
-			<input	type="hidden"	name="user_id"	value="${buyer.user_id }" />
-			<input	type="hidden"	name="sell_num"	value="${carDetail.sell_num }" />
-			<input	type="hidden"	name="buy_type"	value="1" /> 
-			
 			<table id="sellerInfoTable">
 				<tr>
 					<th id="sellerInfoTitle"	colspan="2">
@@ -516,35 +524,35 @@
 				<tr>
 					<th id="paymentSumTitle">합계</th>
 					<td id="paymentSumAmount">
-						<fmt:formatNumber 	value="${carDetail.price * 11700 + 50000}" 	pattern="#,###,###"/>
+						<fmt:formatNumber 	value="${carDetail.price * 11700 + 50000}" 	pattern="#,###,###,###"/>
 					 원
 					</td>					
 				</tr>
 				<tr>
 					<th class="paymentSumLeft">차량가격</th>
 					<td class="paymentSumRight">
-						<fmt:formatNumber 	value="${carDetail.price * 10000}" 	pattern="#,###,###"/>
+						<fmt:formatNumber 	value="${carDetail.price * 10000}" 	pattern="#,###,###,###"/>
 					 원
 					</td>					
 				</tr>
 				<tr>
 					<th class="paymentSumLeft">세 금</th>
 					<td class="paymentSumRight">
-						<fmt:formatNumber 	value="${carDetail.price * 1700}" 	pattern="#,###,###"/>
+						<fmt:formatNumber 	value="${carDetail.price * 1700}" 	pattern="#,###,###,###"/>
 					 원
 					</td>					
 				</tr>
 				<tr>
 					<th class="paymentSumLeft">대행수수료</th>
 					<td class="paymentSumRight">
-						<fmt:formatNumber 	value="50000" 	pattern="#,###,###"/>
+						<fmt:formatNumber 	value="50000" 	pattern="#,###,###,###"/>
 					 원
 					</td>					
 				</tr>
 				<tr>
 					<td colspan="2">
 						<div id="payButton">
-							<button	id="btn-kakao"	type="submit">
+							<button	id="btn-kakao"	onclick="goPay()">
 								결제요청
 							</button>
 							<br>
@@ -557,8 +565,24 @@
 				</tr>				
 			</table>
 		<%-- 					
-		<h1>매물정보</h1>
-
+			<h5>아이디 : ${buyer.user_id }</h5>
+			<h5>비밀번호 : ${buyer.user_pw }</h5>
+			<h5>이름 : ${buyer.user_name }</h5>
+			<h5>전화번호 : ${buyer.user_tel }</h5>
+			<h5>우편번호 : ${buyer.user_zipcode }</h5>
+			<h5>주소1 : ${buyer.user_addr1}</h5>
+			<h5>주소2 : ${buyer.user_addr2}</h5>
+			<h5>이메일 : ${buyer.user_email}</h5>
+			<h5>등록일 : ${buyer.user_regdate}</h5>
+			<h5>사업자번호 : ${buyer.buz_num}</h5>
+			<h5>자격증번호 : ${buyer.cert_num}</h5>
+			<h5>등급 : ${buyer.user_level}</h5>
+			<h5>유형 : ${buyer.user_type }</h5>
+			<h5>삭제여부 : ${buyer.del_state }</h5>
+			<h5>승인여부 : ${buyer.approval }</h5>
+			
+			
+			
 			<h5>매물번호 : ${carDetail.sell_num }</h5>
 			<h5>차종 : ${carDetail.car_type }</h5>
 			<h5>제조사 : ${carDetail.brand }</h5>
@@ -595,10 +619,8 @@
 			<h5>등급 : ${seller.user_level}</h5>
 			<h5>유형 : ${seller.user_type }</h5>
 			<h5>삭제여부 : ${seller.del_state }</h5>
-			<h5>승인여부 : ${seller.approval.total }</h5>
+			<h5>승인여부 : ${seller.approval }</h5>
  			--%>
- 			</form>
- 			
 		</div>
 		
 		

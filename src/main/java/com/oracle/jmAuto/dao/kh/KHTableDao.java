@@ -21,6 +21,9 @@ public interface KHTableDao {
 	int 					getPurchaseExpert(String user_id, long expert_review_num);
 	String 					getRefundPassword(String tid);
 	void 					updateRefundPayment(String tid);
-	void 					updateCarDelState(Long sell_num);	
-	
+	void 					updateCarDelState(Long sell_num);
+	String 					getUserIdByApprovalNum(String approval_num);
+	void 					insertExpertReview(Expert_Review expertReview);
+	void 					updateExpertReview(Expert_Review expertReview, long expert_review_num);	
+
 }

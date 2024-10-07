@@ -91,7 +91,7 @@ public class MhController {
 		
 		System.out.println("user --->>>>>" + user);
 		System.out.println("session =>> " + session.getAttribute("user"));
-		
+
 		List<Car_General_InfoDao> carInfoList = ms.CarInfoList(sellNum);
 		System.out.println("MhController carInfo  ");
 		

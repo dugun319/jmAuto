@@ -51,8 +51,9 @@
 				<div class="Info_car_list">
 					<div class="Info_car_hear">
 						<h1 class="Info_car_h1">${list.model}</h1>
-						<c:if test="${sessionScope.user.user_type == 'B' || sessionScope.user.user_type == 'A' }">
-							<button type="submit" onclick="location.href='your-link-here'" class="Info_car_hear_but">리뷰작성</button>
+						<button type="submit" onclick="location.href='/KH/pay/createExpertReview?sell_num=${list.sell_num}'" class="Info_car_hear_but">리뷰작성</button>
+						<c:if test="${sessionScope.user.user_type == 'P' || sessionScope.user.user_type == 'A' }">
+							<button type="submit" onclick="location.href='/KH/pay/createExpertReview?sell_num=${list.sell_num}'" class="Info_car_hear_but">리뷰작성</button>
 						</c:if>
 					</div>
 					<div class="Info_body">

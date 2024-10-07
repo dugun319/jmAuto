@@ -39,8 +39,18 @@ public interface MsDao {
 	List<Car_General_Info> 		sellWan(String user_id);
 	List<Note> 					myNote(String user_id);
 	Note 						myNoteDetail(String user_id, int note_num);
-	int 						deleteNote(int note_num);
 	int							noteDabjang(Map<String, Object> params);
+	int							deleteNote(int note_num);
+	List<Note> 					ReceivedNotes(String user_id);
+	List<Note> 					SendNotes(String user_id);
+	List<Car_General_Info> 		gumaeHoogi(String approval_num);
+	boolean 					reviewExists(String user_id, String approval_num);
+	String 						approval(String user_id, long sell_num);
+	Payment 					sellListDetail(String approval_num, String user_id);
+	void 						taltwae(String user_id);
+	List<Review> 				myhoogiDetail(String user_id, String approval_num);
+	
+	
 	
 
 }

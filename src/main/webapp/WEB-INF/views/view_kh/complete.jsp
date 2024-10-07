@@ -1,83 +1,146 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style type="text/css">
+#completePayment{
+	width: 1320px;
+	height: 1080px;
+	margin-left: 300px;
+	background-image: url("<%=request.getContextPath()%>/images/main/kh_completePayment.png");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+/*
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+*/
+#carInfo {
+	position: absolute;
+	top: 455px;
+	left: 550px;
+	overflow:hidden
+
+}
+
+#carInfoModel{
+	height: 80px;
+	text-align: left;
+	font-size: 24px;
+	font-weight: 900;
+	overflow:hidden
+
+}
+
+.carInfoCellLeft{
+	width: 350px;
+	height: 80px;
+	text-align: right;
+	font-size: 24px;
+	font-weight: 900;
+	overflow:hidden;
+}
+
+.carInfoCellRight{
+	width: 550px;
+	height: 80px;
+	text-align: right;
+	font-size: 24px;
+	font-weight: 900;
+	overflow:hidden
+}
+
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		alert("차량을 구매해주셔서 감사합니다.");
+		location.href="/view_ms/myPage_B";
+	});
+</script>
+
 </head>
-	<body>
+<body>
+	<%-- 
+	<header>
 		<%@ include file="../header_white.jsp" %>
-		
-		<h1>차량을 구매해 주셔서 감사합니다</h1>
-	
-		<hr>
-	
-		<h5>결제승인번호 : ${approveResponse.aid }</h5>
-		<h5>결제고유번호 : ${approveResponse.tid }</h5>
-		<h5>매장고유번호 : ${approveResponse.cid }</h5>
-		<h5>정기결제번호 : ${approveResponse.sid }</h5>
-		<h5>매물번호 : ${approveResponse.partner_order_id }</h5>
-		<h5>판매자ID : ${approveResponse.partner_user_id}</h5>
-		<h5>결제수단 : ${approveResponse.payment_method_type}</h5>
-		<h5>상품이름 : ${approveResponse.item_name} </h5>
-		<h5>상품코드 : ${approveResponse.item_code} </h5>
-		<h5>상품수량 : ${approveResponse.quantity} </h5>
-		<h5>결제요청시간 : ${approveResponse.created_at}</h5>
-		<h5>결제승인시간 : ${approveResponse.approved_at }</h5>
-		
-		<h5>결제금액정보 : ${approveResponse.amount }</h5>
-		<h5>총결재금액 : ${approveResponse.amount.total }</h5>
-		<h5>비과제 : ${approveResponse.amount.tax_free }</h5>
-		<h5>부가가치세 : ${approveResponse.amount.vat }</h5>
-		<h5>포인트 : ${approveResponse.amount.point }</h5>
-		<h5>할인금액 : ${approveResponse.amount.discount }</h5>
-	
-		<hr>
-		<hr>
-		<h1>구매자정보</h1>
-		
-		<h5>아이디 : ${buyer.user_id }</h5>
-		<h5>비밀번호 : ${buyer.user_pw }</h5>
-		<h5>이름 : ${buyer.user_name }</h5>
-		<h5>전화번호 : ${buyer.user_tel }</h5>
-		<h5>우편번호 : ${buyer.user_zipcode }</h5>
-		<h5>주소1 : ${buyer.user_addr1}</h5>
-		<h5>주소2 : ${buyer.user_addr2}</h5>
-		<h5>이메일 : ${buyer.user_email}</h5>
-		<h5>등록일 : ${buyer.user_regdate}</h5>		
-		<h5>사업자번호 : ${buyer.buz_num}</h5>
-		<h5>자격증번호 : ${buyer.cert_num}</h5>
-		<h5>등급 : ${buyer.user_level}</h5>
-		<h5>유형 : ${buyer.user_type }</h5>
-		<h5>삭제여부 : ${buyer.del_state }</h5>
-		<h5>승인여부 : ${buyer.approval }</h5>
-		
-		
-		<hr>
-		<hr>
-		<h1>판매정보</h1>
-		
-		<h5>구매자 : ${payment.user_id }</h5>
-		<h5>승인번호 : ${payment.approval_num }</h5>
-		<h5>승인일자 : ${payment.approval_date }</h5>
-		<h5>매물번호 : ${payment.sell_num }</h5>
-		<h5>전문가평가번호 : ${payment.expert_review_num }</h5>
-		<h5>가격 : ${payment.price} 원</h5>
-		<h5>세금 : ${payment.tax} 원</h5>
-		<h5>대행수수료 : ${payment.fee} 원</h5>
-		<h5>결제금액 : ${payment.total_price} 원</h5>
-		<h5>판매수수료 : ${payment.buz_fee} 원</h5>
-		<h5>판매자입금금액 : ${payment.buz_money} 원</h5>
-		<h5>구매자이름 : ${payment.receiver_name }</h5>
-		<h5>구매자전화번호 : ${payment.receiver_tel }</h5>
-		<h5>구매자우편번호 : ${payment.receiver_zipcode }</h5>
-		<h5>구매자주소1 : ${payment.receiver_addr1 }</h5>
-		<h5>구매자주소2 : ${payment.receiver_addr2 }</h5>
-		<h5>보험증명파일이름 : ${payment.insure_img_name }</h5>
-		<h5>보험증명파일경로 : ${payment.insure_img_url }</h5>
-		<h5>배송일자 : ${payment.delivery_date }</h5>
-		<h5>결제구분 : ${payment.buy_type }</h5>
-		
-	</body>
+	</header>
+ 	--%>
+ 	
+ 	<div id="completePayment">
+ 		<div id="carInfo">
+ 			<table id="carInfoTable">
+ 				<tr>
+ 					<td id="carInfoModel" colspan="2">
+ 						${carDetail.brand }&nbsp;${carDetail.model }
+ 					</td>
+ 				</tr>
+ 				
+ 				<tr>
+ 					<td class="carInfoCellLeft">
+ 						${carDetail.car_num }
+ 					</td>
+ 					<td class="carInfoCellRight">
+ 						<c:set var="manu_date" value="${carDetail.manu_date }"/>
+						${fn:substring(manu_date,0,2) } 년 / ${fn:substring(manu_date,2,4) } 월
+ 					</td>
+ 				</tr>
+ 				
+ 				<tr>
+ 					<td class="carInfoCellLeft">
+ 						<fmt:formatNumber 	value="${carDetail.mileage }" 	pattern="#,###,###"/> km
+ 					</td>
+ 					<td class="carInfoCellRight">
+ 						${carDetail.transmission }
+ 					</td>
+ 				</tr>
+ 				
+ 				<tr>
+ 					<td class="carInfoCellLeft">
+ 						${carDetail.accident }
+ 					</td>
+ 					<td class="carInfoCellRight">
+ 						${carDetail.accident }
+ 					</td>
+ 				</tr>
+ 			</table>
+ 		
+ 	
+			<%-- 
+			<h5>매물번호 : ${carDetail.sell_num }</h5>
+			<h5>차종 : ${carDetail.car_type }</h5>
+			<h5>제조사 : ${carDetail.brand }</h5>
+			<h5>모델 : ${carDetail.model }</h5>
+			<h5>차량번호 : ${carDetail.car_num }</h5>
+			<h5>제조일 : ${carDetail.manu_date }</h5>
+			<h5>주행거리 : ${carDetail.mileage }</h5>
+			<h5>색상 : ${carDetail.color }</h5>
+			<h5>연료 : ${carDetail.accident }</h5>
+			<h5>변속기 : ${carDetail.transmission }</h5>
+			<h5>사고유무 : ${carDetail.accident }</h5>
+			<h5>압류유무 : ${carDetail.repossession }</h5>
+			<h5>차량가격 : ${carDetail.price * 11700} 원</h5>
+			<h5>자동차등록증경로 : ${carDetail.sell_regi }</h5>
+			<h5>자동차세완납증명서경로 : ${carDetail.sell_certi_tax }</h5>
+			<h5>신분증사본 경로 : ${carDetail.sell_shinbun }</h5>
+			<h5>판매자 아이디 : ${carDetail.user_id }</h5>
+			<h5>판매여부 : ${carDetail.sale }</h5>
+			<h5>등록일자 : ${carDetail.reg_date }</h5>
+			<h5>삭제여부 : ${carDetail.del_state }</h5>
+		 	--%>
+		</div>
+	</div>
+</body>
 </html>

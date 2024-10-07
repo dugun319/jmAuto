@@ -30,6 +30,7 @@ table, td, th {
 </script>
 </head>
 	<body>
+	<div id="paymentListTable">
 	<form>
 		<table>
 			<tr>
@@ -52,7 +53,7 @@ table, td, th {
 				<td>${paymentList.sell_num}</td>
 				<td>${paymentList.expert_review_num}</td>
 				<td>
-					<fmt:formatNumber 	value="${paymentList.total_price}" 	pattern="#,###,###"/> 원
+					<fmt:formatNumber 	value="${paymentList.total_price}" 	pattern="#,###,###,###"/> 원
 				</td>
 				<td><button onclick="sendRefundPassword('${paymentList.approval_num}')" >환불비밀번호발송</button> </td>				
 			</tr>
@@ -60,5 +61,6 @@ table, td, th {
 	
 		</table>
 	</form>
+	</div>
 	</body>
 </html>

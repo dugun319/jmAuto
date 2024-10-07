@@ -103,4 +103,25 @@ public class KHTableServiceImplementation implements KHTableService {
 		khTableDao.updateCarDelState(sell_num);
 		
 	}
+
+	@Override
+	public String getUserIdByApprovalNum(String approval_num) {
+		System.out.println("KHTableServiceImplementation getUserIdByApprovalNum() approval_num -> " + approval_num);		
+		String user_id = khTableDao.getUserIdByApprovalNum(approval_num);
+		
+		return user_id;
+	}
+
+	@Override
+	public void insertExpertReview(Expert_Review expertReview) {
+		System.out.println("KHTableServiceImplementation insertExpertReview() expertReview -> " + expertReview);
+		khTableDao.insertExpertReview(expertReview);
+	}
+
+	@Override
+	public void updateExpertReview(Expert_Review expertReview, long expert_review_num) {
+		System.out.println("KHTableServiceImplementation updateExpertReview() expertReview -> " + expertReview);
+		khTableDao.updateExpertReview(expertReview, expert_review_num);
+		
+	}
 }

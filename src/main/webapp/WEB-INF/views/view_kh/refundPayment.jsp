@@ -17,7 +17,6 @@
 		$("#inputRefundPassword").change(function() {
 			var originValue	= $("#sendRefundPassword").val();
 			var inputValue	= $("#inputRefundPassword").val();
-			alert("change!");
 						
 			if(inputValue == originValue){
 				$("#caption").css({"color" : "blue"});
@@ -31,55 +30,106 @@
 	});
 	
 	function requestButton() {
-		location.href="/KH/pay/requestRefundPayment?tid="+$("#tid").val();
+		location.href="/KH/pay/requestRefundPayment?tid=" + $("#tid").val();
 		window.opener.location.reload();
-		window.close();		
+		window.close();	
+		location.href="/KH/pay/paymentList?user_id=" + $("#tid").val();
 	}
 
 </script>
 <style type="text/css">
-#requestButton {
-	background-color: #FF4714;
-	color: #323232;
-	font-size: 20px;
-	font-weight: 900px;
+/*
+div {
+	border: 1px solid black;
+}
+*/
+
+body {
 	text-align: center;
-	width: 200px;
+	align-items: center; 		/* 수평 중앙 정렬 */
+	margin: 0;
+	padding: 0;
+	background-color: #fafafa;
+	font-family: Pretendard;
+}
+
+
+#refundPassword{
+	position: absolute;
+	top: 100px;
+	left: 40px;
+
+}
+
+
+
+#refundPasswordDirection{
+	font-size: 20px;
+	font-weight: 700;
+}
+
+#inputRefundPassword {
+	text-align: center;
+	font-size: 32px;
+	width: 320px;
 	height: 50px;
+	margin: 30px 0px;
 }
 
 #caption {
 	border-width: 0px;
-	font-size: 10px;
+	font-size: 14px;
 	outline: none;	
 }
 
+#requestButton {
+	background-color: #FF4714;
+	color: #FDFDFD;
+	font-weight: 900;
+	border: none;
+	cursor: pointer;
+	text-align: center;
+	width: 150px;
+	height: 40px;
+	margin: 30px 0px;
+}
 </style>
 
 </head>
-	<body>
-	<h1>승인번호: ${tid }</h1>
-	<h1>환불비밀번호: ${sendRefundPassword }</h1>
+<body>
+	<div id="fullBody">
+		<img	src="<%=request.getContextPath()%>/images/main/kh_refundPaymentBackground.png"
+				width="400px" 
+				height="400px">
+	</div>
+	
+	<div id="refundPassword">
 		<input 	type="hidden"		
 				id="sendRefundPassword"
 				value="${sendRefundPassword }" />
 		<input 	type="hidden"		
 				id="tid"
 				value="${tid }" />
+		<span id="refundPasswordDirection">
+			환불비밀번호를 입력하세요
+		</span>
 						
 		<input 	type="text"		
 				id="inputRefundPassword"/>
-				
+		<br>		
+		<input 	type="text" 
+				id="caption" />	
+		
+		<br>
 		<input	type="button"
 				id="requestButton"
 				onclick="requestButton()" 
 				disabled="disabled"
 				value="환불승인" />
-		<br>		
-		<input 	type="text" 
-				id="caption" />
+		
+	</div>
 				
+	<h5>환불비밀번호: ${sendRefundPassword }</h5>
 
-
-	</body>
+</body>
 </html>

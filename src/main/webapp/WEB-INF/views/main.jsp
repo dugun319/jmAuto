@@ -29,7 +29,7 @@
 				</div>
 				<div class="search_input">
 					<input type="text" id="search" class="search" name="keyword" placeholder="검색어를 입력하세요.">
-					<button onclick="location.href='/KH/pay/carList'">carList</button>
+					<button onclick="location.href='/KH/pay/adminPaymentSearch'">carList</button>
 				</div>
 			<form action="/main_search" method="get" class="main_search_form">
 			</form>
