@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.oracle.jmAuto.dao.kh.KHTableDao;
 import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.ExpertReviewList;
 import com.oracle.jmAuto.dto.Expert_Review;
+import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.User_Table;
 
@@ -119,9 +121,56 @@ public class KHTableServiceImplementation implements KHTableService {
 	}
 
 	@Override
-	public void updateExpertReview(Expert_Review expertReview, long expert_review_num) {
+	public void updateExpertReview(Expert_Review expertReview) {
 		System.out.println("KHTableServiceImplementation updateExpertReview() expertReview -> " + expertReview);
-		khTableDao.updateExpertReview(expertReview, expert_review_num);
+		khTableDao.updateExpertReview(expertReview);
 		
+	}
+
+	@Override
+	public int getTotPaymentByUserId(String user_id) {
+		System.out.println("KHTableServiceImplementation getTotPaymnetByUserId() user_id -> " + user_id);
+		int totPayment = khTableDao.getTotPaymentByUserId(user_id);
+		
+		return totPayment;
+	}
+
+	@Override
+	public List<PayList> getPayList(PayList payList) {
+		System.out.println("KHTableServiceImplementation getPayList() payList -> " + payList);
+		List<PayList> paymentList = khTableDao.getPayList(payList);
+		
+		return paymentList;
+	}
+
+	@Override
+	public List<PayList> getPayListCon(PayList payList) {
+		System.out.println("KHTableServiceImplementation getPayList() payList -> " + payList);
+		List<PayList> paymentList = khTableDao.getPayListCon(payList);
+		
+		return paymentList;
+	}
+
+	@Override
+	public int getTotPaymentByCon(PayList payList) {
+		System.out.println("KHTableServiceImplementation getTotPaymentByCon() payList -> " + payList);
+		int totPayment = khTableDao.getTotPaymentByCon(payList);
+		
+		return totPayment;
+	}
+
+	@Override
+	public int getTotExpertReview(ExpertReviewList expertReviewList) {
+		System.out.println("KHTableServiceImplementation getTotExpertReview() expertReviewList -> " + expertReviewList);
+		int totExpertReview = khTableDao.getTotExpertReview(expertReviewList);
+		
+		return totExpertReview;
+	}
+
+	@Override
+	public List<ExpertReviewList> getReviewListCon(List<ExpertReviewList> expertReviewList) {
+		List<ExpertReviewList> exReviewList = khTableDao.getReviewListCon(expertReviewList);
+		
+		return exReviewList;
 	}
 }

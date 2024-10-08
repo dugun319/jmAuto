@@ -7,7 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.ExpertReviewList;
 import com.oracle.jmAuto.dto.Expert_Review;
+import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.User_Table;
 
@@ -226,15 +228,115 @@ public class KHTableDaoImplementation implements KHTableDao {
 	}
 
 	@Override
-	public void updateExpertReview(Expert_Review expertReview, long expert_review_num) {
+	public void updateExpertReview(Expert_Review expertReview) {
 		System.out.println("KHTableDaoImplementation updateExpertReview() is called");
-		System.out.println("KHTableDaoImplementation updateExpertReview() expert_review_num -> " + expert_review_num);
 		
 		try {
 			session.insert("com.oracle.jmAuto.dto.kh_TableMapper.updateExpertReview", expertReview);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation insertExpertReview() e.getMessage() -> " + e.getMessage());
 		}
+	}
+
+	@Override
+	public int getTotPaymentByUserId(String user_id) {
+		System.out.println("KHTableDaoImplementation getTotPaymnetByUserId() is called");
+		int totPayment = 0;
+		
+		try {
+			totPayment = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getTotPaymentByUserId", user_id);
+			System.out.println("KHTableDaoImplementation getTotPaymnetByUserId() totPayment -> " + totPayment);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getTotPaymnetByUserId() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return totPayment;
+	}
+
+	@Override
+	public List<PayList> getPayList(PayList payList) {
+		List<PayList> paymentList = null; 
+		
+		try {
+			paymentList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getPayList", payList);
+
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getPayList() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return paymentList;
+	}
+	
+	@Override
+	public List<PayList> getPayListAll(PayList payList) {
+		List<PayList> paymentList = null; 
+		
+		try {
+			paymentList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getPayListAll", payList);
+
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getPayListAll() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return paymentList;
+	}
+
+	@Override
+	public List<PayList> getPayListCon(PayList payList) {
+		List<PayList> paymentList = null; 
+		
+		try {
+			paymentList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getPayListCon", payList);
+
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getPayListCon() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return paymentList;
+	}
+
+	@Override
+	public int getTotPaymentByCon(PayList payList) {
+		System.out.println("KHTableDaoImplementation getTotPaymentByCon() is called");
+		int totPayment = 0;
+		
+		try {
+			totPayment = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getTotPaymentByCon", payList);
+			System.out.println("KHTableDaoImplementation getTotPaymentByCon() totPayment -> " + totPayment);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getTotPaymentByCon() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return totPayment;
+	}
+
+	@Override
+	public int getTotExpertReview(ExpertReviewList expertReviewList) {
+		System.out.println("KHTableDaoImplementation getTotExpertReview() is called");
+		int totExpertReview = 0;
+		
+		try {
+			totExpertReview = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getTotExpertReview", expertReviewList);
+			System.out.println("KHTableDaoImplementation getTotExpertReview() totPayment -> " + totExpertReview);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getTotExpertReview() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return totExpertReview;
+	}
+
+	@Override
+	public List<ExpertReviewList> getReviewListCon(List<ExpertReviewList> expertReviewList) {
+		List<ExpertReviewList> exReviewList = null; 
+		
+		try {
+			exReviewList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getReviewListCon", expertReviewList);
+
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getReviewListCon() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return exReviewList;
 	}
 
 }

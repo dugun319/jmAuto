@@ -3,6 +3,24 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.oracle.jmAuto.dto.kh_TableMapper">
+ 	<select id="getTotPaymentByUserId" 		parameterType="String"				resultType="int">
+		SELECT COUNT(*) 
+		FROM payment
+		WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="getTotPaymentByCon" 		parameterType="PayList"				resultType="int">
+		SELECT COUNT(*) 
+		FROM payment
+		WHERE ${search} = #{keyword}
+	</select>
+	
+	<select id="getTotExpertReview" 		parameterType="ExpertReviewList"	resultType="int">
+		SELECT COUNT(*) 
+		FROM expert_review
+		WHERE ${search} = #{keyword}
+	</select>
+ 
 	<select id="selectCarBySellId"			parameterType="long"		resultType="Car_General_Info">
 		SELECT *
 		FROM car_general_info
@@ -68,7 +86,7 @@
 				VALUES ( 
 						 	#{user_id},
 							#{approval_num},
-							#{approval_date},
+							sysdate,
 							#{sell_num},
 							#{expert_review_num},
 							#{price},
@@ -143,13 +161,13 @@
 			WHERE sell_num = #{sell_num}
 	</update>
 	
-	<select id="getUserIdByApprovalNum"				parameterType="String"		resultType="String">
+	<select id="getUserIdByApprovalNum"			parameterType="String"		resultType="String">
 		SELECT user_id	
 		FROM payment
 		WHERE approval_num = #{approval_num}
 	</select>
 	
-		<insert id="insertExpertReview"				parameterType="Expert_Review">
+	<insert id="insertExpertReview"				parameterType="Expert_Review">
 		INSERT INTO Expert_Review (
 							expert_review_num,
 							sell_num,
@@ -189,7 +207,7 @@
 	
 	<update id="updateExpertReview"				parameterType="Expert_Review">
 		UPDATE Expert_Review
-			SET	expert_review_num 	= #{expert_review_num}
+			SET	
 				score 				= #{score},
 				content 			= #{content},
 				ess_state			= #{ess_state},
@@ -202,5 +220,69 @@
 				brake_pad			= #{brake_pad}
 			WHERE expert_review_num = #{expert_review_num}
 	</update>
+	
+	<select id="getPayList"						parameterType="PayList"		resultType="PayList">
+		SELECT *	
+		FROM (
+				SELECT ROWNUM AS rn, paymentAll.*
+				FROM (
+						SELECT *
+						FROM payment
+						WHERE user_id = #{user_id}
+						ORDER BY approval_date
+					 ) paymentAll
+		     )
+		
+		WHERE rn 
+    		BETWEEN #{start} AND #{end} 	
+	</select>
+	
+	<select id="getPayListCon"					parameterType="PayList"		resultType="PayList">
+		SELECT *	
+		FROM (
+				SELECT ROWNUM AS rn, paymentAll.*
+				FROM (
+						SELECT *
+						FROM payment
+						WHERE ${search} = #{keyword}
+						ORDER BY approval_date
+					 ) paymentAll
+		     )
+		
+		WHERE rn 
+    		BETWEEN #{start} AND #{end} 	
+	</select>
+	
+	
+	<select id="getPayListAll"					parameterType="PayList"					resultType="PayList">
+		SELECT *	
+		FROM (
+				SELECT ROWNUM AS rn, paymentAll.*
+				FROM (
+						SELECT *
+						FROM payment
+						ORDER BY approval_date
+					 ) paymentAll
+		     )
+		
+		WHERE rn 
+    		BETWEEN #{start} AND #{end} 	
+	</select>
+	
+	<select id="getReviewListCon"				parameterType="ExpertReviewList"		resultType="ExpertReviewList">
+		SELECT *	
+		FROM (
+				SELECT ROWNUM AS rn, expert_reviewAll.*
+				FROM (
+						SELECT *
+						FROM expert_review
+						WHERE ${search} = #{keyword}
+						ORDER BY expert_review_num
+					 ) expert_reviewAll
+		     )
+		
+		WHERE rn 
+    		BETWEEN #{start} AND #{end} 	
+	</select>
 	
 </mapper> 

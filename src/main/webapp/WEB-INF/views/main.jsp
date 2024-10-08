@@ -18,6 +18,9 @@
 		<img alt="메인배너" src="../images/main/main_banner.png" class="main_search_img">
 		<img alt="차량" src="../images/main/car_div.gif" class="main_car_img">
 		<div class="main_search_div">
+			<button onclick="location.href='/KH/pay/adminPaymentSearch'">adminSearch</button>
+			<button onclick="location.href='/KH/pay/carList'">carList</button>
+			<button onclick="location.href='/KH/pay/admin'">admin</button>
 			
 				<div class="searchType_wrapper">
 					<input type="radio" id="korea"  value="1000" name="searchType" checked="checked" class="searchType_but1">
@@ -29,7 +32,6 @@
 				</div>
 				<div class="search_input">
 					<input type="text" id="search" class="search" name="keyword" placeholder="검색어를 입력하세요.">
-					<button onclick="location.href='/KH/pay/adminPaymentSearch'">carList</button>
 				</div>
 			<form action="/main_search" method="get" class="main_search_form">
 			</form>

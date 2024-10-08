@@ -49,7 +49,7 @@
 	
 	
 	function commitReview() {
-		alert("전문가리뷰 작성을 완료합니다.");
+		alert("전문가리뷰 수정을 완료합니다.");
 		$("#expertReviewInformation").attr("action", "/KH/pay/updateExpertReview").submit();
 
 	}
@@ -141,8 +141,10 @@
 		</div>
 	
 	<form action="/KH/pay/insertExpertReview"	id="expertReviewInformation"	name="expertReviewInformation"	method="post">	
-		<input type="hidden" name="sell_num"	value="${carDetail.sell_num }">
-		<input type="hidden" name="user_id" 	value="${expert.user_id }">
+		<input type="hidden" name="user_id" 			value="${expert.user_id }">
+		<input type="hidden" name="sell_num"			value="${carDetail.sell_num }">
+		<input type="hidden" name="expert_review_num" 	value="${experReviewDetail.expert_review_num }">
+		
 		<div id="carReviewBasic">
 			<table>
 				<tr>

@@ -20,14 +20,17 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.oracle.jmAuto.dto.KaKaoPayCancelResponse;
 import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.ExpertReviewList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.KakaoPayApproveResponse;
 import com.oracle.jmAuto.dto.KakaoPayReadyResponse;
+import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.SessionUtils;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.service.kh.KHPayService;
 import com.oracle.jmAuto.service.kh.KHTableService;
+import com.oracle.jmAuto.service.kh.Paging;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -230,7 +233,6 @@ public class KhController {
 
 		payment.setUser_id(buyer.getUser_id());
 		payment.setApproval_num(approveResponse.getTid());
-		payment.setApproval_date(approveResponse.getApproved_at());
 		payment.setPrice(price);
 		payment.setTax(tax);
 		payment.setFee(fee);
@@ -394,51 +396,124 @@ public class KhController {
 		
 	//전문가리뷰 수정입력
 	@PostMapping(value = "/updateExpertReview")
-	public String updateExpertReview(Expert_Review expertReview, long expert_review_num) {
+	public String updateExpertReview(Expert_Review expertReview) {
 		log.info("KhController insertExpertReview is called");
 		System.out.println("KhController insertExpertReview expertReview -> " + expertReview);
 		
-		khTableService.updateExpertReview(expertReview, expert_review_num);
+		khTableService.updateExpertReview(expertReview);
 		
 		return "view_ms/myPage_P";
 	}	
 	
 	
 	
-	
-	
-	
 	//adminFunction
 	// 관리자 환불관련 페이지
 	
-	@GetMapping(value = "/adminPaymentSearch") 
-	public String adminPaymentSearch(Model model) {
+	@GetMapping(value = "/admin") 
+	public String adminMenu(Model model) {
 		log.info("KhController adminPaymentSearch is called");
 		String admin_id = "admin1";	
 		model.addAttribute("admin_id", admin_id);
 		
-		return "view_kh/adminPaymentSearch";
+		return "view_kh/manager_menu";
+	}
+	
+	
+	@GetMapping(value = "/expertReviewListCon") 
+	public String expertReviewListCon(ExpertReviewList expertReviewList, Model model) {
+		log.info("KhController expertReviewListCon is called");
+		
+		List<ExpertReviewList> exReviewList = new ArrayList<>();
+		User_Table buyer 					= khTableService.getUserById(expertReviewList.getUser_id());
+		int totExpertReview					= khTableService.getTotExpertReview(expertReviewList);
+		
+		Paging paging = new Paging(totExpertReview, expertReviewList.getCurrentPage());
+
+		expertReviewList.setStart(paging.getStart());
+		expertReviewList.setEnd(paging.getEnd());
+		
+		exReviewList 						= khTableService.getReviewListCon(exReviewList);
+		
+		model.addAttribute("expertReviewList", expertReviewList);
+		model.addAttribute("exReviewList", exReviewList);
+		model.addAttribute("admin_id", expertReviewList.getAdmin_id());
+		model.addAttribute("user_id", expertReviewList.getUser_id());
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("page", paging);
+		model.addAttribute("currentPage", expertReviewList.getCurrentPage());
+		
+		return "view_kh/adminReviewList";
 	}
 
 	
 	// 사용자 구매리스트
-	@GetMapping(value = "/paymentList") 
-	public String getPaymentList(String user_id, String admin_id, Model model) {
+	@GetMapping(value = "/paymentListCon") 
+	public String getPaymentListCon(PayList payList, Model model) {
 		log.info("KhController getPaymentList is called");
-		List<Payment> paymentList 		= new ArrayList<>();
-		paymentList 					= khTableService.getPaymentList(user_id);
+		
+		List<PayList> paymentList 		= new ArrayList<>();
 		String sendRefundPasswordResult = null;
-		User_Table buyer 				= khTableService.getUserById(user_id);
+		User_Table buyer 				= khTableService.getUserById(payList.getUser_id());
+		int totPayment					= khTableService.getTotPaymentByCon(payList);
 		
 		if(SessionUtils.getStringAttributeValue("sendRefundPasswordResult") != null) {
 			sendRefundPasswordResult = SessionUtils.getStringAttributeValue("sendRefundPasswordResult");
 			System.out.println("KhController getPaymentList sendRefundPasswordResult -> " + sendRefundPasswordResult);
 		}		
 		
+		Paging paging = new Paging(totPayment, payList.getCurrentPage());
+		
+
+		System.out.println("KhController getPaymentList paging -> " + paging);
+		payList.setStart(paging.getStart());
+		payList.setEnd(paging.getEnd());
+		
+		paymentList 					= khTableService.getPayListCon(payList);
+		
+		model.addAttribute("originalPaymentList", payList);
 		model.addAttribute("paymentList", paymentList);
-		model.addAttribute("admin_id", admin_id);
+		model.addAttribute("admin_id", payList.getAdmin_id());
+		model.addAttribute("user_id", payList.getUser_id());
 		model.addAttribute("buyer", buyer);
+		model.addAttribute("page", paging);
 		System.out.println("KhController getPaymentList paymentList -> " + paymentList);
+		model.addAttribute("currentPage", payList.getCurrentPage());
+		
+		return "view_kh/adminPaymentList";
+	}
+	
+	
+	
+	
+	@GetMapping(value = "/paymentList") 
+	public String getPaymentList(PayList payList, Model model) {
+		log.info("KhController getPaymentList is called");
+		
+		List<PayList> paymentList 		= new ArrayList<>();
+		String sendRefundPasswordResult = null;
+		User_Table buyer 				= khTableService.getUserById(payList.getUser_id());
+		int totPayment					= khTableService.getTotPaymentByUserId(payList.getUser_id());
+		
+		if(SessionUtils.getStringAttributeValue("sendRefundPasswordResult") != null) {
+			sendRefundPasswordResult = SessionUtils.getStringAttributeValue("sendRefundPasswordResult");
+			System.out.println("KhController getPaymentList sendRefundPasswordResult -> " + sendRefundPasswordResult);
+		}		
+		
+		Paging paging = new Paging(totPayment, payList.getCurrentPage());
+		
+		payList.setStart(paging.getStart());
+		payList.setEnd(paging.getEnd());
+		
+		paymentList 					= khTableService.getPayList(payList);
+		
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("admin_id", payList.getAdmin_id());
+		model.addAttribute("user_id", payList.getUser_id());
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("page", paging);
+		System.out.println("KhController getPaymentList paymentList -> " + paymentList);
+		model.addAttribute("currentPage", payList.getCurrentPage());
 		
 		return "view_kh/adminPaymentList";
 	}
@@ -508,17 +583,39 @@ public class KhController {
 
 	//개별 차량 상세 정보호출
 	@GetMapping(value = "/carDetail")
-	public String getCarDetail(long sell_num, Model model) {
+	public  @ResponseBody RedirectView getCarDetail(long sell_num, Model model) {
 		log.info("KhController getCarDetail is called");
-
-		List<Expert_Review> expertReviewList = new ArrayList<>();
-		expertReviewList 			= khTableService.getExpertReviewList(sell_num);
-		model.addAttribute("expertReviewList", expertReviewList);
+		Payment payment = new Payment();
 		
-		Car_General_Info carDetail = khTableService.getCarBySellId(sell_num);
-		model.addAttribute("carDetail", carDetail);
+		String user_id 	= "buyer" + Math.round((Math.random() * 18 + 1));
+		User_Table user	= khTableService.getUserById(user_id);
+		
+		payment.setUser_id(user_id);
+		payment.setSell_num(sell_num);
+		payment.setReceiver_zipcode(user.getUser_zipcode());
+		payment.setReceiver_addr1(user.getUser_addr1());
+		payment.setReceiver_addr2(user.getUser_addr2());
+		payment.setBuy_type(1);
+		
+		Car_General_Info carDetail	= khTableService.getCarBySellId(sell_num);
+		long rawPrice 				= carDetail.getPrice() * 10000;
+		SessionUtils.addAttribute("rawPrice", rawPrice);
+		
+		KakaoPayReadyResponse readyResponse = payService.kakaoPayReadyCar(sell_num);
+		// kakaoPay 요청양식에 따라 요청객체 만들어 보내는 메서드(service)
 
-		return "view_kh/carDetail";
+		log.info(readyResponse.toString());
+		// kakaoPay가 준비요청 후 보내준 정보 확인
+		
+		SessionUtils.addAttribute("user_id", user_id);
+		SessionUtils.addAttribute("buyer_id", user_id);
+		SessionUtils.addAttribute("tid", readyResponse.getTid());
+		SessionUtils.addAttribute("readyPayment", payment);
+
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl(readyResponse.getNext_redirect_pc_url());
+
+		return redirectView;
 	}
 	
 	

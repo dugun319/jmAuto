@@ -6,7 +6,7 @@ import java.sql.Date;
 import lombok.Data;
 
 @Data
-public class Payment {
+public class PayList {
 	
 	private String 	user_id; 			/* 구매자(아이디) */ 
 	private String 	approval_num;		//승인번호
@@ -35,4 +35,14 @@ public class Payment {
 	private String 	model; /* 구매내역 리스트에 사용 */
 	private String 	color;
 	private String 	car_num;
+	
+	private String	admin_id;
+	private String	search;
+	private String	keyword;
+	private String	pageNum;
+	private int		start;
+	private int		end;
+	
+	private String	currentPage;
+	
 }

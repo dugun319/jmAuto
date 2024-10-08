@@ -83,6 +83,12 @@ mappers
 		<typeAlias 	alias="Zzim" 
 					type="com.oracle.jmAuto.dto.Zzim"/>
 					
+		<typeAlias 	alias="PayList" 
+					type="com.oracle.jmAuto.dto.PayList"/>
+					
+		<typeAlias 	alias="ExpertReviewList" 
+					type="com.oracle.jmAuto.dto.ExpertReviewList"/>
+					
 	</typeAliases>	
 		
 </configuration> 

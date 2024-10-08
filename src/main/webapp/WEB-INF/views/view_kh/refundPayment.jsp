@@ -31,9 +31,8 @@
 	
 	function requestButton() {
 		location.href="/KH/pay/requestRefundPayment?tid=" + $("#tid").val();
-		window.opener.location.reload();
 		window.close();	
-		location.href="/KH/pay/paymentList?user_id=" + $("#tid").val();
+		window.opener.location.reload(true);
 	}
 
 </script>

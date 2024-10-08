@@ -12,13 +12,6 @@
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript">
-	function sendRefundPassword(tid) {
-		alert("환불비밀번호를 발송하였습니다!");
-		var url = "/KH/pay/sendRefundPassword?tid=" + tid;		
-		window.open(url, "_blank", 'width=410,height=410,location=no,status=no,scrollbars=no,top=100,left=300');
-	}
-</script>
 </head>
 <body>
 	<nav class="nav__cont">
@@ -58,7 +51,7 @@
 	<div id="fullbody">
 	
 		<div id="searchDiv">
-			<form action="/KH/pay/paymentListCon">
+			<form action="/KH/pay/expertReviewListCon">
 				<select name="search">
 					<option value="user_id">회원아이디</option>
 					<option value="approval_num">승인번호</option>
@@ -74,7 +67,7 @@
 			</form>
 		</div>
 		
-		<div id="tableTitle">관리자 환불승인</div>
+		<div id="tableTitle">전문가리뷰 관리</div>
 		
 		<div id="paymentListDiv">
 	
@@ -119,15 +112,15 @@
 		<div id="pagingDiv">
 			<div id="paging">
 				<c:if test="${page.startPage > page.pageBlock }">
-					<a href="/KH/pay/paymentListCon?currentPage=${page.startPage - page.pageBlock }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[Previous]</a>
+					<a href="/KH/pay/expertReviewListCon?currentPage=${page.startPage - page.pageBlock }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[Previous]</a>
 				</c:if>
 				
 				<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
-					<a href="/KH/pay/paymentListCon?currentPage=${i }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[${i }]</a>
+					<a href="/KH/pay/expertReviewListCon?currentPage=${i }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[${i }]</a>
 				</c:forEach>
 				
 				<c:if test="${page.startPage < page.pageBlock }">
-					<a href="/KH/pay/paymentListCon?currentPage=${page.startPage + page.pageBlock }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[Next]</a>
+					<a href="/KH/pay/expertReviewListCon?currentPage=${page.startPage + page.pageBlock }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[Next]</a>
 				</c:if>
 			</div>
 		</div>
