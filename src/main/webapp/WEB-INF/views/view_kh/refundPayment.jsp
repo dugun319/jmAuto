@@ -76,6 +76,7 @@ body {
 }
 
 #caption {
+	text-align: center;
 	border-width: 0px;
 	font-size: 14px;
 	outline: none;	
@@ -97,7 +98,7 @@ body {
 </head>
 <body>
 	<div id="fullBody">
-		<img	src="<%=request.getContextPath()%>/images/main/kh_refundPaymentBackground.png"
+		<img	src="<%=request.getContextPath()%>/images/main/kh_adminPopup.png"
 				width="400px" 
 				height="400px">
 	</div>

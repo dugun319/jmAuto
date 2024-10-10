@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.oracle.jmAuto.dao.kh.KHTableDao;
 import com.oracle.jmAuto.dto.Car_General_Info;
-import com.oracle.jmAuto.dto.ExpertReviewList;
+import com.oracle.jmAuto.dto.ExpList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
@@ -160,17 +160,29 @@ public class KHTableServiceImplementation implements KHTableService {
 	}
 
 	@Override
-	public int getTotExpertReview(ExpertReviewList expertReviewList) {
-		System.out.println("KHTableServiceImplementation getTotExpertReview() expertReviewList -> " + expertReviewList);
-		int totExpertReview = khTableDao.getTotExpertReview(expertReviewList);
+	public int getTotExpertReview(ExpList expList) {
+		System.out.println("KHTableServiceImplementation getTotExpertReview() expertReviewList -> " + expList);
+		int totExpertReview = khTableDao.getTotExpertReview(expList);
 		
 		return totExpertReview;
 	}
 
 	@Override
-	public List<ExpertReviewList> getReviewListCon(List<ExpertReviewList> expertReviewList) {
-		List<ExpertReviewList> exReviewList = khTableDao.getReviewListCon(expertReviewList);
+	public List<ExpList> getReviewListCon(ExpList expList) {
+		List<ExpList> exReviewList = khTableDao.getReviewListCon(expList);
 		
 		return exReviewList;
+	}
+
+	@Override
+	public void updateReviewDelState(Expert_Review expertReview) {
+		khTableDao.updateReviewDelState(expertReview);
+		
+	}
+
+	@Override
+	public String getImageName(long sell_num) {
+		String imageName = khTableDao.getImageName(sell_num);
+		return imageName;
 	}
 }

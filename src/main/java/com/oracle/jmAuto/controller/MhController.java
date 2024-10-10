@@ -16,6 +16,7 @@ import com.oracle.jmAuto.dao.mh.Notice_TableDao;
 import com.oracle.jmAuto.dao.mh.ReviewPaymentCarInfoDao;
 import com.oracle.jmAuto.dao.mh.User_TableDao;
 import com.oracle.jmAuto.dto.Expert_Review;
+import com.oracle.jmAuto.dto.SessionUtils;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.service.mh.MhService;
 
@@ -32,6 +33,8 @@ public class MhController {
 	@GetMapping(value = "/")
 	public String listReviewcount(Model model){
 		System.out.println("MhController listReviewcount start...");
+		
+		SessionUtils.addAttribute("user_id", "buyer1");
 		
 		//전문가 리뷰 갯수
 		int expert = ms.ReviewListCount();

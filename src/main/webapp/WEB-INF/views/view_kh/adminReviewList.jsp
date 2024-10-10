@@ -7,13 +7,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="<%=request.getContextPath()%>/css/adminPayment.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/css/adminList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+	function change(delState, expertReviewNum) {
+		var url = "/KH/pay/changeReviewDelState?del_state=" + delState + "&expert_review_num=" + expertReviewNum;
+		if(delState == 0) {
+			alert("전문가 리뷰를 삭제합니다.");	
+		}else{
+			alert("삭제한 전문가 리뷰를 복원합니다.");
+		}
+		window.open(url, "_blank", 'width=410,height=410,location=no,status=no,scrollbars=no,top=100,left=300');
+	}
+
+</script>
+
 </head>
 <body>
+	<header>
+		<%@ include file="../header.jsp"%>
+	</header>
+
 	<nav class="nav__cont">
 		<img alt="logo" src="<%=request.getContextPath()%>/images/main/로고_icon_2.png" class="nav__cont_logo">
 	  <ul class="nav">
@@ -31,8 +48,8 @@
 	     <a href="" class="nav_items_text3">차량</a>
 	     <div class="mon_nav_items">
 	      	<a>차량관리</a>
-	      	<a>전문가 리뷰 관리</a>
-	      	<a>환불</a>
+	      	<a href="/KH/pay/expertReviewListCon">전문가 리뷰 관리</a>
+	      	<a href="/KH/pay/paymentListCon">환불</a>
 	      </div>
 	    </li>
 	      
@@ -48,16 +65,17 @@
 	  </ul>
 	</nav>
 	
+	
+	
 	<div id="fullbody">
 	
 		<div id="searchDiv">
 			<form action="/KH/pay/expertReviewListCon">
 				<select name="search">
-					<option value="user_id">회원아이디</option>
-					<option value="approval_num">승인번호</option>
-					<option value="sell_num">매물번호</option>
-					<option value="expert_review_num">전문가리뷰번호</option>
-					<option value="buy_type">결제구분(1:차량/2:리뷰)</option>
+					<option value="user_id=">회원아이디</option>
+					<option value="expert_review_num=">전문가리뷰번호</option>
+					<option value="sell_num=">매물번호</option>
+					<option value="1=1">전체검색</option>
 				</select>
 				<input	type="text"			name="keyword"	placeholder="keyword" />
 				<input	type="hidden"		name="admin_id"	value="${admin_id }" />
@@ -69,38 +87,36 @@
 		
 		<div id="tableTitle">전문가리뷰 관리</div>
 		
-		<div id="paymentListDiv">
+		<div id="listDiv">
 	
 			<c:set var="num" value="${page.total - page.start + 1 }"></c:set>
 			
-			<table id="paymentListTable">
+			<table id="listTable">
 				<tr>
-					<th class="paymentListCell" style="width: 50px;">구분</th>
-					<th class="paymentListCell" style="width: 200px;">승인번호</th>
-					<th class="paymentListCell" style="width: 100px;">결제일시</th>
-					<th class="paymentListCell" style="width: 150px;">차량매물번호</th>
-					<th class="paymentListCell" style="width: 150px;">전문가리뷰번호</th>
-					<th class="paymentListCell" style="width: 120px;">구매자ID</th>
-					<th class="paymentListCell" style="width: 150px;">결제금액</th>
-					<th class="paymentListCell" style="width: 200px;">취소승인번호발송</th>
+					<th class="listCell" style="width: 50px;">구분</th>
+					<th class="listCell" style="width: 250px;">전문가리뷰번호</th>
+					<th class="listCell" style="width: 250px;">차량매물번호</th>
+					<th class="listCell" style="width: 200px;">작성일자</th>
+					<th class="listCell" style="width: 220px;">작성자ID</th>
+					<th class="listCell" style="width: 150px;">관리자기능</th>
 	
 				</tr>
 				
-			<c:forEach	var="paymentList"	items="${paymentList}"	varStatus="status" >
-				<tr>
-					<td class="paymentListCell">${num}</td>						
-					<td class="paymentListCell">${paymentList.approval_num}</td>
-					<td class="paymentListCell">${paymentList.approval_date}</td>
-					<td class="paymentListCell">${paymentList.sell_num}</td>
-					<td class="paymentListCell">${paymentList.expert_review_num}</td>
-					<td class="paymentListCell">${paymentList.user_id}</td>
-					<td class="paymentListCell">
-						<fmt:formatNumber 	value="${paymentList.total_price}" 	pattern="#,###,###,###"/> 원
-					</td>
-					<td class="paymentListCell">
-						<button onclick="sendRefundPassword('${paymentList.approval_num}')" >
-							환불비밀번호발송
-						</button>
+			<c:forEach	var="exReviewList"	items="${exReviewList}"	varStatus="status" >
+				<c:set	var="delState"	value="${exReviewList.del_state}"/>
+				<tr>	
+					<td class="listCell">${num}</td>						
+					<td class="listCell">${exReviewList.expert_review_num}</td>
+					<td class="listCell">${exReviewList.sell_num}</td>
+					<td class="listCell">${exReviewList.write_date}</td>
+					<td class="listCell">${exReviewList.user_id}</td>
+					<td class="listCell">
+						<c:if test="${delState eq '0'}">
+							<button	id="delButton" 	onclick="change(${exReviewList.del_state}, ${exReviewList.expert_review_num})">삭제</button>
+						</c:if>
+						<c:if test="${delState eq '1'}">
+							<button	id="recButton"	onclick="change(${exReviewList.del_state}, ${exReviewList.expert_review_num})">복구</button>
+						</c:if>
 					</td>				
 				</tr>
 			<c:set		var="num"				value="${num - 1 }" />
@@ -112,15 +128,15 @@
 		<div id="pagingDiv">
 			<div id="paging">
 				<c:if test="${page.startPage > page.pageBlock }">
-					<a href="/KH/pay/expertReviewListCon?currentPage=${page.startPage - page.pageBlock }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[Previous]</a>
+					<a href="/KH/pay/expertReviewListCon?currentPage=${page.startPage - page.pageBlock }&admin_id=${admin_id}&search=${originalExpList.search}&keyword=${originalExpList.keyword}">[Previous]</a>
 				</c:if>
 				
 				<c:forEach var="i" begin="${page.startPage }" end="${page.endPage}">
-					<a href="/KH/pay/expertReviewListCon?currentPage=${i }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[${i }]</a>
+					<a href="/KH/pay/expertReviewListCon?currentPage=${i }&admin_id=${admin_id}&search=${originalExpList.search}&keyword=${originalExpList.keyword}">[${i }]</a>
 				</c:forEach>
 				
 				<c:if test="${page.startPage < page.pageBlock }">
-					<a href="/KH/pay/expertReviewListCon?currentPage=${page.startPage + page.pageBlock }&admin_id=${admin_id}&search=${originalPaymentList.search}&keyword=${originalPaymentList.keyword}">[Next]</a>
+					<a href="/KH/pay/expertReviewListCon?currentPage=${page.startPage + page.pageBlock }&admin_id=${admin_id}&search=${originalExpList.search}&keyword=${originalExpList.keyword}">[Next]</a>
 				</c:if>
 			</div>
 		</div>

@@ -18,7 +18,7 @@
 		<img alt="메인배너" src="../images/main/main_banner.png" class="main_search_img">
 		<img alt="차량" src="../images/main/car_div.gif" class="main_car_img">
 		<div class="main_search_div">
-			<button onclick="location.href='/KH/pay/adminPaymentSearch'">adminSearch</button>
+			<button onclick="location.href='/KH/pay/reviewList'">reviewList</button>
 			<button onclick="location.href='/KH/pay/carList'">carList</button>
 			<button onclick="location.href='/KH/pay/admin'">admin</button>
 			

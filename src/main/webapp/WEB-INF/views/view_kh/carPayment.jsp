@@ -238,11 +238,11 @@
 
 </head>
 <body>
-	<%@ include file="../kakao.jsp" %>
 
 	<header id="header">
 		<%@ include file="../header_white.jsp"%>
 		<span id="pageTitle">차량구매</span>
+		<%@ include file="../kakao.jsp" %>
 	</header>
 
 	<div class="container">
@@ -266,7 +266,7 @@
 				</tr> 
 				<tr>
 					<td rowspan="2">
-						<img	src="<%=request.getContextPath()%>/images/main/logo_web.png"
+						<img	src="${carImagePath}"
 								width="250px" 
 								height="200px">
 					</td>

@@ -86,8 +86,12 @@ mappers
 		<typeAlias 	alias="PayList" 
 					type="com.oracle.jmAuto.dto.PayList"/>
 					
-		<typeAlias 	alias="ExpertReviewList" 
-					type="com.oracle.jmAuto.dto.ExpertReviewList"/>
+		<typeAlias 	alias="ExpList" 
+					type="com.oracle.jmAuto.dto.ExpList"/>
+					
+		<typeAlias 	alias="Car_Image" 
+					type="com.oracle.jmAuto.dto.Car_Image"/>
+					
 					
 	</typeAliases>	
 		

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.oracle.jmAuto.dto.KaKaoPayCancelResponse;
 import com.oracle.jmAuto.dto.Car_General_Info;
-import com.oracle.jmAuto.dto.ExpertReviewList;
+import com.oracle.jmAuto.dto.ExpList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.KakaoPayApproveResponse;
 import com.oracle.jmAuto.dto.KakaoPayReadyResponse;
@@ -67,19 +67,23 @@ public class KhController {
 						
 			return "view_jm/login";			// 로그인 페이지로 리다이렉트
 		}
-		
-		
+
 		// 구매자 아이디 받아옴
 
 		Car_General_Info carDetail 	= khTableService.getCarBySellId(sell_num);
 		User_Table seller 			= khTableService.getUserById(carDetail.getUser_id());
 		long rawPrice 				= carDetail.getPrice() * 10000;
+		String imageName			= khTableService.getImageName(sell_num);
+		String carImagePath			= "../.." + imageName;
+		
 
 		System.out.println("KhController goCarPay carDetail -> " + carDetail);
-
+		
+		SessionUtils.addAttribute("carImagePath", carImagePath);
 		SessionUtils.addAttribute("rawPrice", rawPrice);
 		model.addAttribute("carDetail", carDetail);
 		model.addAttribute("seller", seller);
+		
 
 		return "view_kh/carPayment";
 	}
@@ -338,7 +342,7 @@ public class KhController {
 	
 	//전문가 리뷰 작성 및 수정
 	@GetMapping(value = "/createExpertReview")
-	public String createExpertReview(long sell_num, Model model) {
+	public String createExpertReview(@RequestParam("sell_num")long sell_num, Model model) {
 		log.info("KhController createExpertReview is called");
 
 		String user_id 					 = SessionUtils.getStringAttributeValue("user_id");
@@ -421,27 +425,34 @@ public class KhController {
 	
 	
 	@GetMapping(value = "/expertReviewListCon") 
-	public String expertReviewListCon(ExpertReviewList expertReviewList, Model model) {
+	public String expertReviewListCon(ExpList expList, Model model) {
 		log.info("KhController expertReviewListCon is called");
 		
-		List<ExpertReviewList> exReviewList = new ArrayList<>();
-		User_Table buyer 					= khTableService.getUserById(expertReviewList.getUser_id());
-		int totExpertReview					= khTableService.getTotExpertReview(expertReviewList);
+		String rawKeyword 			= expList.getKeyword();		
+		if(rawKeyword != null && rawKeyword.length()==0) { 
+			System.out.println("KhController getPaymentList rawKeyword is 0 -> " + rawKeyword );
+			expList.setKeyword(null);
+			expList.setSearch(null); 
+		}
 		
-		Paging paging = new Paging(totExpertReview, expertReviewList.getCurrentPage());
+		List<ExpList> exReviewList = new ArrayList<>();
+		User_Table buyer 			= khTableService.getUserById(expList.getUser_id());
+		int totExpertReview			= khTableService.getTotExpertReview(expList);
+		
+		Paging paging = new Paging(totExpertReview, expList.getCurrentPage());
 
-		expertReviewList.setStart(paging.getStart());
-		expertReviewList.setEnd(paging.getEnd());
+		expList.setStart(paging.getStart());
+		expList.setEnd(paging.getEnd());
 		
-		exReviewList 						= khTableService.getReviewListCon(exReviewList);
+		exReviewList 				= khTableService.getReviewListCon(expList);
 		
-		model.addAttribute("expertReviewList", expertReviewList);
+		model.addAttribute("originalExpList", expList);
 		model.addAttribute("exReviewList", exReviewList);
-		model.addAttribute("admin_id", expertReviewList.getAdmin_id());
-		model.addAttribute("user_id", expertReviewList.getUser_id());
+		model.addAttribute("admin_id", expList.getAdmin_id());
+		model.addAttribute("user_id", expList.getUser_id());
 		model.addAttribute("buyer", buyer);
 		model.addAttribute("page", paging);
-		model.addAttribute("currentPage", expertReviewList.getCurrentPage());
+		model.addAttribute("currentPage", expList.getCurrentPage());
 		
 		return "view_kh/adminReviewList";
 	}
@@ -451,11 +462,21 @@ public class KhController {
 	@GetMapping(value = "/paymentListCon") 
 	public String getPaymentListCon(PayList payList, Model model) {
 		log.info("KhController getPaymentList is called");
+		System.out.println("KhController getPaymentList payList -> " + payList);
+		
+		String rawKeyword 				= payList.getKeyword();		
+		if(rawKeyword != null && rawKeyword.length()==0) { 
+			System.out.println("KhController getPaymentList rawKeyword is 0 -> " + rawKeyword );
+			payList.setKeyword(null);
+			payList.setSearch(null); 
+		}
 		
 		List<PayList> paymentList 		= new ArrayList<>();
 		String sendRefundPasswordResult = null;
 		User_Table buyer 				= khTableService.getUserById(payList.getUser_id());
 		int totPayment					= khTableService.getTotPaymentByCon(payList);
+		
+		
 		
 		if(SessionUtils.getStringAttributeValue("sendRefundPasswordResult") != null) {
 			sendRefundPasswordResult = SessionUtils.getStringAttributeValue("sendRefundPasswordResult");
@@ -464,7 +485,6 @@ public class KhController {
 		
 		Paging paging = new Paging(totPayment, payList.getCurrentPage());
 		
-
 		System.out.println("KhController getPaymentList paging -> " + paging);
 		payList.setStart(paging.getStart());
 		payList.setEnd(paging.getEnd());
@@ -539,6 +559,40 @@ public class KhController {
 		return "redirect:/KH/pay/paymentList?user_id=" + user_id;	
 	}
 	
+	@GetMapping(value = "/changeReviewDelState")
+	public String changeReviewDelState(String del_state, long expert_review_num, Model model) {
+		
+		System.out.println("KhController changeReviewDelState del_state -> " + del_state);
+		System.out.println("KhController changeReviewDelState expert_review_num -> " + expert_review_num);
+
+		Expert_Review expertReviewDetail = khTableService.getExpertReviewDetail(expert_review_num);
+		User_Table expert				 = khTableService.getUserById(expertReviewDetail.getUser_id());
+		
+		model.addAttribute("del_state", del_state);
+		model.addAttribute("expert", expert); 
+		model.addAttribute("expertReviewDetail", expertReviewDetail);
+		
+		return "view_kh/adminReviewDelStateChange";
+	}
+	
+	@GetMapping(value = "/updateReviewDelState")
+	public String updateReviewDelState(Expert_Review expertReview) {
+		
+		System.out.println("KhController updateReviewDelState del_state -> " + expertReview.getDel_state());
+		System.out.println("KhController updateReviewDelState expert_review_num -> " + expertReview.getExpert_review_num());
+		
+		if(expertReview.getDel_state() == 0) {
+			expertReview.setDel_state(1);
+		}else {
+			expertReview.setDel_state(0);
+		}
+		
+		khTableService.updateReviewDelState(expertReview);
+		
+		return "redirect:/KH/pay/changeReviewDelState";
+	}
+	
+	
 	
 
 	@Transactional
@@ -554,7 +608,7 @@ public class KhController {
 		System.out.println("KhController refundPayment refundDetail -> " + refundDetail);
 		
 		
-		return "redirect:/KH/pay/paymentList?user_id=" + user_id;
+		return "redirect:/KH/pay/adminPaymentList";
 	}
 	
 
@@ -580,6 +634,29 @@ public class KhController {
 
 		return "view_kh/carList";
 	}
+	
+	
+	@GetMapping(value = "/reviewList") 
+	public String reviewList(Model model) {
+		String user_id 			= "buyer" + Math.round(((Math.random() * 18)) + 1);
+		long expert_review_num	= 50000000000L + (long)(Math.random() * 10 + 1);	
+
+		Expert_Review expertReviewDetail = khTableService.getExpertReviewDetail(expert_review_num);
+		Car_General_Info carDetail = khTableService.getCarBySellId(expertReviewDetail.getSell_num());
+		User_Table buyer = khTableService.getUserById(user_id);
+		User_Table seller = khTableService.getUserById(expertReviewDetail.getUser_id());
+		
+		SessionUtils.addAttribute("buyer", buyer);
+		SessionUtils.addAttribute("buyer_id", user_id);
+
+		model.addAttribute("expertReviewDetail", expertReviewDetail);
+		model.addAttribute("carDetail", carDetail);
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("seller", seller);
+		
+		return "view_kh/expertPayment";
+	}
+	
 
 	//개별 차량 상세 정보호출
 	@GetMapping(value = "/carDetail")

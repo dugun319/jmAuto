@@ -3,7 +3,7 @@ package com.oracle.jmAuto.service.kh;
 import java.util.List;
 
 import com.oracle.jmAuto.dto.Car_General_Info;
-import com.oracle.jmAuto.dto.ExpertReviewList;
+import com.oracle.jmAuto.dto.ExpList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
@@ -28,7 +28,9 @@ public interface KHTableService {
 	List<PayList> 			getPayList(PayList payList);
 	List<PayList> 			getPayListCon(PayList payList);
 	int 					getTotPaymentByCon(PayList payList);
-	int 					getTotExpertReview(ExpertReviewList expertReviewList);
-	List<ExpertReviewList> 	getReviewListCon(List<ExpertReviewList> expertReviewList);	
+	int 					getTotExpertReview(ExpList expertReviewList);
+	List<ExpList> 			getReviewListCon(ExpList expList);
+	void 					updateReviewDelState(Expert_Review expertReview);
+	String 					getImageName(long sell_num);
 	
 }

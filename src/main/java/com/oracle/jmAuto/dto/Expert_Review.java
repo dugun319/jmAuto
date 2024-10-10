@@ -21,7 +21,8 @@ public class Expert_Review {
 	private int		coolant;				/* 소모냉각수 */
 	private int		tire;					/* 소모타이어 */
 	private int		brake_pad;				/* 소모브레이크패드 */
-
+	private int		del_state;				//삭제여부
+	
 	private String  model; 					/* 차리스트에 모델명 */			/* 소모브레이크패드 */
 	
 	private String color; 					/* 미숙 추가 전문가 리뷰 작성 리스트 */

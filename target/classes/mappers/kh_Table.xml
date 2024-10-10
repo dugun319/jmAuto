@@ -3,22 +3,30 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.oracle.jmAuto.dto.kh_TableMapper">
- 	<select id="getTotPaymentByUserId" 		parameterType="String"				resultType="int">
+ 	<select id="getTotPaymentByUserId" 		parameterType="String"		resultType="int">
 		SELECT COUNT(*) 
 		FROM payment
 		WHERE user_id = #{user_id}
 	</select>
 	
-	<select id="getTotPaymentByCon" 		parameterType="PayList"				resultType="int">
+	<select id="getTotPaymentByCon" 		parameterType="PayList"		resultType="int">
 		SELECT COUNT(*) 
 		FROM payment
-		WHERE ${search} = #{keyword}
+		<where> 					
+			<if test="keyword !=null">
+			${search} = #{keyword}
+			</if>
+		</where>
 	</select>
 	
-	<select id="getTotExpertReview" 		parameterType="ExpertReviewList"	resultType="int">
+	<select id="getTotExpertReview" 		parameterType="ExpList"		resultType="int">
 		SELECT COUNT(*) 
 		FROM expert_review
-		WHERE ${search} = #{keyword}
+		<where> 					
+			<if test="keyword !=null">
+			${search} = #{keyword}
+			</if>
+		</where>
 	</select>
  
 	<select id="selectCarBySellId"			parameterType="long"		resultType="Car_General_Info">
@@ -244,7 +252,11 @@
 				FROM (
 						SELECT *
 						FROM payment
-						WHERE ${search} = #{keyword}
+						<where> 					
+							<if test="keyword !=null">
+							${search} = #{keyword}
+							</if>
+						</where>
 						ORDER BY approval_date
 					 ) paymentAll
 		     )
@@ -254,7 +266,7 @@
 	</select>
 	
 	
-	<select id="getPayListAll"					parameterType="PayList"					resultType="PayList">
+	<select id="getPayListAll"					parameterType="PayList"		resultType="PayList">
 		SELECT *	
 		FROM (
 				SELECT ROWNUM AS rn, paymentAll.*
@@ -269,20 +281,37 @@
     		BETWEEN #{start} AND #{end} 	
 	</select>
 	
-	<select id="getReviewListCon"				parameterType="ExpertReviewList"		resultType="ExpertReviewList">
+	<select id="getReviewListCon"				parameterType="ExpList"		resultType="ExpList">
 		SELECT *	
 		FROM (
 				SELECT ROWNUM AS rn, expert_reviewAll.*
 				FROM (
 						SELECT *
 						FROM expert_review
-						WHERE ${search} = #{keyword}
+						<where> 					
+							<if test="keyword !=null">
+							${search} = #{keyword}
+							</if>
+						</where>
 						ORDER BY expert_review_num
 					 ) expert_reviewAll
 		     )
 		
 		WHERE rn 
     		BETWEEN #{start} AND #{end} 	
+	</select>
+	
+	<update id="updateReviewDelState"			parameterType="Expert_Review">
+		UPDATE expert_review
+			SET	del_state = ${del_state}
+			WHERE expert_review_num = #{expert_review_num}
+	</update>
+	
+	
+	<select id="getImageName"					parameterType="long"		resultType="String">
+		SELECT img_url	
+		FROM car_images
+		WHERE sell_num = #{sell_num}
 	</select>
 	
 </mapper> 

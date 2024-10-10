@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="<%=request.getContextPath()%>/css/adminPayment.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/css/adminList.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -21,6 +21,11 @@
 </script>
 </head>
 <body>
+
+	<header>
+		<%@ include file="../header.jsp"%>
+	</header>
+	
 	<nav class="nav__cont">
 		<img alt="logo" src="<%=request.getContextPath()%>/images/main/로고_icon_2.png" class="nav__cont_logo">
 	  <ul class="nav">
@@ -38,8 +43,8 @@
 	     <a href="" class="nav_items_text3">차량</a>
 	     <div class="mon_nav_items">
 	      	<a>차량관리</a>
-	      	<a>전문가 리뷰 관리</a>
-	      	<a>환불</a>
+	      	<a href="/KH/pay/expertReviewListCon">전문가 리뷰 관리</a>
+	      	<a href="/KH/pay/paymentListCon">환불</a>
 	      </div>
 	    </li>
 	      
@@ -65,6 +70,7 @@
 					<option value="sell_num">매물번호</option>
 					<option value="expert_review_num">전문가리뷰번호</option>
 					<option value="buy_type">결제구분(1:차량/2:리뷰)</option>
+					<option value="">전체검색</option>
 				</select>
 				<input	type="text"			name="keyword"	placeholder="keyword" />
 				<input	type="hidden"		name="admin_id"	value="${admin_id }" />
@@ -76,35 +82,35 @@
 		
 		<div id="tableTitle">관리자 환불승인</div>
 		
-		<div id="paymentListDiv">
+		<div id="listDiv">
 	
 			<c:set var="num" value="${page.total - page.start + 1 }"></c:set>
 			
-			<table id="paymentListTable">
+			<table id=listTable">
 				<tr>
-					<th class="paymentListCell" style="width: 50px;">구분</th>
-					<th class="paymentListCell" style="width: 200px;">승인번호</th>
-					<th class="paymentListCell" style="width: 100px;">결제일시</th>
-					<th class="paymentListCell" style="width: 150px;">차량매물번호</th>
-					<th class="paymentListCell" style="width: 150px;">전문가리뷰번호</th>
-					<th class="paymentListCell" style="width: 120px;">구매자ID</th>
-					<th class="paymentListCell" style="width: 150px;">결제금액</th>
-					<th class="paymentListCell" style="width: 200px;">취소승인번호발송</th>
+					<th class="listCell" style="width: 50px;">구분</th>
+					<th class="listCell" style="width: 200px;">승인번호</th>
+					<th class="listCell" style="width: 100px;">결제일시</th>
+					<th class="listCell" style="width: 150px;">차량매물번호</th>
+					<th class="listCell" style="width: 150px;">전문가리뷰번호</th>
+					<th class="listCell" style="width: 120px;">구매자ID</th>
+					<th class="listCell" style="width: 150px;">결제금액</th>
+					<th class="listCell" style="width: 200px;">취소승인번호발송</th>
 	
 				</tr>
 				
 			<c:forEach	var="paymentList"	items="${paymentList}"	varStatus="status" >
 				<tr>
-					<td class="paymentListCell">${num}</td>						
-					<td class="paymentListCell">${paymentList.approval_num}</td>
-					<td class="paymentListCell">${paymentList.approval_date}</td>
-					<td class="paymentListCell">${paymentList.sell_num}</td>
-					<td class="paymentListCell">${paymentList.expert_review_num}</td>
-					<td class="paymentListCell">${paymentList.user_id}</td>
-					<td class="paymentListCell">
+					<td class="listCell">${num}</td>						
+					<td class="listCell">${paymentList.approval_num}</td>
+					<td class="listCell">${paymentList.approval_date}</td>
+					<td class="listCell">${paymentList.sell_num}</td>
+					<td class="listCell">${paymentList.expert_review_num}</td>
+					<td class="listCell">${paymentList.user_id}</td>
+					<td class="listCell">
 						<fmt:formatNumber 	value="${paymentList.total_price}" 	pattern="#,###,###,###"/> 원
 					</td>
-					<td class="paymentListCell">
+					<td class="listCell">
 						<button onclick="sendRefundPassword('${paymentList.approval_num}')" >
 							환불비밀번호발송
 						</button>
