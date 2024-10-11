@@ -6,12 +6,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
+	@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+	}
+	
     body {
 	margin: 0;
 	padding: 0;
 	background-color: #fafafa ;
 	font-family: Pretendard;
 	min-height: 100vh; /* 화면 높이에 맞추어 최소 높이 설정 */
+	font-family: 'Pretendard-Regular';
+    font-weight: 400;
+    font-style: normal;
 }
 
 .contents {

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../css/myPage.css">
 <script type="text/javascript" src="../js/jquery.js"></script>
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
-<div class="menu_continer"><%@ include file="../menu_P.jsp" %></div>
+<div class="menu_continer"><%@ include file="../menu_S.jsp" %></div>
 
 </head>
 
@@ -135,6 +135,19 @@ input {
 	text-align: center;
 	margin-top: 80px;
 }
+#userUpdate {
+  background: none;         /* 버튼 배경 없애기 */
+  border: none;             /* 버튼 테두리 없애기 */
+  padding: 0;               /* 버튼 패딩 없애기 */
+  cursor: pointer;          /* 클릭 가능한 커서로 변경 */
+}
+
+#userUpdate img {
+  display: block;           /* 이미지가 버튼 안에 꽉 차게 함 */
+  width: 148px;              /* 버튼 크기에 맞게 이미지 크기 조절 */
+  height: 42.44px;            /* 이미지 비율 유지 */
+  padding: 20px;
+}
 </style>
 <script type="text/javascript">
 	function chk(){
@@ -158,14 +171,14 @@ input {
 			</div>
 		<main class="content">
 			
-			<form action="/myPageEdit" class="block" method="POST" onsubmit="return chk()">
+			<form action="/myPageEdit_P" class="block" method="POST" onsubmit="return chk()">
 				
 				<table class="border">
-				<input type="hidden" name="user_id" value="${user_table.user_id}">
+					<input type="hidden" name="user_id" value="${user.user_id}">
 					<tr>
 						<th>이름</th>
-						<td><input type="text" id="user_id" name="user_id" 
-						value="${user.user_id }" required="required" /></td>
+						<td><input type="text" id="user_name" name="user_name" value="${user.user_name}"
+					 required="required" /></td>
 					</tr>
 					<tr>
 						<th>비밀번호 변경</th>
@@ -203,8 +216,9 @@ input {
 						<td>
 						<!-- 버튼 컨테이너 -->
 						<div class="button">
-							<img alt="" src="../images/main/수정_but.png" onclick="handleSubmit()"
-							style="cursor: pointer; margin-right: 20px; width: 148px; height: auto;">
+							<button type="submit" id="userUpdate">
+								<img alt="" src="../images/main/수정_but.png">
+							</button>
 							<button type="reset" class="image-button" title="취소">
                 <img alt="" src="../images/main/취소_but.png" class="button-image">
             </button>
@@ -222,3 +236,5 @@ input {
 </body>
 
 </html>
+myPageEdit_S.jsp
+7KB

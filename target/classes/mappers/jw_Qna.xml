@@ -9,7 +9,11 @@
  		FROM qna
  	</select>
  
- 	<insert id="insertQna" parameterType="Qna">
+ 	<insert id="insertQna" parameterType="Qna" 
+ 	                       useGeneratedKeys="true" 
+ 	                       keyColumn="qna_num"
+ 	                       keyProperty="qna_num"
+ 	>
  		INSERT into qna (
  						qna_num,
  						qna_date,
@@ -29,7 +33,13 @@
  				0,
  				0 
  				)
- 
  	</insert>
  
+ 	<update id="updateFile" parameterType="Qna">
+ 		UPDATE QNA
+ 		SET file_name = #{file_name}
+ 		  , file_url = #{file_url}
+ 		WHERE qna_num = #{qna_num}
+ 	</update>
+ 	
  </mapper>

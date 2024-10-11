@@ -67,4 +67,32 @@ public class EmailServiceImpl implements EmailService {
         return result;
     	
     }
+
+
+	@Override
+	public int sendApproveMail(String user_id) {
+		System.out.println("EmailServiceImpl.sendApproveMail start....");
+		String user_email = jd.getUserEmail(user_id);
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("fantamasitta@gmail.com");
+    	message.setTo(user_email);
+    	message.setSubject("Jm Auto 가입 승인 여부");
+    	message.setText("회원님의 가입이 승인되었습니다");
+    	
+    	
+    	int result = 0;
+        
+        try {
+            mailSender.send(message); // 이메일 전송
+            System.out.println("승인여부 이메일 전송이 성공되었습니다");
+            result = 1;
+            
+        } catch (Exception e) {
+            System.err.println("이메일 전송 실패: " + e.getMessage());
+            // 추가적인 오류 처리 로직
+            result = 0;
+        }
+        return result;
+	}
 }

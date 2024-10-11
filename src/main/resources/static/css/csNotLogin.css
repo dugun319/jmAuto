@@ -1,87 +1,33 @@
 @charset "UTF-8";
-.csNotLogin {
-	display: flex;
-	flex-direction: row;
-	font-family: Arial, sans-serif;
-	font-size: 14px;
-	white-space: nowrap;
-	text-align: center;
-	justify-content: space-between;
-	background-color: #fafafa;
-	width: 1620px;
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
+
+
+/* 사이드바 디자인 */
+header_continer {
+    position: relative; 
+    width: 100%;
+    top: 0;
+    z-index: 1001; 
 }
 
-/* 사이드바 스타일 */
-.navbar {
-	display: flex;
-	justify-content: space-between;
-	/* justify-content: center; */
-	align-items: center;
-	background-color: #fdfdfd;
-	height: 150px;
-	width: 300px;
-	padding: 0;
+.menu_continer {
+    position: fixed;
+    top: 0;
+    z-index: 1000; 
+    height: 100vh;
 }
 
-.notLoginSidebar {
-	background-color: #fdfdfd;
-	border-right: 1px solid #ddd;
-	padding: 14px;
-	box-sizing: border-box;
-	width: 400px;
-	
-}
-
-.sidebar {
-	border-right: 1px solid #fdfdfd;
-	
-}
-
-ul {
-	list-style-type: none;
-	padding: 0 0 0 130px;
-}
-
-/* 메뉴와 아이콘 정렬 */
-.sidebar ul li {
-	display: flex;
-	flex-direction: row;
-	margin: 50px 0;
-}
-
-
-.sidebar ul li a {
-	text-decoration: none;
-	color: #333;
-	font-size: 20px;
-	font-weight: bold;
-	color: inherit;
-}
-
-/* 마우스 올렸을때 아이콘 색과 글씨 색 변경 */
-.mainHover a:hover {
-	color: #ff4714;
-}
-
-.mainHover a:hover img {
-	content: url("../images/cs/고객센터_icon_after.png");
-}
-
-.commonHover a:hover {
-	color: #ff4714;
-}
-
-.commonHover a:hover img {
-	content: url("../images/cs/cs상세카테고리_icon_after.png");
-}
-
-
-
-/* 가운데 모든 내용 전체 틀 */
+/* 본문 */
 .pleaseLogin {
 	display: flex;
 	flex-direction: column;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+	font-family: 'Pretendard';
+	text-align: center;
+	background-color: #fafafa;
 	width: 1320px;
+	margin: 0 300px;
 }
 
 /* 제목 */

@@ -9,20 +9,31 @@
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_S.jsp" %></div>
+<%@ include file="../kakao.jsp" %>
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
 <style>
 .content {
 	background-color: white;
 	border-bottom: 10px;
 	border-top: 10px;
 	display: center;
+	margin-top: 50px;
+	padding-top: 50px;
+	
 }
-
+.text-center{
+	font-size: 40px;
+	font-weight: bold;
+	text-align: center;
+}
 .border {
 	border-bottom: 10px;
 	border-top: 10px;
-	width: 1038px;
+	width: 1280px;
+	padding-left: 50px;
+	display: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
 }
 .container{
 	display:center;
@@ -39,12 +50,29 @@ tbody tr {
 tbody tr:last-child {
 	background-image: none; /* 마지막 행은 이미지 제거 */
 }
-
-tbody tr {
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* 아래쪽으로 그림자 효과 */
-	margin-bottom: 10px; /* 간격 조정 */
+tbody td,
+thead td{
+	padding: 10px;
 }
 
+tbody tr {
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.10); /* 아래쪽으로 그림자 효과 */
+	margin-bottom: 10px; /* 간격 조정 */
+}
+.block{
+	display: center;
+}
+.button{
+	display: flex; /* Flexbox 사용 */
+	justify-content: center; /* 수평 중앙 정렬 */
+	align-items: center; /* 수직 중앙 정렬 */
+	margin-top: 20px; /* 위쪽 여백 */
+	width: 100%; /* 전체 너비 사용 */
+}
+h2{
+	padding: 20px;
+	font-weight: bold;
+}
 </style>
 <script type="text/javascript">
 
@@ -62,7 +90,7 @@ tbody tr {
 		
 		//서버에 삭제요청을 보낸다.
 		$.ajax({
-			url: '/myNoteDelete',
+			url: '/myNoteDelete_S',
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(selectedPosts),
@@ -75,8 +103,7 @@ tbody tr {
 			}
 		});
 	}
-		
-
+	
 </script>
 
 </head>
@@ -85,27 +112,29 @@ tbody tr {
 <body>
 	<div class="container">
 		<main class="content">
-		<h1 class="text-center"><a href="#">나의 쪽지함</a></h1><br><br>
-		 <!-- 받은 쪽지함 섹션 -->
-		    <div class="block">
+		<h1 class="text-center">차량구매 문의내역</h1><br><br>
+		   
+		   
+		   <!-- 받은 쪽지함 섹션 -->
+		    <div class="block_1">
+		    <hr/>
 		        <h2>받은 쪽지함</h2>
-		        <table>
+		        <table class="border">
 		            <thead>
 		                <tr>
-		                    <th>선택</th>
-		                    <th>쪽지번호</th>
-		                    <th>보낸사람</th>
-		                    <th>작성날짜</th>
-		                    <th>제목</th>	
-		                    <th>매물번호</th>			     								    
+		                    <td></td>
+		                    <td>쪽지번호</td>
+		                    <td>보낸사람</td>
+		                    <td>작성날짜</td>
+		                    <td>제목</td>	
+		                    <td>매물번호</td>			     								    
 		                </tr>
 		            </thead>
 		            <tbody>
 		                <c:forEach var="Note" items="${Notes}">
-		                <!-- 아래에 들어가는값이 items가 아니라 var !!!!!!!!!!!!!!!!!!!-->
 		                    <tr>
 		                        <td><input type="checkbox" name="receivedPost" value="${Note.note_num}"></td>								
-		                        <td><a href="/view_ms/myNoteDetail?note_num=${Note.note_num}">${Note.note_num}</a></td>
+		                        <td><a href="/view_ms/myNoteDetail_S?note_num=${Note.note_num}">${Note.note_num}</a></td>
 		                        <td>${Note.note_sd}</td>
 		                        <td>${Note.note_date}</td>
 		                        <td>${Note.note_title}</td>	
@@ -116,18 +145,19 @@ tbody tr {
 		        </table>
 		    </div>
 		    
+		    
 		    <!-- 보낸 쪽지함 섹션 -->
-		    <div class="block">
+		    <div class="block_1">
 		        <h2>보낸 쪽지함</h2>
-		        <table>
+		        <table class="border">
 		            <thead>
 		                <tr>
-		                    <th>선택</th>
-		                    <th>쪽지번호</th>
-		                    <th>받는사람</th>
-							<th>제목</th>
-		                    <th>작성날짜</th>
-		                    <th>매물번호</th>			
+		                    <td>선택</td>
+		                    <td>쪽지번호</td>
+		                    <td>받은사람</td>
+							<td>제목</td>
+		                    <td>작성날짜</td>
+		                    <td>매물번호</td>			
 		                    									    
 		                </tr>
 		            </thead>
@@ -146,11 +176,18 @@ tbody tr {
 		            </tbody>
 		        </table>
 		    </div>
-			<button type="button" onclick="handleSubmit()">삭제</button>
-			<button type="submit" class="submit" 
-			onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">
-				문의하기</button>
 		</main>
+		<!-- 버튼 컨테이너 -->
+			<div class="button">
+				<img alt="" src="../images/main/삭제_but.png" onclick="handleSubmit()"
+					style="cursor: pointer; margin-right: 20px;">
+				
+				<button type="submit" class="submit"
+					style="background: none; border: none; cursor: pointer;"
+					onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">
+					<img alt="" src="../images/main/문의하기.png"
+						style="width: 150px; height: auto;">
+				</button>
 </div>
 	<!---------------------------------------------- 푸터 ------------------------------------>
 	<%@ include file="../footer.jsp" %>

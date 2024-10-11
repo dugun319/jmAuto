@@ -35,7 +35,7 @@
 		var coolant		= $("#coolant2").val();
 		var tire		= $("#tire2").val();
 		var brake_pad	= $("#brake_pad2").val();
-		var score		= $("#score").val();
+		var score = $("#score2").val();
 		
 		$("#ess_state").val(ess_state).attr("selected", "selected");
 		$("#ess_mileage").val(ess_mileage).attr("selected", "selected");
@@ -46,14 +46,6 @@
 		$("#tire").val(tire).attr("selected", "selected");
 		$("#brake_pad").val(brake_pad).attr("selected", "selected");
 		$("#exReviewScore").val(score).attr("selected", "selected");
-		
-	
-	
-	
-	
-	
-	
-	
 	});
 	
 	
@@ -86,7 +78,7 @@
 	<input type="hidden" id="coolant2"		value="${experReviewDetail.coolant }">
 	<input type="hidden" id="tire2"			value="${experReviewDetail.tire }">
 	<input type="hidden" id="brake_pad2"	value="${experReviewDetail.brake_pad }">
-	<input type="hidden" id="score"			value="${experReviewDetail.score }">
+	<input type="hidden" id="score2"	value="${experReviewDetail.score }">
 
 	<div id="expertReviewInput">
 		<div id="writerDiv">
@@ -250,7 +242,7 @@
 		</div>
 		
 		<div id="expertReviewScore">
-			<select id="exReviewScore" name="score">
+			<select id="exReviewScore"  name="score">
 				<option value="1">1</option>
 				<option value="1">1</option>
 				<option value="2">2</option>

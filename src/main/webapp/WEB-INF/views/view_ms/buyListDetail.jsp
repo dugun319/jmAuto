@@ -5,22 +5,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
-
 <title>구매자 마이페이지</title>
+<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
+<script type="text/javascript" src="../js/jquery.js"></script>
+
 </head>
 <style>
 body {
-	background-color: #f8f9fa;
+	background-color: #fdfdfd;
 }
 
 .container {
 	max-width: 1200px;
-	margin: 0 auto;
 	padding: 20px;
 }
 
@@ -55,7 +54,7 @@ th, td {
 }
 
 .chu-img {
-	width: 100%; /* 이미지가 블록 크기에 맞게 조정됨 */
+	width: 100%; 
 	height: auto; 
 }
 .mu{
@@ -69,14 +68,13 @@ button{
 	background-color: #e95a21;
 	border-style: none;
 	color: white;
-	
 }
 
 </style>
 <body>
 	<div class="container">
 		<main class="content">
-			<h1 class="text-center"><a href="#">구매 상세내역</a></h1><br><br>
+			<h1 class="text-center" style="font-size: 32px; font-weight: 700;">구매 상세내역</h1><br><br>
 			<div class="block">
 				<div class ="left-block">
 					<table class="gumae" style="padding-top: 50px;">
@@ -89,16 +87,16 @@ button{
 						<tr><th>판매자 : <td>${Payment.receiver_name}</td></th></tr>
 						<tr><th>진행상황 : <td style="color:red">차량구매 완료</td></th></tr>	
 						<tr><th style="color: gray; font-size: 14px; text-decoration: underline; margin-top: 20px;">
-        					<a href="/view_ms/hoogiWrite">환불신청하기</a></th>
-        				</tr>
+        					<a href="" onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">
+							환불 신청하기</a></th></tr>
 					</table>
 				</div>
 		
 				<div class="right-block" >
 					<table class="gumaeCar" >						
-						<tr><td>
+						<tr><td class="">
 							<c:if test="${reviewExists}">
-								<a href="/view_ms/hoogiDetail?approval_num=${Payment.approval_num}">
+								<a href="/view_ms/reviewDetail?approval_num=${Payment.approval_num}">
 									<button type="button">후기보기</button>
 								</a>
 							</c:if>
@@ -107,15 +105,17 @@ button{
 									<button type="button">후기작성</button>
 								</a>
 							</c:if>
-					
 						</td></tr>			
 						<tr><td style="color:red; ">${Payment.approval_date} 차량구매 완료</td></tr>					
 						<tr>
-                    		<td><img alt="chuCarimg" src="../images/main/377조7542_1.png" class="chu-img"></td>
+                    		<td><img alt="chuCarimg" src="${Payment.img_url }" class="chu-img"></td>
+                    		<%-- <img src="${Zzim.img_url }" class="cardlist_img_src"> --%>
             			</tr>
         				
-        				<tr><td style="display: flex; justify-content: flex-end;"><a href="" onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">
-							<span style="color: #e95a21;" >문의하기 ></span></a></td></tr>	
+        				<tr><td style="display: flex; justify-content: flex-end;">
+        				<a href="" onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">
+							<span style="color: #e95a21;" >문의하기 ></span></a></td>
+							</tr>	
 					</table>
 				</div>
 			</div>				

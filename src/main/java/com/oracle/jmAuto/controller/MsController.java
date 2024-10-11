@@ -1,6 +1,10 @@
 package com.oracle.jmAuto.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +33,17 @@ import com.oracle.jmAuto.dto.Note;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
 import com.oracle.jmAuto.dto.Review;
+import com.oracle.jmAuto.dto.ReviewListInfo;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.dto.Zzim;
 import com.oracle.jmAuto.service.ms.MsService;
 import com.oracle.jmAuto.service.ms.MsServiceImpl;
 
 import jakarta.persistence.metamodel.SetAttribute;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,7 +85,7 @@ public class MsController {
 		System.out.println("mscontroller myPage_B strat...");
 		User_Table user_table = (User_Table) session.getAttribute("user");
 		String user_id = user_table.getUser_id();
-
+		System.out.println("mscontroller userid=>"+user_id);
 		// 결제 리스트 나오게
 		List<Payment> buyList = null;
 		buyList = ms.buyList(user_id);
@@ -102,16 +110,15 @@ public class MsController {
 		String user_id = user_table.getUser_id();
 
 		// 나의 판매중인 차량 나오게
-		List<Car_General_Info> sellCar = null;
-		sellCar = ms.sellCar(user_id);
+		List<Car_General_Info> sellCar = ms.sellCar(user_id);
+		System.out.println("mscontroller sellCar user_id"+user_id);
 		System.out.println("mscontroller myPage_S sellCar->" + sellCar);
 		model.addAttribute("Car_General_Info", sellCar);
 
-		// 나의 문의내역 나오게
+		// 나의 판매완료 매물 나오게
 		List<Car_General_Info> sellWan = ms.sellWan(user_id);
-		model.addAttribute("Car_General_Info", sellWan);
-		System.out.println("mscontroller myPage_P QnaList ->" + sellWan);
-		model.addAttribute("Car_General_Info", sellWan);
+		model.addAttribute("sellWan", sellWan);
+		System.out.println("mscontroller myPage_S sellWan ->" + sellWan);
 
 		return "view_ms/myPage_S";
 	}
@@ -140,7 +147,8 @@ public class MsController {
 
 	// 마이페이지(구매자) 1.-> 회원정보수정 누르면 실행되는 체크화면..
 	@GetMapping(value = "/view_ms/myPageEditCheck")
-	public String checkPassword(User_Table user_table, Model model) {
+	public String checkPassword(Model model, HttpSession session) {
+		User_Table user_table=(User_Table)session.getAttribute("user");
 		System.out.println("msController checkPassword userTable->" + user_table);
 		return "view_ms/myPageEditCheck";
 	}
@@ -163,8 +171,14 @@ public class MsController {
 	@GetMapping("/view_ms/myPageEdit")
 	public String pwCheck(Model model, HttpSession session) {
 		User_Table user_table = (User_Table) session.getAttribute("user");
+		System.out.println("mscontroller 회원수정중 user_table->"+user_table);
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller user user_id->"+user_id);
+		
 		if (user_table != null) { // 사용자 정보를 모델에 추가하여 뷰에서 사용
+			user_table = ms.user(user_id);
 			model.addAttribute("user", user_table);
+			System.out.println("mscontroller 회원수정중 user_table->"+user_table);
 			return "view_ms/myPageEdit"; // 회원정보 수정 페이지로 이동
 		} else {
 			return "redirect:/login"; // 세션에 정보가 없으면 로그인 페이지로 리다이렉트
@@ -175,8 +189,15 @@ public class MsController {
 	@GetMapping("/view_ms/myPageEdit_S")
 	public String pwCheck_S(Model model, HttpSession session) {
 		User_Table user_table = (User_Table) session.getAttribute("user");
+		System.out.println("mscontroller 회원수정중 user_table->"+user_table);
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller user user_id->"+user_id);
+		
 		if (user_table != null) { 
+			System.out.println("mscontroller user user_id->"+user_id);
+			user_table = ms.user(user_id);
 			model.addAttribute("user", user_table);
+			System.out.println("mscontroller 회원수정중 user_table->"+user_table);
 			return "view_ms/myPageEdit_S"; 
 		} else {
 			return "redirect:/login"; 
@@ -187,37 +208,18 @@ public class MsController {
 	@GetMapping("/view_ms/myPageEdit_P")
 	public String pwCheck_P(Model model, HttpSession session) {
 		User_Table user_table = (User_Table) session.getAttribute("user");
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller user user_id->"+user_id);
 		if (user_table != null) { 
+			user_table = ms.user(user_id);
 			model.addAttribute("user", user_table);
+			System.out.println("mscontroller 회원수정중 user_table->"+user_table);
 			return "view_ms/myPageEdit_P"; 
 		} else {
 			return "redirect:/login";
 		}
 	}
 
-//	// 마이페이지 2.-> 회원정보 수정시 두 비밀번호체크 로직 (ajax 연동)
-//	@ResponseBody
-//	@GetMapping(value = "/view_ms/pwChk")
-//	public int checkPassword(String input_pw, HttpSession session, Model model) {
-//		System.out.println("mscontroller checkPassword String user_pw start...");
-//		int result = 0;
-//		User_Table user_table = (User_Table) session.getAttribute("user"); //세션의 정보 가져오기
-//		if (user_table != null) {
-//			model.addAttribute("user", user_table);
-//		}
-//		String user_id = user_table.getUser_id(); // 세션의 id 가져오기
-//		String dbUser_pw = ms.findByPw(user_id); // db에 저장되어 있는 패스워드
-//		System.out.println("checkPassword user_table. getid->" + user_table.getUser_id());
-//		System.out.println("checkPassword 옴 input_pw-> " + input_pw); // 내가 입력한 패스워드가 무엇인가
-//		System.out.println("checkPassword 옴 dbUser_pw->" + dbUser_pw);// db 패스워드
-//		if (input_pw.equals(dbUser_pw)) {
-//			result = 1;
-//		} else {
-//			result = 0;
-//		}
-//		return result;
-//	}
-	
 	
 
 	// 마이페이지 2.-> 회원정보 수정시 두 비밀번호체크 로직 (ajax로 갔다가 돌아오는 거임)
@@ -248,16 +250,10 @@ public class MsController {
 		  result =	0;
 		}
 
-
-		// if (input_pw.equals(dbUser_pw)) {
-		// 	result = 1;
-		// } else {
-		// 	result = 0;
-		// }
 		return result;
 	}
 
-	// 회원정보 수정
+	// 구매자(회원정보 수정)
 	@PostMapping("/myPageEdit")
 	public String userUpdate(@RequestParam String user_id, 
 							 @RequestParam String user_pw1, 
@@ -267,9 +263,45 @@ public class MsController {
 							 @RequestParam String user_addr1,
 							 @RequestParam String user_addr2) {
 		System.out.println("mscontroller userUpdate start...");
+		System.out.println("mscontroller userUpdate user_id..." + user_id);
 		User_Table user_table = new User_Table();
-		user_table.setUser_id(user_id);
+		user_table.setUser_id(user_id);		
+
+		//비밀번호 해쉬화
+		String password = passwordEncoder.encode(user_pw1);
+		user_table.setUser_pw(password);
 		
+		//user_table.setUser_pw(user_pw1);
+		user_table.setUser_tel(user_tel);
+		user_table.setUser_zipcode(user_zipcode);
+		user_table.setUser_addr1(user_addr1);
+		user_table.setUser_addr2(user_addr2);
+		//위처럼 담아서 호출하는 게 맞는 것 같은데 안해도 가능하네..?
+		//->클래스 필드일음과 파라미터 이름이 일치해서 자동으로 설정된것.(자동데이터바인딩 덕분)
+		System.out.println("user_pw1->" + user_pw1);
+		System.out.println("user_pw2->" + user_pw2);
+		System.out.println("user_table->" + user_table);
+		ms.userUpdate(user_table);
+		
+		
+		System.out.println("user_table->" + user_table);
+		return "view_ms/userUpdate";
+	}
+	
+	// 판매자(회원정보 수정)
+	@PostMapping("/myPageEdit_S")
+	public String userUpdate_S(@RequestParam String user_id, 
+							 @RequestParam String user_pw1, 
+							 @RequestParam String user_pw2,
+							 @RequestParam String user_tel, 
+							 @RequestParam String user_zipcode, 
+							 @RequestParam String user_addr1,
+							 @RequestParam String user_addr2) {
+		System.out.println("mscontroller userUpdate start...");
+		System.out.println("mscontroller userUpdate user_id..." + user_id);
+		User_Table user_table = new User_Table();
+		user_table.setUser_id(user_id);		
+
 		//비밀번호 해쉬화
 		String password = passwordEncoder.encode(user_pw1);
 		user_table.setUser_pw(password);
@@ -286,9 +318,49 @@ public class MsController {
 		System.out.println("user_table->" + user_table);
 		ms.userUpdate(user_table);
 		System.out.println("user_table->" + user_table);
-		return "view_ms/userUpdate";
+		return "view_ms/userUpdate_S";
 	}
 
+	
+	// 전문가(회원정보 수정)
+	@PostMapping("/myPageEdit_P")
+	public String userUpdate_P(@RequestParam String user_id, 
+							 @RequestParam String user_pw1, 
+							 @RequestParam String user_pw2,
+							 @RequestParam String user_tel, 
+							 @RequestParam String user_zipcode, 
+							 @RequestParam String user_addr1,
+							 @RequestParam String user_addr2) {
+		System.out.println("mscontroller userUpdate start...");
+		System.out.println("mscontroller userUpdate user_id..." + user_id);
+		User_Table user_table = new User_Table();
+		user_table.setUser_id(user_id);		
+
+		//비밀번호 해쉬화
+		String password = passwordEncoder.encode(user_pw1);
+		user_table.setUser_pw(password);
+		
+		//user_table.setUser_pw(user_pw1);
+		user_table.setUser_tel(user_tel);
+		user_table.setUser_zipcode(user_zipcode);
+		user_table.setUser_addr1(user_addr1);
+		user_table.setUser_addr2(user_addr2);
+		//위처럼 담아서 호출하는 게 맞는 것 같은데 안해도 가능하네..?
+		//->클래스 필드일음과 파라미터 이름이 일치해서 자동으로 설정된것.(자동데이터바인딩 덕분)
+		System.out.println("user_pw1->" + user_pw1);
+		System.out.println("user_pw2->" + user_pw2);
+		System.out.println("user_table->" + user_table);
+		ms.userUpdate(user_table);
+		System.out.println("user_table->" + user_table);
+		return "view_ms/userUpdate_P";
+	}
+	
+	
+	
+	
+	
+	
+	
 	// 구매자(구매내역)
 	@GetMapping(value = "/view_ms/buyList")
 	public String buyList(Model model, HttpSession session) {
@@ -323,7 +395,7 @@ public class MsController {
 		return "view_ms/buyListDetail";
 	}
 
-	// 구매상세페이지 -> 후기 작성화면으로 이동
+	// 구매상세페이지 -> 후기 작성화면으로 이동 (현재 지원씨가 만들고 계씸)
 	@GetMapping(value = "/view_ms/hoogi")
 	public String hoogi(Model model, Payment payment) {
 		System.out.println("msController hoogi start..");
@@ -336,78 +408,217 @@ public class MsController {
 		return "view_ms/hoogiWrite";
 	}
 
+
 	// 구매상세페이지 -> 작성한 후기 저장
-	@PostMapping(value = "/hoogiwrite")
-	public String hoogiwrite(HttpSession session, Model model, 
-							@RequestParam String review_title,
-							@RequestParam String review_content, 
-							@RequestParam int evaluation,
-							@RequestParam String approval_num,
-							@RequestParam("fileUpload") MultipartFile file) {
-		System.out.println("msController hoogiwrite start..");
-		User_Table user_table = (User_Table) session.getAttribute("user");
-		String user_id = user_table.getUser_id();
-
-		//저장할 후기 내용들
-		Map<String, Object> params = new HashMap<>();
-		params.put("user_id", user_id);
-		params.put("review_title", review_title);
-		params.put("review_content", review_content);
-		params.put("evaluation", evaluation);
-		params.put("approval_num", approval_num);
+	@RequestMapping(value = "/view_ms/hoogiwrite")
+	public String hoogiwrite( HttpServletRequest request,
+							  HttpSession session, 
+							  Model model,
+							  ReviewListInfo ri
+							 )
+							  throws IOException, ServletException {
 		
-		//파일처리 로직
-		if(!file.isEmpty()) {
-			String fileName = file.getOriginalFilename();
-			File uploadDir= new File("uploads/");
-			if(!uploadDir.exists()){
-				uploadDir.mkdirs();//파일을 저장할 디렉토리
-			}
-			File destinationFile=new File(uploadDir+fileName);//파일저장
-			try {
-				file.transferTo(destinationFile);
-				params.put("file_path",destinationFile.getAbsolutePath());
-			} catch (Exception e) {
-				return "redirect:/someErrorPage";
-			}
-		}
-		int result = ms.hoogiwrite(params);
-		if (result > 0) {
-			System.out.println("mscontroller hoogiwrite result->" + result);
-			return "redirect:/view_ms/hoogiList";
-		} else {
-			System.out.println("mscontroller hoogiwrite error->");
-			return "redirect:/someErrorPage";
-		}
-	}
+		System.out.println("msController hoogiwrite start..");
 
-//	// 구매상세페이지 -> 이미 작성한 후기보기
-//	@GetMapping(value = "/view_ms/hoogiDetail")
-//	public String hoogiList(HttpSession session, Model model) {
-//		System.out.println("msController hoogiDetail start...");
-//		User_Table user_table = (User_Table) session.getAttribute("user");
-//		String user_id = user_table.getUser_id();
-//		System.out.println("msController hoogiDetail user_id->" + user_id);
-//
-//		List<Review> reviews = ms.myhoogiDetail(user_id, approval_num);
-//		model.addAttribute("reviews", reviews);
-//		System.out.println("mscontroller hoogiDetail reviews->" + reviews);
-//		return "view_ms/hoogiDetail";
-//	}
-	
-	// 구매상세페이지 -> 이미 작성한 후기상세보기
-	@GetMapping(value = "/view_ms/hoogiDetail")
-	public String hoogDetail(HttpSession session, Model model,String approval_num) {
-		System.out.println("msController hoogDetail start...");
+		
+		// 유저 정보 가져오기
 		User_Table user_table = (User_Table) session.getAttribute("user");
 		String user_id = user_table.getUser_id();
-		System.out.println("msController hoogDetail user_id->" + user_id);
+		System.out.println("msController user_table user_id->"+user_id);	   
+	    
+	    String review_title   = request.getParameter("review_title");
+	    String review_content = request.getParameter("review_content");
+	    String evaluationStr  = request.getParameter("evaluation");
+	    String approval_num = request.getParameter("approval_num");
+	    
+	    // 파일이 하나라도 첨부되었을 경우에만 review 객체 생성 및 처리
+		   
+		// Review 객체 생성 + 저장할 후기 내용들
+		Review review = new Review();
+		review.setUser_id(user_id);	//유저 아이디 가져오기
+		review.setApproval_num(approval_num);	//승인번호 가져오기
+		review.setReview_title(review_title);
+		review.setReview_content(review_content);
+		review.setEvaluation(Integer.parseInt(evaluationStr)); // 문자열 숫자로 변환 
+		
+		System.out.println("mscontroller hoogiwrite review->"+review);
+	    
+		// 첨부파일 경로
+	    String file_url = "/cs/review/";
+		// Servlet 상속 받지 못했을 떄 realPath 불러 오는 방법
+		String uploadPath = request.getSession().getServletContext().getRealPath(file_url);
+		review.setFile_url(file_url);   // 후기파일경로
 
-		List<Review> reviews = ms.myhoogiDetail(user_id,approval_num);
-		model.addAttribute("reviews", reviews);
-		System.out.println("mscontroller hoogDetail reviews->" + reviews);
-		return "view_ms/hoogDetail";
+		// 첨부한 파일
+		//--------------- image1 Start -----------------------------------------------------
+		Part image1 = request.getPart("fileUpload1");
+		int count = 0;
+		if (image1.getSize() > 0) { // 파일이 첨부된 경우
+			InputStream inputStream1 	= image1.getInputStream();
+			String fileName1 			= image1.getSubmittedFileName();
+			String originalName1 		= getfileName(fileName1, 1);
+			String suffix1				= getfileName(fileName1, 2);
+			count = 1;
+			String savedName1 			= uploadFile(approval_num, count, inputStream1, uploadPath, suffix1);
+			
+			review.setFile_name1(savedName1); // 후기파일이름1
+		 }
+		//--------------- image1 End -----------------------------------------------------
+	    
+	    //--------------- image2 Start -----------------------------------------------------
+	    Part image2 = request.getPart("fileUpload2");
+	    
+	    if (image2.getSize() > 0) { // 파일이 첨부된 경우
+	    	
+		    InputStream inputStream2 	= image2.getInputStream();
+		    String fileName2 			= image2.getSubmittedFileName();
+		    String originalName2 		= getfileName(fileName2, 1);
+		    String suffix2 				= getfileName(fileName2, 2);
+		    count = 2;
+		    String savedName2 			= uploadFile(approval_num, count, inputStream2, uploadPath, suffix2);
+		    
+		    review.setFile_name2(savedName2); // 후기파일이름2
+	    }
+	  //--------------- image2 End -----------------------------------------------------
+	    
+	  //--------------- image3 Start -----------------------------------------------------
+	    Part image3 				= request.getPart("fileUpload3");
+	    
+	    if (image3.getSize() > 0) { // 파일이 첨부된 경우
+	    	
+		    InputStream inputStream3 	= image3.getInputStream();
+		    String fileName3 			= image3.getSubmittedFileName();
+		    String originalName3 		= getfileName(fileName3, 1);
+		    String suffix3 				= getfileName(fileName3, 2);
+		    count = 3;
+		    String savedName3 			= uploadFile(approval_num, count, inputStream3, uploadPath, suffix3);
+		    
+		    review.setFile_name3(savedName3); // 후기파일이름
+		}
+	  //--------------- image3 End -----------------------------------------------------
+
+	    // 아래 private까지 다 한걸 가져와서 여기서 전부 처리
+		int insertResult = ms.hoogiwrite(review);
+		System.out.println("mscontroller hoogiwrite insertResult->"+insertResult);
+			
+		model.addAttribute("review", review);
+		System.out.println("mscontroller hoogiwrite review->"+review);
+	   
+			
+		return "redirect:/view_ms/reviewDetail?approval_num=" + approval_num;
+			
 	}
+	
+
+	// 파일 확장자 구하기  
+	private  String getfileName(String fileName, int gubun) {
+		String rtnName = "";
+	    System.out.println("fileName->"+fileName);
+	   
+	    // 파일명에 '.'이 없을 경우 예외 처리
+	    if (!fileName.contains(".")) {
+	    	
+	        // 확장자가 없는 경우 기본 값 설정
+	        if (gubun == 1) {
+	            return fileName; // 전체 파일명을 반환
+	        } else {
+	            return ""; // 확장자가 없으므로 빈 문자열 반환
+	        }
+	        
+	    }
+	    
+	 // 파일명에 '.'이 있는 경우 처리
+	    String[] split = fileName.split("\\.");
+	    if (split.length < 2) {
+	        // 확장자가 없는 경우
+	        if (gubun == 1) {
+	            rtnName = split[0]; // 확장자 없는 파일명
+	        }
+	    } else {
+	        // 확장자가 있는 경우
+	        String originalName = split[split.length - 2];
+	        String suffix = split[split.length - 1];
+
+	        // gubun == 1 -> 파일명 반환, gubun == 2 -> 확장자 반환
+	        if (gubun == 1) {
+	            rtnName = originalName;
+	            System.out.println("originalName->" + originalName);
+	        } else if (gubun == 2) {
+	            rtnName = suffix;
+	            System.out.println("suffix->" + suffix);
+	        }
+	    }
+
+	    System.out.println("getfileName rtnName->" + rtnName);
+	    return rtnName;
+	}
+  
+	// 첨부파일 저장 폴더 생성
+	private String uploadFile(	String			approval_num,
+								int				count,
+					            InputStream 	inputStream, 
+					            String 			uploadPath, 
+					            String 			suffix) 
+					            throws FileNotFoundException, IOException {
+
+		// requestPath = requestPath + "/resources/image";
+		System.out.println("uploadPath->"+uploadPath);
+		// Directory 생성 
+		File fileDirectory = new File(uploadPath);
+		if (!fileDirectory.exists()) {
+			// 신규 폴더(Directory) 생성 
+			fileDirectory.mkdirs();
+			System.out.println("업로드용 폴더 생성 : " + uploadPath);
+		}
+		
+		String savedName = "review_" + approval_num + "_" + count + "." + suffix;
+		log.info("savedName: " + savedName);
+		// 임시파일 생성
+		File tempFile = new File(uploadPath+savedName);
+		
+		
+		// 생성된 임시파일에 요청으로 넘어온 file의 inputStream 복사
+		try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+			int read;
+			// 2K*K
+			byte[] bytes = new byte[2048000];
+			while ((read = inputStream.read(bytes)) != -1) {
+				// Target File에 요청으로 넘어온 file의 inputStream 복사
+				outputStream.write(bytes, 0, read);
+			} 
+		} finally {
+				System.out.println("UpLoad The End");
+		}
+		
+		return savedName;
+	}
+
+	// 구매상세페이지 -> 이미 작성한 후기보기
+	@GetMapping(value = "/view_ms/reviewDetail")
+    public String reviewDetail(HttpSession session, 
+                                Model model,
+                                @RequestParam("approval_num") String approval_num) {
+        System.out.println("위의 approval_num->"+approval_num);
+
+
+        System.out.println("msController reviewDetail start...");
+
+        User_Table user_table = (User_Table) session.getAttribute("user");
+        String user_id = user_table.getUser_id();
+        System.out.println("msController reviewDetail user_id->" + user_id);
+
+        ReviewListInfo ri = ms.myhoogiDetail(approval_num);
+        System.out.println("mscontroller ri->"+ri);
+
+        model.addAttribute("ri", ri);
+        System.out.println("mscontroller reviewDetail ri->" + ri);
+        
+        Review review = ms.del_state(approval_num);
+        System.out.println("mscontroller reviewDetail review->"+ review);
+
+        return "view_ms/reviewDetail";
+    }
+	
 
 	// 구매자(관심목록)
 	@GetMapping(value = "/view_ms/myZzim")
@@ -571,6 +782,8 @@ public class MsController {
 		System.out.println("MsController deleteQna ->" + deleteQna);
 		return "redirect:/view_ms/myQna";
 	}
+	
+
 
 	// 전문가(문의내역) -> 선택삭제 (update로 변경완)
 	@PostMapping("/myQnaDelete_P")
@@ -599,6 +812,49 @@ public class MsController {
 		System.out.println("MsController deleteQna_S ->" + deleteQna);
 		return "redirect:/view_ms/myQna_S";
 	}
+	
+	// 구매자(문의상세내역) -> 보고있는 문의삭제 
+	@PostMapping("/myQnaDetailDelete")
+	public String myQnaDetailDelete(HttpSession session, @RequestParam Long qna_num) {
+		System.out.println("mscontroller myQnaDetailDelete start...");
+		User_Table user_table = (User_Table) session.getAttribute("user");
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller myQnaDetailDelete user_id->" + user_id);
+		System.out.println("mscontroller myQnaDetailDelete Qnanum->" + qna_num);
+
+		int deleteQna = ms.qnaDetailDelete(user_id, qna_num);
+		System.out.println("MsController myQnaDetailDelete ->" + deleteQna);
+		return "redirect:/view_ms/myQna";
+	}
+	
+	// 판매자(문의상세내역) -> 보고있는 문의삭제 
+	@PostMapping("/myQnaDetailDelete_S")
+	public String myQnaDetailDelete_S(HttpSession session, @RequestParam Long qna_num) {
+		System.out.println("mscontroller myQnaDetailDelete_S start...");
+		User_Table user_table = (User_Table) session.getAttribute("user");
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller myQnaDetailDelete_S user_id->" + user_id);
+		System.out.println("mscontroller myQnaDetailDelete_S Qnanum->" + qna_num);
+
+		int deleteQna = ms.qnaDetailDelete(user_id, qna_num);
+		System.out.println("MsController myQnaDetailDelete_S ->" + deleteQna);
+		return "redirect:/view_ms/myQna_S";
+	}
+	
+	// 전문가(문의상세내역) -> 보고있는 문의삭제 
+	@PostMapping("/myQnaDetailDelete_P")
+	public String myQnaDetailDelete_P(HttpSession session, @RequestParam Long qna_num) {
+		System.out.println("mscontroller myQnaDetailDelete_P start...");
+		User_Table user_table = (User_Table) session.getAttribute("user");
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller myQnaDetailDelete_P user_id->" + user_id);
+		System.out.println("mscontroller myQnaDetailDelete_P Qnanum->" + qna_num);
+
+		int deleteQna = ms.qnaDetailDelete(user_id, qna_num);
+		System.out.println("MsController myQnaDetailDelete_P ->" + deleteQna);
+		return "redirect:/view_ms/myQna_P";
+	}
+	
 	
 	//구매자(차량구매문의)
 	@GetMapping("/view_ms/myNote")
@@ -672,6 +928,50 @@ public class MsController {
 		return "view_ms/myNoteDetail_S";	
 	}
 	
+	//판매자에게 보내는 쪽지양식으로 이동
+    @GetMapping(value = "/view_ms/go_note_form")
+    public String go_note_form() {
+        System.out.println("쪽지Form으로 이동");
+        return "view_ms/sending_note"; 
+    }
+
+    //판매자에게 쪽지 보내기
+    @PostMapping(value = "/view_ms/sending_note")
+    public String sending_note(HttpSession session, Model model,
+                                @RequestParam ("sellNum") Long   sell_num,
+                                @RequestParam ("id")       String note_rd,
+                                @RequestParam ("title")   String note_title,
+                                @RequestParam ("content") String note_content) {
+        System.out.println("판매자에게 쪽지 보내기");
+        User_Table user = (User_Table) session.getAttribute("user");
+        String note_sd = user.getUser_id();
+
+
+        System.out.println("매물번호 : " + sell_num);
+        System.out.println("판매자의 id: " + note_rd);
+
+        Note note = new Note();
+        note.setSell_num(sell_num);
+        note.setNote_sd(note_sd);
+        note.setNote_rd(note_rd);
+        note.setNote_title(note_title);
+        note.setNote_content(note_content);
+        int sending_note = ms.service_sending_note(note);
+
+        if (sending_note > 0) {
+            model.addAttribute("successYN", "1");
+            System.out.println("MsController sending_note Success!!!");
+            return "view_ms/sending_note_Success";
+
+        // 실패시
+        } else {
+            System.out.println("MsController sending_note Failed...");
+            return "redirect:/";
+        }
+
+    }
+	
+	
    //구매자(쪽지 답장하기 페이지)
 	@GetMapping("/view_ms/myNoteDabjangWrite")
 	public String myNoteDabjang(HttpSession session,
@@ -718,45 +1018,91 @@ public class MsController {
 		return "view_ms/myNoteDabjangWrite_S";
 	}
 	
-	//답장한 쪽지 저장
-	@PostMapping("view_ms/myNoteDabjangWrite")
-	public String myNoteDabjangWrite(HttpSession session, Note note,
-							        @RequestParam long note_num,
-							        @RequestParam String note_rd,
-							        @RequestParam String note_title,
-							        @RequestParam String note_content,
-							        @RequestParam long sell_num) {
-		System.out.println("mscontroller myNoteDabjangWrite start...");
-		User_Table user_table = (User_Table)session.getAttribute("user");
-		String note_sd = user_table.getUser_id(); //지금 로그인 되어 있는 id (지금 보낼 사람)
-		System.out.println("mscontroller myNoteDabjangWrite 받는이rd->"+note_rd); //해당 메세지를 보냈던 사람
-		System.out.println("mscontroller myNoteDabjangWrite 보내는이sd->"+note_sd); //답장할사람, 나, (받는이였던 사람)
-		System.out.println("mscontroller myNoteDabjangWrite note_num->"+note_num);
-		System.out.println("mscontroller myNoteDabjangWrite note_title->"+note_title);	
-		System.out.println("mscontroller myNoteDabjangWrite note_content->"+note_content);	
-		
-		Map<String, Object> params = new HashMap<>();
-		params.put("note_sd", note_sd);
-		params.put("note_rd", note_rd);
-		params.put("note_num", note_num);
-		params.put("note_title", note_title);
-		params.put("note_content", note_content);
-		params.put("sell_num", sell_num);
-		
-		int result = ms.noteDabjang(params);	
-		
-		if(result>0) {
-			System.out.println("mscontroller DabjangWrite params->"+params);
-			System.out.println("mscontroller DabjangWrite result->"+result);
-			return "redirect:/view_ms/myNote";
-		}else {
-			System.out.println("mscontroller DabjangWrite error->");
-			return "redirect:/someErrorPage";
-		}
-	}
+//	//답장한 쪽지 저장
+//	@PostMapping("view_ms/myNoteDabjangWrite")
+//	public String myNoteDabjangWrite(HttpSession session, Note note,
+//							        @RequestParam long note_num,
+//							        @RequestParam String note_rd,
+//							        @RequestParam String note_title,
+//							        @RequestParam String note_content,
+//							        @RequestParam long sell_num) {
+//		System.out.println("mscontroller myNoteDabjangWrite start...");
+//		User_Table user_table = (User_Table)session.getAttribute("user");
+//		String note_sd = user_table.getUser_id(); //지금 로그인 되어 있는 id (지금 보낼 사람)
+//		System.out.println("mscontroller myNoteDabjangWrite 받는이rd->"+note_rd); //해당 메세지를 보냈던 사람
+//		System.out.println("mscontroller myNoteDabjangWrite 보내는이sd->"+note_sd); //답장할사람, 나, (받는이였던 사람)
+//		System.out.println("mscontroller myNoteDabjangWrite note_num->"+note_num);
+//		System.out.println("mscontroller myNoteDabjangWrite note_title->"+note_title);	
+//		System.out.println("mscontroller myNoteDabjangWrite note_content->"+note_content);	
+//		
+//		Map<String, Object> params = new HashMap<>();
+//		params.put("note_sd", note_sd);
+//		params.put("note_rd", note_rd);
+//		params.put("note_num", note_num);
+//		params.put("note_title", note_title);
+//		params.put("note_content", note_content);
+//		params.put("sell_num", sell_num);
+//		
+//		int result = ms.noteDabjang(params);	
+//		
+//		if(result>0) {
+//			System.out.println("mscontroller DabjangWrite params->"+params);
+//			System.out.println("mscontroller DabjangWrite result->"+result);
+//			return "redirect:/view_ms/myNote";
+//		}else {
+//			System.out.println("mscontroller DabjangWrite error->");
+//			return "redirect:/someErrorPage";
+//		}
+//	}
+    //쪽지 답장하는 양식으로 이동
+    @GetMapping(value = "/view_ms/go_noteDabjang_form")
+    public String go_noteDabjang_form() {
+        System.out.println("쪽지Form으로 이동");
+        return "view_ms/sending_note_Dabjang"; 
+    }
+//답장한 쪽지 저장
+    @PostMapping("view_ms/myNoteDabjangWrite")
+    public String myNoteDabjangWrite(HttpSession session, Note note,
+                                    @RequestParam long note_num,
+                                    @RequestParam String note_rd,
+                                    @RequestParam String note_title,
+                                    @RequestParam String note_content,
+                                    @RequestParam long sell_num,
+                                    Model model) {
+        System.out.println("mscontroller myNoteDabjangWrite start...");
+        User_Table user_table = (User_Table)session.getAttribute("user");
+        String note_sd = user_table.getUser_id(); //지금 로그인 되어 있는 id (지금 보낼 사람)
+        System.out.println("mscontroller myNoteDabjangWrite 받는이rd->"+note_rd); //해당 메세지를 보냈던 사람
+        System.out.println("mscontroller myNoteDabjangWrite 보내는이sd->"+note_sd); //답장할사람, 나, (받는이였던 사람)
+        System.out.println("mscontroller myNoteDabjangWrite note_num->"+note_num);
+        System.out.println("mscontroller myNoteDabjangWrite note_title->"+note_title);
+        System.out.println("mscontroller myNoteDabjangWrite note_content->"+note_content);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("note_sd", note_sd);
+        params.put("note_rd", note_rd);
+        params.put("note_num", note_num);
+        params.put("note_title", note_title);
+        params.put("note_content", note_content);
+        params.put("sell_num", sell_num);
+
+        int result = ms.noteDabjang(params);
+
+        if (result > 0) {
+            model.addAttribute("successYN", "1");
+            System.out.println("MsController sending_note Success!!!");
+            return "view_ms/sending_note_Dabjang_Success";
+
+        // 실패시
+        } else {
+            System.out.println("MsController sending_note Failed...");
+            return "redirect:/";
+        }
+
+    }
 	
-	//쪽지 삭제
-	@PostMapping("/myNoteDelete")
+	//구매자 (쪽지 삭제)
+	@PostMapping ("/myNoteDelete")
 	public String deleteNote(HttpSession session, @RequestBody List<Integer> note_nums ) {
 		System.out.println("mscontroller myNoteDelete start...");
 		User_Table user_table = (User_Table)session.getAttribute("user");
@@ -767,12 +1113,29 @@ public class MsController {
 			System.out.println("mscontroller NoteDelete note_num->"+note_num);
 			ms.deleteNote(note_num);
 		}
-		return "redierct:/view_ms/myNote";
+		return "redirect:/view_ms/myNote"; 
 	}
+	
+	//판매자 (쪽지 삭제)
+	@PostMapping("/myNoteDelete_S")
+	public String deleteNote_S(HttpSession session, @RequestBody List<Integer> note_nums ) {
+		System.out.println("mscontroller deleteNote_S start...");
+		User_Table user_table = (User_Table)session.getAttribute("user");
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontoller deleteNote_S user_id->"+user_id);
+		
+		for(int note_num : note_nums) {
+			System.out.println("mscontroller deleteNote_S note_num->"+note_num);
+			ms.deleteNote(note_num);
+		}
+		return "redirect:/view_ms/myNote_S";
+	}
+
 
 	// 구매자(내가 작성한 후기 삭제) - (update 변경 완)
 	@PostMapping("/myHoogiDelete")
-	public String myHoogiDelete(HttpSession session, @RequestBody List<String> approval_num) {
+	public String myHoogiDelete(HttpSession session, 
+								@RequestParam(name = "approval_num") String approval_num) {
 		System.out.println("msController myHoogiDelete start...");
 		User_Table user_table = (User_Table) session.getAttribute("user");
 		String user_id = user_table.getUser_id();
@@ -781,9 +1144,9 @@ public class MsController {
 
 		int hoogiDelete = ms.hoogiDelete(user_id, approval_num);
 		System.out.println("mscontroller myHoogiDelete hoogiDelete->" + hoogiDelete);
-		return "redirect:/view_ms/hoogiList";
-
+		return "redirect:/view_ms/buyListDetail";
 	}
+
 
 	// 나의 관심목록 삭제
 	@PostMapping("/myZzimDelete")
@@ -796,9 +1159,25 @@ public class MsController {
 
 		int deleteZzim = ms.deleteZzim(user_id, sell_num);
 		System.out.println("mscontroller myZzimDelete deleteZzim->" + deleteZzim);
-		return "redirect:/view_ms/myZzim";
+		return "view_ms/myZzim";
 	}
 
+	
+	// 판매자(현재 판매중, 판매완료차량 삭제) - 삭제여부 = 1로 변경
+	
+	@PostMapping("/sellCarDelete")
+	public String sellCarDelete(HttpSession session, Model model, @RequestBody List<Long> sell_num ) {
+		System.out.println("mscontroller sellCarDelete strat...");
+		User_Table user_table = (User_Table)session.getAttribute("user");
+		String user_id = user_table.getUser_id();
+		System.out.println("mscontroller sellCarDelete user_id->"+user_id);
+		System.out.println("msController sellCarDelete sell_num->"+sell_num);
+		
+		int sellcarD = ms.deletesell(user_id, sell_num);
+		System.out.println("mscontroller sellCarDelete sellcarD->"+sellcarD);
+		return "view_ms/sellList";	
+	}
+		
 	// 전문가(나의 전문가 리뷰 보기 - 리스트 출력)
 	@GetMapping("/view_ms/myExpertReview")
 	public String myExpertReview(HttpSession session, Model model) {

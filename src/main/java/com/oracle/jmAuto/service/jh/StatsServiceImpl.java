@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.oracle.jmAuto.dao.jh.StatsDao;
 import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.Payment;
 
 import lombok.RequiredArgsConstructor;
 
@@ -57,4 +58,45 @@ public class StatsServiceImpl implements StatsService{
 		receiving_list = sd.dao_receiving_list(user_id);
 		return receiving_list;
 	}
+
+	@Override
+	public Map<String, Object> service_delivery_list(String user_id) {
+		Map<String, Object> delivery_list = null;
+		delivery_list = sd.dao_delivery_list(user_id);
+		return delivery_list;
+	}
+
+	@Override
+	public Map<String, Object> service_cost_list(String user_id) {
+		Map<String, Object> cost_list = null;
+		cost_list = sd.dao_cost_list(user_id);
+		return cost_list;
+	}
+
+	/* ---------------------------------------------------------여기서부터 관리자------------------------------------------------------------------- */
+	
+	@Override
+	public List<String> getAllData() {
+		return sd.findAllData();
+	}
+
+	@Override
+	public List<String> getFilteredData(String query) {
+		return sd.findFilteredData(query);
+	}
+	
+	@Override
+	public String getAccountNameByUserId(String userId) {
+		return sd.findAccountNameByUserId(userId);
+	}
+
+	@Override
+	public Map<String, Object> service_admin_quarter_cost_list(int year) {
+		Map<String, Object> admin_quarter_cost_list = null;
+		admin_quarter_cost_list = sd.dao_admin_quarter_cost_list(year);
+		return admin_quarter_cost_list;
+	}
+
+
 }
+

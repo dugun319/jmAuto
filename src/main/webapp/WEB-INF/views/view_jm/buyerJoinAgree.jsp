@@ -1,188 +1,116 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<link href="../css/join.css" rel="stylesheet" type="text/css">
+	<!DOCTYPE html>
+	<html>
+	<link>
 
-<head>
-<meta charset="UTF-8">
-<title>약관 동의</title>
-<style>
-body {
-	margin: 0;
-	padding: 0;
-	background-color: #fafafa;
-	font-family: Pretendard;
-	min-height: 100vh; /* 화면 높이에 맞추어 최소 높이 설정 */
-}
+	<head>
+		<meta charset="UTF-8">
+		<title>개인회원 약관 동의</title>
+		<style>
+			/* 폼 그룹 스타일 */
+			.form-group {
+				/* 블록 요소로 설정하여 세로 정렬 */
+				display: block;
+			}
 
-.contents {
-	align-items: center;
-	/* 수직 중앙 정렬 */
-	height: 100vh; /* 뷰포트 높이 100%로 설정 */
-	/* 뷰포트 높이 100%로 설정 */
-}
+			/* 텍스트 상자 스타일 */
+			.text {
+				/* 자동으로 너비 설정 */
+				width: auto;
+				/* 텍스트 박스의 높이 */
+				height: 200px;
+				/* 텍스트 박스 하단 여백 */
+				margin-bottom: 10px;
+				/* 폰트 설정 */
+				font-family: Pretendard;
+				/* 테두리 설정 */
+				border: solid 1px #ddd;
+				/* 텍스트 정렬 */
+				text-align: left;
+				/* 세로 스크롤 생성 */
+				overflow-y: scroll;
+				/* 공백을 줄바꿈으로 표시 */
+				white-space: pre-line;
+				/* 폰트 크기 설정 */
+				font-size: 15px;
+				/* 텍스트 박스 내부 여백 설정 */
+				padding: 10px 8px;
+				color: gray;
+			}
 
-.content {
-	display: flex;
-	flex-direction: column; /* 세로 방향으로 배치 */
-	align-items: center; /* 수평 중앙 정렬 */
-	justify-content: center; /* 수직 중앙 정렬 */
-}
+			/* 체크박스 스타일 */
+			input[type="checkbox"] {
+				/* 체크박스 오른쪽 여백 */
+				margin-right: 10px;
+				/* 체크박스 강조 색상 */
+				accent-color: #ff4714;
+				/* 체크박스 너비와 높이 */
+				width: 20px;
+				height: 20px;
+			}
 
-/* 제목 스타일 */
-h1 {
-	position: absolute;
-	top: 150px;
-	text-align: center;
-	color: #313131;
-}
+			/* 강조 텍스트 스타일 */
+			strong {
+				/* 텍스트 색상 빨간색으로 변경 */
+				color: red;
+			}
 
-.join_step {
-	display: flex;
-	position: absolute;
-	/* 플렉스 박스 레이아웃 사용 */
-	top: 200px;
-	justify-content: center;
-	/* 가로 가운데 정렬 */
-	list-style: none;
-	/* 리스트 스타일 제거 */
-	padding: 0;
-	/* 기본 패딩 제거 */
-	margin-bottom: 30px;
-}
+			/* 필수 동의 항목 제목 스타일 */
+			.agree {
+				/* 글자 두께 굵게 */
+				font-weight: bold;
+				/* 폰트 크기 설정 */
+				font-size: 20px;
+			}
 
-.join_step li {
-	margin: 0 10px;
-	/* 항목 간의 간격 설정 */
-	position: relative;
-	/* 텍스트 위치를 조정하기 위해 relative 유지 */
-}
+			/* 체크박스 항목 오른쪽에 텍스트 배치 */
+			.check {
+				/* 오른쪽으로 정렬 */
+				float: right;
+				/* 폰트 크기 설정 */
+				font-size: 18px;
+			}
 
-.join_step li img {
-	width: 150px;
-	/* 리스트 항목 내 이미지의 크기를 설정 */
-}
+			/* 체크박스 버튼 위치 설정 */
+			.checkBtn {
+				/* 상대적인 위치 지정 */
+				position: relative;
+				/* 약간 위로 이동 */
+				top: 3px;
+			}
 
-.join_step li span {
-	position: absolute;
-	/* 텍스트를 절대 위치로 설정 */
-	bottom: 0;
-	left: 50%;
-	/* 텍스트를 중앙 하단에 위치 */
-	color: #666;
-	/* 텍스트 색상 설정 */
-	line-height: 1.462em;
-	/* 텍스트 줄 간격 설정 */
-	white-space: nowrap;
-	/* 텍스트가 줄바꿈되지 않도록 설정 */
-	transform: translate(-50%, 0);
-	/* 텍스트를 중앙 정렬 */
-}
+			footer {
+				top: 1000px;
+			}
+		</style>
+		<script>
+			function toggleButton() {
+				// 체크박스가 체크되었는지 확인
+				const checkBox1 = document.getElementById('agree1');
+				const checkBox2 = document.getElementById('agree2');
+				const submitBtn = document.getElementById('submitBtn');
 
-/* 회원가입 폼을 감싸는 컨테이너 스타일 */
-.container {
-	display: flex;
-	flex-direction: column;
-	position: absolute;
-	gap: 40px; /* 박스들 사이의 간격 */
-	padding: 100px; /* 컨테이너 내부 여백 */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
-	background-color: #fdfdfd; /* 박스 배경색 */
-	top: 400px;
-	width: 600px;
-	height: auto;
-}
+				// 체크박스 체크 여부에 따라 버튼 활성/비활성화
+				if (checkBox1.checked && checkBox2.checked) {
+					submitBtn.disabled = false; // 활성화
+				} else {
+					submitBtn.disabled = true; // 비활성화
+				}
+			}
 
-/* 폼 그룹 스타일 */
-.form-group {
-	display: block;
-}
+			// 페이지 로드 시 버튼 비활성화 상태로 시작
+			window.onload = function () {
+				document.getElementById('submitBtn').disabled = true;
+			};
 
-textarea {
-	width: 100%;
-	height: 150px;
-	margin-bottom: 10px;
-	font-family: Pretendard;
-	border: solid 1px #ddd;
-}
 
-input[type="checkbox"] {
-	margin-right: 10px;
-	accent-color: #ff4714;
-}
+		</script>
+	</head>
 
-.button {
-	text-align: center;
-}
-
-button {
-	text-align: center;
-	width: calc(100% - 70%);
-	/* 제출 버튼의 너비를 컨테이너 너비에서 20px 줄여서 설정 */
-	color: white;
-	/* 제출 버튼의 글자 색을 흰색으로 설정 */
-	background-color: #ff4714;
-	/* 제출 버튼의 배경색을 주황색으로 설정 */
-	height: 40px;
-	/* 제출 버튼의 높이를 40px로 설정 */
-	padding: 10px;
-	/* 제출 버튼 내부 여백을 10px로 설정 */
-	border: none;
-	/* 제출 버튼의 테두리를 제거 */
-	font-weight: bold;
-	/* 제출 버튼의 글자를 굵게 설정 */
-	transition: background-color 0.3s;
-	/* 배경색 변환을 부드럽게 0.3초 동안 적용 */
-	cursor: pointer;
-	
-}
-
-strong {
-	color: red;
-}
-
-.agree {
-	font-weight: bold;
-}
-
-.check{
-	float: right;
-}
-button:disabled {
-	background-color: #d3d3d3;
-	cursor: not-allowed;
-}
-.move{
-	text-align: center;
-
-}
-</style>
-<script>
-	function toggleButton() {
-		// 체크박스가 체크되었는지 확인
-		const checkBox1 = document.getElementById('agree1');
-		const checkBox2 = document.getElementById('agree2');
-		const nextButton = document.getElementById('nextButton');
-
-		// 체크박스 체크 여부에 따라 버튼 활성/비활성화
-		if (checkBox1.checked && checkBox2.checked) {
-			nextButton.disabled = false; // 활성화
-		} else {
-			nextButton.disabled = true; // 비활성화
-		}
-	}
-
-	// 페이지 로드 시 버튼 비활성화 상태로 시작
-	window.onload = function() {
-		document.getElementById('nextButton').disabled = true;
-	};
-</script>
-</head>
-
-<body>
-	<div id="wrapper">
+	<body>
 		<header>
-			<%@ include file="../header_white.jsp"%>
+			<%@ include file="../header_white.jsp" %>
 		</header>
 		<div class="contents">
 			<div class="content">
@@ -190,10 +118,11 @@ button:disabled {
 			</div>
 			<div class="content">
 				<ul class="join_step">
-					<li><img src="../images/join/joinAgree.png"><span>약관동의</span></li>
-					<li><img src="../images/join/joinInfo_before.png"><span>회원
+					<li><img src="<%=request.getContextPath()%>/images/main/joinAgree.png"><span>약관동의</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/main/joinInfo_before.png"><span>회원
 							정보 입력</span></li>
-					<li><img src="../images/join/joinOk_before.png"><span>가입신청</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/main/joinOk_before.png"><span>가입신청</span>
+					</li>
 				</ul>
 			</div>
 			<div class="content">
@@ -201,11 +130,12 @@ button:disabled {
 					<div class="form-group">
 						<label class="agree"><Strong>[필수]</Strong> 이용 약관동의</label>
 						<p></p>
-						<textarea readonly>제1장 총칙
+						<div class="text" readonly>제1장 총칙
 							제1조(목적)
-							본 약관은 대·중소기업·농어업협력재단 기술보호통합포털(이하 "당 관리시스템")이 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 당 관리시스템의 권리, 의무, 책임사항과 기타 필요한 사항을
+							본 약관은 대·중소기업·농어업협력재단 기술보호통합포털(이하 "당 관리시스템")이 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 당
+							관리시스템의 권리, 의무, 책임사항과 기타 필요한 사항을
 							규정함을 목적으로 합니다.
-							
+
 							제2조(약관의 효력 및 변경)
 							① 당 관리시스템은 귀하가 본 약관 내용에 동의하는 것을 조건으로 귀하에게 서비스를 제공할 것이며, 귀하가 본 약관의 내용에 동의
 							하는 경우, 당 관리시스템의 서비스 제공 행위 및 귀하의 서비스 사용 행위에는 본 약관이 우선적으로 적용될 것입니다.
@@ -294,95 +224,69 @@ button:disabled {
 							⑤ 당 관리시스템은 이용자가 본 약관의 내용에 위배되는 행동을 한 경우, 임의로 서비스 사용을 제한 및 중지 할 수 있습니다. 이 경우
 							당 관리시스템은 위 이용자의 접속을 금지할 수 있습니다.
 							제10조(서비스의변경및해지)
-							당 관리시스템은 귀하가 서비스를 이용하여 기대하는 손익이나 서비스를 통하여 얻은 자료로 인한 손해에 관하여 책임을 지지 않으며, 회원이 본 서비스에 게재한 정보, 자료, 사실의 신뢰도, 정확성 등 내용에 관하여는
-							책임을 지지 않습니다.</textarea>
-						<p>
+							당 관리시스템은 귀하가 서비스를 이용하여 기대하는 손익이나 서비스를 통하여 얻은 자료로 인한 손해에 관하여 책임을 지지 않으며, 회원이 본 서비스에 게재한
+							정보, 자료, 사실의 신뢰도, 정확성 등 내용에 관하여는
+							책임을 지지 않습니다.</d>
+							<p>
+
+						</div>
 						<div class="check">
-							<input type="checkbox" id="agree1" required="required"
-								onclick="toggleButton()">동의합니다
+							<input type="checkbox" class="checkBtn" id="agree1" required="required"
+								onclick="toggleButton()"><span>동의합니다.</span>
 							<p>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="agree"><Strong>[필수]</Strong> 개인정보 약관동의</label>
 						<p></p>
-						<textarea readonly>대·중소기업·농어업협력재단(이하 “재단” 이라 한다)은 「개인정보보호법」 제15조 제1항 제1호, 제17조 제1항 제1호, 제23조 제1호 따라 아래와 같이 개인정보의 수집. 이용에 관하여 귀하의 동의를 얻고자
-								   합니다.
-								   
-								   재단은 이용자의 사전 동의 없이는 이용자의 개인정보를 함부로 공개하지 않으며, 수집된 정보는 아래와 같이 이용하고 있습니다. 이용자가 제공한 모든 정보는 아래의 목적에 필요한 용도 이외로는 사용되지 않으며 이용
-								   목적이 변경될 시에는 이를 알리고 동의를 구할 것입니다.
-								   
-								   
-								   개인정보의 수집 및 이용 동의
-								   1. 개인정보의 수집 및 이용 목적
-								   가. 회원 관리
-								   - 회원제 서비스 이용 및 제한적 본인 확인제에 따른 본인확인, 개인식별, 가입의사 확인, 가입 및 가입횟수 제한, 추후 법정 대리인 본인확인, 분쟁 조정을 위한 기록보존, 불만처리 등 민원처리, 공지사항 전달 등을
-								   목적으로 개인정보를 처리합니다.
-								   나. 정부지원사업 신청 및 선정기업(학교) 관계자 관리
-								   - "중소기업기술 보호 지원에 관한 법률" 등 법령에 근거하여 시행하는 정부지원사업 행정규칙(법령, 요령, 지침 등) 내용에 따라 신청(지원)기업의 대표자, 참여자 등의 관리, 신청·선정·협약 등에 필요한
-								   자격(의무사항 불이행, 참여제한, 참여율 등)여부 확인, 보고·사후관리·통계 등의 목적으로 개인정보를
-								   처리합니다.
-							다. 정부지원사업 평가위원, 전문가 등의 관리
-							- 정부지원사업(법령, 요령, 지침 등)에서 정한 평가위원·전문가 등의 자격확인, 평가참여이력 등의 행정업무를 목적으로 개인정보를 처리합니다.
-							라. 민원사무 처리
-							- 민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락·통지, 처리결과 통보 등을 목적으로 개인정보를 처리합니다.
-							마. 기술보호지원 서비스 제공
-							- 콘텐츠 제공, 특정 맞춤 서비스 제공, 서비스 유지보수 및 기능개선, 본인인증 등을 목적으로 개인정보를 처리합니다.
-							바. 홍보 등의 활용
-							- 신규 또는 매년 공고되는 정부지원사업의 안내, 정부지원사업 참여자에 대한 의무사항, 성과조사 등의 안내, 정책적 참조를 위한 설문조사 요청, 접속빈도
-							파악 또는 회원의 서비스 이용에 대한 통계, 이벤트 및 홍보성 정보 제공 등을 목적으로 개인정보를 처리합니다.
-							
-							2. 수집하는 개인정보의 항목
-							가. 일반회원 가입
-							① 필수항목
-							- 성명, 아이디, 비밀번호, 일반전화번호, 휴대전화번호, 이메일, 자택주소, 뉴스레터 수신여부
-							② 선택항목
-							- 팩스번호, 직장사업자번호, 직장명, 부서, 직위, 회사주소
-							나. 전문가회원 가입
-							① 필수항목
-							- 개인정보 : 성명, 아이디, 이메일, 소속기관, 부서, 직위, 일반전화번호, 휴대전화번호, 직장주소
-							- 학력사항 : 출신학교, 전공, 학위, 입학일자, 증명서류 , 근무처, 근무부서, 직급, 입사일자, 업무내용, 증명서류
-							② 선택항목
-							- 개인정보 : 스번호, 은행명, 계좌번호, 자택주소
-							- 학력사항 : 지도교수명, 졸업일자, 논문명
-							- 경력사항 : 퇴사일자
-							- 연구논문 : 연구제목, 발행년월, 게재처, 번호, 주저자명, 공동저자, 책임저자, SCI논문여부, ISBN, 증명서류
-							- 자격증 및 포상 : 취득년도, 자격(포상)명, 자격번호, 포상등급, 발행기관, 증명서류
-							- 학회 및 협회활동 : 학회명, 직위, 시작일, 종료일, 담당업무, 증명서류
-							- 정부출연과제수행실적 : 시행부처명, 시행년도, 사업명, 과제명, 시작일, 종료일, 정부출연금, 참여역할, 평가결과, 출연기관명
-							- 지식재산권 : 특허형태, 특허명, 출원번호, 출원일자, 출원자명, 발명자명, 특허공개번호, 공개일자, 등록번호, 등록일자, 소속기관, 등록국가, PCT출원
-							여부, 사업화여부, 증명서류
-							다. 자동수집
-							IP 주소, 쿠키, 서비스 이용 기록, 방문기록 등
-							
-							3. 개인정보의 보유 및 이용기간
-							재단은 원칙적으로 보유기간의 경과, 개인정보의 수집 및 이용목적의 달성 등 그 개인정보가 불필요하게 되었을 때에는 지체 없이 파기합니다. 다만, 다른 법령에 따라 보존하여야 하는 경우에는 그러하지 않을 수 있습니다.
-							불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.
-							
-							4. 동의 거부권 및 불이익
-							정보주체는 개인정보 수집에 동의를 거부할 권리가 있습니다. 다만, 필수 항목에 대한 동의를 거부할 시 저희가 제공하는 서비스를 이용할 수 없습니다.
-							
-							5. 14세 미만 아동의 경우 회원가입 및 저희가 제공하는 서비스를 이용할 수 없습니다.</textarea>
+						<div class="text" readonly>가. 개인정보의 수집 및 이용 목적
+
+							국가공간정보포털은 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는
+							경우에는 개인정보 보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.
+
+							나. 정보주체와 법정대리인의 권리ㆍ의무 및 행사방법
+							① 정보주체(만 14세 미만인 경우에는 법정대리인을 말함)는 언제든지 개인정보 열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다.
+							② 제1항에 따른 권리 행사는 개인정보보호법 시행규칙 별지 제8호 서식에 따라 작성 후 서면, 전자우편 등을 통하여 하실 수 있으며, 기관은 이에 대해 지체
+							없이 조치하겠습니다.
+							③ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 개인정보 보호법 시행규칙 별지 제11호
+							서식에 따른 위임장을 제출하셔야 합니다.
+							④ 개인정보 열람 및 처리정지 요구는 개인정보 보호법 제35조 제5항, 제37조 제2항에 의하여 정보주체의 권리가 제한 될 수 있습니다.
+							⑤ 개인정보의 정정 및 삭제 요구는 다른 법령에서 그 개인정보가 수집 대상으로 명시되어 있는 경우에는 그 삭제를 요구할 수 없습니다.
+							⑥ 정보주체 권리에 따른 열람의 요구, 정정ㆍ삭제의 요구, 처리정지의 요구 시 열람 등 요구를 한 자가 본인이거나 정당한 대리인인지를 확인합니다.
+
+							다. 수집하는 개인정보의 항목
+							국가공간정보포털 회원정보(필수): 이름, 이메일(아이디), 비밀번호
+
+							라. 개인정보의 보유 및 이용기간
+							국가공간정보포털은 법령에 따른 개인정보 보유ㆍ이용기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유ㆍ이용기간 내에서 개인정보를
+							처리ㆍ보유합니다.
+
+							- 수집근거: 정보주체의 동의
+							- 보존기간: 회원 탈퇴 요청 전까지(1년 경과 시 재동의)
+							- 보존근거: 정보주체의 동의
+
+							마. 동의 거부 권리 및 동의 거부에 따른 불이익
+							위 개인정보의 수집 및 이용에 대한 동의를 거부할 수 있으나, 동의를 거부할 경우 회원 가입이 제한됩니다.
+						</div>
 						<p>
 						<div class="check">
-							<input type="checkbox" id="agree2" required="required"
-								onclick="toggleButton()">동의합니다
+							<input type="checkbox" class="checkBtn" required="required" id="agree2"
+								onclick="toggleButton()"><span>동의합니다.</span>
 							<p>
 						</div>
 					</div>
 					<div class="form-gruop">
-					<div class="move">
-						<button>
-							<a href="/">취소</a>
-						</button>
-							<a href="/view_jm/buyerJoinInfo"><button id="nextButton">다음</button></a>					
-					</div>
+						<div class="moveBtn">
+							<a href="/"><button id="backBtn">취소</button></a>
+							<a href="/view_jm/buyerJoinInfo"><button id="submitBtn">다음</button></a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		<footer>
+			<%@ include file="../footer.jsp" %>
+		</footer>
+	</body>
 
-</body>
-
-</html>
+	</html>

@@ -1,0 +1,32 @@
+@charset "UTF-8";
+body {
+	font-family: 'Pretendard';
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+}
+
+.header_continer {
+    position: relative; /* No fixed position, it will scroll naturally */
+    width: 100%;
+    top: 0;
+    z-index: 1001; /* Still higher than the menu */
+}
+
+.menu_continer {
+    position: fixed;
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
+}
+
+.faq_insert_container {
+	display: grid;
+	grid-template-columns: minmax(auto, 1320px);
+	justify-content: center;
+	max-width: 100%;
+	margin: 0px auto;
+	background-color: #f7f7f7;
+	height: 100%;
+}

@@ -13,8 +13,14 @@
 		from Expert_Review
 	</select>
 	
-	<select id="selExp_Revlist" resultType="Expert_Review">
-		select *
-		from Expert_Review
+	<select id="selExp_Revlist" resultType="Expert_Review" parameterType="String">
+		SELECT e.content,
+		 		 e.write_date, 
+		       e.expert_review_num,
+		       c.model 
+		  FROM Expert_Review e 
+		  JOIN car_general_info c 
+		    ON e.sell_num = c.sell_num 
+		 WHERE e.sell_num = #{sellNum}
 	</select>
 </mapper>

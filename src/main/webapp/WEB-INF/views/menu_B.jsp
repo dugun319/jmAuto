@@ -6,6 +6,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+.header_continer {
+    position: relative; /* No fixed position, it will scroll naturally */
+    width: 100%;
+    top: 0;
+    z-index: 1001; /* Still higher than the menu */
+}
+.menu_continer {
+    position: fixed;
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
+}
 .menu {
 	z-index: 1;
 }

@@ -66,12 +66,14 @@ body {
 	align-items: center;
 	justify-content: center;
 	box-shadow: 0 0 10px 5px rgb(0,0,0,0.06);
+	transition: background-color 0.3s ease;
 }
 
 .manager_header_gene_a{
 	font-size: 14px;
 	position: absolute;
 	font-weight: bold;
+	
 }
 
 .manager_header_gene:hover {
@@ -126,9 +128,9 @@ body {
 .col-1 { width: 120px;  text-align: center; } /* 분류 */
 .col-2 { width: 120px; text-align: center; } /* 작성자 */
 .col-3 { width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } /* 제목 */
-.col-4 { width: 120px; text-align: center; } /* 날짜 */
-.col-5 { width: 160px; text-align: center; }  /* 작업 */
-.col-6 { width: 100px; height:auto; text-align: center; display: flex; justify-content: center;} /* 삭제여부 */
+.col-4 { width: 120px; text-align: center; } /* 문의제목 */
+.col-5 { width: 160px; text-align: center; }  /* 문의날짜 */
+.col-6 { width: 100px; height:auto; text-align: center; display: flex; justify-content: center;} /* 답변여부 */
 
 .manager_CS_table_th {
 	color: #999999;
@@ -141,13 +143,15 @@ body {
 	width: 60px;
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	position: relative;
 }
 
 .faq_del_state1{
 	font-size: 12px;
 	color: #fdfdfd;
-	align-items: center;
-	margin: 4px
+	margin: 4px;
+	position: absolute;
 }
 
 
@@ -158,13 +162,15 @@ body {
 	width: 60px;
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	position: relative;
 }
 
 .faq_del_state2{
 	font-size: 12px;
 	color: #fdfdfd;
-	align-items: center;
-	margin: 4px
+	margin: 4px;
+	position: absolute;
 }
 
 .but_images {

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../header_white.jsp" %>
 <%@ include file="../kakao.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -10,63 +9,12 @@
 <title>공지사항 및 약관확인</title>
 </head>
 <body>
+	<!-- 사이드바 -->
+	<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
+	<div class="menu_continer"><%@ include file="../view_mh/menu_CS.jsp" %></div>
 
+	<!-- 공지사항 메인 내용 -->
 	<div class="notice">
-		<!-- 사이드바 -->
-		<div class="noticeSidebar">
-			<nav class="sidebar">
-			    <ul>
-			        <li class="mainHover">
-			        	<a href="../view_jw/csMain"  >
-				        	<img src="../images/cs/고객센터_icon_before.png" width="40px">
-				       		고객지원
-				       	</a>
-			      	</li>
-			
-			        <li class="commonHover">
-			        	<a href="../view_jw/csFaq">
-				        	<img src="../images/cs/cs상세카테고리_icon_before.png" width="40px">
-				            자주 묻는 질문
-			            </a>
-			        </li>
-			
-			        <li class="commonHover">
-			        	<c:choose>
-			    			<c:when test="${not empty sessionScope.user}">
-			    				<a href="#" onclick="window.open('/view_jw/csQna', '_blank', 'width=600, height=800')" 
-								class="qnaButton">
-									<img src="../images/cs/cs상세카테고리_icon_before.png" width="40px">
-				           			신고·문의·민원
-								</a>
-			    			</c:when>
-			    			
-			    			<c:otherwise>
-			    				<a href="../view_jw/csNotLogin" class="qnaButton">
-				    				<img src="../images/cs/cs상세카테고리_icon_before.png" width="40px">
-					            	신고·문의·민원
-			    				</a>
-			    			</c:otherwise>	
-			    		</c:choose>
-			        </li>
-			        
-			        <li class="commonHover"> 
-			        	<a href="../view_jw/csNotice">
-				        	<img src="../images/cs/cs상세카테고리_icon_before.png" width="40px">
-				           	공지사항 및 약관
-			           </a>
-			        </li>
-			
-			        <li class="commonHover">
-			        	<a href="../view_jw/csReview">
-				        	<img src="../images/cs/cs상세카테고리_icon_before.png" width="40px">
-				       		고객후기
-			            </a>
-			        </li>
-			    </ul>
-			</nav>
-		</div>
-		
-		<!-- 공지사항 메인 내용 -->
 		<div class="noticeContainer">
 			<h1>공지사항 및 약관</h1>
 			<span class="noticeMent">공지사항 및 이용약관을 확인해주세요</span>
@@ -96,6 +44,7 @@
 			        <tbody>
 			        	<c:forEach var="notice" items="${ listNotice }">
 			        		<c:choose>
+			        		
 			        			<c:when test="${ selNoticeCls == '6100' && 
 			        			(notice.notice_cls == '6100' || notice.notice_cls == '6300') }">
 									<tr><td>
@@ -109,25 +58,27 @@
 			                                    </c:otherwise>
 											</c:choose>
 										</span>
-										<a href="../view_jw/csNoticeSelect" class="noticeButton">
-											${ notice.notice_title }
+										<a href="../view_jw/csNoticeSelect?notice_num=${ notice.notice_num }" 
+											class="noticeButton">${ notice.notice_title }
 										</a>
 										<span class="date">
 											<fmt:formatDate type="date" value="${ notice.notice_date }" pattern="YYYY/MM/dd"/>
 										</span>
 									</td></tr>
 								</c:when>
+								
 			        			<c:when test="${ selNoticeCls == '6200' && notice.notice_cls == '6200' }">
 									<tr><td>
 										<span class="eYong">이용약관</span>
-										<a href="../view_jw/csNoticeSelect" class="noticeButton">	
-											${ notice.notice_title }
+										<a href="../view_jw/csNoticeSelect?notice_num=${ notice.notice_num }" 
+											class="noticeButton">${ notice.notice_title }
 										</a>
 										<span class="date">
 											<fmt:formatDate type="date" value="${ notice.notice_date }" pattern="YYYY/MM/dd"/>
 										</span>
 									</td></tr>
 								</c:when>
+								
 							</c:choose>
 						</c:forEach>
 					</tbody>

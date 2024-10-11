@@ -4,28 +4,41 @@
  
 <mapper namespace="com.oracle.jmAuto.dto.Mapper.mh">
 	<select id="CarList" resultType="Car_General_Info">
-		select SELL_NUM,
-       		   CAR_TYPE,
-       		   BRAND,
-       		   MODEL,
-       		   CAR_NUM,
-    		   MANU_DATE,
-		       MILEAGE,
-		       COLOR,
-		       FUEL,
-		       TRANSMISSION,
-		       ACCIDENT,
-		       REPOSSESSION,
-		       PRICE,
-		       SELL_REGI,
-		       SELL_CERTI_TAX,
-		       SELL_SHINBUN,
-		       USER_ID,
-		       SALE,
-		       REG_DATE,
-		       DEL_STATE,
-       		   substr(manu_date,1,2) || '년' || substr(manu_date,3,4) || '월식' munu_date_cos
-		from   Car_General_Info
+		SELECT 
+		    car.SELL_NUM,
+		    car.CAR_TYPE,
+		    car.BRAND,
+		    car.MODEL,
+		    car.CAR_NUM,
+		    car.MANU_DATE,
+		    car.MILEAGE,
+		    car.COLOR,
+		    car.FUEL,
+		    car.TRANSMISSION,
+		    car.ACCIDENT,
+		    car.REPOSSESSION,
+		    car.PRICE,
+		    car.SELL_REGI,
+		    car.SELL_CERTI_TAX,
+		    car.SELL_SHINBUN,
+		    car.USER_ID,
+		    car.SALE,
+		    car.REG_DATE,
+		    car.DEL_STATE,
+		    SUBSTR(car.MANU_DATE, 1, 2) || '년' || SUBSTR(car.MANU_DATE, 3, 4) || '월식' AS munu_date_cos,
+		    img.img_url
+		FROM 
+		    Car_General_Info car
+		JOIN 
+		    car_images img ON car.SELL_NUM = img.SELL_NUM
+		where
+			(
+		       img.IMG_URL LIKE '%' || '_1.' || '%'
+	           OR img.IMG_URL IS NULL
+	         )
+	    and 
+	    	del_state = 0 and sale = 0
+
 	</select>
 
 	<select id="CarSearchList" parameterType="map" resultType="Car_General_Info">
@@ -69,5 +82,21 @@
     		   TO_CHAR((price + PRICE * 0.10 + ((PRICE * 0.05) / 2)) * 10000, 'FM999,999,999,999') as sum_price
 		from   Car_General_Info
     	where  sell_num = #{sellNumInt}
+    	and    del_state = 0 and sale = 0
+    </select>
+    
+    <select id="autocomplete" parameterType="map" resultType="map">
+    	select Sell_num,
+    		   model
+    	from   car_general_info
+    	where  model Like '%' || #{value} || '%'
+    	and    car_type = #{searchType}
+    	and    del_state = 0 and sale = 0
+    </select>
+    
+    <select id="selImgList" parameterType="String" resultType="Car_Image">
+    	select img_url
+    	from   car_images
+    	where  sell_num = #{sellNum}
     </select>
 </mapper>

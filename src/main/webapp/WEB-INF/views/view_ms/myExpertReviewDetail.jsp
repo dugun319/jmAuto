@@ -17,7 +17,7 @@
 	<div class="container">
 		<main class="content">
 			<h1 class="text-center">
-				<a href="#">내가 작성한 전문가리뷰 -> 완성되면 페이지 연결예정</a>
+				<a href="#">내가 작성한 전문가리뷰 -> 완성되면 페이지 연결완료(/KH/pay/expertReviewPage)</a>
 			</h1>
 			<br>
 			<br>

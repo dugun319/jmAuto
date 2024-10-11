@@ -3,22 +3,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@ include file="../header_white.jsp" %>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
+	@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+	}
+	
     body {
 	margin: 0;
 	padding: 0;
 	background-color: #fafafa ;
 	font-family: Pretendard;
 	min-height: 100vh; /* 화면 높이에 맞추어 최소 높이 설정 */
+	font-family: 'Pretendard-Regular';
+    font-weight: 400;
+    font-style: normal;
 }
 
 .contents {
-	align-items: center;
 	/* 수직 중앙 정렬 */
+	align-items: center;
 	height: 100vh; /* 뷰포트 높이 100%로 설정 */
-	/* 뷰포트 높이 100%로 설정 */
 }
 
 .content {
@@ -26,6 +37,8 @@
 	flex-direction: column; /* 세로 방향으로 배치 */
 	align-items: center; /* 수평 중앙 정렬 */
 	justify-content: center; /* 수직 중앙 정렬 */
+	width: 1000px;
+    margin: 0 auto;
 }
 
 /* 제목 스타일 */
@@ -137,16 +150,13 @@ button {
 a {
  color: white;
  text-decoration-line: none;
-
 }
+
 	
 </style>
 </head>
 <body>
 	<div id="wrapper">
-		<header>
-				<%@ include file="../header_white.jsp" %>
-		</header>
 
 		<div class="contents">
 
@@ -157,9 +167,9 @@ a {
 			
 			<div class="content">
 				<ul class="join_step">
-					<li><img alt="" src="/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li></li> 
-                    <li><img alt="" src="/images/sellMyCar/차량등록_후.png"><span>차량정보 입력</span></li></li>
-                    <li><img alt="" src="/images/sellMyCar/가입완료_입력.png"><span>등록완료</span></li></li>
+					<li><img alt="" src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li></li> 
+                    <li><img alt="" src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_후.png"><span>차량정보 입력</span></li></li>
+                    <li><img alt="" src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_입력.png"><span>등록완료</span></li></li>
 				</ul>
 			</div>
 			

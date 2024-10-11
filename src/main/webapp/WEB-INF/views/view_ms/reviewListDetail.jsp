@@ -51,7 +51,7 @@
 	
 	<div class="container">
 		<main class="content">
-			<h1 class="text-center"><a href="#">내가 구매한 전문가리뷰->리뷰 페이지 연결 예정</a></h1><br><br>
+			<h1 class="text-center"><a href="#">내가 구매한 전문가리뷰->리뷰 페이지 연결 완료(/KH/pay/expertReviewPage)</a></h1><br><br>
 			<div class="block">
 				<table>
 					<thead>

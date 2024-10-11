@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 .footer_container {
 	display: grid;
 	grid-template-columns: minmax(auto, 1280px);
@@ -7,6 +8,7 @@
 	background-color: #fdfdfd;
 	width: 100%;
 	height: auto;
+	position: relative;
 }
 
 .footer_img {

@@ -3,26 +3,59 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@ include file="../header_white.jsp" %>
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 
 	<style>
-		body {
-			/* background-color: #ededed; */
-			background-color: red;
+	
+		@font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
 		}
 		
-		body h1 {
+		body{
+			font-family: 'Pretendard-Regular';
+		    font-weight: 400;
+		    font-style: normal;
+		}
+	
+		.gray {
+			background-color: #ededed;
+		}
+		
+		.gray h1 {
 			margin-top: 50px;
 			text-align: center;
 			font-weight: bold;
+		}
+		
+		form {
+			display: grid;
+            grid-template-columns: 1fr;
+            grid-column-gap: 20px;
+            grid-row-gap: 20px;
+            width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 100px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            margin-bottom: 50px;
 		}
 		
 		.img{
 			display: block;
 			margin: 0,auto;
 			/* background-image: url('/images/main/sellMyCar/차량등록_box.png'); */
+			margin-bottom: 50px;
 		}
 		
 		.circle{
@@ -63,10 +96,13 @@
 		    white-space: pre-line; 
 		    overflow-y: scroll; 
 		    margin: 0 auto 20px;
+		    border: #e2e8ee 1px solid;
 		}
 		
 		.text{
 			margin-top: 5px;
+			padding: 0px 30px;
+			border: #e2e8ee 1px solid;	
 		}
 		
 		.butt {
@@ -92,6 +128,7 @@
 		    color: #070707;
 		    font-weight: bold;
 		    margin-left: 5px;
+		    margin-bottom: 50px;
 		}
 		
 		.content {
@@ -99,72 +136,105 @@
 			flex-direction: column; /* 세로 방향으로 배치 */
 			align-items: center; /* 수평 중앙 정렬 */
 			justify-content: center; /* 수직 중앙 정렬 */
-            margin-bottom: 300px;
+	        margin-bottom: 200px;
 		}
 		
 		.join_step {
-	display: flex;
-	position: absolute;
-	/* 플렉스 박스 레이아웃 사용 */
-	top: 200px;
-	justify-content: center;
-	/* 가로 가운데 정렬 */
-	list-style: none;
-	/* 리스트 스타일 제거 */
-	padding: 0;
-	/* 기본 패딩 제거 */
-	margin-bottom: 30px;
-}
+			display: flex;
+			position: absolute;
+			/* 플렉스 박스 레이아웃 사용 */
+			top: 200px;
+			justify-content: center;
+			/* 가로 가운데 정렬 */
+			list-style: none;
+			/* 리스트 스타일 제거 */
+			padding: 0;
+			/* 기본 패딩 제거 */
+			margin-bottom: 30px;
+		}
+		
+		.join_step li {
+			margin: 0 10px;
+			/* 항목 간의 간격 설정 */
+			position: relative;
+			/* 텍스트 위치를 조정하기 위해 relative 유지 */
+		}
+		
+		.join_step li img {
+			width: 150px;
+			/* 리스트 항목 내 이미지의 크기를 설정 */
+		}
+		
+		.join_step li span {
+			position: absolute;
+			/* 텍스트를 절대 위치로 설정 */
+			bottom: 0;
+			left: 50%;
+			/* 텍스트를 중앙 하단에 위치 */
+			color: #666;
+			/* 텍스트 색상 설정 */
+			line-height: 1.462em;
+			/* 텍스트 줄 간격 설정 */
+			white-space: nowrap;
+			/* 텍스트가 줄바꿈되지 않도록 설정 */
+			transform: translate(-50%, 0);
+			/* 텍스트를 중앙 정렬 */
+		}
 
-.join_step li {
-	margin: 0 10px;
-	/* 항목 간의 간격 설정 */
-	position: relative;
-	/* 텍스트 위치를 조정하기 위해 relative 유지 */
-}
-
-.join_step li img {
-	width: 150px;
-	/* 리스트 항목 내 이미지의 크기를 설정 */
-}
-
-.join_step li span {
-	position: absolute;
-	/* 텍스트를 절대 위치로 설정 */
-	bottom: 0;
-	left: 50%;
-	/* 텍스트를 중앙 하단에 위치 */
-	color: #666;
-	/* 텍스트 색상 설정 */
-	line-height: 1.462em;
-	/* 텍스트 줄 간격 설정 */
-	white-space: nowrap;
-	/* 텍스트가 줄바꿈되지 않도록 설정 */
-	transform: translate(-50%, 0);
-	/* 텍스트를 중앙 정렬 */
-}
+		#redirectButton {
+			display: inline-block;
+			width: 320px;
+			height: 60px;
+			border: solid #ff4714 1px;
+			background-color: white;
+			color: #ff4714;
+			font-size: 16px;
+			text-align: center;
+			margin-right: 5%;
+			line-height: 60px; /* height와 동일하게 설정 */
+		}
+		
+		#nextButton{
+			display: inline-block;
+			width: 320px;
+			height: 60px;
+			border: solid #ff4714 2px;
+			background-color: #ff4714;
+			color: white;
+			font-size: 16px;
+			margin-left: 5%;
+			text-align: center;
+		}
+			
+			.divGroupButton {
+				display: flex;
+				margin-top: 50px;
+				margin-bottom: 20px;
+				text-align: center;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			input[type="checkbox"] {
+				margin-right: 10px;
+				accent-color: #ff4714;
+			}
 	</style>
 
-<!-- CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- aJax 사용을 위한 jQuery -->
-<script type="text/javascript" src="../js/jquery.js"></script>
 
-			<%@ include file="../header_white.jsp" %>
-		<%@ include file="../kakao.jsp" %>
+
+			
 		
 <body>
-<h1>차량등록</h1>
+<div class="gray">
+
 	<div class="img">
 		<div class="content">
+				<h1>차량등록</h1>
 				<ul class="join_step">
-					<li><img src="../images/sellMyCar/약관동의_선택.png"><span>약관동의</span></li>
-					<li><img src="../images/sellMyCar/차량등록_전.png"><span>차량정보 입력</span></li>
-					<li><img src="../images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_선택.png"><span>약관동의</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_전.png"><span>차량정보 입력</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
 				</ul>
 			</div>
 
@@ -235,18 +305,25 @@
                	<input type="checkbox" required="required"><h5> 동의합니다.</h5>
             </div>
             
+            <div class="divGroupButton">
+	    		<a href="/">
+		    		<div id="redirectButton">
+		    			이전
+		    		</div>
+		    	</a>
+	    		<button type="submit" id="nextButton">
+	    			다음
+	    		</button>
+    		</div>
             
-            <div class="butt">
-		        <a href="/">
-		            <img alt="" src="/images/sellMyCar/취소_but.png">
-		        </a>
-
-                <button type="submit">
-                	<img alt="" src="/images/sellMyCar/다음_but.png">
-                </button>
-            </div>
-           </form>
+       </form>
 	</div>
+	<footer>
+		<%@ include file="../footer.jsp" %>
+	</footer>
+</div>
+
+
 </body>
-<%@ include file="../footer.jsp" %>
+
 </html>

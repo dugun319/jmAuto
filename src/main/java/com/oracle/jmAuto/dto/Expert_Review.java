@@ -21,12 +21,27 @@ public class Expert_Review {
 	private int		coolant;				/* 소모냉각수 */
 	private int		tire;					/* 소모타이어 */
 	private int		brake_pad;				/* 소모브레이크패드 */
-	private int		del_state;				//삭제여부
 	
-	private String  model; 					/* 차리스트에 모델명 */			/* 소모브레이크패드 */
+
+	private String  model; 					/* 차리스트에 모델명 */
+	private int		del_state;				/* 삭제여부 */
 	
+	
+	// 마이페이지용 
 	private String color; 					/* 미숙 추가 전문가 리뷰 작성 리스트 */
 	private String price;
 	private String car_num;
+	private String img_url; // 검색하면 나오는 메인이미지 담기 위함
+	private String img_name;
 
+
+	//페이징용 
+	private String pageNum;            //페이지 번호 (성희 추가)
+	private int start;                //매물 시작 번호 (성희 추가)
+	private int end;                //매물 끝 번호 (성희 추가)
+	private String currentPage;        //현재 페이지 정보 (성희 추가)
+	private int total;                //전체 매물 수 저장용..(페이지 가져옴) (성희 추가)
+	
+	//날짜포맷용
+		private String formatted_write_date;	//db date sql에서 포맷해서 가져오는 용도
 }

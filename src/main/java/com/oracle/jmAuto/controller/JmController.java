@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.oracle.jmAuto.dto.Account;
 import com.oracle.jmAuto.dto.Business;
 import com.oracle.jmAuto.dto.Certified;
+import com.oracle.jmAuto.dto.FullUserInfo;
+import com.oracle.jmAuto.dto.Paging;
 import com.oracle.jmAuto.dto.SessionUtils;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.service.jm.EmailService;
@@ -31,7 +34,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -41,14 +43,14 @@ public class JmController {
 	private final JmService js;
 	private final EmailService es;
 
-	// 로그인 화면 출력
+	// NOTE - 로그인 화면 출력
 	@GetMapping(value = "/login")
 	public String loginForm() {
 		System.out.println("JmController.loginForm start...");
 		return "view_jm/login";
 	}
 
-	// 로그인 처리 로직 
+	// NOTE - 로그인 처리 로직 
 	@PostMapping(value = "/login")
 	public String login(@RequestParam("user_id") String user_id, @RequestParam("user_pw") String user_pw, Model model,
 			HttpSession session, HttpServletRequest request) {
@@ -60,7 +62,7 @@ public class JmController {
 
 		// 로그인 실패: 비밀번호가 틀리거나 사용자 정보가 없음
 		if (user_table == null) {
-			model.addAttribute("loginError", "비밀번호 또는 아이디가 틀렸습니다.");
+			model.addAttribute("loginError", "아이디 또는 비밀번호가 틀렸습니다.");
 			model.addAttribute("user_id", user_id); // 입력한 아이디를 다시 전달
 			return "view_jm/login"; // 로그인 페이지로 리다이렉트
 		}
@@ -77,8 +79,7 @@ public class JmController {
 			return "view_jm/login";
 		}
 		 // 탈퇴 상태 확인
-		 System.out.println("탈퇴 상태: " + user_table.getDel_state());
-		String user_id1 = user_table.getUser_id();
+		 System.out.println("탈퇴 상태: " + user_table.getDel_state());String user_id1 = user_table.getUser_id();
 		// 로그인 성공시
 		System.out.println("JmController.login 성공!!!!!");
 
@@ -92,12 +93,11 @@ public class JmController {
 		session.setMaxInactiveInterval(30 * 60); // 30분 동안 활동이 없으면 세션 만료 설정
 		System.out.println("JmController.login() session >>>" + session.getAttribute("user"));
 		// 사용자 ID저장
-		SessionUtils.addAttribute("user_id",  user_id);
-		System.out.println("JmController.login 성공!!!!! user_id -> " + SessionUtils.getStringAttributeValue("user_id"));
+		SessionUtils.addAttribute("user_id",  user_id1);
 		return "redirect:/";
 	}
 
-	// 로그아웃 (세션 해제)
+	// NOTE - 로그아웃 (세션 해제)
 	@GetMapping(value = "/logout")
 	public String logout(HttpSession session, Model model) {
 		System.out.println("JmController.logout start.....");
@@ -106,7 +106,7 @@ public class JmController {
 		return "redirect:/";
 	}
 
-	// 회원가입 유형 화면 출력
+	// NOTE - 회원가입 유형 화면 출력
 	@GetMapping(value = "/joinType")
 	public String joinTypeForm() {
 		System.out.println("JmController.joinTypeForm start.....");
@@ -115,7 +115,7 @@ public class JmController {
 	}
 
 	// --------------------------------Buyer Join--------------------------------------
-	// buyer join Agree form
+	//  NOTE - buyer join Agree form
 	@GetMapping(value = "/buyerJoinAgree")
 	public String buyerJoinAgreeForm() {
 
@@ -123,14 +123,14 @@ public class JmController {
 		return "view_jm/buyerJoinAgree";
 	}
 
-	// buyer join info form
+	// NOTE - buyer join info form
 	@GetMapping(value = "/buyerJoinInfo")
 	public String buyerJoinInfoForm() {
 		System.out.println("Jmcontroller.buyerJoinInfoForm start...");
 		return "view_jm/buyerJoinInfo";
 	}
 
-	// buyer 회원가입
+	// NOTE - buyer 회원가입
 	@PostMapping(value = "/join")
 	public String join(@ModelAttribute User_Table user, Model model) {
 		System.out.println("JmController.join start...");
@@ -159,7 +159,7 @@ public class JmController {
 	// ---------------------------------------------------------------------------------
 
 	// --------------------------------seller Join--------------------------------------- 
-	// seller join Form 화면 출력
+	//  NOTE - seller join Form 화면 출력
 
 	@GetMapping(value = "/sellerJoinAgree")
 	public String sellerJoinAgreeForm() {
@@ -169,7 +169,7 @@ public class JmController {
 		return "view_jm/sellerJoinAgree";
 	}
 
-	// seller join info form_1 화면 출력
+	// NOTE - seller join info form_1 화면 출력
 	@GetMapping(value = "/sellerJoinInfo_1")
 	public String sellerJoinInfoForm() {
 
@@ -178,7 +178,7 @@ public class JmController {
 		return "view_jm/sellerJoinInfo_1";
 	}
 
-	// seller Join info - business Info_1 세션 저장 로직 구현
+	// NOTE - seller Join info - business Info_1 세션 저장 로직 구현
 	@PostMapping(value = "/sellerJoinInfo_2")
 	public String InsertBuz(@ModelAttribute Business business2, @RequestParam("fileUpload") MultipartFile file,
 			HttpSession session) {
@@ -215,7 +215,7 @@ public class JmController {
 			// business.setBuz_filename(fileName);
 
 			// 파일 url 생성 (웹에서 접근 가능한 경로로 설정)
-			String fileUrl = "/businessImage/" + fileName;
+			String fileUrl = "/userImages/buzImages/" + fileName;
 			business.setBuz_url(fileUrl); // business객체에 파일 url 설정
 
 			// 방법 2
@@ -235,9 +235,9 @@ public class JmController {
 		return "view_jm/sellerJoinInfo_2";
 	}
 
-	// 판매자 회원가입
+	// NOTE - 판매자 회원가입
 	@PostMapping(value = "/sellerJoinRequest")
-	public String sellerJoin(User_Table user_table, HttpSession session, Account account)
+	public String sellerJoin(HttpServletRequest request ,User_Table user_table, HttpSession session, Account account)
 			throws FileNotFoundException, IOException {
 		System.out.println("JmController.sellerJoin start...");
 
@@ -263,9 +263,10 @@ public class JmController {
 		// 실제 파일 저장 처리
 		if (fileData != null && fileName != null) {
 			// 실제 파일 저장 경로
-			String filePath = "C:/businessImage";
+			String filePath = request.getSession().getServletContext().getRealPath("/userImages/buzImages");
 			// String uniqueFileName = business.getBuz_num() + "_" + fileName; // 고유 파일명 설정
 			File dest = new File(filePath + File.separator + fileName);
+			System.out.println("JmController.sellerJoin filePath >>" + filePath);
 
 			try (FileOutputStream fos = new FileOutputStream(dest)) {
 				// 파일을 실제로 저장
@@ -298,7 +299,7 @@ public class JmController {
 	// ----------------------------------------------------------------------------------
 
 	// -----------------------------------prof join--------------------------------------
-	// prof join Form
+	// NOTE - prof join Form
 	@GetMapping(value = "/profJoinAgree")
 	public String profJoinAgreeForm() {
 
@@ -306,7 +307,7 @@ public class JmController {
 		return "view_jm/profJoinAgree";
 	}
 
-	// prof join info form
+	// NOTE - prof join info form
 	@GetMapping(value = "/profJoinInfo_1")
 	public String profJoinInfoForm() {
 
@@ -315,7 +316,7 @@ public class JmController {
 		return "view_jm/profJoinInfo_1";
 	}
 
-	// prof Join info - certified Info_1 세션 저장 로직 구현
+	// NOTE - prof Join info - certified Info_1 세션 저장 로직 구현
 	@PostMapping(value = "/profJoinInfo_2")
 	public String InsertCert(@ModelAttribute Certified certified5, @RequestParam("fileUpload") MultipartFile file,
 			HttpSession session) {
@@ -350,7 +351,7 @@ public class JmController {
 		try {
 
 			// 파일 url 생성 (웹에서 접근 가능한 경로로 설정)
-			String fileUrl = "/certImage/" + fileName;
+			String fileUrl = "/userImages/certImages/" + fileName;
 			cert.setCert_url(fileUrl); // 자격증 파일 url 설정
 
 			// 방법 2
@@ -371,9 +372,9 @@ public class JmController {
 		return "view_jm/profJoinInfo_2";
 	}
 
-	// 전문가 회원가입
+	// NOTE - 전문가 회원가입
 	@PostMapping(value = "/profJoinRequest")
-	public String profJoin(@ModelAttribute User_Table user_table, HttpSession session, Account account)
+	public String profJoin(HttpServletRequest request,@ModelAttribute User_Table user_table, HttpSession session, Account account)
 			throws FileNotFoundException, IOException {
 		System.out.println("JmController.profJoin start...");
 		System.out.println("Certified Info in Session: " + session.getAttribute("certifiedInfo"));
@@ -399,7 +400,7 @@ public class JmController {
 		// 실제 파일 저장 처리
 		if (fileData != null && fileName != null) {
 			// 실제 파일 저장 경로
-			String filePath = "C:/certImage";
+			String filePath = request.getSession().getServletContext().getRealPath("/userImages/certImages");
 			// String uniqueFileName = business.getBuz_num() + "_" + fileName; // 고유 파일명 설정
 			File dest = new File(filePath + File.separator + fileName);
 
@@ -432,7 +433,7 @@ public class JmController {
 	}
 
 	// ----------------------------------------------------------------------------------
-	// 아이디 중복 확인
+	// NOTE - 아이디 중복 확인
 	@GetMapping(value = "/confirmId")
 	@ResponseBody // JSON 응답을 위해 추가
 	public int confirmId(@RequestParam("user_id") String user_id) {
@@ -461,7 +462,7 @@ public class JmController {
         return response;
     }
 
-	// 인증번호 확인 로직
+	// NOTE - 인증번호 확인 로직
 	@PostMapping("/verifyAuthCode")
 	public ResponseEntity<?> verifyAuthCode(HttpSession session, @RequestParam("auth_code") String inputCode) {
 		// 세션에 저장된 인증번호 가져오기
@@ -475,7 +476,10 @@ public class JmController {
 		}
 	}
 
-	// 아이디 찾기 화면 출력
+
+		//  ******************************************** 아이디 찾기 ************************************************* //
+
+	// NOTE - 아이디 찾기 화면 출력
 	@GetMapping(value = "/findId")
 	public String findIdForm() {
 
@@ -484,7 +488,7 @@ public class JmController {
 		return "view_jm/findId";
 	}
 
-	// 아이디 찾기
+	// NOTE - 아이디 찾기
 	@PostMapping(value = "/findId")
 	public String findId(@RequestParam("user_email") String user_email,@RequestParam("user_name") String user_name, Model model) {
 		System.out.println("JmController.findId start....");
@@ -501,12 +505,22 @@ public class JmController {
 
 		System.out.println("JmController.findId user_id >>> " + user_id);
 
-		model.addAttribute("user_id", user_id);
+		if(user_id != null){
+			model.addAttribute("user_id", user_id);
+			model.addAttribute("userCheckMessage", "회원님의 이메일로 가입된 아이디 입니다.");
+		}else{
+			model.addAttribute("userCheckMessage", "회원정보와 일치하는 아이디가 존재하지 않습니다.");
+		}
+
 
 		return "view_jm/findIdResult";
 	}
 
-	// 비밀번호 찾기 화면 출력
+	
+	
+	//  ******************************************** 비밀번호 찾기 *************************************************//
+	
+	// NOTE - 비밀번호 찾기 화면 출력
 	@GetMapping(value = "/findPw")
 	public String findPwForm() {
 
@@ -515,7 +529,7 @@ public class JmController {
 		return "view_jm/findPw";
 	}
 
-	// 비밀번호 찾기 - 회원 확인
+	// NOTE - 비밀번호 찾기 - 회원 확인
 	@PostMapping(value = "/findPw")
 	public String findPw(@ModelAttribute User_Table user, Model model) {
 		System.out.println("JmController.findPw start....");
@@ -532,13 +546,15 @@ public class JmController {
 			model.addAttribute("user_id", user_id);
 			model.addAttribute("userCheckMessage", "회원확인이 완료되셨습니다");
 		} else {
-			model.addAttribute("userCheckMessage", "아이디와 이메일이 일치하지 않습니다 다시 시도해주세요");
+			model.addAttribute("userCheckMessage", "존재하지 않는 회원입니다.");
 		}
 
 		return "view_jm/findPwResult";
 
 	}
 
+	
+	// NOTE - 비밀번호 찾기 - 임시비밀번호 발급 
 	@PostMapping(value = "/tempPassword")
 	public String tempPassword(@RequestParam String user_id, Model model) {
 		// 임시 비밀번호 생성 후 업데이트
@@ -558,5 +574,168 @@ public class JmController {
 			return "view_jm/findPw";
 		}
 	}
+
+
+
+
+	// ************************* //
+	// ****** 관리자 페이지 ****** //
+	// ************************* //
+	
+
+
+	// NOTE : 회원 목록 조회
+	@GetMapping(value = "/manager_userList")
+	public String adminPage(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,HttpSession session, Model model) {
+
+		System.out.println("AdminController.adminPage() start...");
+		User_Table user = (User_Table) session.getAttribute("user");
+
+		// user가 null인지 확인하고, user_type이 'A'인지 확인
+		if (user != null && "A".equals(user.getUser_type())) {
+			
+			
+			// 총 회원수 
+			int userTotal = js.userTotal();
+			Paging paging = new Paging(userTotal,String.valueOf(currentPage), 10, 10);
+			
+
+			List<User_Table> userList = js.selectUserList(paging.getStartIndex(), paging.getRowPage());
+
+
+			model.addAttribute("paging", paging);
+			model.addAttribute("userList", userList);
+			// user_type이 'A'인 경우 관리자 페이지로 이동
+			return "view_jm/manager_userList";
+		} else {
+			// user가 없거나 user_type이 'A'가 아닌 경우 로그인 페이지로 리다이렉트
+			return "view_jm/login";
+		}
+	}
+
+	// NOTE : 회원 목록 검색
+	@GetMapping(value = "/searchUser")
+	@ResponseBody
+	public List<User_Table> searchUserList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,HttpSession session, Model model, @RequestParam("keyword") String keyword) {
+
+		System.out.println("AdminController.searchUserList() start...");
+
+		// 총 회원수 
+		int userTotal = js.userTotal(keyword);
+		Paging paging = new Paging(userTotal,String.valueOf(currentPage), 10, 10);
+		List<User_Table> userList = js.searchUserList(keyword,paging.getStartIndex(), paging.getRowPage());
+
+		model.addAttribute("paging", paging);
+		model.addAttribute("userList", userList);
+
+		return userList;
+	}
+
+
+	// NOTE : 사용자 계정 비활성화
+	@GetMapping("/userDeactive")
+	@ResponseBody
+	public int userDeactive(@RequestParam("user_id") String user_id) {
+		System.out.println("AdminController.userDel() start...");
+		System.out.println("AdminController.userDel() user_id ....>>" + user_id);
+
+		int result = js.userDeactive(user_id);
+
+		return result;
+	}
+
+	@GetMapping("/userActive")
+	@ResponseBody
+	public int userActive(@RequestParam("user_id") String user_id) {
+		System.out.println("AdminController.userDel() start...");
+		System.out.println("AdminController.userDel() user_id ....>>" + user_id);
+
+		int result = js.userActive(user_id);
+
+		return result;
+	}
+
+	// NOTE : 판매자 전문가 승인 요청 목록
+	@GetMapping("/manager_userApproval")
+	public String userApproval(Model model) {
+		System.out.println("AdminController.userApproval start...");
+
+		List<User_Table> userList = js.selectApprovalUser();
+		System.out.println("AdminController.adminPage()  --> userList" + userList);
+
+		model.addAttribute("userList", userList);
+
+		return "view_jm/manager_userApproval";
+
+	}
+
+	// NOTE : 판매자, 전문가 승인 요청 처리
+	@GetMapping("/userApprove")
+	@ResponseBody
+	public int userApprove(@RequestParam("user_id") String user_id) {
+		System.out.println("AdminController.userApprove start....");
+		System.out.println("AdminController.userApprove user_id >>>" + user_id);
+
+		int result = js.userApprove(user_id);
+
+		// 승인 처리 성공
+		if (result > 0) {
+			// 이메일 전송
+			int sendResult = es.sendApproveMail(user_id);
+			System.out.println("AdminController.userApprove 이메일 발송 결과 >>>" + sendResult);
+
+		}
+
+		System.out.println("AdminController.userApprove result >>>" + result);
+
+		return result;
+	}
+
+	// NOTE : 승인 요청 유저 정보 상세 페이지
+	@GetMapping(value = "/manager_userDetail")
+	public String userDetail(Model model, @RequestParam("user_id") String user_id) {
+		System.out.println("AdminController.userDetail start....");
+		System.out.println("AdminController.userDetail user_id >>>>" + user_id);
+
+		FullUserInfo userInfo = js.userDetail(user_id);
+
+		System.out.println("AdminController.userDetail userInfo" + userInfo);
+
+		model.addAttribute("userInfo", userInfo);
+
+		return "view_jm/manager_userDetail";
+	}
+
+	// NOTE - 관리자 추가
+	@PostMapping(value = "/createManager")
+	public String createManage(@ModelAttribute User_Table user_table) {
+		// 1. 유저 객체 생성
+		User_Table user = new User_Table();
+
+		System.out.println("AdminController.createManage() user_table >>> " + user_table);
+		// 2. 객체에 받아온 파라메터 set
+		user.setUser_id(user_table.getUser_id());
+		user.setUser_pw(user_table.getUser_pw());
+		user.setUser_name(user_table.getUser_name());
+		user.setUser_email(user_table.getUser_email());
+		user.setUser_tel(user_table.getUser_tel());
+		user.setUser_type(user_table.getUser_type());
+		user.setDel_state(user_table.getDel_state());
+		user.setApproval(user_table.getApproval());
+
+		// 3. 서비스로 보내서 insert
+		int result = js.createManager(user);
+
+		if (result > 0) {
+			return "view_jm/adminPage";
+		} else {
+
+			return "view_jm/login";
+		}
+
+	}
+
+	
+
 	
 }

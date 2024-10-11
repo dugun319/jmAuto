@@ -6,6 +6,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+.header_continer {
+    position: relative; /* No fixed position, it will scroll naturally */
+    width: 100%;
+    top: 0;
+    z-index: 1001; /* Still higher than the menu */
+}
+.menu_continer {
+    position: fixed;
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
+}
 .menu {
 	z-index: 1;
 }
@@ -261,7 +273,43 @@
 .mon_nav_items a:hover:after {
   opacity: 1;
 }
+table.List {
+    width: 100%;                /* 테이블 폭을 100%로 설정 */
+    border-collapse: collapse;  /* 경계선 겹치기 제거 */
+    margin-top: 80px;
+}
 
+.List thead {
+    display: none;              /* 헤더 숨기기 (필요에 따라) */
+}
+
+.List tbody {
+    display: flex;              /* 테이블 몸체를 Flexbox로 설정 */
+    flex-wrap: wrap;           /* 줄 바꿈 허용 */
+}
+
+.List tr {
+    display: flex;              /* 각 행을 Flexbox로 설정 */
+    align-items: center;        /* 수직 정렬 */
+    margin-bottom: 20px;       /* 각 행 간의 여백 */
+    flex: 1 0 calc(33.333% - 20px); /* 3개씩 나열되도록 설정 */
+}
+
+.chu_carList {
+    display: flex;              /* 차량 리스트를 Flexbox로 설정 */
+    align-items: center;        /* 수직 정렬 */
+}
+
+.chu-img {
+    width: 200px;               /* 이미지 크기 조정 */
+    height: auto;
+    margin-right: 10px;        /* 이미지와 텍스트 간격 */
+}
+
+.chu_body_all {
+    display: flex;              /* 텍스트 부분도 Flexbox로 설정 */
+    flex-direction: column;     /* 세로로 배치 */
+}
 
 
 </style>
@@ -290,7 +338,7 @@
     </li>
     <li class="nav__items">
       <img alt="icon" src="../images/main/개인정보수정_icon.png" class="nav_items_img">
-      <a href="/view_ms/myPageEditCheck" class="nav_items_text">회원정보수정</a>
+      <a href="/view_ms/myPageEditCheck_P" class="nav_items_text">회원정보수정</a>
     </li>
     <li class="nav__items2">
       <a href="/view_ms/talTwae_P" class="nav_items_text2">회원탈퇴</a>

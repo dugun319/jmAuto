@@ -70,33 +70,26 @@ tbody tr {
 
 <script type="text/javascript">
 
-	/* 체크박스 함수 */
-	function handleSubmit(){
-		const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-		//querySelectorAll이라는 메서드를 사용해 현재 문서에 체크된 :checked요소를 모두 선택해 결과를 nodeList로 반환
-		const selectedPosts = Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
-		//map 메서드를 사용해 checkbox.value를 호출해 체크박스 값을 수집				형변환도 해주어야함....
-		
-		if(selectedPosts.length===0){
-			alert('삭제할 게시물을 선택해주세요');
-			return;
+
+	function myQnaDetailDelete(qna_num){
+		alert('qna_num->'+qna_num);
+		if(confirm('삭제하시겠습니까?')){
+			$.ajax({
+				url: '/myQnaDetailDelete',
+				type: 'POST',
+				data: {qna_num : qna_num}, 
+				success: function(response){
+					alert('삭제되었습니다.');
+					window.location.href='/view_ms/myQna';
+				},
+				error: function(xhr, status, error){
+					alert('삭제여부가 변경되었습니다.');
+				}
+			});
 		}
-		
-		//서버에 삭제요청을 보낸다.
-		$.ajax({
-			url: '/myQnaDelete',
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(selectedPosts),
-			success: function(response){
-				alert('선택한 게시물이 삭제되었습니다.');
-				location.reload();
-			},
-			error: function(xhr, status, error){
-				alert('삭제실패:' + xhr.statusText);
-			}
-		});
 	}
+	
+	
 
 </script>
 <body>
@@ -112,21 +105,24 @@ tbody tr {
 				<table class="border">
 					<thead>
 						<tr>
-							<td></td>
-							<td>작성자</td>
+							<td>문의번호</td>
+							<td>문의유형</td>
 							<td>작성일자</td>
 							<td>작성제목</td>
 							<td>작성내용</td>
 						</tr>
 					</thead>
 					<tbody>
-							<tr>
-								<td><input type="checkbox" name="post1" value="${Qna.qna_num}"></td>							
-								<td>${Qna.user_id}</td>
+							<tr>			
+								<td>${Qna.qna_num}</td>			
+								<td>${Qna.qna_cls}</td>			
 								<td>${Qna.qna_date}</td>
 								<td>${Qna.qna_title }</td>
-								<td><a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}">${Qna.qna_content}</a></td>
+								<td>${Qna.qna_content}</td>
 							</tr>	
+							<tr>
+								<td>&nbsp;&nbsp; ㄴ ${Qna.ans_date} 관리자 답변 :  ${Qna.ans_content }</td>
+							</tr>
 					</tbody>
 				</table>
 			</div>
@@ -134,8 +130,11 @@ tbody tr {
 			</div>
 			<!-- 버튼 컨테이너 -->
 			<div class="button">
-				<img alt="" src="../images/main/삭제_but.png" onclick="handleSubmit()"
-					style="cursor: pointer; margin-right: 20px;">
+			<button type="button"  style= "background:none; border: none;">
+				<img alt="" src="../images/main/삭제_but.png" onclick="myQnaDetailDelete('${Qna.qna_num}')"
+					style="cursor: pointer; margin-right: 20px;"></button>
+				
+				
 				<button type="submit" class="submit"
 					style="background: none; border: none; cursor: pointer;"
 					onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">

@@ -5,10 +5,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+
+		<%@ include file="../header_white.jsp" %>
+		<%@ include file="../kakao.jsp" %>
+		
+		    
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
 <title>Insert title here</title>
 </head>
 
 	<style>
+	
+	@font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
+		}
+		
+	body {
+		font-family: 'Pretendard-Regular';
+	    font-weight: 400;
+	    font-style: normal;
+	}
 
     .detailSearch {
 	    display: flex;
@@ -16,6 +40,8 @@
 	    align-items: center; /* 수평 중앙 정렬 */
 	    justify-content: center; /* 수직 중앙 정렬 */
 	    width: 100%;
+	    background-color: #fdfdfd;
+	    padding-bottom: 100px;
     }
 
     .dsBox{ 
@@ -116,7 +142,49 @@
     	color: #313131;
     	margin-bottom: 10px;
     	margin-left: 5px;
+    	transition: transform 0.2s; /* 박스 확대 효과에 대한 부드러운 전환 */
     }
+    
+    input[type="radio"]:hover + label {
+    	color: #ff4714;
+    	transform: scale(1.05); /* 박스를 1.05배 확대 */
+    }
+    
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ff4714;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+    
+    input[type='radio']:checked + label {
+    	color: #ff4714;
+    }
+    
+    input[type='radio']:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ededed;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+    
+    input[type='radio']:checked:before {
+	  background: #ff4714;
+	}
 
     #dsText {
         margin-top: 5px;
@@ -146,7 +214,7 @@
           padding-top: 10px;
           background-color: #fdfdfd;
           width: 200px;
-          height: 1100px;
+          height: 1200px;
           position: absolute;
       }
 
@@ -155,56 +223,76 @@
           margin: 0px;
           margin-left: 25px;
       }
-
+/************************************뭐야 이거 아니네*******************/
       .gray{
-          /* float: right; */
-          margin-top: 100px;
           width: 100%;
-          height: 75%;
+          height: auto;
           background-color: #ededed;
-          
+          min-height: 1300px;
+          padding-bottom: 100px;
+          padding-top: 20px;
       }
 	
 	.listTop {
 	    display: flex;
 	    flex-wrap: wrap;
 	    justify-content: space-between;
-	    width: 1652px;
-	    margin-left: 250px;
+	    width: 1320px;
 	    background-color: #fdfdfd;
+	    height: 90px;
+	    
 	}
 	
 	.listBottom {
-	    display: flex;
+	    text-align: center;
 	    flex-wrap: wrap;
 	    justify-content: space-between;
-	    width: 100%;
-	    margin-left: 250px;
 	    background-color: #fdfdfd;
+	}
+
+	.page {
+		display: flex;
+		flex: 1 1;
+		width: 1320px;
+		justify-content: center;
+		align-content: center;
+	}
+	
+	.page a {
+		text-align: center;
+		font-size: 25px;
+		font-weight: bold;
+		margin-top: 50px;
+		width: 70px;
+		height: 50px;
+		color: #ff4714;
 	}
 	
 	.listBackGround {
-		width: 1652px;
+		display: flex;
+		margin: auto;
+		width: 1320px;
 		background-color: #fdfdfd;
-		margin-left: 250px;
 	}
+
 	
 	.list {
 	    display: flex;
 	    flex-wrap: wrap;
-	    justify-content: space-between;
-	    width: 1450px;
-	    margin-left: 100px;
+	    align-content: flex-start;
+	    justify-content: flex-start;
+	    margin-left: 40px;
+	    gap: 40px; /* 카드 간의 간격 */
+	    width: 1320px;
 	    background-color: #fdfdfd;
-	    padding: 50px;
-	    min-height: 1200px;
+	    min-height: 400px;
 	}
 	
 	.list h1{
 		margin-top: 100px;
-		margin-bottom: 100px;
+		margin-bottom: 100px;AC
 	}
-	
+	/*******************************************************/
 	#result0{
 		text-align: center;
 		width: 100%;
@@ -219,15 +307,38 @@
 	}
 	
 	.card {
-	    flex: 1 1 calc(30% - 50px); /* 가로로 3개 배치 */
-	    margin: 10px;
+	    /* flex: 1 1 calc(30% - 50px);  가로로 3개 배치 
+	    margin-right: 40px;
 	    box-sizing: border-box;
 	    background-color: white;
-	    max-width: 400px; /* 원하는 최대 너비 값 >> 결과가 1이 나오던 3의 배수가 나오던 상관없이 크기를 맞추기 위함*/
+	    max-width: 400px;  원하는 최대 너비 값 >> 결과가 1이 나오던 3의 배수가 나오던 상관없이 박스의 크기를 맞추기 위함 */
+	    
+	    display: grid;
+		grid-template-columns: repeat(3, 400px); /* 3개의 열을 동일한 크기로 배치 */
+		gap: 40px;
+		margin: 20px 0 40px;
+		max-width: 1280px;
+		min-width:400px;
+	}
+	
+	.card-title {
+		font-size: 32px;
+		font-weight: bold;
+		color: #323232;
+		margin: 20px 20px 10px 20px;
 	}
 	      
       #card-text{
-      	color: #ff4714;
+      	font-size: 36px;
+		font-weight: bold;
+		color: #ff4714;
+		margin: 10px 20px 20px 20px;
+		word-wrap: break-word; /* 부모 요소를 넘는 경우 줄바꿈 */
+	    word-break: break-all; /* 단어가 길 경우 단어 중간에서 줄바꿈 */
+	    white-space: normal; /* 공백이나 줄바꿈을 기본적으로 처리 */
+	    overflow-wrap: break-word; /* 최신 표준 줄바꿈 처리 */
+	    max-width: 360px;
+	    flex-shrink: 0; /* 부모 요소에서 줄어들지 않도록 강제 */
       }
       
       #imgSize {
@@ -236,15 +347,20 @@
 	    width: auto;
 	    height: auto;
 	    object-fit: contain;
+	    min-width: 300px; /*박스 갯수가 몇 개가 나오던 이미지의 최소 사이즈를 정하기 위함*/
       }
       
-      .imgBlock {
-      	width: 100%;
-      	height: 400px;
+     .imgBlock {
+      	width: 400px;
+      	height: 100%;
+      	min-height: 300px;
+      	max-height: 300px;
       }
       
       #card-img-top {
-      	margin: 0 auto;
+      	width: 100%;
+		max-width: 400px;
+		height: auto;
       }
       
       .searchButton {
@@ -267,15 +383,49 @@
 	    cursor: pointer;
 	}
 	
-	.totalCount {
+	.listTop h1{
 		color: #313131;
 		margin-left: 40px;
 		margin-top: 20px;
-		margin-bottom: 30px;
+	}
+	
+	.li a {
+		text-decoration: none !important;
+		transition: transform 0.2s; /* 박스 확대 효과에 대한 부드러운 전환 */
+		width: 400px; 
+		align-items: flex-start;
+	}
+	
+	a:hover { 
+		text-decoration:none !important ;
+		transform: scale(1.05); /* 박스를 1.05배 확대 */
+	}
+	.carList{
+		background-color: #fafafa;
+		display:flex;
+		flex-direction: column;
+	    padding:0px;
+	    box-sizing: border-box;
+	    width: 100%;
+	    min-width:400px;
+	    max-width:400px;
+		box-shadow: 0 0 10px 5px rgb(0,0,0,0.04);
+	}
+	
+	.card-text_2 {
+		font-size: 14px;
+		color: #313131;
+		margin: 20px 20px 20px 20px;
+	}
+	
+	#plzA {
+		width: 400px;
 	}
         
 
     </style>
+    
+    
     
     
     <script type="text/javascript">
@@ -335,18 +485,8 @@
     	
     	
 	</script>
-    
-<!-- CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- aJax 사용을 위한 jQuery -->
-<script type="text/javascript" src="../js/jquery.js"></script>
 
-			<%@ include file="../header_white.jsp" %>
-		<%@ include file="../kakao.jsp" %>
+
 		
 <body>
 	<div class="detailSearch">
@@ -380,71 +520,87 @@
                 <div id="detailB">
                 	<div id="mainDtext">세부옵션</div>
                 	<div id="dtext">브랜드</div>
-	                <input type="radio" value="1100" name="brand" onclick="chkBrand(1100)"> 현대<p></p>
-	                <input type="radio" value="1200" name="brand" onclick="chkBrand(1200)"> 기아<p></p>
-	                <input type="radio" value="1300" name="brand" onclick="chkBrand(1300)"> KGM<p></p>
-	                <input type="radio" value="1400" name="brand" onclick="chkBrand(1400)"> GM<p></p>
-	                <input type="radio" value="1500" name="brand" onclick="chkBrand(1500)"> SM<p></p>
-	                <input type="radio" value="1600" name="brand" onclick="chkBrand(1600)"> 국내기타<p></p>
-	                <input type="radio" value="2100" name="brand" onclick="chkBrand(2100)"> BENZ<p></p>
-	                <input type="radio" value="2200" name="brand" onclick="chkBrand(2200)"> BMW<p></p>
-	                <input type="radio" value="2300" name="brand" onclick="chkBrand(2300)"> AUDI<p></p>
-	                <input type="radio" value="2400" name="brand" onclick="chkBrand(2400)"> MINI<p></p>
-	                <input type="radio" value="2500" name="brand" onclick="chkBrand(2500)"> VW<p></p>
-	                <input type="radio" value="2600" name="brand" onclick="chkBrand(2600)"> USA<p></p>
-	                <input type="radio" value="2700" name="brand" onclick="chkBrand(2700)"> JPN<p></p>
-	                <input type="radio" value="2800" name="brand" onclick="chkBrand(2800)"> 해외기타<p></p>
+	                <input type="radio" value="1100" name="brand" onclick="chkBrand(1100)" class="tSelect"><label for="tSelect">&nbsp; 현대&nbsp;</label><p></p>
+	                <input type="radio" value="1200" name="brand" onclick="chkBrand(1200)" class="tSelect"><label for="tSelect">&nbsp; 기아&nbsp;</label><p></p>
+	                <input type="radio" value="1300" name="brand" onclick="chkBrand(1300)" class="tSelect"><label for="tSelect">&nbsp; KGM&nbsp;</label><p></p>
+	                <input type="radio" value="1400" name="brand" onclick="chkBrand(1400)" class="tSelect"><label for="tSelect">&nbsp; GM&nbsp;</label><p></p>
+	                <input type="radio" value="1500" name="brand" onclick="chkBrand(1500)" class="tSelect"><label for="tSelect">&nbsp; SM&nbsp;</label><p></p>
+	                <input type="radio" value="1600" name="brand" onclick="chkBrand(1600)" class="tSelect"><label for="tSelect">&nbsp; 국내기타&nbsp;</label><p></p>
+	                <input type="radio" value="2100" name="brand" onclick="chkBrand(2100)" class="tSelect"><label for="tSelect">&nbsp; BENZ&nbsp;</label><p></p>
+	                <input type="radio" value="2200" name="brand" onclick="chkBrand(2200)" class="tSelect"><label for="tSelect">&nbsp; BMW&nbsp;</label><p></p>
+	                <input type="radio" value="2300" name="brand" onclick="chkBrand(2300)" class="tSelect"><label for="tSelect">&nbsp; AUDI&nbsp;</label><p></p>
+	                <input type="radio" value="2400" name="brand" onclick="chkBrand(2400)" class="tSelect"><label for="tSelect">&nbsp; MINI&nbsp;</label><p></p>
+	                <input type="radio" value="2500" name="brand" onclick="chkBrand(2500)" class="tSelect"><label for="tSelect">&nbsp; VW&nbsp;</label><p></p>
+	                <input type="radio" value="2600" name="brand" onclick="chkBrand(2600)" class="tSelect"><label for="tSelect">&nbsp; USA&nbsp;</label><p></p>
+	                <input type="radio" value="2700" name="brand" onclick="chkBrand(2700)" class="tSelect"><label for="tSelect">&nbsp; JPN&nbsp;</label><p></p>
+	                <input type="radio" value="2800" name="brand" onclick="chkBrand(2800)" class="tSelect"><label for="tSelect">&nbsp; 해외기타&nbsp;</label><p></p>
 	                <hr width = "150px" color="#ededed" align="left" size=2px/>
 	
 	                <div id="dtext">연식</div>
-	                <input type="radio" value="1990~1990" name="manu_date"> 1990년<p></p>
-	                <input type="radio" value="2000~2000" name="manu_date"> 2000년<p></p>
-	                <input type="radio" value="2000~2010" name="manu_date"> 2000~2010년<p></p>
-	                <input type="radio" value="2010~2020" name="manu_date"> 2010~2020년<p></p>
-	                <input type="radio" value="2020~2030" name="manu_date"> 2020~년<p></p>
+	                <input type="radio" value="70~90" name="manu_date" class="tSelect"><label for="tSelect">&nbsp; ~1990년&nbsp;</label><p></p>
+	                <input type="radio" value="90~99" name="manu_date" class="tSelect"><label for="tSelect">&nbsp; 1990년~1999년&nbsp;</label><p></p>
+	                <input type="radio" value="00~09" name="manu_date" class="tSelect"><label for="tSelect">&nbsp; 2000~2009년&nbsp;</label><p></p>
+	                <input type="radio" value="09~19" name="manu_date" class="tSelect"><label for="tSelect">&nbsp; 2010~2019년&nbsp;</label><p></p>
+	                <input type="radio" value="19~99" name="manu_date" class="tSelect"><label for="tSelect">&nbsp; 2020년~&nbsp;</label><p></p>
 	                <hr width = "150px" color="#ededed" align="left" size=2px/>
 	
 	                <div id="dtext">연료</div>
-	                <input type="radio" value="가솔린" name="fuel"> 가솔린<p></p>
-	                <input type="radio" value="디젤" name="fuel"> 디젤<p></p>
-	                <input type="radio" value="하이브리드" name="fuel"> 하이브리드<p></p>
-	                <input type="radio" value="전기" name="fuel"> 전기<p></p>
-	                <input type="radio" value="lpg" name="fuel"> LPG<p></p>
+	                <input type="radio" value="가솔린" 	name="fuel" class="tSelect"><label for="tSelect">&nbsp; 가솔린&nbsp;</label><p></p>
+	                <input type="radio" value="디젤" 		name="fuel" class="tSelect"><label for="tSelect">&nbsp; 디젤&nbsp;</label><p></p>
+	                <input type="radio" value="하이브리드" name="fuel" class="tSelect"><label for="tSelect">&nbsp; 하이브리드&nbsp;</label><p></p>
+	                <input type="radio" value="전기" 		name="fuel" class="tSelect"><label for="tSelect">&nbsp; 전기&nbsp;</label><p></p>
+	                <input type="radio" value="lpg" 	name="fuel" class="tSelect"><label for="tSelect">&nbsp; LPG&nbsp;</label><p></p>
                 </div>
                 <div class="dSubmit">
                 	<button type="submit" >검색</button>
                 </div>
             </form>
             
-            <div class="listTop">
+            
+            
+           
+            
+            <!-- 검색 결과 리스트로 출력 -->
+            <div class="listBackGround">
+            
+            <div class="list">
+            
+             <div class="listTop">
             	<c:if test="${total > 0 }">
-            		<div class="totalCount">
             			<h1>전체 매물 수 : ${total}</h1><br>
-            		</div>
             		<!-- <a href="/getCarNum">차번호 가져오기</a> -->
             	</c:if>
             </div>
             
-            <!-- 검색 결과 리스트로 출력 -->
-            <div class="listBackGround">
-            <div class="list">
             	<c:if test="${total > 0 }">
 					<c:forEach var="car" items="${valueList}">
-						<a href="/carInfo?sellNum=${car.sell_num }&id=${car.user_id}">
+						<a href="/carInfo?sellNum=${car.sell_num }&id=${car.user_id}" id="plzA">
 							<div class="card">
-							    <div class="imgBlock">              
-									<img src="..${car.img_url}" class="card-img-top" alt="..." id="imgSize">
-								</div>  
-								<div class="card-body">
-					                <h4 class="card-title">${car.model}</h4>
-					                <hr width="150px" color="#ededed" align="left" size="2px"/>
-					                <h2 id="card-text">${car.price }만원</h2>
+								<div class="carList">
+								    <div class="imgBlock">  
+								    	<c:choose>
+										    <c:when test="${empty car.img_url}">
+										        <img src="<%=request.getContextPath()%>/images/sellMyCar/이미지가 없어용.png" class="card-img-top" alt="이미지선택해주세요" id="imgSize">
+										    </c:when>
+										    <c:otherwise>
+										        <img src="..${car.img_url}" class="card-img-top" alt="DB에는 저장되어있는데 이미지가 없는 경우" id="imgSize">
+										    </c:otherwise>
+										</c:choose>  
+									</div>  
+									<div class="card-body">
+						                <h4 class="card-title">${car.model}</h4>
+						                <!-- <hr width="150px" color="#ededed" align="left" size="2px"/> -->
+						                <h2 id="card-text">${car.price }만원</h2>
+						                <div class="infor">
+						                	<div class="card-text_2">${car.munu_date_cos }&emsp;&emsp;${car.mileage }km&emsp;&emsp;${car.fuel }</div>
+						                </div>
+						            </div>
 					            </div>
 							</div>
 						</a>
 					</c:forEach>
-				<!-- 검색결과 값이 없는 경우 -->			
 				</c:if>
+				<!-- 검색결과 값이 없는 경우 -->			
 				<c:if test="${total == 0 }">
 					<div id="result0">
 						<h1>
@@ -462,75 +618,95 @@
             		<c:if test="${total > 0 }">
             			<div class="page">
 							<c:choose>
-								<c:when test="${not empty keyword}">
-									<c:if test="${page.startPage > page.pageBlock }">
-										<c:choose>
-											<c:when test="${not empty model_name}">
-												<a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock }&total=${total}&keyword=${keyword}&model_name=${model_name}&min_price=${min_price}&max_price=${max_price}">[이전]</a>
-											</c:when>
-											<c:otherwise>
-												<a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock }&total=${total}&keyword=${keyword}">[이전]</a>
-											</c:otherwise>
-										</c:choose>
-									</c:if>
-								</c:when>
-								<c:otherwise>
-									<c:if test="${page.startPage > page.pageBlock }">
-										<a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock }&total=${total}">[이전]</a>
-									</c:if>
-								</c:otherwise>
-							</c:choose>
+							    <c:when test="${not empty keyword}">
+							        <c:if test="${page.startPage > page.pageBlock}">
+							            <c:choose>
+							                <c:when test="${not empty model_name}">
+							                    <a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock}&total=${total}&keyword=${keyword}&model_name=${model_name}&min_price=${min_price}&max_price=${max_price}">&nbsp; 이전 &nbsp;</a>
+							                </c:when>
 							
-							<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-							<c:choose>
-								<c:when test="${not empty keyword}">
-									<c:choose>
-										<c:when test="${not empty model_name}">
-											<a href="/view_sh/page?url=${url}&currentPage=${i}&total=${total}&keyword=${keyword}&model_name=${model_name}&min_price=${min_price}&max_price=${max_price}">[${i}]</a>
-										</c:when>
-										<c:otherwise>
-											<a href="/view_sh/page?url=${url}&currentPage=${i }&total=${total}&keyword=${keyword}">[${i}]</a>
-										</c:otherwise>
-									</c:choose>
-								</c:when>
-								<c:otherwise>
-									<a href="/view_sh/page?url=${url}&currentPage=${i }&total=${total}">[${i}]</a>
-								</c:otherwise>
+							                <c:when test="${empty model_name}">
+							                    <a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock}&total=${total}&keyword=${keyword}">&nbsp; 이전 &nbsp;</a>
+							                </c:when>
+							
+							                <c:when test="${not empty fuel}">
+							                    <a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock}&total=${total}&brand=${brand}&manu_date=${manu_date}&fuel=${fuel}">&nbsp; 이전 &nbsp;</a>
+							                </c:when>
+							            </c:choose>
+							        </c:if>
+							    </c:when>
+							
+							    <c:otherwise>
+							        <c:if test="${page.startPage > page.pageBlock}">
+							            <a href="/view_sh/page?url=${url}&currentPage=${page.startPage-page.pageBlock}&total=${total}">&nbsp; 이전 &nbsp;</a>
+							        </c:if>
+							    </c:otherwise>
 							</c:choose>
-								
+
+							
+							<c:forEach var="i" begin="${page.startPage}" end="${page.endPage}">
+							    <c:choose>
+							        <c:when test="${not empty keyword and not empty model_name}">
+							            <a href="/view_sh/page?url=${url}&currentPage=${i}&total=${total}&keyword=${keyword}&model_name=${model_name}&min_price=${min_price}&max_price=${max_price}">&nbsp; ${i} &nbsp;</a>
+							        </c:when>
+							
+							        <c:when test="${not empty keyword}">
+							            <a href="/view_sh/page?url=${url}&currentPage=${i}&total=${total}&keyword=${keyword}">&nbsp; ${i} &nbsp;</a>
+							        </c:when>
+							
+							        <c:when test="${not empty fuel}">
+							            <a href="/view_sh/page?url=${url}&currentPage=${i}&total=${total}&brand=${brand}&manu_date=${manu_date}&fuel=${fuel}">&nbsp; ${i} &nbsp;</a>
+							        </c:when>
+							
+							        <c:otherwise>
+							            <a href="/view_sh/page?url=${url}&currentPage=${i}&total=${total}">&nbsp; ${i} &nbsp;</a>
+							        </c:otherwise>
+							    </c:choose>
 							</c:forEach>
+
+
 							
 							<c:choose>
-								<c:when test="${not empty keyword}">
-									<c:if test="${page.endPage < page.totalPage}">
-										<c:choose>
-											<c:when test="${not empty model_name}">
-												<a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock }&total=${total}&keyword=${keyword}&model_name=${model_name}&min_price=${min_price}&max_price=${max_price}">[다음]</a>
-											</c:when>
-											<c:otherwise>
-												<a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock }&total=${total}&keyword=${keyword}">[다음]</a>
-											</c:otherwise>
-										</c:choose>
-									</c:if>
-								</c:when>
-								<c:otherwise>
-									<c:if test="${page.endPage < page.totalPage}">
-										<a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock }&total=${total}">[다음]</a>
-									</c:if>
-								</c:otherwise>
+							    <c:when test="${not empty keyword}">
+							        <c:if test="${page.endPage < page.totalPage}">
+							            <c:choose>
+							                <c:when test="${not empty model_name}">
+							                    <a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock}&total=${total}&keyword=${keyword}&model_name=${model_name}&min_price=${min_price}&max_price=${max_price}">&nbsp; 다음 &nbsp;</a>
+							                </c:when>
+							
+							                <c:when test="${empty model_name}">
+							                    <a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock}&total=${total}&keyword=${keyword}">&nbsp; 다음 &nbsp;</a>
+							                </c:when>
+							
+							                <c:when test="${not empty fuel}">
+							                    <a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock}&total=${total}&brand=${brand}&manu_date=${manu_date}&fuel=${fuel}">&nbsp; 다음 &nbsp;</a>
+							                </c:when>
+							            </c:choose>
+							        </c:if>
+							    </c:when>
+							
+							    <c:otherwise>
+							        <c:if test="${page.endPage < page.totalPage}">
+							            <a href="/view_sh/page?url=${url}&currentPage=${page.startPage+page.pageBlock}&total=${total}">&nbsp; 다음 &nbsp;</a>
+							        </c:if>
+							    </c:otherwise>
 							</c:choose>
+
 							
 						</div>
             		</c:if>
             	</div>
 				
 			</div>
-			</div>  
+			</div> 
+			 
         </div>
-            
-        </div>
+        
+        <footer>
+				<%@ include file="../footer.jsp" %>
+			</footer>
 
         
 </body>
-	<%@ include file="../footer.jsp" %>
+	
 </html>

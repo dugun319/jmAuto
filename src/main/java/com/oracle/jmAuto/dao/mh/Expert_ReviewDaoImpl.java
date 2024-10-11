@@ -45,10 +45,24 @@ public class Expert_ReviewDaoImpl implements Expert_ReviewDao {
 		System.out.println("Expert_ReviewImpl expList start...");
 		
 		try {
-			expList = session.selectList("com.oracle.jmAuto.dto.Mapper.mh.selExp_Revlist");
+			expList = session.selectList("com.oracle.jmAuto.dto.Mapper.mh.ListReview");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return expList;
+	}
+
+	@Override
+	public List<Expert_ReviewDao> selExpList(String sellNum) {
+		List<Expert_ReviewDao> selListExp = null;
+		System.out.println("Expert_ReviewImpl selExpList start...");
+		
+		try {
+			selListExp = session.selectList("com.oracle.jmAuto.dto.Mapper.mh.selExp_Revlist", sellNum);
+			System.out.println("Expert_ReviewImpl selExpList selListExp.size() => " + selListExp.size());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return selListExp;
 	}
 }

@@ -1,14 +1,18 @@
 package com.oracle.jmAuto.dao.jw;
 
 import java.util.List;
-import java.util.Map;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+
 import com.oracle.jmAuto.dto.Faq;
 import com.oracle.jmAuto.dto.Notice_Table;
 import com.oracle.jmAuto.dto.Qna;
+
+import com.oracle.jmAuto.dto.ReviewListInfo;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,18 +41,18 @@ public class CsDaoImpl implements CsDao {
 	// 3-2. 로그인 한 회원에게 팝업창 뜸
 	@Override
 	public List<Qna> popQna() {
-		List<Qna> qnaList = null;
-		System.out.println("CsDaoImpl popQna Start...");
+		List<Qna> openPopUp = null;
+		System.out.println("CsDaoImpl openPopUp Start...");
 
 		try {
-			qnaList = session.selectList("qnaPop");
-			System.out.println("CsDaoImpl popQna qnaList.size()->"+qnaList.size());
+			openPopUp = session.selectList("qnaPop");
+			System.out.println("CsDaoImpl openPopUp qnaList.size()->"+openPopUp.size());
 			
 		} catch (Exception e) {
-			System.out.println("CsDaoImpl popQna Exception->"+e.getMessage());
+			System.out.println("CsDaoImpl openPopUp Exception->"+e.getMessage());
 		}
 		
-		return qnaList;
+		return openPopUp;
 	}
 
 	// 3-3. QnA 팝업창 내용작성
@@ -59,6 +63,7 @@ public class CsDaoImpl implements CsDao {
 		
 		try {
 			result = session.insert("insertQna", qna);
+			System.out.println("CsDaoImpl insertQna qna->"+qna);
 			System.out.println("CsDaoImpl insertQna result->"+result);
 			
 		} catch (Exception e) {
@@ -67,7 +72,25 @@ public class CsDaoImpl implements CsDao {
 		
 		return result;
 	}
-
+	
+	// 3-4. QnA 파일명, url
+	@Override
+	public int fileUpdate(Qna qna2) {
+		int result = 0;
+		System.out.println("CsDaoImpl fileUpdate Start...");
+		System.out.println("CsDaoImpl fileUpdate qna2->"+qna2);
+		
+		try {
+			result = session.update("updateFile", qna2);
+			System.out.println("CsDaoImpl fileUpdate result->"+result);
+			
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl fileUpdate Exception->"+e.getMessage());
+		}
+		
+		return result;
+	}
+	
 	// 4-1. 공지사항 및 약관: 카테고리별 내용 가져오기
 	@Override
 	public List<Notice_Table> listNotice() {
@@ -102,5 +125,59 @@ public class CsDaoImpl implements CsDao {
 
 		return notice_table;
 	}
+
+
+	// 5-1. 고객후기 페이지 작업 1
+	@Override
+	public int totalReview() {
+		int totReviewCount = 0;
+		System.out.println("CsDaoImpl totalReview Start...");
+		
+		try {
+			totReviewCount = session.selectOne("com.oracle.jmAuto.ReviewMapper.jw.reviewTotalPage");
+			System.out.println("CsDaoImpl totalReview totReviewCount->"+totReviewCount);
+			
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl totalReview Exception->"+e.getMessage());
+		}
+
+		return totReviewCount;
+	}
+
+	// 5-2. 고객후기 페이지 작업 2
+	@Override
+	public List<ReviewListInfo> listReview(ReviewListInfo ri) {
+		List<ReviewListInfo> listResult = null;
+		System.out.println("CsDaoImpl listReview Start...");
+		
+		try {
+			listResult = session.selectList("selectReview", ri);
+			System.out.println("CsDaoImpl listReview listResult.size()->"+listResult.size());
+			
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl listReview Exception->"+e.getMessage());
+		}
+		
+		return listResult; 
+	}
+
+	// 5-3. 고객후기: 해당 리뷰에 대한 모든 이미지 가져오기
+	@Override
+	public ReviewListInfo reviewImages(String approval_num) {
+		System.out.println("CsDaoImpl imgResult Start...");
+
+		ReviewListInfo ri = new ReviewListInfo();
+		
+		try {
+			ri = session.selectOne("selectImage", approval_num);
+			System.out.println("CsDaoImpl reviewImages ri->"+ri);
+			
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl reviewImages Exception->"+e.getMessage());
+		}
+		
+		return ri;
+	}
+
 
 }

@@ -238,11 +238,13 @@
 
 </head>
 <body>
+	<div id="kakaoTalk">
+		<%@ include file="../kakao.jsp" %>
+	</div>
 
-	<header id="header">
+	<header id="header" style="z-index: 2;">
 		<%@ include file="../header_white.jsp"%>
 		<span id="pageTitle">차량구매</span>
-		<%@ include file="../kakao.jsp" %>
 	</header>
 
 	<div class="container">
@@ -626,8 +628,8 @@
 		
 	</div>
 		
-	<footer id="footer">
-		<%@ include file="../footer.jsp"%>		
+	<footer id="footer"">
+		<%@ include file="../footer.jsp"%>	
 	</footer>
 
 </body>

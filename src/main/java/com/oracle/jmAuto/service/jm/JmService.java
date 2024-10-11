@@ -1,6 +1,9 @@
 package com.oracle.jmAuto.service.jm;
 
+import java.util.List;
+
 import com.oracle.jmAuto.dto.Account;
+import com.oracle.jmAuto.dto.FullUserInfo;
 import com.oracle.jmAuto.dto.Business;
 import com.oracle.jmAuto.dto.Certified;
 import com.oracle.jmAuto.dto.User_Table;
@@ -26,6 +29,32 @@ public interface JmService {
 	User_Table findPw(User_Table user);
 
     String createTempPassword(String user_id);
+
+
+	// 관리자용 페이지 로직
+
+	//List<User_Table> selectUserList(paging.getStartIndex(), paging.getRowPage());
+
+    int userDeactive(String user_id);
+    int userActive(String user_id);
+	
+
+    List<User_Table> selectApprovalUser();
+
+    int userApprove(String user_id);
+
+    FullUserInfo userDetail(String user_id);
+
+    int createManager(User_Table user);
+
+	List<User_Table> searchUserList(String keyword,int startIndex, int rowPage);
+
+	int userTotal();
+
+	List<User_Table> selectUserList(int startIndex, int rowPage);
+
+    int userTotal(String keyword);
+
 
 	
 

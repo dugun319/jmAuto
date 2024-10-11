@@ -34,10 +34,10 @@ public class Car_General_Info {
     // 조회용
     private String searchkeyword;    //서치 키워드 (성희 추가)
     private String model_name;        //모델이름 검색 (성희 추가)
-    private int    min_price;        //최소예산 검색 (성희 추가)
+    private int   	 min_price;        //최소예산 검색 (성희 추가)
     private int       max_price;        //최대예산 검색 (성희 추가)
-
     private String img_url;            //검색하면 나오는 메인이미지 담기 위함
+    private String img_name;
 
     private String pageNum;            //페이지 번호 (성희 추가)
     private int start;                //매물 시작 번호 (성희 추가)
@@ -54,4 +54,12 @@ public class Car_General_Info {
     private String     munu_date_cos;         	// oracle 커스텀 컬럼(연식 표현식)
     private String     years_passed;          	// oracle 년도 빼서 지난 연도
     private String     mon_passed;            	// oracle 월 빼서 지난 월
+    
+    
+    // 마이페이지용
+	private String 		approval_num;
+	private Date 		approval_date;
+	private String 		receiver_name;
+    
+    
 }

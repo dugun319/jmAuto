@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
 <%@ include file="../kakao.jsp" %>
 <script type="text/javascript" src="../js/jquery.js"></script>
+
 <style type="text/css">
 .content {
 	background-color: white;
@@ -112,22 +114,47 @@ tbody tr {
 				<table class="border">
 					<thead>
 						<tr>
-							<td></td>
-							<td>작성자</td>
+							<td>선택</td>
 							<td>작성일자</td>
 							<td>작성제목</td>
 							<td>작성내용</td>
+							<td>답변여부</td>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="Qna" items="${Qna}">
 							<tr>
-								<td><input type="checkbox" name="post1" value="${Qna.qna_num}"></td>							
-								<td>${Qna.user_id}</td>
-								<td>${Qna.qna_date}</td>
-								<td>${Qna.qna_title }</td>
-								<td><a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}">${Qna.qna_content}</a></td>
-							</tr>					
+								<td><input type="checkbox" name="post1"
+									value="${Qna.qna_num}"></td>
+								<!-- 제목을 일부만 보여주기 -->
+								<td
+									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
+									style="cursor: pointer;">${fn:substring(Qna.qna_date, 0, 10)}
+									<!-- 날짜는 처음 10자만 -->
+								</td>
+								<td
+									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
+									style="cursor: pointer;" ">${fn:substring(Qna.qna_title, 0, 20)}...
+									<!-- 제목을 처음 20자만 보여주기 -->
+								</td>
+								<td
+									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
+									style="cursor: pointer;">${fn:substring(Qna.qna_content, 0, 50)}...
+									<!-- 내용은 처음 50자만 보여주기 -->
+								</td>
+								<td
+									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
+									style="cursor: pointer;">
+									<c:if test="${Qna.qna_useyn ==  1 }">
+										<a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}"> <img
+											alt="" src="../images/main/답변완료.png">
+										</a>
+									</c:if> <c:if test="${Qna.qna_useyn == 0}">
+										<a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}"> <img
+											alt="" src="../images/main/답변대기중.png">
+										</a>
+									</c:if></td>
+							</tr>
 						</c:forEach>
 					</tbody>
 				</table>

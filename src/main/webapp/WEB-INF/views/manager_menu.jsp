@@ -218,20 +218,21 @@
   <ul class="nav">
     <li class="nav__items3">
 	  <img alt="icon" src="<%=request.getContextPath()%>/images/main/회원관리_icon.png" class="nav_items_img3">
-      <a href="/view_ms/buyList" class="nav_items_text3">회원</a>
+      <a href="/view_jm/manager_userList" class="nav_items_text3">회원</a>
       <div class="mon_nav_items">
-      	<a>회원관리</a>
-      	<a>가입요청관리</a>
+      	<a href="/view_jm/manager_userList">회원관리</a>
+      	<a href="/view_jm/manager_userApproval">가입요청관리</a>
       </div>
     </li>
       
     <li class="nav__items3">
       <img alt="icon" src="<%=request.getContextPath()%>/images/main/차량관리_icon.png" class="nav_items_img3">
-     <a href="" class="nav_items_text3">차량</a>
+     <a href="/view_sh/ACar" class="nav_items_text3">차량</a>
      <div class="mon_nav_items">
-      	<a>차량관리</a>
-      	<a>전문가 리뷰 관리</a>
-      	<a>환불</a>
+      	<a href="/view_sh/ACar">차량관리</a>
+      	<a href="/view_sh/pReview">전문가 리뷰 관리</a>
+      	<a href="/KH/pay/expertReviewListCon">전문가 리뷰 관리</a>
+      	<a href="/KH/pay/paymentListCon">환불</a>
       </div>
     </li>
       
@@ -241,7 +242,15 @@
       <div class="mon_nav_items">
       	<a href="/manager/CS/faq">자주 묻는 질문(FAQ)</a>
       	<a href="/manager/CS/gogi">공지사항 및 약관</a>
-      	<a>문의내역</a>
+      	<a href="/mh/man_inquiry">문의내역</a>
+      </div>
+    </li>
+    
+    <li class="nav__items3">
+      <img alt="icon" src="<%=request.getContextPath()%>/images/main/jh_stats_wi.png" class="nav_items_img3">
+      <a href="/manager/CS/faq" class="nav_items_text3">통계</a>
+      <div class="mon_nav_items">
+      	<button id="stats" onclick="window.open('/view_jh/admin_Stats_MainForm', '_blank', 'width=1270, height=1000, left=315, scrollbars=yes')">관리자 통계</button>
       </div>
     </li>
   </ul>

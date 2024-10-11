@@ -21,16 +21,14 @@
 			</div>
 
 			<div class="block_1">
-				<div class="block_1_text" style="font-size: 40px;">나의 전문가리뷰</div>
+				<div class="block_1_text" style="font-size: 32px;">나의 전문가리뷰</div>
 				<hr />
 				<div class="block_1_content_cardlist_body">
 					<c:forEach var="Expert_Review" items="${Expert_Review}">
-						<a href="/view_ms/myExpertReview">
+						<a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num }">
 							<div class="block_1_content_cardlist_hed">
 								<div class="block_1_content_cardlist_img">
-									<img alt=""
-										src="<%=request.getContextPath()%>/images/main/377조7542_1.png"
-										class="cardlist_img_src">
+									<img src="${Expert_Review.img_url }" class="cardlist_img_src">
 								</div>
 								<div class="block_1_content_cardlist_text">
 									<div class="block_1_content_cardlist_body_img">
@@ -48,18 +46,16 @@
 				</div>
 			</div>
 			<div class="block_2">
-				<div class="block_2_text_2">관심목록</div>
+				<div class="block_2_text_2"  style="font-size: 32px;">관심목록</div>
 				<hr />
 				
 				<div class="block_2_content_cardlist_body">
 					<c:forEach var="Zzim" items="${Zzim}">
-						<a href="/view_ms/myZzim">
+						<a href="/carInfo?sellNum=${Zzim.sell_num}&id=${Zzim.user_id}">
 						
 							<div class="block_2_content_cardlist_hed">
 								<div class="block_2_content_cardlist_img">
-									<img alt=""
-										src="<%=request.getContextPath()%>/images/main/377조7542_1.png"
-										class="cardlist_img_src_2">
+									<img src="${Zzim.img_url }" class="cardlist_img_src_2">
 								</div>
 								<div class="block_2_content_cardlist_text">
 									<div class="block_2_content_cardlist_body_img">
@@ -69,7 +65,7 @@
 									<div class="block_2_content_cardlist_text_1">${Zzim.model }</div>
 									<div class="block_2_content_cardlist_text_2">${Zzim.car_num}&emsp;${Zzim.price}&emsp;${Zzim.color}</div>
 									<div class="block_2_content_cardlist_text_3">판매자 :
-										${Zzim.user_id}</div>
+										${Zzim.car_user_id}</div>
 								</div>
 							</div>
 						</a>

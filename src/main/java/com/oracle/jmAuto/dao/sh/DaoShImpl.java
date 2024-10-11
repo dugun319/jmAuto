@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.Expert_Review;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,14 @@ public class DaoShImpl implements DaoSh {
 	
 	private final SqlSession session;
 
-	public List<Car_General_Info> searchList(String keyword, int start, int end) {
+	public List<Car_General_Info> searchList(String keyword, int start, int end, Integer searchType) {
 		System.out.println("DaoShImpl searchList start...");
 		List<Car_General_Info> valueList = null;
 		Map<String, Object> page = new HashMap<>();
 		page.put("keyword", keyword);
 		page.put("start",start);
 		page.put("end",end);
+		page.put("searchType", searchType);
 		try {
 			valueList = session.selectList("com.oracle.jmAuto.dto.mapper.sh.keywordSearch",page);
 			System.out.println(valueList);
@@ -103,10 +105,13 @@ public class DaoShImpl implements DaoSh {
 	}
 
 	@Override
-	public int searchListTotal(String keyword) {
+	public int searchListTotal(String keyword,Integer searchType) {
 		int total = 0;
+		Map<String, Object> value = new HashMap<>();
+		value.put("keyword", keyword);
+		value.put("searchType", searchType);
 		try {
-			total = session.selectOne("com.oracle.jmAuto.dto.mapper.sh.searchListTotal",keyword);
+			total = session.selectOne("com.oracle.jmAuto.dto.mapper.sh.searchListTotal",value);
 		} catch (Exception e) {
 			System.out.println("DaoShImpl searchListTotal exception >> "+e.getMessage());
 		}
@@ -254,4 +259,180 @@ public class DaoShImpl implements DaoSh {
 		}
 		return result;
 	}
+
+	@Override
+	public List<Car_General_Info> allCar(int start, int end) {
+		
+		System.out.println("DaoShImpl allCar Start...");
+		List<Car_General_Info> allCar = null;
+		Map<String, Object> page = new HashMap<>();
+		page.put("start", start);
+		page.put("end", end);
+		
+		try {
+			allCar = session.selectList("com.oracle.jmAuto.dto.mapper.sh.allCar",page);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl allCar exception >>" + e.getMessage());
+		}
+		return allCar;
+	}
+
+	@Override
+	public int carTotal() {
+		
+		int total = 0;
+		
+		try {
+			total = session.selectOne("com.oracle.jmAuto.dto.mapper.sh.allCarTotal");
+		} catch (Exception e) {
+			System.out.println("DaoShImpl carTotal exception >>" + e.getMessage());
+		}
+		
+		return total;
+	}
+
+	@Override
+	public List<Car_General_Info> Asearch(String keyword, int start, int end) {
+		System.out.println("DaoShImpl Asearch Start...");
+		
+		List<Car_General_Info> Alist = null;
+		Map<String, Object> value = new HashMap<>();
+		value.put("keyword", keyword);
+		value.put("start", start);
+		value.put("end", end);
+		
+		try {
+			Alist = session.selectList("com.oracle.jmAuto.dto.mapper.sh.Asearch",value);
+			System.out.println(" kk 검색된 리스트 >> "+Alist);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl Asearch exception >>" + e.getMessage());
+		}
+		return Alist;
+	}
+
+	@Override
+	public int carDeactive(String sellNum) {
+		System.out.println("DaoShImpl carDeactive Start...");
+		System.out.println("DaoShImpl carDeactive sellNum >> "+sellNum);
+		int result = 0;
+		try {
+			result = session.update("com.oracle.jmAuto.dto.mapper.sh.carDeactive",sellNum);
+			System.out.println("DaoShImpl carDeactive result >> "+result);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl carDeactive exception >>" + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int carActive(String sellNum) {
+		System.out.println("DaoShImpl carActive Start...");
+		int result = 0;
+		try {
+			result = session.update("com.oracle.jmAuto.dto.mapper.sh.carActive",sellNum);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl carActive exception >>" + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int reviewTotal() {
+		int total = 0;
+		
+		try {
+			total = session.selectOne("com.oracle.jmAuto.dto.mapper.sh.reviewTotal");
+		} catch (Exception e) {
+			System.out.println("DaoShImpl reviewTotal exception >>" + e.getMessage());
+		}
+		
+		return total;
+	}
+
+	@Override
+	public List<Expert_Review> allReview(int start, int end) {
+		System.out.println("DaoShImpl allReview Start...");
+		List<Expert_Review> allReview = null;
+		Map<String, Object> page = new HashMap<>();
+		page.put("start", start);
+		page.put("end", end);
+		
+		try {
+			allReview = session.selectList("com.oracle.jmAuto.dto.mapper.sh.allReview",page);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl allCar exception >>" + e.getMessage());
+		}
+		return allReview;
+	}
+
+	@Override
+	public List<Expert_Review> reviewSearch(String keyword, int start, int end) {
+		System.out.println("DaoShImpl reviewSearch Start...");
+		
+		List<Expert_Review> reviewList = null;
+		Map<String, Object> value = new HashMap<>();
+		value.put("keyword", keyword);
+		value.put("start", start);
+		value.put("end", end);
+		
+		try {
+			reviewList = session.selectList("com.oracle.jmAuto.dto.mapper.sh.reviewSearch",value);
+			System.out.println("검색된 리스트 >> "+reviewList);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl Asearch exception >>" + e.getMessage());
+		}
+		return reviewList;
+	}
+
+	@Override
+	public int reviewDeactive(String review_num) {
+		System.out.println("DaoShImpl reviewDeactive Start...");
+		int result = 0;
+		try {
+			result = session.update("com.oracle.jmAuto.dto.mapper.sh.reviewDeactive",review_num);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl reviewDeactive exception >>" + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int reviewActive(String review_num) {
+		System.out.println("DaoShImpl reviewActive Start...");
+		int result = 0;
+		try {
+			result = session.update("com.oracle.jmAuto.dto.mapper.sh.reviewActive",review_num);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl reviewActive exception >>" + e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int AsearchTot(String keyword) {
+		System.out.println("DaoShImpl AsearchTot Start...");
+		
+		int total = 0;
+		
+		try {
+			total = session.selectOne("com.oracle.jmAuto.dto.mapper.sh.AsearchTot",keyword);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl AsearchTot exception >>" + e.getMessage());
+		}
+		return total;
+	}
+
+	@Override
+	public int keywordReviewTotal(String keyword) {
+		
+		int total = 0;
+		
+		try {
+			total = session.selectOne("com.oracle.jmAuto.dto.mapper.sh.keywordReviewTotal",keyword);
+		} catch (Exception e) {
+			System.out.println("DaoShImpl keywordReviewTotal exception >>" + e.getMessage());
+		}
+		return total;
+	}
+
 }

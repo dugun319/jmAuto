@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,11 +34,16 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import jakarta.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oracle.jmAuto.dto.Car_General_Info;
 import com.oracle.jmAuto.dto.Car_Image;
+import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.SessionUtils;
 import com.oracle.jmAuto.dto.User_Table;
+import com.oracle.jmAuto.service.mh.MhService;
 import com.oracle.jmAuto.service.sh.Paging;
+import com.oracle.jmAuto.service.sh.PagingA;
 import com.oracle.jmAuto.service.sh.ServiceSh;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,17 +55,21 @@ import lombok.extern.slf4j.Slf4j;
 public class ShController {
 	// 서비스 추가
 	private final ServiceSh serviceSh;
-
 	
 	//(메인화면) 키워드 검색 결과 리스트 리턴 메소드 (국산+해외+수입차 기준은 못 가름 (깜빡함..))
-	@GetMapping(value = "/view_sh/SearchList")
-	public String SearchList(Car_General_Info cgi,Model model) {
-		String keyword = cgi.getSearchkeyword();
+	@GetMapping(value = "/main_search")
+	public String SearchList(Car_General_Info cgi,Model model,
+							@RequestParam("searchType") Integer searchType,
+							@RequestParam("keyword") String keyword
+							) {
+		//String keyword = cgi.getSearchkeyword();
 		System.out.println(keyword + " 여기까지 옴");
+		
 
 		// 페이징 작업
 		String currentPage = "1";
-		int total = serviceSh.searchListTotal(keyword);
+		int total = serviceSh.searchListTotal(keyword, searchType);
+		System.out.println("으아아아아아아악>> "+total);
 		// 서비스 호출
 		Paging page = new Paging(total, currentPage);
 		cgi.setStart(page.getStart());
@@ -67,7 +77,7 @@ public class ShController {
 		int start = cgi.getStart();
 		int end = cgi.getEnd();
 
-		List<Car_General_Info> valueList = serviceSh.searchList(keyword, start, end);
+		List<Car_General_Info> valueList = serviceSh.searchList(keyword, start, end,searchType);
 		System.out.println("ShController SearchList >> " + valueList);
 
 		String url = "/view_sh/SearchList";
@@ -77,6 +87,7 @@ public class ShController {
 		model.addAttribute("page", page);
 		model.addAttribute("total", total);
 		model.addAttribute("valueList", valueList);
+		
 		return "view_sh/SearchList";
 	}
 
@@ -104,7 +115,7 @@ public class ShController {
 		System.out.println("ShController detailSearch valueList >> " + valueList);
 
 		String url = "/view_sh/detailSearch";
-
+		
 		model.addAttribute("url", url);
 		model.addAttribute("page", page);
 		model.addAttribute("valueList", valueList);
@@ -134,7 +145,6 @@ public class ShController {
 
 		List<Car_General_Info> valueList = serviceSh.car_type_Car(start, end, car_type);
 		
-		
 		String url = "/view_sh/kCar";
 
 		model.addAttribute("url", url);
@@ -161,7 +171,7 @@ public class ShController {
 
 		List<Car_General_Info> valueList = serviceSh.car_type_Car(start, end, car_type);
 		String url = "/view_sh/fCar";
-
+		
 		model.addAttribute("url", url);
 		model.addAttribute("page", page);
 		model.addAttribute("total", total);
@@ -184,9 +194,10 @@ public class ShController {
 		int start = cgi.getStart();
 		int end = cgi.getEnd();
 		String url = "/view_sh/ecoCar";
-
-		model.addAttribute("url", url);
+		
 		List<Car_General_Info> valueList = serviceSh.car_type_Car(start, end, car_type);
+	
+		model.addAttribute("url", url);
 		model.addAttribute("page", page);
 		model.addAttribute("total", total);
 		model.addAttribute("valueList", valueList);
@@ -204,6 +215,8 @@ public class ShController {
 						 @RequestParam(required = false) Integer min_price, /* int에는 null이 들어갈 수 없어 Integer.. */
 						 @RequestParam(required = false) Integer max_price, 
 						 @RequestParam(required = false) Integer brand,
+						 @RequestParam(required = false) String manu_date,
+						 @RequestParam(required = false) String fuel,
 						 HttpSession session, 
 						 Car_General_Info cgi, 
 						 Model model) {
@@ -238,7 +251,7 @@ public class ShController {
 			valueList = serviceSh.car_type_Car(start, end, ecoCar_type);
 			break;
 		case "/view_sh/SearchList":
-			valueList = serviceSh.searchList(keyword, start, end);
+			valueList = serviceSh.searchList(keyword, start, end, null );
 			model.addAttribute("keyword", keyword);
 			break;
 		case "/view_sh/detailSearch":
@@ -252,7 +265,14 @@ public class ShController {
 			valueList = serviceSh.chkBrand(selectedBrand, start, end);
 			model.addAttribute("brand", selectedBrand);
 			break;
+		case "/detailB":
+			valueList = serviceSh.detailB(brand, manu_date, fuel, start, end);
+			model.addAttribute("brand", brand);
+			model.addAttribute("manu_date", manu_date);
+			model.addAttribute("fuel", fuel);
+			break;
 		}
+		
 		model.addAttribute("url", url);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("total", cgi.getTotal());
@@ -262,39 +282,6 @@ public class ShController {
 		return "view_sh/SearchList";
 	}
 
-	//
-//	@RequestMapping(value = "/view_sh/chkBrand", method = RequestMethod.GET)
-//	public String chkBrand(@RequestParam("brand") int brand, Model model, Car_General_Info cgi, HttpSession session) {
-//		System.out.println("ShController chkBrand start...");
-//		System.out.println("ShController chkBrand brand >> " + brand);
-//		List<Car_General_Info> valueList = new ArrayList<>();
-////		int total = serviceSh.carBrandTot(brand);
-//
-//		int total = serviceSh.brandCarTot(brand);
-//		String currentPage = "1";
-//		// 페이징 작업
-//		// 서비스 호출
-//		Paging page = new Paging(total, currentPage);
-//		cgi.setStart(page.getStart());
-//		cgi.setEnd(page.getEnd());
-//		int start = cgi.getStart();
-//		int end = cgi.getEnd();
-//
-//		valueList = serviceSh.chkBrand(brand, start, end);
-//
-//		String url = "brand";
-//
-//		// 세션 유지
-//		session.setAttribute("selectedBrand", brand);
-//
-//		model.addAttribute("url", url);
-//		model.addAttribute("brand", brand);
-//		model.addAttribute("page", page);
-//		model.addAttribute("total", total);
-//		model.addAttribute("valueList", valueList);
-//
-//		return "view_sh/carBrandList";
-//	}
 
 	//검색결과 화면 좌측에 있는 상세검색 리스트 리턴하는 메소드 (브랜드명, 연식, 연료)
 	@GetMapping("/detailB")
@@ -313,10 +300,16 @@ public class ShController {
 		int end = cgi.getEnd();
 
 		List<Car_General_Info> valueList = serviceSh.detailB(brand, manu_date, fuel, start, end);
-//		model.addAttribute("url", url);
+		System.out.println("버튼 디테일로 값 가져옴 >> "+valueList);
+		String url = "/detailB";
+		
+		model.addAttribute("url", url);
 		model.addAttribute("page", page);
 		model.addAttribute("valueList", valueList);
 		model.addAttribute("total", total);
+		model.addAttribute("brand", brand);
+		model.addAttribute("manu_date", manu_date);
+		model.addAttribute("fuel", fuel);
 //		model.addAttribute("keyword", keyword);
 //		model.addAttribute("model_name", model_name);
 //		model.addAttribute("min_price", min_price);
@@ -374,8 +367,7 @@ public class ShController {
 	    Object sessionUser = session.getAttribute("user");
 	    User_Table user = (User_Table) sessionUser;
         String userId = user.getUser_id();
-		
-
+        
 		// form에서 enctype="multipart/form-data"를 하는 경우 dto사용 못함;;
 		String car_type = request.getParameter("car_type"); // 차종
 		String brand = request.getParameter("brand"); // 제조사
@@ -391,11 +383,18 @@ public class ShController {
 		String repossession = request.getParameter("repossession"); // 압류유무
 		String price = request.getParameter("price"); // 가격
 		
+		//혹시 모를 차 번호 사이 공백 제거
+  		String delSpaceCarNum = car_num.replaceAll("\\s+","");
+		
 		//manu_date 조합 >> 사용자가 0n0n입력시 앞에 0을 붙여주기 위해 파싱함
 		String manu_date = String.format("%02d%02d", Integer.parseInt(manu_yy), Integer.parseInt(manu_mm));
 
-		// Servlet 상속 받지 못했을 떄 realPath 불러 오는 방법
-		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/"+car_num);
+		// Servlet 상속 받지 못했을 떄 realPath 불러 오는 방법 (이건 webapp에 들어가는거라 넘김)
+		//String uploadPath = request.getSession().getServletContext().getRealPath("/carImages/"+car_num);
+		
+		//static 폴더 밑에 저장하려면 paths.get을 사용해야 함
+		//String uploadPath = Paths.get("src/main/resources/static/carImages/" + car_num).toAbsolutePath().toString();
+		String uploadPath = Paths.get("src/main/webapp/carImages/" + car_num).toAbsolutePath().toString();
 		
 		System.out.println("뭐야 왜 안나오는데 >> " + uploadPath);
 
@@ -597,15 +596,15 @@ public class ShController {
 	    String normalizedPath = ImgUrl.replace("\\", "/");
 
 	    // "/upload"의 위치 찾기
-	    String keyword = "/upload";
+	    String keyword = "/carImages";
 	    int index = normalizedPath.indexOf(keyword);
 
 	    // "/upload" 이후부터 문자열을 자름
 	    if (index != -1) { // "/upload"가 경로에 있는지 확인
 	        resultPath = normalizedPath.substring(index);
-	        //System.out.println("잘린 문자열 >> " + resultPath); // "/upload/555/555_5.jpg"
+	        //System.out.println("잘린 문자열 >> " + resultPath); // "/webapp/WEB-INF/carImages/44444444/44444444_1.jpg"
 	    } else {
-	        System.out.println("Keyword '/upload' not found in the path.");
+	        System.out.println("Keyword '/carImages' not found in the path.");
 	    }
 
 	    return resultPath;
@@ -636,31 +635,37 @@ public class ShController {
 			Car_General_Info carInfo = car_num.get(i);
 			
 			//폴더별로 저장되어 있는 경로에 있는 파일을 가져오기 위해 경로 설정
-			String path = "C:\\Users\\admin\\Downloads\\jmAuto\\jmAuto\\src\\main\\webapp\\upload\\"+carInfo.getCar_num();
+			//String path = "C:\\Users\\admin\\Downloads\\jmAuto\\jmAuto\\src\\main\\webapp\\upload\\"+carInfo.getCar_num();
+			String path = Paths.get("src/main/webapp/carImages/" + carInfo.getCar_num()).toAbsolutePath().toString();
 			//System.out.println("path >> "+path);
+			
 			File directory = new File(path);
+			File[] files = directory.listFiles();
 			
 			List<String> filePath = new ArrayList<>();
-			
-			File[] files = directory.listFiles();
 			
 			Map<String, Object> insertMap = new HashMap<>();
 			
 			//이미지 경로
 			if(files != null) {
+				// files안에 있는 파일수만큼 for문을 돌려 file에 저장
 				for(File file : files) {
+					// file 안에 있는 것이 파일이라면
 					if(file.isFile()) {
 						//System.out.println(file.getAbsolutePath());
 						
-						//가져온 파일 이미지의 경로에서 /upload 앞쪽을 다 자르는 동작
+						//가져온 파일 이미지의 경로에서 /carImages 앞쪽을 다 자르는 동작
 						String ImgUrl = cutImgUrl(file.getAbsolutePath());
 						
-						//System.out.println(ImgUrl);
+						//System.out.println("url입니다 >> "+ImgUrl);
 						//매물번호 가져옴
 						long sell_num = carInfo.getSell_num();
 						
+						//System.out.println("매물번호입니다 >> "+sell_num);
+						
 						//파일 이름 가져옴
 						String fileName = file.getName();
+						//System.out.println("파일이름입니다 >> "+fileName);
 						
 						insertMap.put("url", ImgUrl);
 						insertMap.put("sell_num", sell_num);
@@ -691,6 +696,244 @@ public class ShController {
 			
 		}
 	}
+	
+	//*************************************************************************
+	
+	//유저정보 가져와서 유저가 판매자인 경우에만 약관 확인 페이지로 이동
+//		@GetMapping(value = "/view_sh/sellMyCar")
+//		public String sellMyCar(HttpSession session) {
+//
+//		    log.info("MainController sellMyCar() is started");
+//		    
+//		    System.out.println("session user >>>> " + session.getAttribute("user"));
+//
+//		    if(!(session.getAttribute("user") == null)) {
+//			    // 세션에서 user 객체 가져오기
+//			    Object sessionUser = session.getAttribute("user");
+//		
+//		        User_Table user = (User_Table) sessionUser;
+//		        String type = user.getUser_type();
+//	       
+//	        	// user_type 값 확인
+//	            System.out.println("User type: " + type);
+//	            if ("S".equals(type)) {
+//	                return "view_sh/sellMyCar";
+//	            } else {
+//	                return "view_sh/sellMyCarNotSeller";
+//	            }
+//	        }
+//	        else {
+//	        	return "view_jm/login";
+//	        }
+//	        
+//		}
+	
+	
+	// 관리자 차량 재고 관리
+	@GetMapping("view_sh/ACar")
+	public String ACarAll(Car_General_Info cgi, Model model, 
+	                      @RequestParam(defaultValue = "1") String currentPage) {
+	    
+	    int total = serviceSh.carTotal();
+	    
+	    // 관리자용 페이징 서비스 (10개씩 가져오기 위함)
+	    PagingA page = new PagingA(total, currentPage);
+	    
+	    // 페이징에 따라 조회 범위 설정
+	    cgi.setStart(page.getStart());
+	    cgi.setEnd(page.getEnd());
+	    
+	    // 차량 정보 조회
+	    List<Car_General_Info> allCar = serviceSh.allCar(cgi.getStart(), cgi.getEnd());
+	    
+	    // 모델에 데이터 추가
+	    model.addAttribute("total", total);
+	    model.addAttribute("allCar", allCar);
+	    model.addAttribute("page", page);
+	    
+	    return "view_sh/ACar";
+	}
+	
+	//검색어
+    @GetMapping(value = "/getListSearch")
+    public String getBoardListSearch(Car_General_Info cgi,
+    								 Model model,
+									 @RequestParam(defaultValue = "1") String currentPage,
+									 @RequestParam(value = "keyword", required = false) 
+										String keyword) throws JsonProcessingException {
+        System.out.println("글 목록 검색 처리");
+        System.out.println("searchKeyword >> " + keyword);
+        
+        List<Car_General_Info> allCar = null;
+	    PagingA page = null;
+	    int total = 0;
+	    //검색키워드가 null이거나 비어져 있는 경우
+	    if (keyword == null || keyword.trim().isEmpty()) {
+	    	cgi.setTotal(serviceSh.carTotal());
+	    	total = cgi.getTotal();
+	    	// 관리자용 페이징 서비스 (10개씩 가져오기 위함)
+	    	page = new PagingA(total, currentPage);
+	    	// 페이징에 따라 조회 범위 설정
+		    cgi.setStart(page.getStart());
+		    cgi.setEnd(page.getEnd());
+		    int start= cgi.getStart();
+		    int end = cgi.getEnd();
+		    allCar = serviceSh.allCar(start, end);
+        } else {
+        	cgi.setTotal(serviceSh.AsearchTot(keyword));
+        	total = cgi.getTotal();
+	    	// 관리자용 페이징 서비스 (10개씩 가져오기 위함)
+	    	page = new PagingA(total, currentPage);
+	    	// 페이징에 따라 조회 범위 설정
+		    cgi.setStart(page.getStart());
+		    cgi.setEnd(page.getEnd());
+		    int start= cgi.getStart();
+		    int end = cgi.getEnd();
+		    allCar = serviceSh.Asearch(keyword, start, end);
+        } 
+        
+        System.out.println("allCar >> " + allCar);
+        
+        // 모델에 데이터 추가
+        model.addAttribute("keyword", keyword);
+	    model.addAttribute("total", total);
+	    model.addAttribute("allCar", allCar);
+	    model.addAttribute("page", page);
+	    
+	    return "view_sh/ACar";
+    }
+	
+    
+    // NOTE : 판매차량 비활성화
+    @GetMapping("/carDeactive")
+    @ResponseBody
+    public int userDeactive(@RequestParam("sellNum") String sellNum){
+    System.out.println("ShController.userDel() start...");
+    System.out.println("ShController.userDel() sellNum ....>>"+ sellNum);
+
+    int result = serviceSh.carDeactive(sellNum);
+
+    return result;
+    }
+    
+    // NOTE : 판매차량 활성화
+    @GetMapping("/carActive")
+    @ResponseBody
+    public int userActive(@RequestParam("sellNum") String sellNum){
+    System.out.println("ShController.userDel() start...");
+    System.out.println("ShController.userDel() sellNum ....>>"+ sellNum);
+
+    int result = serviceSh.carActive(sellNum);
+
+    return result;
+    }
+    
+    //전문가 리뷰 리스트
+    @GetMapping("/view_sh/pReview")
+    public String pReviewList(Expert_Review er, Model model, 
+    						  @RequestParam(defaultValue = "1") String currentPage) {
+	    
+	    int total = serviceSh.reviewTotal();
+	    
+	    // 관리자용 페이징 서비스 (10개씩 가져오기 위함)
+	    PagingA page = new PagingA(total, currentPage);
+	    
+	    // 페이징에 따라 조회 범위 설정
+	    er.setStart(page.getStart());
+	    er.setEnd(page.getEnd());
+	    
+	    //저문가리뷰 정보 조회
+	    List<Expert_Review> allReview = serviceSh.allReview(er.getStart(), er.getEnd());
+	    
+	    
+	    // 모델에 데이터 추가
+	    model.addAttribute("total", total);
+	    model.addAttribute("reviewlist", allReview);
+	    model.addAttribute("page", page);
+	    
+	    return "view_sh/pReview";
+	}
+    
+    // 전문가리뷰 검색어
+    @GetMapping(value = "/getReviewListSearch")
+    public String getReviewListSearch(Model model,
+    								  Expert_Review er,
+									  @RequestParam(defaultValue = "1") String currentPage,
+									  @RequestParam(value = "keyword", required = false) 
+										 String keyword) throws JsonProcessingException {
+        System.out.println("searchKeyword >> " + keyword);
+        
+        List<Expert_Review> reviewlist = null;
+	    PagingA page = null;
+	    int total = 0;
+	    
+	    //검색키워드가 null이거나 비어져 있는 경우
+	    if (keyword == null || keyword.trim().isEmpty()) {
+	    	er.setTotal(serviceSh.reviewTotal());
+	    	total = er.getTotal();
+	    	// 관리자용 페이징 서비스 (10개씩 가져오기 위함)
+	    	page = new PagingA(total, currentPage);
+	    	// 페이징에 따라 조회 범위 설정
+		    er.setStart(page.getStart());
+		    er.setEnd(page.getEnd());
+		    int start= er.getStart();
+		    int end = er.getEnd();
+		    reviewlist = serviceSh.allReview(start, end);
+        } else {
+        	er.setTotal(serviceSh.keywordReviewTotal(keyword));
+        	total = er.getTotal();
+	    	// 관리자용 페이징 서비스 (10개씩 가져오기 위함)
+	    	page = new PagingA(total, currentPage);
+	    	// 페이징에 따라 조회 범위 설정
+		    er.setStart(page.getStart());
+		    er.setEnd(page.getEnd());
+		    int start= er.getStart();
+		    int end = er.getEnd();
+		    reviewlist = serviceSh.reviewSearch(keyword, start, end);
+        }
+	    
+        
+        System.out.println("reviewList >> " + reviewlist);
+        System.out.println("keyword >> "+keyword );
+        System.out.println("total >> "+total );
+        System.out.println("reviewlist >> "+reviewlist );
+        System.out.println("page >> "+page );
+        
+        // 모델에 데이터 추가
+        model.addAttribute("keyword", keyword);
+	    model.addAttribute("total", total);
+	    model.addAttribute("reviewlist", reviewlist);
+	    model.addAttribute("page", page);
+        
+        return "view_sh/pReview";
+    }
+    
+    
+    // NOTE : 판매 전문가리뷰 비활성화
+    @GetMapping("/reviewDeactive")
+    @ResponseBody
+    public int reviewDeactive(@RequestParam("reviewNum") String reviewNum){
+    System.out.println("ShController.reviewDeactive() start...");
+    System.out.println("ShController.reviewDeactive() reviewNum ....>>"+ reviewNum);
+
+    int result = serviceSh.reviewDeactive(reviewNum);
+
+    return result;
+    }
+    
+    // NOTE : 비활성화 전문가리뷰 활성화
+    @GetMapping("/reviewActive")
+    @ResponseBody
+    public int reviewActive(@RequestParam("reviewNum") String reviewNum){
+    System.out.println("ShController.reviewActive() start...");
+    System.out.println("ShController.reviewActive() reviewNum ....>>"+ reviewNum);
+
+    int result = serviceSh.reviewActive(reviewNum);
+
+    return result;
+    }
+    
+	
 	
 	
 

@@ -13,6 +13,7 @@ import com.oracle.jmAuto.dto.Note;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
 import com.oracle.jmAuto.dto.Review;
+import com.oracle.jmAuto.dto.ReviewListInfo;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.dto.Zzim;
 
@@ -239,13 +240,62 @@ public class MsDaoImpl implements MsDao {
 		return resultTot;
 	}
 	
-	//구매 후기 작성
-	@Override
-	public int hoogiwrite(Map<String, Object> params) {
-		System.out.println("msDao hoogiwrite start..");
-		System.out.println("maDao hoogiwrite params->"+ params);
-		return session.insert("com.oracle.jmAuto.dto.Mapper.ms.hoogiwrite", params);
-	}
+	
+	//구매후기에 기존 차량 이미지 첨부
+    @Override
+    public ReviewListInfo imageList(ReviewListInfo ri) {
+        System.out.println("msDao imageList Start...");
+        System.out.println("msDao imageList ri->"+ri);
+
+        ReviewListInfo reviewListInfo = new ReviewListInfo();
+
+        try {
+            reviewListInfo = session.selectOne("selectHoogiCar", ri);
+            System.out.println("msDao reviewListInfo ri->"+ri);
+
+        } catch (Exception e) {
+            System.out.println("msDao imageList Exception->"+e.getMessage());
+        }
+
+        return reviewListInfo;
+    }
+
+    //구매후기에 구매자 작성 내용+첨부파일
+    @Override
+    public int hoogiwrite(Review review) {
+        int resultHoogi = 0;
+        System.out.println("msDao hoogiwrite start..");
+
+        try {
+            System.out.println("msDao hoogiwrite review->"+ review);
+            resultHoogi = session.insert("hoogiwrite", review);
+            System.out.println("msDao hoogiwrite resultHoogi->"+ resultHoogi);
+
+        } catch (Exception e) {
+            System.out.println("msDao hoogiwrite Exception->"+e.getMessage());
+        }
+
+        return resultHoogi;
+    }
+
+    // 내가 작성한 후기
+    @Override
+    public ReviewListInfo myhoogiDetail(String approval_num) {
+        System.out.println("msDato myhoogiDetail start...");
+
+        ReviewListInfo ri = new ReviewListInfo();
+
+        try {
+            ri = session.selectOne("myhoogiDetail", approval_num);
+            System.out.println("후기디테일 리스트 >>>>>"+ri);
+
+        } catch (Exception e) {
+            System.out.println("msDao myhoogiDetail error->"+ e.getMessage());
+        }
+        return ri;
+    }
+	
+
 
 	//sell_num가져오기
 	@Override
@@ -277,17 +327,17 @@ public class MsDaoImpl implements MsDao {
 
 	//내가 작성한 후기 삭제
 	@Override
-	public int hoogiDelete(String user_id, List<String> approval_num) {
+	public int hoogiDelete(String user_id, String approval_num) {
 		System.out.println("msDao hoogiDelete start..");
 		System.out.println("msDao hoogiDelete approval_num->"+approval_num);
 		System.out.println("msDao hoogiDelete user_id->"+user_id);
 		int resultTot=0;
 		try {
-			for(String approval_nums : approval_num) {
-				int result = session.update("com.oracle.jmAuto.dto.Mapper.ms.hoogiDelete", Map.of("user_id", user_id, "approval_nums", approval_nums));
-				resultTot += result;
-				System.out.println("msDao hoogiDelete resultTot->"+resultTot);
-			}
+				int result = session.update("com.oracle.jmAuto.dto.Mapper.ms.hoogiDelete", Map.of("user_id", user_id, "approval_num", approval_num));
+				System.out.println("msDao hoogiDelete result->"+result);
+				System.out.println("msDao hoogiDelete user_id->"+user_id);
+				System.out.println("msDao hoogiDelete approval_num->"+approval_num);
+			
 		} catch (Exception e) {
 			System.out.println("msDao hoogiDelete error->"+e.getMessage());
 			e.printStackTrace();
@@ -373,6 +423,19 @@ public class MsDaoImpl implements MsDao {
 		}
 		return myNoteList;
 	}
+	
+	//쪽지보내기
+	@Override
+    public int dao_sending_note(Note note) {
+        int sending_note = 0;
+        try {
+            sending_note = session.insert("com.oracle.jmAuto.dto.Mapper.ms.sending_note", note);
+            System.out.println("StatsDaoImpl sending_note->" + sending_note);
+        } catch (Exception e) {
+            System.out.println("CsDaoImpl insertQna Exception->"+e.getMessage());
+        }
+        return sending_note;
+    }
 
 	//쪽지 상세조회
 	@Override
@@ -505,15 +568,83 @@ public class MsDaoImpl implements MsDao {
 	//내가 작성한 후기
 	@Override
 	public List<Review> myhoogiDetail(String user_id, String approval_num) {
-		System.out.println("msDato myhoogiDetail start...");
+		System.out.println("msDao myhoogiDetail start...");
+		System.out.println("msDao myhoogiDetail user_id, approval_num->"+ user_id+ approval_num);
 		List<Review> myhoogi = null;
 		try {
 			myhoogi = session.selectList("com.oracle.jmAuto.dto.Mapper.ms.myhoogiDetail",Map.of("user_id",user_id,"approval_num", approval_num));
+			System.out.println("msDao myhoogiDetail myhoogi->"+myhoogi);
 		} catch (Exception e) {
 			System.out.println("msDao myhoogiDetail error->"+ e.getMessage());
 		}
 		return myhoogi;
 	}
+
+	//회원정보수정시 정보값 가져오기
+	@Override
+	public User_Table user(String user_id) {
+		System.out.println("msDao user start...user_id"+ user_id);
+		User_Table user = null;
+		try {
+			user=session.selectOne("com.oracle.jmAuto.dto.Mapper.ms.user", user_id);
+			System.out.println("msDao user user->"+user);
+		} catch (Exception e) {
+			System.out.println("msDao user error->"+e.getMessage());
+		}
+		return user;
+	}
+
+	//판매자-판매중인 차량 삭제
+	@Override
+	public int deletesell(String user_id, List<Long> sell_num) {
+		System.out.println("msDao deletesell start..");
+		System.out.println("msDao deletesell sell_num->"+sell_num);
+		int sellcarD = 0;
+		try {
+			Map<String, Object> params = new HashMap<>();
+			params.put("user_id", user_id);
+			params.put("sell_num", sell_num);
+			
+			sellcarD = session.update("com.oracle.jmAuto.dto.Mapper.ms.sellcarD",params);
+			System.out.println("msDao deletesellcar sellcarD->"+sellcarD);
+			System.out.println("msDao deletesell params->"+user_id + sell_num);
+		} catch (Exception e) {
+			System.out.println("msDao deletesellcar error->"+e.getMessage());
+		}
+		return sellcarD;
+	}
+
+	//del_state
+	@Override
+	public Review del_state(String approval_num) {
+		System.out.println("msDao del_state start...");
+		Review review = null;
+		try {
+			review= session.selectOne("com.oracle.jmAuto.dto.Mapper.ms.del_state",approval_num);
+			System.out.println("msDao del_state review->"+review);
+		} catch (Exception e) {
+			System.out.println("msDao del_state error->"+e.getMessage());
+		}
+		return review;
+	}
+
+	//문의 상세 내역 삭제
+	@Override
+	public int qnaDetailDelete(String user_id, Long qna_num) {
+		System.out.println("msDao qnaDetailDelete start...");
+		System.out.println("msDao qnaDetailDelete user_id..."+user_id);
+		System.out.println("msDao qnaDetailDelete qna_num..."+qna_num);
+		
+		int resultTot = 0;
+		try {
+		     int result = session.update("com.oracle.jmAuto.dto.Mapper.ms.qnaDetailDelete", Map.of("user_id", user_id, "qna_num", qna_num));
+		     resultTot += result;		    
+		     System.out.println("총 삭제된 게시물 수: " + resultTot);
+		 } catch (Exception e) {
+		     System.out.println("msDao qnaDetailDelete error -> " + e.getMessage());
+		}
+		return resultTot;
+	}	
 
 
 }

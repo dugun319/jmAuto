@@ -13,8 +13,10 @@ public class ReviewPaymentCarInfo {
 	private String  review_content;  //후기내용
 	private Date 	review_date;     //후기날짜
 	private int     evaluation;      //구매평점
-	private String  file_name;       //후기파일이름
 	private String  file_url;        //후기파일경로
+	private String  file_name1;      //후기파일이름1
+	private String  file_name2;      //후기파일이름2
+	private String  file_name3;      //후기파일이름3
 	
 	//결제 정보 
 	private Date	approval_date;		/* 승인일자 */	

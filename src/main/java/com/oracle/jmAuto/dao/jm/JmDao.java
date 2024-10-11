@@ -1,6 +1,9 @@
 package com.oracle.jmAuto.dao.jm;
 
+import java.util.List;
+
 import com.oracle.jmAuto.dto.Account;
+import com.oracle.jmAuto.dto.FullUserInfo;
 import com.oracle.jmAuto.dto.Business;
 import com.oracle.jmAuto.dto.Certified;
 import com.oracle.jmAuto.dto.User_Table;
@@ -28,5 +31,29 @@ public interface JmDao {
     void updateTempPw(String user_id, String hashedTempPw);
 
 	String getUserEmail(String user_id);
+
+
+	
+	// 관리자용 페이지 로직
+
+	List<User_Table> searchUserList(String keyword,int startIndex, int rowPage);
+
+    int createManager(User_Table user);
+
+    FullUserInfo userDetail(String user_id);
+
+    int userApprove(String user_id);
+
+    List<User_Table> selectApprovalUserList();
+
+    int userActive(String user_id);
+
+    int userDeactive(String user_id);
+
+    List<User_Table> selectUserList(int startIndex, int rowPage);
+
+	int userTotal();
+
+    int userTotal(String keyword);
 
 }

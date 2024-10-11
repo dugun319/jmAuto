@@ -6,7 +6,7 @@
  	<select id="getTotPaymentByUserId" 		parameterType="String"		resultType="int">
 		SELECT COUNT(*) 
 		FROM payment
-		WHERE user_id = #{user_id}
+		WHERE user_id LIKE '%'||#{user_id}||'%'
 	</select>
 	
 	<select id="getTotPaymentByCon" 		parameterType="PayList"		resultType="int">
@@ -14,7 +14,7 @@
 		FROM payment
 		<where> 					
 			<if test="keyword !=null">
-			${search} = #{keyword}
+			${search} LIKE '%'||#{keyword}||'%'
 			</if>
 		</where>
 	</select>
@@ -24,7 +24,7 @@
 		FROM expert_review
 		<where> 					
 			<if test="keyword !=null">
-			${search} = #{keyword}
+			${search} LIKE '%'||#{keyword}||'%'
 			</if>
 		</where>
 	</select>
@@ -254,7 +254,7 @@
 						FROM payment
 						<where> 					
 							<if test="keyword !=null">
-							${search} = #{keyword}
+							${search} LIKE '%'||#{keyword}||'%'
 							</if>
 						</where>
 						ORDER BY approval_date
@@ -290,7 +290,7 @@
 						FROM expert_review
 						<where> 					
 							<if test="keyword !=null">
-							${search} = #{keyword}
+								${search} LIKE '%'||#{keyword}||'%'
 							</if>
 						</where>
 						ORDER BY expert_review_num
@@ -312,6 +312,25 @@
 		SELECT img_url	
 		FROM car_images
 		WHERE sell_num = #{sell_num}
+	</select>
+	
+	<select id="getAutoCompleteList" 			parameterType="map"			resultType="map">
+	
+	SELECT *	
+		FROM (
+				SELECT ROWNUM, searchList.*
+				FROM (
+						SELECT 	${search} 
+						FROM 	payment
+						<where> 					
+							<if test="keyword !=null">
+							${search} LIKE '%'||#{value}||'%'
+							</if>
+						</where>
+					 ) searchList
+		     )
+		WHERE ROWNUM	BETWEEN 1 AND 10 
+		
 	</select>
 	
 </mapper> 

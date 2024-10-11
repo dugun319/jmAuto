@@ -6,6 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.css">
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
  body{
@@ -104,7 +107,7 @@ a{
 </head>
 <body>
 	<div class="navbar">
-		<a href="/"><img src="../images/main/logo_.png" alt="logoimg"></a>
+		<a href="/"><img src="<%=request.getContextPath()%>/images/main/logo_.png" alt="logoimg"></a>
 		<nav>
 			<ul class="menu">
 				<li><a href="/view_sh/kCar">국내</a></li>
@@ -117,15 +120,21 @@ a{
 		<div class="user">
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
-                    <!-- 세션이 있을 때: 마이페이지와 로그아웃 버튼 -->
-                    <a class="menu_login" href="/view_ms/myPage">마이페이지</a>
+                    <c:choose>
+						<c:when test="${sessionScope.user.user_type eq 'A'}">
+							<a href="/view_jm/manager_userList" class="menu_login">관리자 페이지</a>
+						</c:when>
+							<c:when test="${sessionScope.user.user_type eq 'S' || sessionScope.user.user_type eq 'P' || sessionScope.user.user_type eq 'B'}">
+							<a class="menu_login" href="/view_ms/myPage">마이페이지</a>
+						</c:when>
+					</c:choose>
                     <button class="but_login">
                         <a href="/view_jm/logout">로그아웃</a>
                     </button>
                 </c:when>
                 <c:otherwise>
                     <!-- 세션이 없을 때: 회원가입과 로그인 버튼 -->
-                    <a class="menu_login" href="/view_jh/home">회원가입</a>
+                    <a class="menu_login" href="/view_jm/joinType">회원가입</a>
                     <button class="but_login">
                         <a href="/view_jm/login">로그인</a>
                     </button>

@@ -1,258 +1,199 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<link href="../css/join.css" rel="stylesheet" type="text/css">
+	<!DOCTYPE html>
+	<html>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<style>
-body {
-	margin: 0;
-	padding: 0;
-	background-color: #fafafa;
-	min-height: 100vh; /* 화면 높이에 맞추어 최소 높이 설정 */
-	font-family: Pretendard;
-}
-
-.contents {
-	align-items: center;/* 수직 중앙 정렬 */
-	height: 100vh; /* 뷰포트 높이 100%로 설정 */
-	padding-bottom: 100px;
-}
-
-.content {
-	display: flex;
-	flex-direction: column; /* 세로 방향으로 배치 */
-	align-items: center; /* 수평 중앙 정렬 */
-	justify-content: center; /* 수직 중앙 정렬 */
-}
-
-/* 제목 스타일 */
-h1 {
-	position: absolute;
-	top: 150px;
-	text-align: center;
-	color: #313131;
-}
-
-.join_step {
-	display: flex;
-	position: absolute;
-	/* 플렉스 박스 레이아웃 사용 */
-	top: 200px;
-	justify-content: center;
-	/* 가로 가운데 정렬 */
-	list-style: none;
-	/* 리스트 스타일 제거 */
-	padding: 0;
-	/* 기본 패딩 제거 */
-	margin-bottom: 30px;
-}
-
-.join_step li {
-	margin: 0 10px;
-	/* 항목 간의 간격 설정 */
-	position: relative;
-	/* 텍스트 위치를 조정하기 위해 relative 유지 */
-}
-
-.join_step li img {
-	width: 150px;
-	/* 리스트 항목 내 이미지의 크기를 설정 */
-}
-
-.join_step li span {
-	position: absolute;
-	/* 텍스트를 절대 위치로 설정 */
-	bottom: 0;
-	left: 50%;
-	/* 텍스트를 중앙 하단에 위치 */
-	color: #666;
-	/* 텍스트 색상 설정 */
-	line-height: 1.462em;
-	/* 텍스트 줄 간격 설정 */
-	white-space: nowrap;
-	/* 텍스트가 줄바꿈되지 않도록 설정 */
-	transform: translate(-50%, 0);
-	/* 텍스트를 중앙 정렬 */
-}
-
-/* 회원가입 폼을 감싸는 컨테이너 스타일 */
-.container {
-	display: flex;
-	flex-direction: column;
-	position: absolute;
-	gap: 40px; /* 박스들 사이의 간격 */
-	padding: 100px; /* 컨테이너 내부 여백 */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
-	background-color: #fdfdfd; /* 박스 배경색 */
-	top: 300px;
-	width: 600px;
-	height: auto;
-}
-.form-group {
-	margin-bottom: 30px; /* 각 폼 그룹의 하단 마진을 설정합니다. */
-	display: flex; /* 폼 그룹 내의 항목들을 플렉스 박스로 배치합니다. */
-	align-items: center; /* 폼 그룹 내 항목들을 수직 중앙에 정렬합니다. */
-	flex-wrap: wrap; /* 줄바꿈을 허용 */
-}
-  /* 인증번호 메시지만 다음 줄로 나오게 하기 */
-  #verifyAuthCodeMessage {
-	position: relative;
-	left: 165px;
-    flex-basis: 100%; /* 이 요소만 한 줄을 차지하게 함 */
-    margin-top: 10px; /* 위쪽에 여백을 추가 */
-	
-  }
-.check_font {
-	font-size: 12px; /* 메시지 크기 조정 */
-	color: red; /* 기본 메시지 색상 설정 */
-	margin-top: 5px; /* 메시지와 입력 필드 사이의 여백 */
-}
-
-.form-group label {
-	width: 150px; /* 라벨의 너비를 150px로 설정합니다. */
-	margin-right: 10px; /* 라벨과 입력 필드 사이의 여백을 설정합니다. */
-	font-weight: bold; /* 라벨의 글씨를 두껍게 설정합니다. */
-}
-
-.form-group input {
-	flex: 1; /* 입력 필드가 남은 공간을 모두 차지하도록 설정합니다. */
-	padding: 8px; /* 입력 필드의 내부 여백을 설정합니다. */
-	border: 1px solid #ccc; /* 입력 필드의 테두리 색을 연한 회색으로 설정합니다. */
-}
-
-.form-group button {
-	background-color: #ff4714; /* 버튼의 배경색을 주황색으로 설정합니다. */
-	color: #fff; /* 버튼의 글씨 색을 흰색으로 설정합니다. */
-	border: none; /* 버튼의 기본 테두리를 제거합니다. */
-	padding: 8px; /* 입력 필드의 내부 여백을 설정합니다. */
-	margin-left: 20px;
-}
-
-.form-group input{
-	width: 200px;
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+	<style>
+				.container{
+			top:200px;
+		}
 
 
-}
+		footer {
+			position: relative;
+			top: 400px;
+		}
+	</style>
 
-
-.submit_btn button {
-	background-color: #ff4714; /* 버튼의 배경색을 주황색으로 설정합니다. */
-	color: #fff; /* 버튼의 글씨 색을 흰색으로 설정합니다. */
-	border: none; /* 버튼의 기본 테두리를 제거합니다. */
-	padding: 8px; /* 입력 필드의 내부 여백을 설정합니다. */
-	margin-left: 20px;
-}
-
-select {
-	padding: 8px; /* 입력 필드의 내부 여백을 설정합니다. */
-	border: 1px solid #ccc;
-	/* 입력 필드의 테두리 색을 연한 회색으로 설정합니다. */
-}
-
-button:hover {
-	color: #ffffffcc;
-}
-
-.submit_btn button{
-	position:relative;
-	left: 30%;
-	width: calc(100% - 70%);
-	text-align: center;
-	height: 40px;
-}
-
-.form-group lable button p {
-	display: block;
-}
-</style>
-
-<script type="text/javascript" src="/js/jquery.js"></script>
-<script> 
-	// 이메일 인증 
-	function emailCheck() {
-		$.ajax({
-			url: '/view_jm/sendAuthCode',
-			type: 'POST',
-			data: { 'user_email': $("#user_email").val() },
-			success: function (response) {
-				alert(response.message);
-			},
-			error: function () {
-				alert("인증번호 전송 중 오류가 발생했습니다.");
-			}
-		});
-	}
-
-
-	function verifyAuthCode() {
-		var authCode = $("#auth_code").val();
-		$.ajax({
-			url: '/view_jm/verifyAuthCode',
-			type: 'POST',
-			data: { 'auth_code': authCode },
-			success: function (response) {
-				if (response.valid) {
-					$("#verifyAuthCodeMessage").text("인증번호가 확인되었습니다.");
-					$("#verifyAuthCodeMessage").css("color", "green");
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript">
+		
+		$(function () {
+			//직접입력 인풋박스 기존에는 숨어있다가
+			$("#user_email3").hide();
+			$("#user_email2").change(function () {
+				//직접입력을 누를 때 나타남
+				if ($("#user_email2").val() == "direct") {
+					$("#user_email3").show();
+					$("#user_email2").css("width", "22px")
 				} else {
-					$("#verifyAuthCodeMessage").text("인증번호가 틀렸습니다.");
-					$("#verifyAuthCodeMessage").css("color", "red");
+					$("#user_email3").hide();
+					$("#user_email2").css("width", ""); // 기본 크기로 되돌림
 				}
-			},
-			error: function () {
-				alert("인증번호 확인 중 오류가 발생했습니다.");
-			}
+			})
 		});
-	}
 
-	$(document).ready(function () {
-		$("#verifyAuthCodeBtn").on("click", verifyAuthCode);
-	});
+		// 이메일 유효성 확인 및 전체 이메일을 user_email로 설정
+		function validateEmail() {
+			// const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // 이메일: 기본적인 이메일 형식
+			var email = $("#user_email1").val().trim();
+			var emailDomain = $("#user_email2").val(); // 지정된 도메인 값
+			var emailDirect = $("#user_email3").val().trim(); // 직접 입력한 도메인 값
+
+			if (emailDomain == "direct") {
+				// 직접 입력된 도메인 사용 
+				emailDomain = emailDirect;
+			}
+			// 이메일 전체 합치기
+			var fullEmail = email + "@" + emailDomain;
+			var emailCheckMessage = $("#email_check");
+
+			// 에러 메시지 초기화
+			emailCheckMessage.text("");
+
+			// 이메일 유효성 검사 정규식
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+			if (!emailRegex.test(fullEmail)) {
+				showError("유효한 이메일 주소를 입력해주세요.", "#email_check");
+				return false;
+			}
+
+			// 이메일이 유효하면 hidden input에 값을 설정
+			$("#hidden_user_email").val(fullEmail);
+
+			return true;
+		}
 
 
-</script>
-<body>
-	<header>
-		<%@ include file="../header_white.jsp"%>
-	</header>
-	<div class="contents">
-		<div class="content">
-			<h1>비밀번호 찾기</h1>
-		</div>
-		<div class="content">
-			<div class="container">
-				<form method="post" name="frm" action="/view_jm/findPw">
-					<div class="form-group">
-						<label for="user_id">아이디</label> <input type="text"
-							id="user_id" name="user_id" required="required">
-					</div>
-					<div class="form-group">
-						<label for="user_email">이메일</label> 
-						<input type="text"
-							id="user_email" name="user_email" required="required">
-						<button type="button" onclick="emailCheck()">인증번호 전송</button>
-					</div>
-					<div class="form-group">
-						<label for="auth_code">인증번호</label> 
-						<input type="text"
-							id="auth_code" name="auth_code" required="required">
-						<button type="button" id="verifyAuthCodeBtn">인증번호 확인</button>
-						<div id="verifyAuthCodeMessage"></div>
-					</div>
-					
-					<div class="submit_btn">
-						<button type="submit" id="submit">회원 확인</button>
-					</div>
-				</form>
+
+		function emailCheck() {
+    var emailCheckMessage = $("#email_check");
+
+	// 이메일 유효성 검사 및 hidden_user_email 설정
+    if (!validateEmail()) {
+        emailCheckMessage.text("유효한 이메일 주소를 입력해주세요.").css("color", "red");
+        return; // 이메일이 유효하지 않으면 종료
+    }
+
+    // hidden_user_email 값 확인
+    var email = $("#hidden_user_email").val();
+    if (email === "") {
+        emailCheckMessage.text("이메일이 입력되지 않았습니다.").css("color", "red");
+        return; // 이메일 값이 없으면 종료
+    }
+
+    $.ajax({
+        url: '/view_jm/sendAuthCode',
+        type: 'POST',
+        data: { 'user_email': email },  // 이메일 값 전송
+        success: function (response) {
+            emailCheckMessage.text("인증번호가 전송되었습니다.").css("color", "green");
+        },
+        error: function () {
+            emailCheckMessage.text("인증번호 전송 실패").css("color", "red");
+        }
+    });
+}
+
+
+		// 인증번호 확인
+		function verifyAuthCode() {
+			var authCode = $("#auth_code").val().trim();
+			$.ajax({
+				url: '/view_jm/verifyAuthCode',
+				type: 'POST',
+				data: { 'auth_code': authCode },
+				success: function (response) {
+					if (response.valid) {
+						$("#verifyAuthCodeMessage").text("인증번호가 확인되었습니다.");
+						$("#verifyAuthCodeMessage").css("color", "green");
+						isAuthCodeVerified = true;
+					} else {
+						$("#verifyAuthCodeMessage").text("인증번호가 틀렸습니다.");
+						$("#verifyAuthCodeMessage").css("color", "red");
+						isAuthCodeVerified = false;
+					}
+					enableSubmit();  // 상태 업데이트 후 submit 버튼 활성화 여부 확인
+				},
+				error: function () {
+					alert("인증번호 확인 중 오류가 발생했습니다.");
+				}
+			});
+		}
+
+
+
+		$(document).ready(function () {
+			$("#verifyAuthCodeBtn").on("click", verifyAuthCode);
+		});
+
+
+
+	</script>
+
+	<body>
+		<header>
+			<%@ include file="../header_white.jsp" %>
+		</header>
+		<div class="contents">
+			<div class="content">
+				<h1>비밀번호 찾기</h1>
+			</div>
+			<div class="content">
+				<div class="container">
+					<form method="post" name="frm" action="/view_jm/findPw">
+
+						<!-- 아이디 -->
+						<div class="form-group">
+							<label for="user_id">아이디</label> 
+							<input type="text" id="user_id" name="user_id"	required="required">
+						</div>
+
+						<!-- 이메일  -->
+						<div class="form-group">
+							<label for="user_email">이메일</label>
+							<input type="text" id="user_email1" name="user_email1" style="width: 30px;">
+							&nbsp;@&nbsp;
+							<input type="text" id="user_email3" name="selboxDirect" />
+							<select id="user_email2" name="email_domain">
+								<option value="naver.com">naver.com</option>
+								<option value="naver.com">daum.net</option>
+								<option value="naver.com">gmail.com</option>
+								<option value="hanmail.net">hanmail.net</option>
+								<option value="direct">직접입력</option>
+							</select>
+							<button type="button" onclick="emailCheck()">인증번호 전송</button>
+							<p class="check_font" id="email_check"></p>
+							<!-- hidden input to hold the full email value -->
+							<input type="hidden" id="hidden_user_email" name="user_email" />
+						</div>
+
+						<!-- 이메일 인증 번호 -->
+						<div class="form-group">
+							<label for="auth_code">인증번호</label>
+							<input type="text" id="auth_code" name="auth_code">
+							<button type="button" id="verifyAuthCodeBtn">인증번호 확인</button>
+							<p class="check_font" id="verifyAuthCodeMessage"></p>
+						</div>
+
+						<!-- 제출 버튼 -->
+						<div class="form-gruop">
+							<div class="moveBtn">
+								<a href="/view_jm/findPw"><button type="submit" id="submitBtn">회원정보 확인</button></a>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
-	<footer>
-	<%@ include file="../footer.jsp" %>
-	</footer>
-</body>
-</html>
+		<footer>
+			<%@ include file="../footer.jsp" %>
+		</footer>
+	</body>
+
+	</html>

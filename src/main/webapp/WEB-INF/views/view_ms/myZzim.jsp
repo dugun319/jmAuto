@@ -28,8 +28,11 @@ table.List {
 tbody tr {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.10); /* 아래쪽으로 그림자 효과 */
 	margin-bottom: 10px; /* 간격 조정 */
+	margin-left: 100px;
 }
-
+.chu-title2{
+	width: 500px;
+}
 </style>
 <script type="text/javascript">
 	/* 체크박스 함수 */
@@ -91,8 +94,7 @@ tbody tr {
 							<tr>
 								<td><div class="chu_carList2">
 										<a href="/carInfo?sellNum=${Zzim.sell_num}&id=${Zzim.user_id}">
-											<img alt="chuCarimg" src="../images/main/377조7542_1.png"
-											class="chu-img">
+											<img src="${Zzim.img_url }" class="cardlist_img_src">
 										</a>
 									</div></td>
 
@@ -103,7 +105,7 @@ tbody tr {
 
 									<div>
 										<p class="chu-text2">
-											<span style="color: gray; font-size: 16px;">제조년월:
+											<span style="color: gray; font-size: 16px; margin-left: 40px;">제조년월:
 												${Zzim.manu_date}</span> <span style="margin-left: 20px;">|</span>
 											<span style="margin-left: 20px;">${Zzim.mileage}km</span> <span
 												style="margin-left: 20px;">|</span> <span

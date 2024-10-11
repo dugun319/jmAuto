@@ -25,12 +25,10 @@
 				<hr />
 				<div class="block_1_content_cardlist_body">
 					<c:forEach var="Car_General_Info" items="${Car_General_Info}">
-						<a href="/view_ms/sellList">
+						<a href="/carInfo?sellNum=${Car_General_Info.sell_num}&id=${Car_General_Info.user_id}">
 							<div class="block_1_content_cardlist_hed">
 								<div class="block_1_content_cardlist_img">
-									<img alt=""
-										src="<%=request.getContextPath()%>/images/main/377조7542_1.png"
-										class="cardlist_img_src">
+									<img src="${Car_General_Info.img_url }" class="cardlist_img_src">
 								</div>
 								<div class="block_1_content_cardlist_text">
 									<div class="block_1_content_cardlist_body_img">
@@ -52,24 +50,21 @@
 				<hr />
 				
 				<div class="block_2_content_cardlist_body">
-					<c:forEach var="Car_General_Info" items="${Car_General_Info}">
-						<a href="/view_ms/sellWan">
+					<c:forEach var="sellWan" items="${sellWan}">
+						<a href="/view_ms/sellWanDetail?sell_num=${sellWan.sell_num }">
 						
 							<div class="block_2_content_cardlist_hed">
 								<div class="block_2_content_cardlist_img">
-									<img alt=""
-										src="<%=request.getContextPath()%>/images/main/377조7542_1.png"
-										class="cardlist_img_src_2">
+									<img src="${sellWan.img_url }" class="cardlist_img_src_2">
 								</div>
 								<div class="block_2_content_cardlist_text">
 									<div class="block_2_content_cardlist_body_img">
 										<img alt=""
 											src="<%=request.getContextPath()%>/images/main/구매완료.png">
 									</div>
-									<div class="block_2_content_cardlist_text_1">${Car_General_Info.model }</div>
-									<div class="block_2_content_cardlist_text_2">${Car_General_Info.car_num}&emsp;${Car_General_Info.price}&emsp;${Car_General_Info.color}</div>
-									<div class="block_2_content_cardlist_text_3">판매자 :
-										${Car_General_Info.user_id}</div>
+									<div class="block_2_content_cardlist_text_1">${sellWan.model }</div>
+									<div class="block_2_content_cardlist_text_2">${sellWan.car_num}&emsp;${sellWan.price}&emsp;${sellWan.color}</div>
+									<div class="block_2_content_cardlist_text_3">판매자 : ${sellWan.user_id}</div>
 								</div>
 							</div>
 						</a>

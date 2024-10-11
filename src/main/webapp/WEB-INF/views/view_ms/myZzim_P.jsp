@@ -9,8 +9,31 @@
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_P.jsp" %></div>
+<%@ include file="../kakao.jsp" %>
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
+<style type="text/css">
+table.List {
+    width: 100%;                /* 테이블 폭을 100%로 설정 */
+    border-collapse: collapse;  /* 경계선 겹치기 제거 */
+    margin-top: 0;
+}
+.List tbody {
+    display: block;              /* tbody를 블록으로 변경 */
+}
+.chu-img {
+    width: 400px;
+    height: auto;
+    margin: 20px;
+}
+tbody tr {
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.10); /* 아래쪽으로 그림자 효과 */
+	margin-bottom: 10px; /* 간격 조정 */
+	margin-left: 100px;
+}
+.chu-title2{
+	width: 500px;
+}
+</style>
 <script type="text/javascript">
 	/* 체크박스 함수 */
 	function handleSubmit(){
@@ -38,96 +61,81 @@
 			}
 		});
 	}
+	function toggleCheckbox(checkboxId, imgElement) {
+	    const checkbox = document.getElementById(checkboxId);
+	    checkbox.checked = !checkbox.checked; // 체크 상태를 반전
+
+	    // 이미지 변경 (체크된 상태와 체크되지 않은 상태에 따라)
+	    if (checkbox.checked) {
+	        imgElement.src = '../images/main/joinOK.png'; // 체크된 상태의 이미지
+	    } else {
+	        imgElement.src = '../images/main/joinOK_before.png'; // 체크되지 않은 상태의 이미지
+	    }
+	}
 </script>
 </head>
-<style>
-table.List {
-    width: 100%;                /* 테이블 폭을 100%로 설정 */
-    border-collapse: collapse;  /* 경계선 겹치기 제거 */
-    margin-top: 80px;
-}
-
-.List thead {
-    display: none;              /* 헤더 숨기기 (필요에 따라) */
-}
-
-.List tbody {
-    display: flex;              /* 테이블 몸체를 Flexbox로 설정 */
-    flex-wrap: wrap;           /* 줄 바꿈 허용 */
-}
-
-.List tr {
-    display: flex;              /* 각 행을 Flexbox로 설정 */
-    align-items: center;        /* 수직 정렬 */
-    margin-bottom: 20px;       /* 각 행 간의 여백 */
-    flex: 1 0 calc(33.333% - 20px); /* 3개씩 나열되도록 설정 */
-}
-
-.chu_carList {
-    display: flex;              /* 차량 리스트를 Flexbox로 설정 */
-    align-items: center;        /* 수직 정렬 */
-}
-
-.chu-img {
-    width: 200px;               /* 이미지 크기 조정 */
-    height: auto;
-    margin-right: 10px;        /* 이미지와 텍스트 간격 */
-}
-
-.chu_body_all {
-    display: flex;              /* 텍스트 부분도 Flexbox로 설정 */
-    flex-direction: column;     /* 세로로 배치 */
-}
-</style>
-
 
 
 <body>
 	<div class="container">
-		<main class="content">
-			<h1 class="text-center"><a href="#">나의 관심목록</a></h1><br><br>
-			<div class="block">		
-				<table class="List">		
-					<thead>
-						<tr>
-							<th>선택</th>
-							<th>매물번호</th>
-							<th>찜번호</th>
-							<th>찜한차량</th>
-						</tr>
-					</thead>
-					<tbody>	
-						<c:forEach var="Zzim" items="${Zzim}">	
+		<div class="content_container">
+			<div class="content_hed">
+				<h1>전문가 관심목록</h1>
+			</div>
+
+			<div class="block_1">
+				<div class="block_1_text" style="font-size: 32px;">찜한차량</div>
+				<hr />
+
+				<table class="List">
+
+					<tbody>
+						<c:forEach var="Zzim" items="${Zzim}">
 							<tr>
-								<td><input type="checkbox" name="post1" value="${Zzim.sell_num}"></td>
-								<td><a href="view_ms/myZzimReview?sell_num=${Zzim.sell_num}">${Zzim.sell_num }</a></td>
-								<!-- 관심목록에서 해당 매물번호를 클릭하면 매물 판매 페이지로 이동하는 로직 넣어야 함. -->
-								<td>${Zzim.zzim_num}</td>
-								
-								<!-- 차량 정보 출력 -->
-								<td>
-            						<div class="chu_carList">
-                						<a href="/carInfo?sellNum=${Zzim.sell_num}&id=${Zzim.user_id}">
-                    					<img alt="chuCarimg" src="../images/main/377조7542_1.png" class="chu-img">
-                    						<div class="chu_body_all">
-                        						<div class="chu-body">
-						                            <img alt="구매대기중" src="../images/main/Waitingforpurchase.png">
-						                            <p class="chu-title">${Zzim.model}</p> <!-- Zzim에 모델이 포함된 경우 -->
-                        						</div>
-                        						<p class="chu-text"><b>${Zzim.price}</b> 만원</p> <!-- Zzim에 가격이 포함된 경우 -->
-                   							 </div>
-                						</a>
-            						</div>
-        						</td>								
+								<td><div class="chu_carList2">
+										<a href="/carInfo?sellNum=${Zzim.sell_num}&id=${Zzim.user_id}">
+											<img src="${Zzim.img_url }" class="cardlist_img_src">
+										</a>
+									</div></td>
+
+								<td><div class="chu_body_all2">
+										<p class="chu-title2"
+											style="font-size: 20px; font-weight: 700; text-align: center;">${Zzim.model}</p>
+									</div>
+
+									<div>
+										<p class="chu-text2">
+											<span style="color: gray; font-size: 16px;">제조년월:
+												${Zzim.manu_date}</span> <span style="margin-left: 40px;">|</span>
+											<span style="margin-left: 20px;">${Zzim.mileage}km</span> <span
+												style="margin-left: 20px;">|</span> <span
+												style="margin-left: 20px;">${Zzim.fuel}</span> <span
+												style="margin-left: 20px;">|</span> <span
+												style="margin-left: 20px;">${Zzim.accident}</span>
+										</p>
+									</div></td>
+								<td style="padding-left: 100px; padding-top: 10px;">
+									<div style="position: relative;">
+										<input type="checkbox" id="checkbox-${Zzim.sell_num}"
+											name="post1" value="${Zzim.sell_num}" style="display: none;">
+										<img src="../images/main/joinOK_before.png" alt="체크박스"
+											style="cursor: pointer;"
+											onclick="toggleCheckbox('checkbox-${Zzim.sell_num}', this)">
+									</div>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
-				</table>		
+				</table>
 			</div>
-			<button type="button" onclick="handleSubmit()">삭제</button>
-		</main>
-</div>
-<!--------------------------------------- 푸터 ---------------------------------------->
+
+		</div>
+		<div class="button-container"
+			style="display: flex; justify-content: flex-end; text-align: right;">
+			<img alt="" src="../images/main/삭제_but.png" onclick="handleSubmit()"
+				style="cursor: pointer; text-align: right;">
+		</div>
+		<!--------------------------------------- 푸터 ---------------------------------------->
 	<%@ include file="../footer.jsp" %>
 </body>
 </html>

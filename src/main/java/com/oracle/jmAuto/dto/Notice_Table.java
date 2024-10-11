@@ -18,5 +18,7 @@ public class Notice_Table {			// 공지사항 및 약관
 	private String	user_id;		// 관리자 아이디
 	private int		del_state;		// 삭제여부
 	
+	// Page 정보
+	private String	currentPage;
 
 }

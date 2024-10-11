@@ -10,4 +10,6 @@ public interface Expert_ReviewDao {
 
 	List<Expert_ReviewDao> expList();
 
+	List<Expert_ReviewDao> selExpList(String sellNum);
+
 }

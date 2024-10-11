@@ -16,6 +16,7 @@ import com.oracle.jmAuto.dto.Note;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
 import com.oracle.jmAuto.dto.Review;
+import com.oracle.jmAuto.dto.ReviewListInfo;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.dto.Zzim;
 
@@ -135,12 +136,35 @@ public class MsServiceImpl implements MsService {
 		return md.deleteZzim(user_id, sell_num);
 	}
 	
-	//구매후기작성
-	@Override
-	public int hoogiwrite(Map<String, Object> params) {
-		System.out.println("msService hoogiwrite start...");
-		return md.hoogiwrite(params);
-	}
+//	//구매후기작성
+//	@Override
+//	public int hoogiwrite(Map<String, Object> params) {
+//		System.out.println("msService hoogiwrite start...");
+//		return md.hoogiwrite(params);
+//	}
+	
+	
+	//구매후기에 기존 차량 이미지 첨부
+    @Override
+    public ReviewListInfo imageList(ReviewListInfo ri) {
+        System.out.println("msService imageList Start...");
+        return md.imageList(ri);
+    }
+
+    //구매후기에 구매자 작성 내용+첨부파일
+    @Override
+    public int hoogiwrite(Review review) {
+        System.out.println("msService hoogiwrite start...");
+        return md.hoogiwrite(review);
+    }
+
+
+    //구매자 -> 내가 작성한 후기상세내용
+    @Override
+    public ReviewListInfo myhoogiDetail (String approval_num) {
+        System.out.println("msService myhoogiDetail start...");
+        return md.myhoogiDetail(approval_num);
+    }
 	
 	//후기 작성폼에서 sell_num값 받아오려는 로직.....
 	@Override
@@ -165,7 +189,7 @@ public class MsServiceImpl implements MsService {
 	
 	//내가 작성한 후기 삭제
 	@Override
-	public int hoogiDelete(String user_id, List<String> approval_num) {
+	public int hoogiDelete(String user_id, String approval_num) {
 		System.out.println("msService hoogiDelete start..");
 		return md.hoogiDelete(user_id, approval_num);
 	}
@@ -188,6 +212,7 @@ public class MsServiceImpl implements MsService {
 	@Override
 	public List<Car_General_Info> sellCar(String user_id) {
 		System.out.println("msService sellCar start...");
+		System.out.println("msServiece sellCar user_id"+user_id);
 		return md.sellCar(user_id);
 	}
 	
@@ -283,6 +308,50 @@ public class MsServiceImpl implements MsService {
 		System.out.println("msService myhoogiDetail start...");
 		return md.myhoogiDetail(user_id, approval_num);		
 	}
+
+	//user정보가져오기
+	@Override
+	public User_Table user(String user_id) {
+		System.out.println("msService user start...");
+		return md.user(user_id);
+	}
+
+	//판매중인 차량 삭제
+	@Override
+	public int deletesell(String user_id, List<Long> sell_num) {
+		System.out.println("msService deletesell start...");
+		System.out.println("msService deletesell sell_num..."+sell_num);
+		
+		return md.deletesell(user_id, sell_num);
+	}
+
+	//쪽지보내기
+	@Override
+    public int service_sending_note(Note note) {
+        int sending_note = 0;
+        sending_note = md.dao_sending_note(note);
+        return sending_note;
+    }
+
+	//del_state값 불러오기
+	@Override
+	public Review del_state(String approval_num) {
+		System.out.println("msService start..");
+		return md.del_state(approval_num);
+	}
+
+	//문의 상세내역 삭제
+	@Override
+	public int qnaDetailDelete(String user_id, Long qna_num) {
+		System.out.println("msService qnaDetailDelete start...");
+		int result =0;
+		result= md.qnaDetailDelete(user_id, qna_num);
+		System.out.println("msService qnaDetailDelete user_id->"+ user_id);
+		System.out.println("msService qnaDetailDelete Qnanum->"+ qna_num);
+		return result;
+	}
+
+	
 
 
 }

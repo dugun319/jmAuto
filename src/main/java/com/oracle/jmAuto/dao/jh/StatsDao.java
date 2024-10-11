@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.Payment;
 
 
 public interface StatsDao {
@@ -20,4 +21,20 @@ public interface StatsDao {
 
 	List<Car_General_Info> dao_receiving_list(String user_id);
 
+	Map<String, Object> dao_delivery_list(String user_id);
+
+	Map<String, Object> dao_cost_list(String user_id);
+
+	List<String> findAllData();
+
+	List<String> findFilteredData(String query);
+	
+	String findAccountNameByUserId(String userId);
+
+	Map<String, Object> dao_admin_quarter_cost_list(int year);
+
+	
+	
+	
+	
 }

@@ -4,9 +4,13 @@
  
  <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
 	<select id="findZzim"  parameterType="Zzim" resultType="Zzim">
-		select  *
-		from ZZIM
-		where user_id=#{user_id}
+		select z.*, c.*, i.*, c.user_id as car_user_id
+		from  zzim z
+		JOIN  car_general_info c on z.SELL_NUM = c.SELL_NUM
+		JOIN  car_images i       on z.SELL_NUM = i.SELL_NUM	
+		where z.user_id=#{user_id}
+		and z.sell_num = c.sell_num
+		AND   i.img_url LIKE '%' || '_1.' || '%'
 	</select>
 	
 	<delete id="deleteZzim" parameterType="map">

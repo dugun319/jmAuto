@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,21 +19,11 @@ body {
 }
 /* 전체 페이지의 기본 배경색과 중앙 정렬을 설정 */
 .contents {
-	margin: 0; /* 기본 여백 제거 */
-	padding: 0;
-	background-color: #fafafa; /* 페이지 배경색 */
-	display: flex; /* Flexbox를 사용하여 중앙 정렬 */
-	justify-content: center; /* 수평 중앙 정렬 */
-	align-items: center; /* 수직 중앙 정렬 */
+	align-items: center;/* 수직 중앙 정렬 */
 	height: 100vh; /* 뷰포트 높이 100%로 설정 */
+	padding-bottom: 100px;
 }
 
-.contents {
-	align-items: center;
-	/* 수직 중앙 정렬 */
-	height: 100vh; /* 뷰포트 높이 100%로 설정 */
-	/* 뷰포트 높이 100%로 설정 */
-}
 
 .content {
 	display: flex;
@@ -57,11 +49,12 @@ h1 {
 	top: 250px;
 	align-items: center; /* 박스들을 수직으로 중앙 정렬 */
 	gap: 40px; /* 박스들 사이의 간격 */
-	height: 400px;
-	width: 800px;
-	padding: 50px; /* 컨테이너 내부 여백 */
+	height: 600px;
+	width: 1000px;
+	padding: 40px; /* 컨테이너 내부 여백 */
 	background-color: #fdfdfd; /* 박스 배경색 */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
+	margin: 70px 0;
 }
 
 /* 각 박스의 기본 스타일 설정 */
@@ -73,6 +66,7 @@ h1 {
 	cursor: pointer; /* 마우스 커서를 손 모양으로 변경 */
 	transition: transform 0.2s; /* 박스 확대 효과에 대한 부드러운 전환 */
 	color: #ff4714;
+	height: 200px;
 }
 
 /* 박스에 마우스를 올리면 확대되는 효과 */
@@ -114,19 +108,19 @@ h3 {
 					<div class="box">
 						<h2>개인회원</h2>
 						<h3>가입하기</h3>
-						<img src="../images/join/buyer_icon.png" alt="개인사용자">
+						<img src="<%=request.getContextPath()%>/images/main/buyer_icon.png" alt="개인사용자">
 					</div>
 				</a> <a href="/view_jm/sellerJoinAgree">
 					<div class="box">
 						<h2>기업회원</h2>
 						<h3>가입하기</h3>
-						<img src="../images/join/seller_icon.png" alt="기업사용자">
+						<img src="<%=request.getContextPath()%>/images/main/seller_icon.png" alt="기업사용자">
 					</div>
 				</a> <a href="/view_jm/profJoinAgree">
 					<div class="box">
 						<h2>전문가</h2>
 						<h3>가입하기</h3>
-						<img src="../images/join/prof_icon.png" alt="전문사용자">
+						<img src="<%=request.getContextPath()%>/images/main/prof_icon.png" alt="전문사용자">
 					</div>
 				</a>
 			</div>

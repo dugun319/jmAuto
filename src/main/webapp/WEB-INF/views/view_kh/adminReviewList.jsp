@@ -28,7 +28,8 @@
 </head>
 <body>
 	<header>
-		<%@ include file="../header.jsp"%>
+	<div class="header_continer"><%@ include file="../header.jsp" %></div>
+   	<div class="menu_continer"><%@ include file="../manager_menu.jsp" %></div>
 	</header>
 
 	<nav class="nav__cont">

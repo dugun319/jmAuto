@@ -94,7 +94,7 @@ input[type="password"] {
             <h1 class="text-center">회원정보수정</h1>
             
             <div class="block_1">
-                <input type="hidden" name="user_id" value="${user_table.user_id}">
+                <input type="hidden" name="user_id" value="${user.user_id}">
 					<table>
 					<tr>
 						<td style="width: 200px;"><span style="font-size: 18px; font-weight: bold;">비밀번호 :</span></td>

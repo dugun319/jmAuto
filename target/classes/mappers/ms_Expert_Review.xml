@@ -4,33 +4,44 @@
  
  <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
  
- 	<select id="expertReview" parameterType="Expert_Review" resultType="Expert_Review">
- 		select *
-		from expert_review 	
-		where sell_num IN(
-         		           	select p.sell_num
-                		    from user_table u, payment p
- 							where u.user_id = p.user_id
-                    		and u.user_id = #{user_id}
-                    	)
+ 	<select id="expertReview" parameterType="String" resultType="Expert_Review">
+ 		select e.*, p.price
+		from expert_review e 
+		join payment p	
+		on e.sell_num = p.sell_num
+		where e.sell_num IN(
+               				 select p.sell_num
+                			 from user_table u, payment p
+                			 where u.user_id = p.user_id
+                  			 and u.user_id = #{user_id}
+                   			 )
  	</select>
  	
  	<select id="reviewDetail" parameterType="map" resultType="Expert_Review">
  		select *
-		from expert_review 	
-		where sell_num IN(
+		from expert_review e
+		where e.sell_num IN(
          		           	select p.sell_num
                 		    from user_table u, payment p
  							where u.user_id = p.user_id
                     		and u.user_id = #{user_id}
                     	)
-        and expert_review_num = #{expert_review_num}
+        and e.expert_review_num = #{expert_review_num}
  	</select>
  	
  	<select id="myExpertReview" parameterType="String" resultType="Expert_Review">
- 		select *
- 		from expert_review
- 		where user_id =#{user_id}
+ 	
+ 	
+ 		select e.*, c.*, i.*
+ 		
+ 		from  expert_review e JOIN  car_general_info c on e.SELL_NUM = c.SELL_NUM
+		JOIN  car_images i on e.SELL_NUM = i.SELL_NUM
+ 		
+ 		where e.user_id =#{user_id}
+		and   c.del_state=0
+		AND   i.img_url LIKE '%' || '_1.' || '%'
+ 		
+ 		
  	</select>
  	
  	<select id="myExpertReviewDetail" parameterType="Expert_Review" resultType="Expert_Review">

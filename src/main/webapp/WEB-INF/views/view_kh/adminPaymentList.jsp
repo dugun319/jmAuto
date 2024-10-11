@@ -18,12 +18,57 @@
 		var url = "/KH/pay/sendRefundPassword?tid=" + tid;		
 		window.open(url, "_blank", 'width=410,height=410,location=no,status=no,scrollbars=no,top=100,left=300');
 	}
+	
+/* 	
+	$(function(){
+		$('#autoComplete').autocomplete({
+			source : function(request, response) {
+			//source: keyword 입력 시 반환될 목록
+			var search 		= $("select[name=search]").val();
+			var itemReturn 	= "item." + search; 
+				$.ajax({
+						url : "/KH/pay/ajax.autocomplete",
+						type : "POST",
+						dataType: "JSON",
+						data : {
+								value: request.term,		//controller로 전달할 key
+								search: search				//
+						},	
+		         		success : function(data){ 	// 성공
+		             		response(
+		             				$.map(data.resultList, function(item) {
+		                     			return {
+		                    	     			label : item.USER_ID,    		// 목록에 표시되는 값
+		                           				value : item.USER_ID, 		// 선택 시 input창에 표시되는 값
+		                     					};
+		                 					})
+		             				);										    //response
+		         				},
+		         			error : function(){ //실패
+		             						alert("오류가 발생했습니다.");
+		         							}
+		     		
+						});
+				},
+				focus : function(event, ui) { // 방향키로 자동완성단어 선택 가능하게 만들어줌	
+											return false;
+				},
+				minLength: 2, 					// 최소 글자수
+				autoFocus : true, 				// true == 첫 번째 항목에 자동으로 초점이 맞춰짐
+				delay: 100,						//autocomplete 딜레이 시간(ms)
+				select : function(evt, ui) {	// 아이템 선택시 실행 ui.item 이 선택된 항목을 나타내는 객체, lavel/value
+											console.log(ui.item.label);
+		 									}
+		})
+	});
+ */	
 </script>
 </head>
 <body>
 
 	<header>
-		<%@ include file="../header.jsp"%>
+		<div class="header_continer"><%@ include file="../header.jsp" %></div>
+	   	<div class="menu_continer"><%@ include file="../manager_menu.jsp" %></div>
 	</header>
 	
 	<nav class="nav__cont">
@@ -60,6 +105,7 @@
 	  </ul>
 	</nav>
 	
+	<div id="tableTitle"><h1>관리자 환불승인</h1></div>
 	<div id="fullbody">
 	
 		<div id="searchDiv">
@@ -72,15 +118,12 @@
 					<option value="buy_type">결제구분(1:차량/2:리뷰)</option>
 					<option value="">전체검색</option>
 				</select>
-				<input	type="text"			name="keyword"	placeholder="keyword" />
+				<input	type="text"			name="keyword"	id="autoComplete" 	placeholder="keyword" />
 				<input	type="hidden"		name="admin_id"	value="${admin_id }" />
 				<button type="submit"		id="searchButton">SEARCH</button>
 				
-				<span id="loginId">LoginID: ${admin_id }</span>
 			</form>
 		</div>
-		
-		<div id="tableTitle">관리자 환불승인</div>
 		
 		<div id="listDiv">
 	

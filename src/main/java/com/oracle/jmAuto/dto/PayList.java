@@ -35,6 +35,9 @@ public class PayList {
 	private String 	model; /* 구매내역 리스트에 사용 */
 	private String 	color;
 	private String 	car_num;
+	private String img_name;
+	private String img_url;
+	private String car_user_id;
 	
 	private String	admin_id;
 	private String	search;

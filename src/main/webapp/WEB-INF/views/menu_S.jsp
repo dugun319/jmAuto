@@ -6,6 +6,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+.header_continer {
+    position: relative; /* No fixed position, it will scroll naturally */
+    width: 100%;
+    top: 0;
+    z-index: 1001; /* Still higher than the menu */
+}
+.menu_continer {
+    position: fixed;
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
+}
 .menu {
 	z-index: 1;
 }
@@ -328,6 +340,27 @@ table.List {
       <img alt="icon" src="../images/main/개인정보수정_icon.png" class="nav_items_img">
       <a href="/view_ms/myPageEditCheck_S" class="nav_items_text">회원정보수정</a>
     </li>
+    
+        <li class="nav__items">
+      <img alt="icon" src="../images/main/jh_stats.png" class="nav_items_img">
+      <button id="stats" onclick="window.open('/view_jh/seller_Stats_MainForm', '_blank', 'width=1270, height=1000, left=315, scrollbars=yes')">판매자 통계</button>
+    </li>
+
+    <style>
+	    #stats {
+	        background: none;
+	        border: none; 
+	        color: inherit; 
+	        cursor: pointer;
+	        margin-left: 10px;
+	        font: inherit; 
+	    }
+	    #stats:hover {
+			background: radial-gradient(circle at 94.02% 88.03%, #ff4714, transparent 100%);
+			transition: all 0.5s ease;
+	    } 
+	</style>
+    
     <li class="nav__items2">
       <a href="/view_ms/talTwae_S" class="nav_items_text2">회원탈퇴</a>
     </li>

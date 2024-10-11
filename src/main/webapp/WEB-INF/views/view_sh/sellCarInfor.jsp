@@ -15,205 +15,304 @@
 <!-- 테마 -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<!-- 자바스크립트 -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- aJax 사용을 위한 jQuery -->
-<script type="text/javascript" src="../js/jquery.js"></script>
 
 	<%@ include file="../header_white.jsp" %>
-<%@ include file="../kakao.jsp"%>
 
  <style>
-        body {
-            background-color: #ededed;
-        }
+ 
+ 	@font-face {
+	    font-family: 'Pretendard-Regular';
+	    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+ 	
+      body {
+          background-color: #ededed;
+         font-family: 'Pretendard-Regular';
+	    font-weight: 400;
+	    font-style: normal;
+      }
 
-        form {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-column-gap: 20px;
-            grid-row-gap: 20px;
-            width: 60%;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 5%;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-        
-        .circle {
+      form {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-column-gap: 20px;
+          grid-row-gap: 20px;
+          width: 1200px;
+          margin: 0 auto;
+          background-color: #fff;
+          padding: 100px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          text-align: left;
+          margin-bottom: 50px;
+      }
+      
+      .circle {
 			margin-top: 50px;
 			text-align: center;
 		}
 
-        .requtxt {
+      .requtxt {
 		    display: flex; /* 가로 정렬을 위해 플렉스 적용 */
 		    align-items: center; /* 세로 중앙 정렬 */
 		}
 
-        #orange {
-            color: #ff4714;
-            font-weight: bold;
-            display: inline;
-        }
+      #orange {
+          color: #ff4714;
+          font-weight: bold;
+          display: inline;
+          
+      }
 
-        #black {
-            color: #070707;
-            font-weight: bold;
-            display: inline;
-        }
-        
-        .inline {
-            display: flex; /* 가로로 배치 */
-            align-items: center; /* 세로 중앙 정렬 */
-        }
+      #black {
+          color: #070707;
+          font-weight: bold;
+          display: inline;
+          margin-left: 50px;
+      }
+      
+      #black2 {
+          color: #070707;
+          font-weight: bold;
+          display: inline;
+      }
+      
+      .inline {
+          display: flex; /* 가로로 배치 */
+          align-items: center; /* 세로 중앙 정렬 */
+      }
 
-        .divGroup {
-            display: flex; /* 폼 그룹 내의 항목들을 플렉스 박스로 배치합니다. */
-            align-items: center; /* 폼 그룹 내 항목들을 수직 중앙에 정렬합니다. */
-           	flex-wrap: wrap;
-        }
-        
-        #check {
-         position: relative;
-	     left: 190px;
-	     flex-basis: 100%; /* 이 요소만 한 줄을 차지하게 함 */
-	     margin-top: 0px ;
-	     margin-bottom: 0px ;
-        }
+      .divGroup {
+          display: flex; /* 폼 그룹 내의 항목들을 플렉스 박스로 배치합니다. */
+          align-items: center; /* 폼 그룹 내 항목들을 수직 중앙에 정렬합니다. */
+          flex-wrap: wrap;
+      }
+      
+      #check {
+        position: relative;
+	    flex-basis: 100%; /* 이 요소만 한 줄을 차지하게 함 */
+	    margin-top: 0px ;
+	    margin-bottom: 0px ;
+	    margin-left: 25%;
+	    color: #ff4714;
+	    font-weight: bold;
+      }
 
-        .infor {
-        	font-size: 20px;
-        	font-weight: bold;
-            margin-right: 30px;
-            margin-left: 50px;
-        }
+      .infor {
+      	font-size: 20px;
+      	font-weight: bold;
+        /*margin-right: 20px;*/
+        margin-left: 50px;
+        margin-top: 15px;
+      }
 
-        .infor2 {
-            margin-left: 10px;
-            margin-right: 10px;
-            font-weight: bold;
-        }
+      .infor2 {
+         margin-left: 10px;
+         margin-right: 10px;
+         font-weight: bold;
+      }
 
-        .width-2 {
-            width: 25%;
-        }
-        
-        .yymm {
-        	text-align: right;
-        }
+      .width-2 {
+         width: 22%;
+         border: #e2e8ee 1px solid;
+      }
+      
+      .yymm {
+      	text-align: right;
+      }
 
-        .inlineText {
-            width: 20%;
-        }
-		
-		#car_num {
-            width:55%;
-        }
-		
-        .oneLine {
-            width: 70%;;
-        }
+      .inlineText {
+          width: 25%;
+      }
+      
+      .inlineText2 {
+          width: 18%;
+      }
 
-        .kmoneLine {
-            width: 35%;
-        }
+	  #car_num {
+          width:50%;
+      }
 
-        .note {
-            margin-left: 200px;
-        }  
-        
-        .img {
-        	display: flex; /* 폼 그룹 내의 항목들을 플렉스 박스로 배치합니다. */
-            align-items: center; /* 폼 그룹 내 항목들을 수직 중앙에 정렬합니다. */
-            margin: 0 auto;
-        }
-        
-        .img input{
-        	display: none;
-        }
-        
-        /* 가로세로 비율 맞추기 위해 하나만 설정함 */
-        #mainImg {
-        	width: 300px;
-        }
-        
-        /* 가로세로 비율 맞추기 위해 하나만 설정함 */
-        #Imgs1, #Imgs2, #Imgs3, #Imgs4 {
-        	width: 150px;
-        	margin-right: 50px;
-        }
-        
-        #carNumButton {
-        	width: 130px;
-        	height: 26px;
-        	color: white;
-        	background-color: #ff4714;
-        	
-        	display: flex;
-		    justify-content: center; /* 가로 중앙 정렬 */
-		    align-items: center; /* 세로 중앙 정렬 */
-        }
-        
-        .carNumButton {
-        	background-color: transparent;
-        	border: hidden;
-        	display: flex; 
-        	align-items: center;
-        }
-        
-        
-        .content {
-			display: flex;
-			flex-direction: column; /* 세로 방향으로 배치 */
-			align-items: center; /* 수평 중앙 정렬 */
-			justify-content: center; /* 수직 중앙 정렬 */
-            margin-bottom: 250px;
+      .oneLine {
+          width: 62%;
+      }
+
+      .kmoneLine {
+          width: 35%;
+      }
+
+      .note {
+          margin-left: 200px;
+      }  
+      
+      .img {
+      	display: flex; /* 폼 그룹 내의 항목들을 플렉스 박스로 배치합니다. */
+          align-items: center; /* 폼 그룹 내 항목들을 수직 중앙에 정렬합니다. */
+          margin: 0 auto;
+      }
+      
+      .img input{
+      	display: none;
+      }
+      
+      /* 가로세로 비율 맞추기 위해 하나만 설정함 */
+      #mainImg {
+      	width: 300px;
+      }
+      
+      /* 가로세로 비율 맞추기 위해 하나만 설정함 */
+      #Imgs1, #Imgs2, #Imgs3, #Imgs4 {
+      	width: 150px;
+      	margin-right: 50px;
+      }
+      
+      #carNumButton {
+      	width: 130px;
+      	height: 26px;
+      	color: white;
+      	background-color: #ff4714;
+      	display: flex;
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    align-items: center; /* 세로 중앙 정렬 */
+      }
+      
+      .carNumButton {
+      	background-color: transparent;
+      	border: hidden;
+      	display: flex; 
+      	align-items: center;
+      }
+      
+      
+      .content {
+		display: flex;
+		flex-direction: column; /* 세로 방향으로 배치 */
+		align-items: center; /* 수평 중앙 정렬 */
+		justify-content: center; /* 수직 중앙 정렬 */
+        margin-bottom: 250px;
 		}
-		
-		.join_step {
+
+	.join_step {
+		display: flex;
+		position: absolute;
+		/* 플렉스 박스 레이아웃 사용 */
+		top: 200px;
+		justify-content: center;
+		/* 가로 가운데 정렬 */
+		list-style: none;
+		/* 리스트 스타일 제거 */
+		padding: 0;
+		/* 기본 패딩 제거 */
+		margin-bottom: 30px;
+	}
+
+	.join_step li {
+		margin: 0 10px;
+		/* 항목 간의 간격 설정 */
+		position: relative;
+		/* 텍스트 위치를 조정하기 위해 relative 유지 */
+	}
+
+	.join_step li img {
+		width: 150px;
+		/* 리스트 항목 내 이미지의 크기를 설정 */
+	}
+
+	.join_step li span {
+		position: absolute;
+		/* 텍스트를 절대 위치로 설정 */
+		bottom: 0;
+		left: 50%;
+		/* 텍스트를 중앙 하단에 위치 */
+		color: #666;
+		/* 텍스트 색상 설정 */
+		line-height: 1.462em;
+		/* 텍스트 줄 간격 설정 */
+		white-space: nowrap;
+		/* 텍스트가 줄바꿈되지 않도록 설정 */
+		transform: translate(-50%, 0);
+		/* 텍스트를 중앙 정렬 */
+	}
+
+	#imgbutt1, #imgbutt2, #imgbutt3 {
+		height: 26px;
+		width: 480px;
+	}
+	
+	#oderRow5 #upload-name {
+	    display: inline-block;
+	    padding-left: 20px;
+	    width: 300px;
+	    height: 30px;
+	    padding: 0px;
+	    vertical-align: middle;
+	    border: 1px solid #dddddd;
+	    color: #999999;
+	}
+	
+	#oderRow5 label {
+	    display: inline-block;
+	    padding-top: 5px;
+	    text-align:center;
+	    color: #fff;
+	    vertical-align: middle;
+	    background-color: #FF4714;
+	    cursor: pointer;
+	    width: 150px;
+	    height: 30px;
+	    margin-left: 10px;
+	}
+	
+	#oderRow5 #insureFile1, #insureFile2, #insureFile3 {
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    padding: 0;
+	    /*overflow: hidden;*/
+	    border: 0;
+	}
+	
+	#redirectButton {
+		display: inline-block;
+		width: 320px;
+		height: 60px;
+		border: solid #ff4714 1px;
+		background-color: white;
+		color: #ff4714;
+		font-size: 16px;
+		text-align: center;
+		margin-right: 7%;
+		line-height: 60px; /* height와 동일하게 설정 */
+	}
+	
+	#nextButton{
+		display: inline-block;
+		width: 320px;
+		height: 60px;
+		border: solid #ff4714 2px;
+		background-color: #ff4714;
+		color: white;
+		font-size: 16px;
+		margin-left: 7%;
+		text-align: center;
+	}
+	
+	.divGroupButton {
 			display: flex;
-			position: absolute;
-			/* 플렉스 박스 레이아웃 사용 */
-			top: 200px;
+			margin-top: 50px;
+			margin-bottom: 20px;
+			text-align: center;
+			align-items: center;
+			margin-right: auto;
+			margin-left: auto;
 			justify-content: center;
-			/* 가로 가운데 정렬 */
-			list-style: none;
-			/* 리스트 스타일 제거 */
-			padding: 0;
-			/* 기본 패딩 제거 */
-			margin-bottom: 30px;
 		}
 		
-		.join_step li {
-			margin: 0 10px;
-			/* 항목 간의 간격 설정 */
-			position: relative;
-			/* 텍스트 위치를 조정하기 위해 relative 유지 */
-		}
-		
-		.join_step li img {
-			width: 150px;
-			/* 리스트 항목 내 이미지의 크기를 설정 */
-		}
-		
-		.join_step li span {
-			position: absolute;
-			/* 텍스트를 절대 위치로 설정 */
-			bottom: 0;
-			left: 50%;
-			/* 텍스트를 중앙 하단에 위치 */
-			color: #666;
-			/* 텍스트 색상 설정 */
-			line-height: 1.462em;
-			/* 텍스트 줄 간격 설정 */
-			white-space: nowrap;
-			/* 텍스트가 줄바꿈되지 않도록 설정 */
-			transform: translate(-50%, 0);
-			/* 텍스트를 중앙 정렬 */
-		}
+	input {
+		border: #e2e8ee 1px solid;	
+	}
+
 
     </style>
     
@@ -306,6 +405,7 @@
                        $('#car_num_chk').val('1');
                        return  1;
                    }
+                   
                },
                error: function() {
                    alert('서버 오류가 발생했습니다. 나중에 다시 시도해주세요.');
@@ -315,10 +415,72 @@
            });
        }
     }
+    
+    function carTypeFuel(type) {
+    	console.log(type);
+		var notEco = [
+						{name: "연료 선택", value: "0"},
+						{name: "가솔린", value: "가솔린"},
+						{name: "디젤", value: "디젤"},
+						{name: "전기", value: "전기"},
+						{name: "하이브리드", value: "하이브리드"},
+						{name: "LPG", value: "LPG"}
+		];
+		
+		var  eco = [
+					{name: "연료 선택", value: "0"},
+					{name: "전기", value: "전기"},
+					{name: "하이브리드", value: "하이브리드"},
+					{name: "LPG", value: "LPG"}
+		];
+		
+		var  notSel = [
+					{name: "차종 먼저 선택", value: "0"}
+		];
+		
+		var target = document.getElementById("fuel");
+		
+		var value = [];
+		
+		// type이 숫자인지 문자열인지 확인하여 비교
+		// type으로 값을 넘겨놓고 type.value로 또 값을 비교해서 안됐었다...... jsp더 공부해야 할 듯..
+	    if (type == "3000" || type == 3000) {
+	    	console.log(type);
+	        value = eco;
+	        /*console.log('3000 >> ',value);*/
+	    } 
+	    else if (type == "0" || type == 0){
+	    	value = notSel;
+	    	/*console.log('0 >> ',value);*/
+	    }
+	    else {
+	        value = notEco;
+	        /*console.log('!3000 >> ',value);*/
+	    }
+		
+		// 설정한 배열 안의 값을 확인하려고 for문 돌린거..
+	    /*value.forEach(function(item) {
+	        console.log('이름: ' + item.name + ', 값: ' + item.value);
+	    });*/
+		
+		// 기존 옵션 제거(한 번 싹 밀고 우리가 설정한 배열을 넣어주기 위함)
+	    target.options.length = 0;
+
+	    // 새로운 옵션 추가
+	    for (var insert in value) {
+	    	//option 태그 생성
+	        var opt = document.createElement("option");
+	      	//우리가 선언한 opt에 value값과 html 입력
+	        opt.value = value[insert].value;
+	        opt.innerHTML = value[insert].name;
+	        //우리가 위에서 선언한 target에다가 세팅한 opt값 전달
+	        target.appendChild(opt);
+	    }
+	}
    
 
     function chkValue() {
-    	/* alert('frm.car_type.value->'+frm.car_type.value); */
+    	/*alert('frm.car_type.value->'+frm.car_type.value);*/
         if (frm.car_type.value == 0) {
             alert('차종을 선택해주세요');
             frm.car_type.focus();
@@ -340,8 +502,13 @@
             return false;
         }
         
-        if (frm.manu_yy.value == 0) {
-            alert('제조년을 선택해주세요');
+        if (!frm.manu_yy.value) {
+            alert('제조년을 입력해주세요');
+            frm.manu_yy.focus();
+            return false;
+        }
+        if (isNaN(frm.manu_yy.value)) {
+            alert('제조년은 숫자로 입력해주세요');
             frm.manu_yy.focus();
             return false;
         }
@@ -447,6 +614,29 @@
         return true;
     }
     
+    
+  //파일 이름 및 확장자 분리
+	// 파일 형식 및 용량 제한	
+	$(function insertFile() {
+    $("#insureFile1").on('change', function() {
+        var fileName = $("#insureFile1").val();
+        $("#imgbutt1").val(fileName);
+        return;
+    });
+    
+    $("#insureFile2").on('change', function() {
+        var fileName = $("#insureFile2").val();
+        $("#imgbutt2").val(fileName);
+        return;
+    });
+    
+    $("#insureFile3").on('change', function() {
+        var fileName = $("#insureFile3").val();
+        $("#imgbutt3").val(fileName);
+        return;
+    });
+});
+    
 </script>
 
 </head>
@@ -454,9 +644,9 @@
 
 		<<div class="content">
 				<ul class="join_step">
-					<li><img src="../images/sellMyCar/약관동의_후.png"><span>약관동의</span></li>
-					<li><img src="../images/sellMyCar/차량등록_입력.png"><span>차량정보 입력</span></li>
-					<li><img src="../images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_입력.png"><span>차량정보 입력</span></li>
+					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
 				</ul>
 			</div>
 
@@ -464,7 +654,7 @@
         <form action="/view_sh/sellMyCarInfo" method="post" enctype="multipart/form-data" name="frm" id="myForm" onsubmit="return chkValue()">
 
 
-            <div class="requtxt">
+            <div class="divGroup">
 				<h1 id="black">차량 정보 입력</h1>
 				<h3 id="orange">[필수]</h3>
 			</div>
@@ -475,13 +665,13 @@
                         <div class="inlineText">
                             <p class="infor">차종</p>
                         </div>
-                        <select name="car_type" class="width-2">
+                        <select name="car_type" class="width-2" onchange="carTypeFuel(this.value)">
                         	<option value="0">차종 선택</option>
                             <option value="1000">국내</option>
                             <option value="2000">수입</option>
                             <option value="3000">친환경</option>
                         </select>
-                        <div class="inlineText">
+                        <div class="inlineText2">
                             <p class="infor">제조사</p>
                         </div>
                         <select name="brand" class="width-2">
@@ -527,12 +717,7 @@
                     <div class="inlineText">
                         <p class="infor">제조일</p>
                     </div>
-                    <select name="manu_yy" class="width-2 yymm">
-                    	<option value="0">제조년 선택</option>
-                        <c:forEach var="i" begin="01" end="24">
-                            <option value="${i }"><fmt:formatNumber value="${i}" pattern="00" /></option>
-                        </c:forEach>
-                    </select>
+                    <input name="manu_yy" class="width-2 yymm" maxlength="2" placeholder="제조년도 입력(예시:00,01,02..)">
                     <p class="infor2">년</p>
                     
                     <select name="manu_mm" class="width-2 yymm">
@@ -565,15 +750,12 @@
                     <div class="inlineText">
                         <p class="infor">연료</p>
                         </div>
-                    <select name="fuel" class="width-2">
-                    	<option value="0">연료 선택</option>
-                        <option value="가솔린">가솔린</option>
-                        <option value="디젤">디젤</option>
-                        <option value="전기">전기</option>
-                        <option value="하이브리드">하이브리드</option>
-                        <option value="LPG">LPG</option>
+                    <select name="fuel" class="width-2" id="fuel">
+                    	<option value="0">차종 먼저 선택</option>
+
+                   
                     </select>
-                    <div class="inlineText">
+                    <div class="inlineText2">
                         <p class="infor">변속기</p>
                         </div>
                         <select name="transmission" class="width-2">
@@ -593,7 +775,7 @@
                             <option value="사고">사고</option>
                             <option value="단순수리">단순수리</option>
                         </select>
-                        <div class="inlineText">
+                        <div class="inlineText2">
                             <p class="infor">압류유무</p>
                             </div>
                         <select name="repossession" class="width-2">
@@ -605,7 +787,7 @@
     
                 <div class="note">
                     <h4 id="orange">첨부서류</h4><p>
-                    <p id="black">자동차 등록증 / 자동차세 완납증명서 / 신분증(사본)
+                    <p id="black2">자동차 등록증 / 자동차세 완납증명서 / 신분증(사본)
                     <p>
                     첨부파일이 문제가 있을 시 판매자 본인이 부당한 대우를 받을 수 있습니다.</p>
                 </div>
@@ -622,22 +804,61 @@
                     <div class="inlineText">
                         <p class="infor">자동차 등록증</p>
                     </div>
-                    <input type="file" id="imgbutt" name="sell_regi">
+                    <div id="oderRow5">	
+						<div>					
+							<input	id="imgbutt1" 
+									placeholder="첨부파일" 
+									readonly="readonly"/>
+							<label 	for="insureFile1">파일찾기</label> 
+	    					<input 	type="file" 
+	    							id="insureFile1"
+	    							name="sell_regi"
+	    							onchange="insertFile()"
+	    							/>
+	    					<br>
+						</div>
+					</div>
                 </div>
     
                 <div class="divGroup">
                     <div class="inlineText">
                         <p class="infor">자동차 완납증명서</p>
                         </div>
-                    <input type="file" id="imgbutt" name="sell_certi_tax">
+                    <div id="oderRow5">	
+						<div>					
+							<input	id="imgbutt2" 
+									placeholder="첨부파일" 
+									readonly="readonly"/>
+							<label 	for="insureFile2">파일찾기</label> 
+	    					<input 	type="file" 
+	    							id="insureFile2"
+	    							name="sell_certi_tax"
+	    							onchange="insertFile()"
+	    							/>
+	    					<br>
+						</div>
+					</div>
                 </div>
     
     
                 <div class="divGroup">
                     <div class="inlineText">
                         <p class="infor">신분증 사본</p>
-                        </div>
-                    <input type="file" id="imgbutt" name="sell_shinbun">
+                    </div>
+                    <div id="oderRow5">	
+						<div>					
+							<input	id="imgbutt3" 
+									placeholder="첨부파일" 
+									readonly="readonly"/>
+							<label 	for="insureFile3">파일찾기</label> 
+	    					<input 	type="file" 
+	    							id="insureFile3"
+	    							name="sell_shinbun"
+	    							onchange="insertFile()"
+	    							/>
+	    					<br>
+						</div>
+					</div>
                 </div>
                 
                 
@@ -664,13 +885,15 @@
 				
 				
 				
-    		<div class="divGroup">
-    		<a href="/view_sh/sellMyCar">
-    			<img alt="" src="/images/sellMyCar/이전_but.png">
-    		</a>
-    		<button type="submit">
-    			<img alt="" src="/images/sellMyCar/다음_but.png">
-    		</button>
+    		<div class="divGroupButton">
+	    		<a href="/view_sh/sellMyCar">
+		    		<div id="redirectButton">
+		    			이전
+		    		</div>
+		    	</a>
+	    		<button type="submit" id="nextButton">
+	    			다음
+	    		</button>
     		</div>
     		
             <!-- </div> -->

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -75,7 +76,6 @@ public class KhController {
 		long rawPrice 				= carDetail.getPrice() * 10000;
 		String imageName			= khTableService.getImageName(sell_num);
 		String carImagePath			= "../.." + imageName;
-		
 
 		System.out.println("KhController goCarPay carDetail -> " + carDetail);
 		
@@ -96,6 +96,9 @@ public class KhController {
 
 		String uuid = UUID.randomUUID().toString();
 		String originalFileName = multipartFile.getOriginalFilename();
+		
+		System.out.println("originalFileName -> " + originalFileName );
+		
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 		String savePath = uploadPath + uuid + extension;
 
@@ -385,10 +388,12 @@ public class KhController {
 	@GetMapping(value = "/modifyExpertReview")
 	public String modifyExpertReview(Expert_Review expertReview, Model model) {
 		log.info("KhController modifyExpertReview is called");
-
-		Car_General_Info carDetail		= khTableService.getCarBySellId(expertReview.getSell_num());
-		User_Table expert 				= khTableService.getUserById(expertReview.getUser_id());
 		Expert_Review newExpertReview	= khTableService.getExpertReviewDetail(expertReview.getExpert_review_num());
+		
+		
+
+		Car_General_Info carDetail		= khTableService.getCarBySellId(newExpertReview.getSell_num());
+		User_Table expert 				= khTableService.getUserById(newExpertReview.getUser_id());
 		
 		model.addAttribute("experReviewDetail", newExpertReview);
 		model.addAttribute("carDetail", carDetail);
@@ -406,7 +411,7 @@ public class KhController {
 		
 		khTableService.updateExpertReview(expertReview);
 		
-		return "view_ms/myPage_P";
+		return "redirect:/view_ms/myExpertReview";	
 	}	
 	
 	
@@ -504,6 +509,17 @@ public class KhController {
 	}
 	
 	
+	@PostMapping(value = "/ajax.autocomplete")
+	public @ResponseBody Map<String, Object> getAutoCompleteList(@RequestParam Map<String, Object> paramMap){
+		log.info("KhController getAutoCompleteList is called");
+		System.out.println("KhController getAutoCompleteList paramMap -> " + paramMap);
+		
+		List<Map<String, Object>> resultList = khTableService.getAutoCompleteList(paramMap);
+		System.out.println("KhController getAutoCompleteList resultList -> " + resultList);
+		paramMap.put("resultList", resultList);
+		
+		return paramMap;
+	}
 	
 	
 	@GetMapping(value = "/paymentList") 

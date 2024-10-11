@@ -1,11 +1,9 @@
 @charset "UTF-8";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
+
 body{
 	background-color: #fafafa;
-	
-}
-
-input {
-	border: solid 2px #ededed;
+	font-family: 'Pretendard';
 }
 
 th {
@@ -41,6 +39,11 @@ hr {
 }
 
 
+
+.clsDefault, .clsDefault {
+	color: #d0d0d0;
+}
+
 /* 박스 크기 */
 input {
 	display: flex;
@@ -69,6 +72,7 @@ button {
 	border: 0;
 	background-color: transparent;
 	cursor: pointer;
+	padding: 17px;
 }
 
 .img-submit {

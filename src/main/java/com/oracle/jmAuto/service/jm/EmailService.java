@@ -6,6 +6,8 @@ public interface EmailService {
 
     int sendTempPw(String user_id, String tempPassword);
 
+	int sendApproveMail(String user_id);
+
 
     
 }

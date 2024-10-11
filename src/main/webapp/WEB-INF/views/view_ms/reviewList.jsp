@@ -6,14 +6,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
-
 <title>구매자 - 내가 쓴 후기</title>
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
+<%@ include file="../kakao.jsp" %>
+<script type="text/javascript" src="../js/jquery.js"></script>
 <style type="text/css">
+
 .content{
 	background-color:#f1f1f1;
 	width: 1380px;
@@ -45,7 +45,7 @@
 }
 .container{
 	display:center;
-	background-color: #f1f1f1;
+	background-color: #fdfdfd;
 }
 
 tbody tr {
@@ -120,7 +120,7 @@ tbody tr {
 <body>
 	<div class="container">
 		<main class="content">
-			<h1 class="text-center" style="font-size: 40px; text-align: center;"><a href="#">구매한 전문가리뷰</a></h1><br><br>
+			<h1 class="text-center" style="font-size: 32px; font-weight:700; text-align: center;">구매한 전문가리뷰</h1><br><br>
 			<div class="block">
 				<table class="border">
 					<thead>
@@ -139,7 +139,7 @@ tbody tr {
 						
 							<tr>
 								<td><input type="checkbox" name="post1" value=${Expert_Review.expert_review_num}></td>
-								<td><a href="/view_ms/reviewListDetail?expert_review_num=${Expert_Review.expert_review_num}">${Expert_Review.expert_review_num}</td>
+								<td><a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}">${Expert_Review.expert_review_num}</td>
 								<td><c:choose>
 										<c:when test="${fn:length(Expert_Review.content) > 10}">
            								 	${fn:substring(Expert_Review.content, 0, 10)}...

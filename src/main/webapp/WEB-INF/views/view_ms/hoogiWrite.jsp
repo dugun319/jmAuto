@@ -5,11 +5,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<title>구매자마이페이지</title>
 <%@ include file="../kakao.jsp"%>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript"></script>
-
-<title>구매자마이페이지</title>
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
@@ -32,13 +32,13 @@ label {
 
 .star {
 	appearance: none;
-	padding: 1px;
+	padding: 10px;
 }
 
 .star::after {
 	content: '☆';
-	color: yellow;
-	font-size: 40px;
+	color: #FFC107;
+	font-size: 60px;
 }
 
 .star:hover::after, .star:has( ~ .star:hover)::after, .star:checked::after,
@@ -92,10 +92,75 @@ tr {
 
 .rating-label {
 	display: block;
-	margin-top: 10px;
+	margin-top: 5px;
 	color: gray;
 	text-align: center;
+	font-size: 20px;
+	mar
 }
+
+.product_satisfaction {
+	color: black;
+	text-align: center;
+	font-size: 30px;
+	font-weight: bold;
+	margin-top: 20px;
+	
+}
+
+.write_review {
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 60px;
+	margin-top: 30px;
+}
+
+.review_title, .review_content {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+
+.review_title_box {
+	margin-left: 25px;
+  	width: 94%;
+  	font-size: 18px;
+}
+
+.review_content {
+	display: block;
+}
+
+.review_content_box {
+	font-size: 18px;
+	width: 94%;
+	height: 600px;
+	margin-left: 82px;
+	margin-top: -30px;
+	resize: none; 
+}
+.attention {
+	color: #ff4714;
+	font-size: 20px;
+	margin-top: -200px;
+	margin-left: -770px;
+	font-weight: bold;
+	
+}
+
+.input_file {
+	font-size: 22px;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: -50px;
+}
+
+.img img {
+    object-fit: cover; 
+    }
+
+
 
 .file-upload {
 	display: none;
@@ -120,14 +185,13 @@ tr {
 }
 
 input[type="text"], textarea {
-	width: 100%; /* 너비 100%로 설정 */
-	max-width: 400px; /* 최대 너비 조정 */
+	
 	padding: 10px; /* 패딩 추가 */
 	margin-bottom: 20px; /* 아래 여백 추가 */
 	border: 1px solid #ccc; /* 테두리 */
 	border-radius: 4px; /* 테두리 둥글게 */
 	box-sizing: border-box; /* 패딩 및 테두리 포함 */
-}
+} 
 
 .file-preview-container {
 	display: flex; /* 가로로 나열 */
@@ -165,7 +229,74 @@ input[type="text"], textarea {
 	margin-right: 50px;
 	align-items: center;
 }
+/* 버튼 스타일 */
+.buttondle button {
+    background-color: #ff6600; /* 주황색 배경 */
+    color: white; /* 텍스트 색상 */
+    border: none; /* 테두리 제거 */
+    padding: 12px 25px; /* 여백 */
+    font-size: 16px; /* 글자 크기 */
+    font-weight: 600; /* 글자 두께 */
+    cursor: pointer; /* 마우스 커서 포인터 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 애니메이션 효과 */
+    margin: 0 10px; /* 버튼 간 여백 */
+    box-shadow: 0px 4px 6px rgba(255, 127, 0, 0.3); /* 버튼 그림자 */
+}
+
+.buttondle button:hover {
+    background-color: #FF9E3D; /* 호버 시 색상 변경 */
+    transform: translateY(-2px); /* 호버 시 살짝 위로 이동 */
+    box-shadow: 0px 6px 8px rgba(255, 127, 0, 0.4); /* 호버 시 그림자 강조 */
+}
+
+.buttondle button:active {
+    background-color: #FF5722; /* 클릭 시 색상 변경 */
+    transform: translateY(0px); /* 클릭 시 버튼 원래 위치로 */
+    box-shadow: 0px 3px 5px rgba(255, 127, 0, 0.3); /* 클릭 시 그림자 변경 */
+}
+
+/* 버튼 두 개 사이 여백 */
+.buttondle {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* 버튼 간 간격 */
+    margin-top: -150px; /* 버튼 상단 여백 */
+}
+.mugwan{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30vh;
+}
+.text-center{
+	padding-bottom: 100px;
+}
+
+.image--cell {
+	margin-left: -300px;
+	width: 200px;
+}
+
+ .chu-img {
+	width: 275px;
+	height: 175px;
+} 
+
+.text-cell {
+	display:inline-block;
+	margin-top:57px;
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 10px;
+	margin-left: 13px;
+}
+
 </style>
+
+
+
+
 <script type="text/javascript">
 
 	 
@@ -222,38 +353,44 @@ input[type="text"], textarea {
     
 });
     </script>
+    
+    
+    
 <body>
 	
 	<div class="container">
 		<main class="content">
-			<h1 class="text-center">
-				<a href="#">구매후기 작성</a>
-			</h1>
+			<h1 class="text-center" style="font-size: 40px; font-weight: bold; text-align: center;">구매후기 작성</h1>
 			<div class="block">
-				<form action="/hoogiwrite" method="POST" enctype="multipart/form-data">
+
+				<form action="hoogiwrite" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="approval_num" value="${approval_num}">
 					<table class="hoogi-gumae">
 						<tr>
-							<td class="image-cell"><img alt="chuCarimg" src="../images/main/377조7542_1.png" class="chu-img"></td>
-							
+						<div>
+						<c:forEach var="Car_General_Info" items="${car_general_info}">
+							<td class="image-cell"><img alt="chuCarimg" src="${Car_General_Info.img_url}" class="chu-img"></td>
 							<td class="text-cell">계약 번호 : ${approval_num}
-								<p></p> <c:forEach var="Car_General_Info"
-									items="${car_general_info}">${Car_General_Info.model}</c:forEach>
+								
+								${Car_General_Info.model}
+								</c:forEach> 
+								
 								<c:forEach var="Car_General_Info" items="${car_general_info}">
 									<div class="gugu">
 										<span class="info">${Car_General_Info.manu_date}</span> 
-										<span class="info">|</span> <span class="info">${Car_General_Info.mileage}</span>
-										<span class="info">|</span> <span class="info">${Car_General_Info.fuel}</span>
-										<span class="info">|</span> <span class="info">${Car_General_Info.user_id}</span>
+										<span class="info">&emsp;|&emsp;</span> <span class="info">${Car_General_Info.mileage}</span>
+										<span class="info">&emsp;|&emsp;</span> <span class="info">${Car_General_Info.fuel}</span>
+										<span class="info">&emsp;|&emsp;</span> <span class="info">${Car_General_Info.user_id}</span>
 									</div>
 								</c:forEach>
+								
+								<!-- <hr style="width:80%; color:gray; margin: 20px auto;"> -->
 							</td>
 						</tr>
 					</table>
 
 					<!-- 별점체크 -->
-					<label for="rating" style="font-size: 10px; color: gray;">상품은
-						만족하셨나요 ?</label>
+					<label for="rating" class="product_satisfaction">상품은 만족하셨나요 ?</label>
 					<div class="star-rating">
 						<div class="star-container">
 							<input type="radio" class="star" name="evaluation" value="1">
@@ -262,37 +399,44 @@ input[type="text"], textarea {
 							<input type="radio" class="star" name="evaluation" value="4">
 							<input type="radio" class="star" name="evaluation" value="5">
 						</div>
-						<span class="rating-label">선택해주세요</span>
+						<span class="rating-label">선택해주세요.</span>
 					</div>
 					<!-- 별점체크 -->
 
 					<div class="input-container">
-						<label for="title">후기 작성</label> <br> 제목 <input type="text"
-							id="review_title" name="review_title" required>
+						<label for="title" class="write_review">후기 작성</label> <br> 
+						<span class="review_title">제 목</span>
+						<input type="text" class="review_title_box" name="review_title" required="required" required maxlength="30">
 					</div>
-					<div class="input-container">
-						<label for="review">내용</label> 내용
-						<textarea id="review_content" name="review_content" rows="5"
-							required></textarea>
-					</div>
+					
+						<span class="review_content">내 용</span>
+						<textarea class="review_content_box" name="review_content" required="required" required maxlength="500"></textarea>
+
+						<div class=input_file>첨부파일</div>
+						
 					<br> <br> <br>
+					
 					<div class="img">
-						<input type="file" id="img1Input" accept=".jpg, .jpeg, .png" name="img_url_1"> 
+						<input type="file" id="img1Input" accept=".jpg, .jpeg, .png" name="fileUpload1" class="file-upload-label"> 
 						<img id="Imgs1" alt="" src="../images/sellMyCar/이미지선택해주세요.png"> 
 						
-						<input type="file" id="img2Input" accept=".jpg, .jpeg, .png" name="img_url_2">
+						<input type="file" id="img2Input" accept=".jpg, .jpeg, .png" name="fileUpload2" class="file-upload-label">
 						<img id="Imgs2" alt="" src="../images/sellMyCar/이미지선택해주세요.png">
 
-						<input type="file" id="img3Input" accept=".jpg, .jpeg, .png" name="img_url_3"> 
-						<img id="Imgs3" alt="" src="../images/sellMyCar/이미지선택해주세요.png"> 
+						<input type="file" id="img3Input" accept=".jpg, .jpeg, .png" name="fileUpload3" class="file-upload-label"> 
+						<img id="Imgs3" alt="" src="../images/sellMyCar/이미지선택해주세요.png">
 					</div>
 
-					<br> 
-					<span style="color: orange; font-size: 8px;">
-					상품과 무관한 사진을 첨부한 리뷰는 통보없이 삭제됩니다.</span>
-					<br> <br> <br>
-					<button type="submit"><img alt="" src="../images/main/리뷰작성_but.png"></button>
+					 <div class="mugwan"><span class="attention"> ※ 상품과 무관한 사진을 첨부한 리뷰는 통보없이 삭제됩니다.</span>
+						</div>
+						<div style="text-align: center;">
+					<button type="submit" style="background: none; border: none;">
+						<img class="buttondle" alt="" src="../images/main/리뷰작성_but.png">
+					</button>
+				</div>
+
 				</form>
+				
 			</div>
 		</main>
 </div>

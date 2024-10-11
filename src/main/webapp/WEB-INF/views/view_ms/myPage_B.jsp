@@ -34,12 +34,10 @@
 				<hr />
 				<div class="block_1_content_cardlist_body">
 					<c:forEach var="Zzim" items="${Zzim}">
-						<a href="/view_ms/myZzim">
+						<a href="/carInfo?sellNum=${Zzim.sell_num}&id=${Zzim.car_user_id}">
 							<div class="block_1_content_cardlist_hed">
 								<div class="block_1_content_cardlist_img">
-									<img alt=""
-										src="<%=request.getContextPath()%>/images/main/377조7542_1.png"
-										class="cardlist_img_src">
+									<img src="${Zzim.img_url }" class="cardlist_img_src">
 								</div>
 								<div class="block_1_content_cardlist_text">
 									<div class="block_1_content_cardlist_body_img">
@@ -48,7 +46,7 @@
 									</div>
 									<div class="block_1_content_cardlist_text_1">${Zzim.model}</div>
 									<div class="block_1_content_cardlist_text_2">${Zzim.car_num }&emsp;${Zzim.price }&emsp;${Zzim.color }</div>
-									<div class="block_1_content_cardlist_text_3">판매자 :${Zzim.user_id}</div>
+									<div class="block_1_content_cardlist_text_3">판매자 :${Zzim.car_user_id}</div>
 								</div>
 							</div>
 						</a>
@@ -61,13 +59,11 @@
 				
 				<div class="block_2_content_cardlist_body">
 					<c:forEach var="Payment" items="${Payment}">
-						<a href="/view_ms/buyList">
+						<a href="/view_ms/buyListDetail?approval_num=${Payment.approval_num }">
 						
 							<div class="block_2_content_cardlist_hed">
 								<div class="block_2_content_cardlist_img">
-									<img alt=""
-										src="<%=request.getContextPath()%>/images/main/377조7542_1.png"
-										class="cardlist_img_src">
+									<img src="${ Payment.img_url }" class="cardlist_img_src">
 								</div>
 								<div class="block_2_content_cardlist_text">
 									<div class="block_2_content_cardlist_body_img">
@@ -76,7 +72,7 @@
 									</div>
 									<div class="block_2_content_cardlist_text_1">${Payment.model }</div>
 									<div class="block_2_content_cardlist_text_2">${Payment.car_num}&emsp;${Payment.price}&emsp;${Payment.color}</div>
-									<div class="block_2_content_cardlist_text_3">판매자 :${Payment.user_id}</div>
+									<div class="block_2_content_cardlist_text_3">판매자 :${Payment.car_user_id}</div>
 								</div>
 							</div>
 						</a>

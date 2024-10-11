@@ -1,24 +1,36 @@
 package com.oracle.jmAuto.service.jw;
 
 import java.util.List;
-import java.util.Map;
 
 import com.oracle.jmAuto.dto.Faq;
 import com.oracle.jmAuto.dto.Notice_Table;
 import com.oracle.jmAuto.dto.Qna;
+import com.oracle.jmAuto.dto.ReviewListInfo;
+
 
 public interface CsService {
 
-	List<Faq> 			listFaq();
+	// 자주 묻는 질문
+	List<Faq> 					listFaq();	
 
-	List<Qna> 			listQna();
+	// 신고·문의·민원
+	List<Qna> 					popOpen();				
 
-	int 				insertQna(Qna qna);
+	int 						insertQna(Qna qna);		
+	
+	int 						updateFile(Qna qna2);	
 
-	List<Notice_Table> 	listNotice();
+	
+	//공지사항
+	List<Notice_Table> 			listNotice();					
 
-	Notice_Table 		detailNotice(int notice_num);
+	Notice_Table 				detailNotice(int notice_num);	
 
 
+	// 고객후기
+	int 						totalReviewPage();		
 
-}
+	List<ReviewListInfo> 		listReview(ReviewListInfo ri);
+
+	ReviewListInfo 				reviewImages(String approval_num);	
+	}

@@ -44,4 +44,17 @@
 		where user_id = #{user_id}
 	</update>
 	
+	<update id="taltwae" parameterType="String">
+		update User_Table
+		set del_state = 1
+		where user_id =#{user_id}
+	
+	</update>
+	
+	<select id="user" parameterType="String" resultType="User_Table">
+		select *
+		from user_table
+		where user_id = #{user_id}
+	</select>
+	
 </mapper> 

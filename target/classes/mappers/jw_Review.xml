@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.oracle.jmAuto.ReviewMapper.jw">
+ 
+ 	<select id="reviewTotalPage" resultType="int">
+ 		SELECT count(*)
+ 		FROM review r
+		JOIN payment p on r.APPROVAL_NUM = p.APPROVAL_NUM
+		JOIN car_general_info c on p.SELL_NUM = c.SELL_NUM	
+ 	</select>
+ 	
+ 	<select id="selectReview" parameterType="ReviewListInfo" resultType="ReviewListInfo">
+ 		SELECT *
+ 		FROM
+ 		(
+ 			SELECT rownum rn, a.*
+ 			FROM
+ 				(
+ 				SELECT  r.APPROVAL_NUM, r.USER_ID, p.SELL_NUM,
+ 						i.img_url, r.EVALUATION, r.review_title, c.manu_date,
+ 						r.file_name1, r.file_name2, r.file_name3, r.file_url,
+                		SUBSTR(c.manu_date,1,2) || '년' || substr(c.manu_date,3,4) || '월식' manu_date_char,
+		        		c.mileage, c.fuel, c.brand, c.model,
+		        		r.review_content, r.review_date
+				FROM review r
+				JOIN payment p on r.APPROVAL_NUM = p.APPROVAL_NUM
+				JOIN car_general_info c on p.SELL_NUM = c.SELL_NUM
+				JOIN car_images i on c.SELL_NUM = i.SELL_NUM
+ 				AND i.img_url LIKE '%' || '_1.' || '%'
+ 				AND r.del_state = 0
+	 			)
+	 			a
+ 		)
+ 		WHERE rn
+ 		BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<select id="selectImage" parameterType="ReviewListInfo" resultType="ReviewListInfo">
+ 		SELECT 	r.APPROVAL_NUM, i.img_url, r.file_name1, r.file_name2, r.file_name3, r.file_url
+	    FROM 	car_images i
+	    JOIN 	payment p ON i.SELL_NUM = p.SELL_NUM
+	    JOIN 	review r ON p.APPROVAL_NUM = r.APPROVAL_NUM
+	    WHERE 	r.APPROVAL_NUM = #{approval_num}
+	    AND 	i.img_url LIKE '%' || '_1.' || '%'
+ 	</select>
+
+ </mapper>

@@ -99,7 +99,7 @@ h2{
 				location.reload();
 			},
 			error: function(xhr, status, error){
-				alert('선택한 게시물의 삭제여부가 변경되었습니다.:' + xhr.statusText);
+				alert('선택한 게시물의 삭제여부가 변경되었습니다.');
 			}
 		});
 	}
@@ -165,7 +165,7 @@ h2{
 		                <c:forEach var="Note" items="${SendNotes}">
 		                    <tr>
 		                        <td><input type="checkbox" name="sentPost" value="${Note.note_num}"></td>								
-		                        <td><a href="/view_ms/myNoteDetail_S?note_num=${Note.note_num}">${Note.note_num}</a></td>
+		                        <td><a href="/view_ms/myNoteDetail?note_num=${Note.note_num}">${Note.note_num}</a></td>
 		                        <td>${Note.note_rd}</td>
 		                        <td>${Note.note_title}</td>
 								<td>${Note.note_date}</td>

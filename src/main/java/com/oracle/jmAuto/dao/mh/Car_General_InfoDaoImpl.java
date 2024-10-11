@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.oracle.jmAuto.dto.Car_Image;
+
 import lombok.RequiredArgsConstructor;
 
 @Repository
@@ -56,6 +58,33 @@ public class Car_General_InfoDaoImpl implements Car_General_InfoDao {
 			System.out.println(e.getMessage());
 		}
 		return carInfoList;
+	}
+
+	@Override
+	public List<Map<String, Object>> autocomplete(Map<String, Object> paramMap) {
+		List<Map<String, Object>> autoList = null;
+		System.out.println("Car_General_InfoImpl autocomplete start...");
+		
+		try {
+			autoList = session.selectList("com.oracle.jmAuto.dto.Mapper.mh.autocomplete", paramMap);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return autoList;
+	}
+
+	@Override
+	public List<Car_Image> selListImg(String sellNum) {
+		List<Car_Image> carImg = null;
+		System.out.println("Car_General_InfoImpl selListImg start...");
+		
+		try {
+			carImg = session.selectList("com.oracle.jmAuto.dto.Mapper.mh.selImgList",sellNum);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return carImg;
 	}
 
 

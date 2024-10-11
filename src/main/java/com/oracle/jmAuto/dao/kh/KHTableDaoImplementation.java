@@ -1,6 +1,7 @@
 package com.oracle.jmAuto.dao.kh;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -352,11 +353,12 @@ public class KHTableDaoImplementation implements KHTableDao {
 
 	@Override
 	public String getImageName(long sell_num) {
-		List<String> imageName = null;
+		System.out.println("com.oracle.jmAuto.dto.kh_TableMapper.getImageName" +  sell_num);
+		List<Object> imageName = null;
 		
 		try {
 			imageName = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getImageName", sell_num);
-			System.out.println("KHTableDaoImplementation getImageName() imageName -> " + imageName);
+			System.out.println("KHTableDaoImplementation getImageName() -> " + imageName);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation getImageName() e.getMessage() -> " + e.getMessage());
 		}
@@ -364,4 +366,17 @@ public class KHTableDaoImplementation implements KHTableDao {
 		return imageName.get(0).toString();
 	}
 
+	@Override
+	public List<Map<String, Object>> getAutoCompleteList(Map<String, Object> paramMap) {
+		List<Map<String, Object>> autoCompleteList = null;
+		
+		try {
+			autoCompleteList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getAutoCompleteList", paramMap);
+
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation autoCompleteList() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return autoCompleteList;
+	}
 }

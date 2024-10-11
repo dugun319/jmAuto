@@ -7,6 +7,7 @@
 		select  *
 		from Qna
 		where user_id=#{user_id}
+		and del_state =0
 	</select>
 	
 
@@ -16,5 +17,21 @@
 		where user_id =#{user_id}
 		and qna_num=#{qna_num}
 	</update>
+	
+	<update id="qnaDetailDelete" parameterType="map">
+		update qna
+		set del_state =1
+		where user_id =#{user_id}
+		and qna_num=#{qna_num}
+	
+	</update>
+	
+	<select id="qnaDetail" parameterType="map" resultType="Qna">
+		select *
+		from qna
+		where user_id=#{user_id}
+		and qna_num =#{qna_num}
+
+	</select>
 	
 </mapper> 

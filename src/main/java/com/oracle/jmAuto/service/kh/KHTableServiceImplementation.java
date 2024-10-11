@@ -2,6 +2,7 @@ package com.oracle.jmAuto.service.kh;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -184,5 +185,13 @@ public class KHTableServiceImplementation implements KHTableService {
 	public String getImageName(long sell_num) {
 		String imageName = khTableDao.getImageName(sell_num);
 		return imageName;
+	}
+
+	@Override
+	public List<Map<String, Object>> getAutoCompleteList(Map<String, Object> paramMap) {
+		
+		List<Map<String, Object>> autoCompleteList = khTableDao.getAutoCompleteList(paramMap);
+		
+		return autoCompleteList;
 	}
 }

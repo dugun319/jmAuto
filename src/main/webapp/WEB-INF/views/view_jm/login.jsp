@@ -18,13 +18,16 @@ body, html {
 
 
 .container {
+    position: relative;
+    left: 1300px;
     width: 400px; /* 컨테이너의 너비를 400px로 설정 */
     height: 700px; /* 컨테이너의 높이를 600px로 설정 */
     padding: 40px; /* 컨테이너의 내부 여백을 40px로 설정 */
     background-color: #fdfdfd; /* 컨테이너의 배경을 흰색으로 설정 */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 컨테이너에 그림자 효과 추가 */
     text-align: center; /* 컨테이너 내부의 텍스트를 가운데 정렬 */
-    margin: 100px auto;
+    margin: 100px 0px;
+    
 }
 
 .logo{
@@ -105,33 +108,43 @@ margin: 5px 0;
 position: relative;
 left: 15px;
 }
+
+body {
+    background-image: url("../images/main/로그인.png");
+    background-repeat: no-repeat;
+    
+    background-position: 100px 250px;
+}
 </style>
 
 
 
 
 </head>
+
+<script type="text/javascript">
+
+window.onload = function() {
+    document.getElementById("user_id").focus();
+};
+
+
+
+</script>
 <body>
 <header>
  <%@ include file="../header_white.jsp"%>
 </header>
-
-	<c:if test="${not empty loginError}">
-    <script type="text/javascript">
-       	alert("먼저 로그인해 주세요");
-    </script>
-    </c:if>
-        	
-    <div class="container">
+    <div class="container" >
         <div class="logo">
-            <img src="/images/main/logo_web.png" width="40%">
+            <img src="<%=request.getContextPath()%>/images/main/logo_web.png" width="40%">
         </div>
         <div class="userForm">
             <form action="/view_jm/login" method="post">
             <c:if test="${not empty loginError}">
             <p class="errMessage">${loginError}</p>
         	</c:if>
-                <input type="text" placeholder="아이디" name="user_id" value="${user_id}" required="required"><p>
+                <input type="text" placeholder="아이디" id ="user_id" name="user_id" value="${user_id}" required="required"><p>
                     <input type="password" placeholder="비밀번호" name="user_pw" required="required"><p>
                     <input type="submit" value="로그인">
             </form>

@@ -43,7 +43,7 @@
 		         	
 		         	
 		         	<!-- 고객후기 -->
-		           	<a href="#" class="reviewButton"></a>
+		           	<a href="../view_jw/csReview" class="reviewButton"></a>
 				</div>
 			</div>	
 		</div>	

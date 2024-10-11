@@ -9,6 +9,7 @@ import com.oracle.jmAuto.dto.Note;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
 import com.oracle.jmAuto.dto.Review;
+import com.oracle.jmAuto.dto.ReviewListInfo;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.dto.Zzim;
 
@@ -28,9 +29,15 @@ public interface MsService {
 	Expert_Review 			reviewDetail(String expert_num, String user_id);
 	int 					deleteZzim(String user_id, List<Long> sell_num);
 	long 					paymentselect(String user_id);
-	int 					hoogiwrite(Map<String, Object> params);
-	List<Review> 			myhoogi(String user_id);
-	int 					hoogiDelete(String user_id, List<String> approval_num);
+	
+	
+	
+	ReviewListInfo          imageList(ReviewListInfo ri);
+    int                     hoogiwrite(Review review);
+    ReviewListInfo          myhoogiDetail(String approval_num);
+    List<Review>            myhoogi(String user_id);
+	
+	int 					hoogiDelete(String user_id, String approval_num);
 	List<Expert_Review> 	myExpertReview(String user_id);
 	List<Expert_Review> 	myExpertReviewDetail(String user_id, long expert_review_num);
 	List<Car_General_Info> 	sellCar(String user_id);
@@ -47,7 +54,11 @@ public interface MsService {
 	Payment 				sellListDetail(String approval_num, String user_id);
 	void 					taltwae(String user_id);
 	List<Review> 			myhoogiDetail(String user_id, String approval_num);
-	
+	User_Table 				user(String user_id);
+	int 					deletesell(String user_id, List<Long> sell_num);
+	int 					service_sending_note(Note note);
+	Review 					del_state(String approval_num);
+	int 					qnaDetailDelete(String user_id, Long qnanum);
 	
 
 	
