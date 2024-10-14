@@ -2,7 +2,9 @@ package com.oracle.jmAuto.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,6 +29,7 @@ import com.oracle.jmAuto.dto.KakaoPayApproveResponse;
 import com.oracle.jmAuto.dto.KakaoPayReadyResponse;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
+import com.oracle.jmAuto.dto.Seller_Info;
 import com.oracle.jmAuto.dto.SessionUtils;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.service.kh.KHPayService;
@@ -130,6 +133,48 @@ public class KhController {
 		return redirectView;
 
 	}
+	
+	@GetMapping(value = "/carCheck")
+	public String goCarCheck() {
+		log.info("KhController goCarCheck is called");
+
+		return "view_kh/carCheck";
+	}
+	
+	@GetMapping(value = "/carRegistration")
+	public String goCarRegistration() {
+		log.info("KhController goCarRegistration is called");
+
+		return "view_kh/carRegistration";
+	}
+	
+	@GetMapping(value = "/contract")
+	public String goContract(long sell_num, String user_id, Model model) {
+		log.info("KhController goContract is called");
+		
+		Car_General_Info carDetail  = khTableService.getCarBySellId(sell_num);
+		User_Table buyer			= khTableService.getUserById(user_id);
+		Seller_Info sellerInfo		= khTableService.getSellerInfoById(carDetail.getUser_id());
+		
+		Date today					= new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		sellerInfo.setContract_date(dateFormat.format(today));
+		
+		model.addAttribute("carDetail", carDetail);
+		model.addAttribute("buyer", buyer);
+		model.addAttribute("sellerInfo", sellerInfo);
+		model.addAttribute("carType", SessionUtils.getStringAttributeValue("carType"));
+		return "view_kh/contract";
+	}
+	
+	
+	
+	@GetMapping(value = "/privateInformation")
+	public String goPrivateInformation() {
+		log.info("KhController goPrivateInformation is called");
+
+		return "view_kh/privateInformation";
+	}	
 
 	// 전분가리뷰 구매정보 확인 페이지로 이동
 	@GetMapping(value = "/goExpertPay")
@@ -183,6 +228,13 @@ public class KhController {
 		redirectView.setUrl(readyResponse.getNext_redirect_pc_url());
 
 		return redirectView;
+	}
+
+	@GetMapping(value = "/consumerProtection")
+	public String goconsumerProtection() {
+		log.info("KhController goconsumerProtection is called");
+
+		return "view_kh/consumerProtection";
 	}
 
 	// 차량구매 완료 페이지
@@ -710,6 +762,5 @@ public class KhController {
 
 		return redirectView;
 	}
-	
 	
 }

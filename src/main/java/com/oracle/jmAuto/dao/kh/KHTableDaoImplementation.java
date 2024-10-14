@@ -11,6 +11,8 @@ import com.oracle.jmAuto.dto.ExpList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
+import com.oracle.jmAuto.dto.Seller_Info;
+import com.oracle.jmAuto.dto.SessionUtils;
 import com.oracle.jmAuto.dto.User_Table;
 
 import lombok.RequiredArgsConstructor;
@@ -28,9 +30,13 @@ public class KHTableDaoImplementation implements KHTableDao {
 		System.out.println("KHTableDaoImplementation getCarBySellId(long sell_num) is called");
 
 		try {
-			carDetail = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.selectCarBySellId", sell_num);
-			String brand = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getBrand", carDetail.getBrand());
+			carDetail 		= session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.selectCarBySellId", sell_num);
+			String brand 	= session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getBrand", carDetail.getBrand());
+			String type 	= session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getCarType", carDetail.getCar_type());
 			carDetail.setBrand(brand);
+			
+			System.out.println("com.oracle.jmAuto.dto.kh_TableMapper.getCarType -> type" + type);
+			SessionUtils.addAttribute("carType", type);
 		} catch (Exception e) {
 			System.out.println("KHTableDaoImplementation getCarBySellId() e.getMessage() -> " + e.getMessage());
 		}
@@ -378,5 +384,19 @@ public class KHTableDaoImplementation implements KHTableDao {
 		}
 		
 		return autoCompleteList;
+	}
+
+	@Override
+	public Seller_Info getSellerInfoById(String user_id) {
+		Seller_Info sellerInfo = null;
+		
+		try {
+			sellerInfo = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getSellerInfoById", user_id);
+			System.out.println("KHTableDaoImplementation getSellerInfoById() sellerInfo -> " + sellerInfo);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getSellerInfoById() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return sellerInfo;
 	}
 }

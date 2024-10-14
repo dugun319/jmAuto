@@ -12,6 +12,7 @@ import com.oracle.jmAuto.dto.ExpList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
+import com.oracle.jmAuto.dto.Seller_Info;
 import com.oracle.jmAuto.dto.User_Table;
 
 import lombok.RequiredArgsConstructor;
@@ -193,5 +194,12 @@ public class KHTableServiceImplementation implements KHTableService {
 		List<Map<String, Object>> autoCompleteList = khTableDao.getAutoCompleteList(paramMap);
 		
 		return autoCompleteList;
+	}
+
+	@Override
+	public Seller_Info getSellerInfoById(String user_id) {
+		Seller_Info sellerInfo = khTableDao.getSellerInfoById(user_id);
+		
+		return sellerInfo;
 	}
 }

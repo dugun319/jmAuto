@@ -207,6 +207,12 @@
 	});
 	
 	
+	function goPrivateInformation() {
+		var url = "/KH/pay/privateInformation";		
+		window.open(url, "_blank", 'width=700,height=900,location=no,status=no,scrollbars=no,top=100,left=300');
+	}
+	
+	
 	
 	function goPay() {
 		
@@ -393,6 +399,44 @@
 				</tr>	
 			</table>
 			</form>
+			
+			<div id="paperWorkDiv">
+				<table>
+					<tr>
+						<td class="paperWorkCell"
+							onclick="window.open('/KH/pay/carCheck', '성능/상태검검기록부', 'width=1200,height=900,location=no,status=no,scrollbars=no,top=300,left=300')">
+							<img	src="<%=request.getContextPath()%>/images/main/kh_Icon_carCheck.png"
+									width="100px" 
+									height="100px">
+						</td>
+						<td class="paperWorkCell"
+							onclick="window.open('/KH/pay/carRegistration', '자동차등록증', 'width=835,height=550,location=no,status=no,scrollbars=no,top=300,left=300')">
+							<img	src="<%=request.getContextPath()%>/images/main/kh_Icon_carRegistration.png"
+									width="100px" 
+									height="100px">
+						</td>
+						<td class="paperWorkCell"
+							onclick="window.open('/KH/pay/contract?sell_num=${carDetail.sell_num }&user_id=${buyer.user_id }', '자동차양도증명서', 'width=1330,height=1990,location=no,status=no,scrollbars=no,top=300,left=300')">
+							<img	src="<%=request.getContextPath()%>/images/main/kh_Icon_contract.png"
+									width="100px" 
+									height="100px">
+						</td>
+					</tr>
+					<tr>
+						<td class="paperWorkCell">
+							성능/상태검검기록부
+						</td>
+						<td class="paperWorkCell">
+							자동차등록증
+						</td>
+						<td class="paperWorkCell">
+							자동차양도증명서
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			
 		</div>
 			
 		<div class="item:nth-child(2)">
@@ -550,6 +594,18 @@
 						<fmt:formatNumber 	value="50000" 	pattern="#,###,###,###"/>
 					 원
 					</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumPrivate"></th>
+					<td class="paymentSumPrivate">
+					</td>					
+				</tr>
+				<tr>
+					<th class="paymentSumPrivate" colspan="2">
+					<a onclick="goPrivateInformation()" style="cursor: pointer;">개인정보 수집/이용/처리 동의</a>
+					<br>
+					<br>
+					약관 및 주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.</th>
 				</tr>
 				<tr>
 					<td colspan="2">

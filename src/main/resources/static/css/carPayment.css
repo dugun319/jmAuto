@@ -257,6 +257,22 @@ table {
 	line-height: 120%;
 }
 
+#paperWorkDiv{
+	margin-top: 30px;
+	width: 745px;
+	height: 200px;	
+	border: 2px solid #d3d3d3;
+	
+	
+}
+
+.paperWorkCell{
+	width: 250px;
+	font-size: 14px;
+	color: #939393;
+	cursor: pointer;
+	text-align: center;
+}
 
 #sellerInfoTitle{
 	font-size: 20px;
@@ -384,7 +400,7 @@ table {
 #paymentSumTitle {
 	text-align: left;
 	width: 200px;
-	height: 150px;
+	height: 120px;
 	font-size: 25px;
 	font-weight: bold;
 	color: #323232;
@@ -394,7 +410,7 @@ table {
 #paymentSumAmount {
 	text-align: right;
 	width: 330px;
-	height: 100px;
+	height: 120px;
 	font-size: 25px;
 	font-weight: bold;
 	color: #FF4714;
@@ -404,7 +420,7 @@ table {
 .paymentSumLeft {
 	text-align: left;
 	width: 200px;
-	height: 100px;
+	height: 80px;
 	font-size: 20px;
 	font-weight: bold;
 	color: #939393;
@@ -415,13 +431,22 @@ table {
 .paymentSumRight {
 	text-align: right;
 	width: 330px;
-	height: 100px;
+	height: 80px;
 	font-size: 20px;
 	font-weight: bold;
 	color: #323232;
 	padding-right: 30px;
 }
 
+.paymentSumPrivate {
+	text-align: center;
+	width: 265px;
+	height: 50px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #939393;	
+	align-items: baseline;
+}
 
 #payButton {
 	text-align: center;

@@ -62,12 +62,33 @@ body {
 	padding-right: 15px;	
 }
 
+#agreement{
+	width: 500px;
+	position: absolute;
+	top: 730px;
+	left: 100px;
+	font-size: 10px;
+	color: #939393;
+	line-height: 200%;
+}
+
 #btnDiv{
 	position: absolute;
 	top: 810px;
 	width: 700px;
 	margin: 0px;
 	align-items: center;
+}
+
+#btn-kakao:disabled {
+	width: 320px;
+	height: 50px;
+	background-color: #d3d3d3;
+	color: #FDFDFD;
+	font-size: 16px;
+	font-weight: 900;
+	border: none;
+	margin: 5px 20px;
 }
 
 #btn-kakao {
@@ -96,11 +117,28 @@ body {
 </style>
 
 <script type="text/javascript">
+	function goConsumerProtection() {
+		var url = "/KH/pay/consumerProtection";		
+		window.open(url, "_blank", 'width=500,height=700,location=no,status=no,scrollbars=no,top=100,left=300');
+	}
+
 	function payCancel() {
 		alert("결제를 취소합니다");
 		//window.opener.location.reload();    //부모창 reload
 		window.close();
 	}
+	
+	$(function(){
+	    $("#userAgree").change(function(){
+	        if($("#userAgree").is(":checked")){
+	        	$('#btn-kakao').prop('disabled', false);
+	        }else{
+	        	$('#btn-kakao').prop('disabled', true);
+	        }
+	    });
+	});
+	
+	
 	
 </script>
 </head>
@@ -136,8 +174,6 @@ body {
 					<td class="carInfoDetail">${carDetail.accident }</td>
 				</tr>
 				
-				
-				
 				<tr>
 					<td class="carInfoDetail">
 						<c:set var="manu_date"	value="${carDetail.manu_date }" />
@@ -147,9 +183,19 @@ body {
 				</tr>				
 			</table>
 		</div>
+		
+		<div id="agreement">
+			전문가 리뷰는  관련법령에 따라(
+			<a 	style="font-size: 10px; color: black; font-weight: 900; cursor: pointer;" 
+				onclick="goConsumerProtection()">
+				「전자상거래 등에서의 소비자보호에 관한 법률」 제17조제2항 본문 및 「전자상거래 등에서의 소비자보호에 관한 법률 시행령」 제21조</a>)  
+			<a style="font-size: 11px; color: red; 	 font-weight: 900;">주문 취소 및 환불이 불가</a>합니다.
+			<br>
+			<input type="checkbox" id="userAgree"><span style="font-size: 16px; color: blue; font-weight: 900;">동의</span>			
+		</div>
 	
 		<div id="btnDiv">
-			<button	id="btn-kakao"	type="submit">
+			<button	id="btn-kakao"	type="submit" disabled="disabled">
 				결제요청
 			</button>
 			<button	id="btn-cancel"	onclick="payCancel()">

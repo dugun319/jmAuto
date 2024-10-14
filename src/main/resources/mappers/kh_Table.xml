@@ -124,6 +124,14 @@
 		WHERE brand = #{brand}
 	</select>
 	
+	
+	<select id="getCarType"					parameterType="int"			resultType="String">
+		SELECT content	
+		FROM common
+		WHERE car_type = #{car_type}
+	</select>
+	
+	
 	<select id="getCarList" 				resultType="Car_General_Info">
 		SELECT * 
     	FROM Car_General_Info
@@ -332,5 +340,25 @@
 		WHERE ROWNUM	BETWEEN 1 AND 10 
 		
 	</select>
+	
+	
+	<select id="getSellerInfoById" 				parameterType="String"		resultType="Seller_Info">
+	
+	SELECT 	s.user_id,
+			s.user_name,
+			s.user_tel,
+			s.buz_num,
+			b.buz_name,
+			b.buz_addr,
+			b.buz_contract_url
+	FROM 	user_table s
+	LEFT OUTER JOIN business b
+		ON	s.buz_num = b.buz_num
+	WHERE	s.user_id = #{user_id}
+	
+	</select>
+	
+	
+	
 	
 </mapper> 

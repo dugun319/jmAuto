@@ -8,6 +8,7 @@ import com.oracle.jmAuto.dto.ExpList;
 import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
+import com.oracle.jmAuto.dto.Seller_Info;
 import com.oracle.jmAuto.dto.User_Table;
 
 public interface KHTableService {
@@ -34,5 +35,5 @@ public interface KHTableService {
 	void 						updateReviewDelState(Expert_Review expertReview);
 	String 						getImageName(long sell_num);
 	List<Map<String, Object>> 	getAutoCompleteList(Map<String, Object> paramMap);
-	
+	Seller_Info 				getSellerInfoById(String user_id);
 }
