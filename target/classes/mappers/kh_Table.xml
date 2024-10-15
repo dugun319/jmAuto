@@ -128,7 +128,8 @@
 	<select id="getCarType"					parameterType="int"			resultType="String">
 		SELECT content	
 		FROM common
-		WHERE car_type = #{car_type}
+		WHERE car_type	= #{car_type}
+			AND brand	= 9999
 	</select>
 	
 	

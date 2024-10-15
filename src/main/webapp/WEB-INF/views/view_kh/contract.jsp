@@ -11,6 +11,7 @@
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<%=request.getContextPath()%>/js/html2canvas.min.js"></script>
 <style type="text/css">
 body{
 	margin: 0px;
@@ -64,6 +65,7 @@ table, th, td{
 	font-weight: 700;
 }
 
+
 #carDetailDiv{
 	position: absolute;
 	top: 701px;
@@ -73,25 +75,89 @@ table, th, td{
 	text-align: right;
 	font-size: 18px;
 	font-weight: 700;
-	border: 1px solid black;
-
 }
 
 .carDetailLeftCell{
-	border: 1px solid black;
 	width: 260px;
 	height: 48px;
 }
 
 .carDetailRightCell{
-	border: 1px solid black;
 	width: 375px;
 	height: 48px;
 }
 
+
+#contractDate2{
+	position: absolute;
+	top: 1625px;
+	left: 850px;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+#buyerSignDiv {
+	position: absolute;
+	top: 1645px;
+	left: 950px;
+}
+.btn_download{
+	width: 320px;
+	height: 50px;
+	background-color: #FF4714;
+	color: #FDFDFD;
+	font-size: 16px;
+	font-weight: 900;
+	border: none;
+	cursor: pointer;
+	margin: 5px;
+	margin-top: 30px;
+}
+
+
 </style>
+<script type="text/javascript">
+    $(function(){
+	        /** btnDown 버튼 클릭 **/
+	        $('.btn_download').click(function() {
+	            html2canvas(document.getElementById("screenShot")).then(function(canvas) 
+					{
+	                    if (typeof FlashCanvas != "undefined") {
+	                        FlashCanvas.initElement(canvas);
+	                    }
+	                    var image = canvas.toDataURL("image/png"); 
+	                    $("#imgData").val(image);
+	                    $("#imgForm").submit();
+						window.close();
+						
+	            })
+	        })
+	    });
+
+
+	/*
+	$(function(){
+	    $(".btn_download").click(function(e){
+	        html2canvas(document.getElementById("screenShot")).then(function(canvas) {
+	            var imageDiv 		= document.createElement("a");
+				var imageName		= $('#sellNumVal').val() + "_contract.jpg";
+				
+	            imageDiv.href 		= canvas.toDataURL("image/jpeg");
+	            imageDiv.download 	= imageName;						 //다운로드 할 파일명 설정
+	            imageDiv.click();
+	        })
+	    })
+	});
+	*/
+</script>
+
 </head>
 <body>
+	<form id="imgForm" name="imgForm" action="/KH/pay/contractImage" method="post">
+		<input type="hidden" name="imgData"  	id="imgData" >	
+		<input type="hidden" name="sell_num" 	id="sellNumVal"	value="${carDetail.sell_num }">
+	</form>
+	
 	<div id="screenShot">
 		<img	src="<%=request.getContextPath()%>${sellerInfo.buz_contract_url }"
 				width="1250px" 
@@ -191,7 +257,27 @@ table, th, td{
 				</tr>
 			</table>		
 		</div>
+		
+		<div id="contractDate2">
+			${sellerInfo.contract_date }
+		</div>
+		
+		<div id="buyerSignDiv">
+			<table>
+				<tr>
+					<td class="buyerDivLeftCell">
+						${buyer.user_name }
+					</td>
+					<td class="buyerDivRighrCell">
+						${buyer.user_name }
+					</td>
+				</tr>
+			
+			</table>
+		</div>
 			
 	</div>
+	
+	<button type="button" class="btn_download">내용확인</button>
 </body>
 </html>

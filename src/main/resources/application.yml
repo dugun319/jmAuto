@@ -11,7 +11,7 @@ spring:
 
   file:
     upload:
-      path: C:\Users\admin\Desktop\project\jmAuto\src\main\resources\static\images\insuranceFile\
+      path: C:\Users\admin\Desktop\project\jmAuto\src\main\resources\static\images\
         
         
   datasource:

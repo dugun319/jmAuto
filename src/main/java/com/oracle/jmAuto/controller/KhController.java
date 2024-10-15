@@ -1,18 +1,23 @@
 package com.oracle.jmAuto.controller;
 
+//import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+//import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +41,8 @@ import com.oracle.jmAuto.service.kh.KHPayService;
 import com.oracle.jmAuto.service.kh.KHTableService;
 import com.oracle.jmAuto.service.kh.Paging;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +66,10 @@ public class KhController {
 		
 		log.info("KhController goCarPay is called");
 		String user_id 				= SessionUtils.getStringAttributeValue("user_id");
+		System.out.println("KhController goCarPay user_id.length() -> " + user_id.length());
+		System.out.println("KhController goCarPay user_id -> " + user_id);
 		
-		if(user_id.length() > 5) {
+		if(user_id != "null") {
 			User_Table buyer 	= khTableService.getUserById(user_id);
 			SessionUtils.addAttribute("buyer_id", user_id);
 			model.addAttribute("buyer", buyer);
@@ -69,7 +78,7 @@ public class KhController {
 			model.addAttribute("loginError", "먼저 로그인 해주세요");
 			System.out.println("KhController goCarPay user_id -> " + SessionUtils.getStringAttributeValue("user_id").isEmpty());
 						
-			return "view_jm/login";			// 로그인 페이지로 리다이렉트
+			return "redirect:/view_jm/login";			// 로그인 페이지로 리다이렉트
 		}
 
 		// 구매자 아이디 받아옴
@@ -103,7 +112,7 @@ public class KhController {
 		System.out.println("originalFileName -> " + originalFileName );
 		
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-		String savePath = uploadPath + uuid + extension;
+		String savePath = uploadPath + "insuranceFile/" + uuid + extension;
 
 		if (!multipartFile.isEmpty()) {
 			try {
@@ -165,6 +174,43 @@ public class KhController {
 		model.addAttribute("sellerInfo", sellerInfo);
 		model.addAttribute("carType", SessionUtils.getStringAttributeValue("carType"));
 		return "view_kh/contract";
+	}
+	
+	
+	@PostMapping(value = "/contractImage")
+	public void saveContractImage(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response, String sell_num) {
+		log.info("KhController saveContractImage is called");
+		FileOutputStream outStream	= null;
+		String fileName				= sell_num + "_contract";
+		String savePath 			= uploadPath + "contract/";
+		
+		try {
+			String imgData 			= request.getParameter("imgData");
+			// 디코딩을 위해서 string data의 "data:image/png;base64," 제거
+			imgData					= imgData.replaceAll("data:image/png;base64,", "");
+			
+			byte[] file				= Base64.getDecoder().decode(imgData);
+			outStream				= new FileOutputStream(savePath + fileName + ".png");
+			
+			outStream.write(file);
+			outStream.close();
+			
+			System.out.println("KhController saveContractImage is completed");
+			
+			/*	IOUtils.copy를 이용하여 download 폴더에 바로 저장
+			ByteArrayInputStream is	= new ByteArrayInputStream(file);
+			response.setContentType("image/png");
+			response.setHeader("Content-Disposition", "attachment; filename=report.png");
+			
+			System.out.println("response.getOutputStream() -> " + response.getOutputStream().toString());
+			
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+			*/
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -419,7 +465,7 @@ public class KhController {
 		
 		khTableService.insertExpertReview(expertReview);
 		
-		return "view_ms/myPage_P";
+		return "redirect:/view_ms/myPage_P";
 	}
 	
 	@PostMapping(value = "/previewExpertReview")
