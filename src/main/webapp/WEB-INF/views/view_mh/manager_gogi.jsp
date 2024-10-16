@@ -70,10 +70,6 @@
 	        </script>
 	    </c:if>
 		<div class="manager_gogi">
-			<div class="manager_menu">
-				<input type="radio" class="manager_menu_radio_1">
-				<input type="radio" class="manager_menu_radio_2">
-			</div>
 			<div class="manager_header">
 				<div class="manager_header_h1">
 					공지사항

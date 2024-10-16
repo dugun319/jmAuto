@@ -13,6 +13,7 @@ import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Seller_Info;
 import com.oracle.jmAuto.dto.SessionUtils;
+import com.oracle.jmAuto.dto.TransferList;
 import com.oracle.jmAuto.dto.User_Table;
 
 import lombok.RequiredArgsConstructor;
@@ -398,5 +399,33 @@ public class KHTableDaoImplementation implements KHTableDao {
 		}
 		
 		return sellerInfo;
+	}
+
+	@Override
+	public int getTotTfListByCon(TransferList tfList) {
+		int totTfList = 0;
+		
+		try {
+			totTfList = session.selectOne("com.oracle.jmAuto.dto.kh_TableMapper.getTotTfListByCon", tfList);
+			System.out.println("KHTableDaoImplementation getTotTfListByCon() tfList -> " + tfList);
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getTotTfListByCon() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return totTfList;
+	}
+
+	@Override
+	public List<TransferList> getTransferListCon(TransferList tfList) {
+		List<TransferList> transferList	= null;
+		
+		try {
+			transferList = session.selectList("com.oracle.jmAuto.dto.kh_TableMapper.getTransferListCon", tfList);
+
+		} catch (Exception e) {
+			System.out.println("KHTableDaoImplementation getTransferListCon() e.getMessage() -> " + e.getMessage());
+		}
+		
+		return transferList;
 	}
 }

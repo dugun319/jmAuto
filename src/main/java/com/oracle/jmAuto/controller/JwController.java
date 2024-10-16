@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
+import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.Car_Image;
 import com.oracle.jmAuto.dto.Faq;
 import com.oracle.jmAuto.dto.Notice_Table;
+import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
 import com.oracle.jmAuto.dto.Review;
 import com.oracle.jmAuto.dto.ReviewListInfo;
@@ -308,7 +310,7 @@ public class JwController {
 	
 	// 5-1. 고객후기 페이지 작업
 	@RequestMapping(value = "/view_jw/csReview")
-	public String listReview(ReviewListInfo ri, HttpSession session, Model model) {
+	public String listReview(ReviewListInfo ri, Model model) {
 		System.out.println("JwController listReview Start...");
 		
 		// 1. 페이징 작업
@@ -330,9 +332,8 @@ public class JwController {
 		System.out.println("JwController listReview ri setEnd->"+ri);
 		
 		// 2. 차량 정보, 리뷰, 결제정보, 이미지 뽑아오기
-		List<ReviewListInfo> carInfo = cs.listReview(ri);
-		System.out.println("JwController listReview carInfo.size()->"+carInfo.size());
-		
+		List<ReviewListInfo> reviewListInfo = cs.listReview(ri);
+		System.out.println("JwController listReview reviewListInfo.size()->"+reviewListInfo.size());
 		
 		model.addAttribute("totalReviewPage", totalReviewPage);
 		System.out.println("model totalReviewPage->"+totalReviewPage);
@@ -340,49 +341,63 @@ public class JwController {
 		model.addAttribute("page", page);
 		System.out.println("model page->"+page);
 		
-		//위의 정보를 carInfo에 session으로 저장하기
-		session.setAttribute("carInfo", carInfo);
-		System.out.println("session->"+carInfo);
-		
-		model.addAttribute("carInfo", carInfo);	
-		System.out.println("model carInfo->"+carInfo);
+		model.addAttribute("reviewListInfo", reviewListInfo);	
+		System.out.println("model reviewListInfo->"+reviewListInfo);
 		
  
 		return "view_jw/csReview";
 	}
 	
 	// 5-2. 고객후기 팝업창
-	@GetMapping(value = "/view_jw/csReviewDetail")
+	@GetMapping(value = "/csReviewDetail")
 	public String detailReview(ReviewListInfo reviewListInfo, Model model) {
 		System.out.println("JwController detailReview Start...");
+		System.out.println("JwController detailReview reviewListInfo ->" + reviewListInfo);
 		
-		System.out.println("JwController detailReview -> " + reviewListInfo);
+		Car_General_Info carDetail  = cs.getCarDetail(reviewListInfo.getSell_num());
+		System.out.println("JwController carDetail Start");
 		
-		/*
-		 * // 위에서 저장한 carInfo를 session으로 가져오기 List<ReviewListInfo> carInfo =
-		 * (List<ReviewListInfo>) session.getAttribute("carInfo");
-		 * System.out.println("JwController detailReview carInfo.size()->"+carInfo.size(
-		 * )); System.out.println("클릭한 리뷰의 approval_num->"+approval_num);
-		 * 
-		 * // approval_num을 이용해 특정 리뷰 선택 ReviewListInfo ri = null;
-		 * 
-		 * // for (ReviewListInfo review : carInfo) {
-		 * System.out.println("클릭한 리뷰의 approval_num->"+review.getApproval_num()); if
-		 * (review.getApproval_num().equals(approval_num)) { ri = review; break; } }
-		 * 
-		 * if (ri != null) { model.addAttribute("review", ri);
-		 * System.out.println("리뷰 정보 전달->"+ri);
-		 * 
-		 * //해당 리뷰에 대한 모든 이미지 가져오기 ReviewListInfo reviewImages =
-		 * cs.reviewImages(approval_num);
-		 * System.out.println("JwController reviewImages->"+reviewImages);
-		 * 
-		 * model.addAttribute("reviewImages", reviewImages);
-		 * System.out.println("JwController reviewImages->>"+reviewImages);
-		 * 
-		 * 
-		 * } else { model.addAttribute("error", "리뷰를 찾을 수 없습니다."); }
-		 */
+		Car_Image carImage 			= cs.getCarImage(reviewListInfo.getSell_num());
+		System.out.println("JwController carImage Start");
+		
+		Review reviewDetail			= cs.getReviewDetail(reviewListInfo.getApproval_num());
+		System.out.println("JwController reviewDetail Start");
+		
+		Payment payment				= cs.getPayment(reviewListInfo.getUser_id());
+		System.out.println("JwController payment Start");
+		
+		
+		ReviewListInfo newReviewListInfo = new ReviewListInfo();
+		
+		// REVIEW 테이블
+		newReviewListInfo.setApproval_num(reviewDetail.getApproval_num());
+		newReviewListInfo.setReview_title(reviewDetail.getReview_title());
+		newReviewListInfo.setReview_content(reviewDetail.getReview_content());
+		newReviewListInfo.setReview_date(reviewDetail.getReview_date());
+		newReviewListInfo.setEvaluation(reviewDetail.getEvaluation());
+		newReviewListInfo.setFile_url(reviewDetail.getFile_url());
+		newReviewListInfo.setFile_name1(reviewDetail.getFile_name1());
+		newReviewListInfo.setFile_name2(reviewDetail.getFile_name2());
+		newReviewListInfo.setFile_name3(reviewDetail.getFile_name3());
+		
+		// CAR_GENERAL_INFO
+		newReviewListInfo.setSell_num(carDetail.getSell_num());
+		newReviewListInfo.setCar_type(carDetail.getCar_type());
+		newReviewListInfo.setFuel(carDetail.getFuel());
+		newReviewListInfo.setBrand(carDetail.getBrand());
+		newReviewListInfo.setModel(carDetail.getModel());
+		newReviewListInfo.setMileage(carDetail.getMileage());
+
+		// PAYMENT: 결제 정보 
+		newReviewListInfo.setUser_id(payment.getUser_id());
+		
+		// CAR_IMAGE: 차량정보
+		//newReviewListInfo.setImg_num(carImage.getImg_num());
+		//newReviewListInfo.setImg_name(carImage.getImg_name());
+		newReviewListInfo.setImg_url(carImage.getImg_url());
+		
+		
+		model.addAttribute("newReviewListInfo", newReviewListInfo);
 		
 		return "view_jw/csReviewDetail";
 		

@@ -295,13 +295,12 @@ input[type="text"], textarea {
 </style>
 
 
-
-
 <script type="text/javascript">
 
 	 
 	// fileSelect 함수 수정: 선택한 파일을 특정 img 태그로 미리보기
     function fileSelect(input, targetImg) {
+	
     		/* 사용자가 파일을 선택하고 그 파일이 한 개 이상인 경우 (배열로 나타내는 듯..) */
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -316,8 +315,11 @@ input[type="text"], textarea {
             }
             
             reader.readAsDataURL(input.files[0]);  // 파일을 읽어서 DataURL 형식으로 변환
+       
+           
         }
     }
+       
 
 	/* 이미지 업로드시 이미지 미리보기 구현 */
 	/* 해당 버튼을 누를 때까지 대기함 */
@@ -350,9 +352,23 @@ input[type="text"], textarea {
     $("#img3Input").on("change", function() {
         fileSelect(this, "#Imgs3");
     });
-    
 });
-    </script>
+	function redirectToDetailPage() {
+        const approvalNum = "exampleNumber";  // 실제 처리된 값을 여기에 넣기
+
+        // 알림창 표시
+        alert('후기 작성이 완료되었습니다');
+
+        // 리다이렉트할 URL을 생성
+        const redirectUrl = "/view_ms/reviewDetail?approval_num=" + approval_num;
+
+        // 리다이렉트 실행
+        window.location.href = redirectUrl;
+    }
+
+
+
+</script>
     
     
     
@@ -431,7 +447,7 @@ input[type="text"], textarea {
 						</div>
 						<div style="text-align: center;">
 					<button type="submit" style="background: none; border: none;">
-						<img class="buttondle" alt="" src="../images/main/리뷰작성_but.png">
+						<img class="buttondle" alt="" src="../images/main/리뷰작성_but.png" onclick="redirectToDetailPage()">
 					</button>
 				</div>
 

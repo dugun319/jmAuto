@@ -11,10 +11,7 @@
 		<%@ include file="../kakao.jsp" %>
 		
 		    
-<!-- CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
 
 <title>Insert title here</title>
 </head>
@@ -53,7 +50,7 @@
         height: 75px;
         width: 250px;
         justify-content: center;
-        padding: 10px;
+        padding: 10px 20px 0px 20px;
     }
 
     .ds1 input {
@@ -69,7 +66,7 @@
         width: 250px;
         /*display: table;*/
         margin-left: 5px;
-        padding: 10px;
+        padding: 10px 20px 0px 20px;
     }
 
     .price {
@@ -78,7 +75,7 @@
     }
 
     #minPrice {
-        width: 90px;
+        width: 95px;
         height: 35px;
         border: none;
         background-color: #ededed;
@@ -86,7 +83,7 @@
     }
 
     #maxPrice {
-        width: 90px;
+        width: 95px;
         height: 35px;
         border: none;
         background-color: #ededed;
@@ -98,7 +95,7 @@
         height: 75px;
         width: 600px;
         margin-left: 5px;
-        padding: 10px;
+        padding: 10px 20px 0px 20px;
     }
 
     .ds3 input {
@@ -110,7 +107,6 @@
 
     .searchButton {
         background-color: #ededed;
-        height: 75px;
         width: 250px;
         background-color: #ff4714;
         color: white;
@@ -120,7 +116,22 @@
         vertical-align: middle;
         line-height: 75px;
         margin-left: 25px;
+        border: none;
     }
+     
+
+    
+    /* .searchButton {
+	    height: 75px;
+	    width: 250px;
+	    color: white;
+	    background-color: #ff4714;
+	    font-weight: bold;
+	    font-size: 2em;
+	    text-align: center;
+	    line-height: 75px; 텍스트를 수직 중앙에 배치
+	    margin-left: 25px;
+	}  */
 
     .searchButton button {
         background-color: transparent;
@@ -202,6 +213,7 @@
     	float: right;
     	margin-right: 30px;
     	margin-top: 30px;
+    	border: none;
     }
     
     .dSubmit button {
@@ -216,6 +228,7 @@
           width: 200px;
           height: 1200px;
           position: absolute;
+          box-shadow: 0 0 10px 5px rgb(0,0,0,0.06);
       }
 
       .detail input{
@@ -227,7 +240,7 @@
       .gray{
           width: 100%;
           height: auto;
-          background-color: #ededed;
+          background-color: #fafafa;
           min-height: 1300px;
           padding-bottom: 100px;
           padding-top: 20px;
@@ -253,7 +266,7 @@
 	.page {
 		display: flex;
 		flex: 1 1;
-		width: 1320px;
+		width: 1280px;
 		justify-content: center;
 		align-content: center;
 	}
@@ -277,13 +290,15 @@
 
 	
 	.list {
+		box-shadow: 0 0 10px 5px rgb(0,0,0,0.06);
 	    display: flex;
 	    flex-wrap: wrap;
 	    align-content: flex-start;
-	    justify-content: flex-start;
-	    margin-left: 40px;
-	    gap: 40px; /* 카드 간의 간격 */
-	    width: 1320px;
+	    /* justify-content: center; 이거 하면 매물이 3의 배수로 안 뜨는 경우 가운데로 몰려서 .list의 넓이랑 패딩 수정*/
+	    margin: auto;
+	    gap: 30px; /* 카드 간의 간격 */
+	    width: 1260px;
+	    padding: 30px;
 	    background-color: #fdfdfd;
 	    min-height: 400px;
 	}
@@ -313,9 +328,9 @@
 	    background-color: white;
 	    max-width: 400px;  원하는 최대 너비 값 >> 결과가 1이 나오던 3의 배수가 나오던 상관없이 박스의 크기를 맞추기 위함 */
 	    
-	    display: grid;
+	    /* display: grid; */
 		grid-template-columns: repeat(3, 400px); /* 3개의 열을 동일한 크기로 배치 */
-		gap: 40px;
+		gap: 20px;
 		margin: 20px 0 40px;
 		max-width: 1280px;
 		min-width:400px;
@@ -363,16 +378,7 @@
 		height: auto;
       }
       
-      .searchButton {
-	    height: 75px;
-	    width: 250px;
-	    color: white;
-	    background-color: #ff4714;
-	    font-weight: bold;
-	    font-size: 2em;
-	    text-align: center;
-	    line-height: 75px; /* 텍스트를 수직으로 중앙에 배치 */
-	}
+      
 	
 	.searchButton button {
 	    background-color: transparent;
@@ -420,6 +426,15 @@
 	
 	#plzA {
 		width: 400px;
+	}
+	.div_kakao {
+	    position: relative;
+	    z-index: 10;
+	    bottom: -800px;
+	}
+	
+	.div_footer{
+	    z-index: 1;
 	}
         
 
@@ -508,9 +523,7 @@
                     <div id="dsText">검색</div>
                     <input type="text" placeholder="검색할 키워드 입력" name="searchkeyword">
                 </div>
-                <div class="searchButton">
-                    <button type="submit">검색하기</button>
-                </div>
+                <button class="searchButton" type="submit">검색하기</button>
             </div>
         </form>
     </div>
@@ -551,9 +564,7 @@
 	                <input type="radio" value="전기" 		name="fuel" class="tSelect"><label for="tSelect">&nbsp; 전기&nbsp;</label><p></p>
 	                <input type="radio" value="lpg" 	name="fuel" class="tSelect"><label for="tSelect">&nbsp; LPG&nbsp;</label><p></p>
                 </div>
-                <div class="dSubmit">
-                	<button type="submit" >검색</button>
-                </div>
+                <button class="dSubmit" type="submit" >검색</button>
             </form>
             
             
@@ -561,7 +572,7 @@
            
             
             <!-- 검색 결과 리스트로 출력 -->
-            <div class="listBackGround">
+            <!-- <div class="listBackGround"> -->
             
             <div class="list">
             
@@ -698,7 +709,7 @@
             	</div>
 				
 			</div>
-			</div> 
+			<!-- </div>  -->
 			 
         </div>
         

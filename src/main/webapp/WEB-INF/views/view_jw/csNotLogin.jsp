@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../kakao.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +11,7 @@
 	<!-- 사이드바 -->
 	<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 	<div class="menu_continer"><%@ include file="../view_mh/menu_CS.jsp" %></div>
+	<%@ include file="../kakao.jsp" %>
 
 	<!-- 로그인 안내 내용 -->
 	<div class="pleaseLogin">

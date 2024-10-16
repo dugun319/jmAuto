@@ -31,42 +31,6 @@
 	<div class="header_continer"><%@ include file="../header.jsp" %></div>
    	<div class="menu_continer"><%@ include file="../manager_menu.jsp" %></div>
 	</header>
-
-	<nav class="nav__cont">
-		<img alt="logo" src="<%=request.getContextPath()%>/images/main/로고_icon_2.png" class="nav__cont_logo">
-	  <ul class="nav">
-	    <li class="nav__items3">
-		  <img alt="icon" src="<%=request.getContextPath()%>/images/main/회원관리_icon.png" class="nav_items_img3">
-	      <a href="/view_ms/buyList" class="nav_items_text3">회원</a>
-	      <div class="mon_nav_items">
-	      	<a>회원관리</a>
-	      	<a>가입요청관리</a>
-	      </div>
-	    </li>
-	      
-	    <li class="nav__items3">
-	      <img alt="icon" src="<%=request.getContextPath()%>/images/main/차량관리_icon.png" class="nav_items_img3">
-	     <a href="" class="nav_items_text3">차량</a>
-	     <div class="mon_nav_items">
-	      	<a>차량관리</a>
-	      	<a href="/KH/pay/expertReviewListCon">전문가 리뷰 관리</a>
-	      	<a href="/KH/pay/paymentListCon">환불</a>
-	      </div>
-	    </li>
-	      
-	    <li class="nav__items3">
-	      <img alt="icon" src="<%=request.getContextPath()%>/images/main/CS관리_icon.png" class="nav_items_img3">
-	      <a href="/manager/CS/faq" class="nav_items_text3">CS</a>
-	      <div class="mon_nav_items">
-	      	<a href="/manager/CS/faq">자주 묻는 질문(FAQ)</a>
-	      	<a href="/manager/CS/gogi">공지사항 및 약관</a>
-	      	<a>문의내역</a>
-	      </div>
-	    </li>
-	  </ul>
-	</nav>
-	
-	
 	
 	<div id="fullbody">
 	
@@ -111,7 +75,7 @@
 					<td class="listCell">${exReviewList.sell_num}</td>
 					<td class="listCell">${exReviewList.write_date}</td>
 					<td class="listCell">${exReviewList.user_id}</td>
-					<td class="listCell">
+					<td class="listCell">					
 						<c:if test="${delState eq '0'}">
 							<button	id="delButton" 	onclick="change(${exReviewList.del_state}, ${exReviewList.expert_review_num})">삭제</button>
 						</c:if>

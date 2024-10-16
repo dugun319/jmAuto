@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,17 +173,22 @@ tbody tr {
 						<c:forEach var ="Expert_Review" items="${Expert_Review}">
 						
 							<tr>
-								<td><input type="checkbox" name="post1" value=${Expert_Review.expert_review_num}></td>
-								<td><a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}">${Expert_Review.expert_review_num}</td>
-								<td><c:choose>
-										<c:when test="${fn:length(Expert_Review.content) > 10}">
-           								 	${fn:substring(Expert_Review.content, 0, 10)}...
-        								</c:when>
-										<c:otherwise> 
-										${Expert_Review.content}
-	        							</c:otherwise>
-									</c:choose></td>
-								<td>
+								<td></td>
+								<td onclick="location.href='/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}'" style="cursor: pointer;">
+								${Expert_Review.expert_review_num}</td>
+								
+								<td onclick="location.href='/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}'" style="cursor: pointer;">
+										<c:choose>
+											<c:when test="${fn:length(Expert_Review.content) > 10}">
+           								 		${fn:substring(Expert_Review.content, 0, 10)}...
+        									</c:when>
+        								
+											<c:otherwise> 
+												${Expert_Review.content}
+	        								</c:otherwise>
+										</c:choose>
+								</td>
+								<td onclick="location.href='/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}'" style="cursor: pointer;">
 									<div class="rating">
 									<c:set var="starCount" value="${Expert_Review.score/20}" />
 										<c:forEach var="i" begin="1" end="5">
@@ -191,11 +197,16 @@ tbody tr {
 										</c:forEach>
 									</div>
 								</td>
-								<td>${Expert_Review.write_date}</td>
-								<td>${Expert_Review.price}원</td>
+								<td onclick="location.href='/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}'" style="cursor: pointer;">
+   									 <fmt:formatDate value="${Expert_Review.write_date}" pattern="yyyy-MM-dd" />
+								</td>
+								<td onclick="location.href='/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}'" style="cursor: pointer;">
+								${Expert_Review.price}원</td>
 								<td><img alt="" src="../images/main/답변완료.png"> </td>
-								<td class="button" style="padding-left: 0;"><a href="/KH/pay/modifyExpertReview?expert_review_num=${Expert_Review.expert_review_num}" ><button type="submit" id="userUpdate">
-								<img alt="" src="../images/main/수정이.png"></button></a></td>
+								<td class="button" style="padding-left: 0;">
+									<a href="/KH/pay/modifyExpertReview?expert_review_num=${Expert_Review.expert_review_num}" >
+									<button type="submit" id="userUpdate"><img alt="" src="../images/main/수정이.png"></button></a>
+								</td>
 							</tr>
 						</c:forEach>	
 					</tbody>

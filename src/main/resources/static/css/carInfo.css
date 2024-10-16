@@ -318,6 +318,7 @@ body {
 	margin: 40px 0 40px;
 	background-color: #FF4714;
 	color: #fdfdfd;
+	cursor: pointer;
 }
 
 .Info_map_content h4 {
@@ -604,6 +605,7 @@ body {
     width: 100%;
     max-width: 420px;
     height: auto;
+    cursor: pointer;
 }
 
 .exp_card_footer_text {
@@ -830,4 +832,32 @@ body {
 
 .zzim_insert {
 	margin: 0 20px;
+}
+
+.div_kakao {
+	position: relative;
+	z-index: 10;
+	bottom: -800px;
+}
+
+.div_footer{
+	z-index: 1;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.overlay_content img {
+	width: 500px;
+	height: auto;
 }

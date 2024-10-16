@@ -12,6 +12,7 @@ import com.oracle.jmAuto.dto.Expert_Review;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 @Repository
 @RequiredArgsConstructor
@@ -300,6 +301,7 @@ public class DaoShImpl implements DaoSh {
 		value.put("keyword", keyword);
 		value.put("start", start);
 		value.put("end", end);
+		System.out.println(value);
 		
 		try {
 			Alist = session.selectList("com.oracle.jmAuto.dto.mapper.sh.Asearch",value);
@@ -376,6 +378,8 @@ public class DaoShImpl implements DaoSh {
 		value.put("end", end);
 		
 		try {
+			System.out.println("keyword >> "+keyword + " start >> "+start+" end >> "+end);
+			System.out.println("value >> "+value);
 			reviewList = session.selectList("com.oracle.jmAuto.dto.mapper.sh.reviewSearch",value);
 			System.out.println("검색된 리스트 >> "+reviewList);
 		} catch (Exception e) {

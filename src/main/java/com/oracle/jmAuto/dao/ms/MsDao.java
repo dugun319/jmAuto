@@ -60,6 +60,7 @@ public interface MsDao {
 	int 						dao_sending_note(Note note);
 	Review 						del_state(String approval_num);
 	int 						qnaDetailDelete(String user_id, Long qna_num);
+	Review 						hoogiya(String user_id, String approval_num);
 	
 	
 	

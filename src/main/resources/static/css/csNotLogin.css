@@ -3,7 +3,7 @@
 
 
 /* 사이드바 디자인 */
-header_continer {
+.header_continer {
     position: relative; 
     width: 100%;
     top: 0;
@@ -17,6 +17,10 @@ header_continer {
     height: 100vh;
 }
 
+.body {
+	background-color: #fafafa;
+}
+
 /* 본문 */
 .pleaseLogin {
 	display: flex;
@@ -25,7 +29,6 @@ header_continer {
 	font-size: 16px;
 	font-family: 'Pretendard';
 	text-align: center;
-	background-color: #fafafa;
 	width: 1320px;
 	margin: 0 300px;
 }

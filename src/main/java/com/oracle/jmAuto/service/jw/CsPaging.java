@@ -7,7 +7,7 @@ public class CsPaging {
 	
 	private int currentPage = 1;
 	private int rowPage		= 9;
-	private int pageBlock	= 10;
+	private int pageBlock	= 5;
 	
 	private int start;		
 	private int end;
@@ -37,6 +37,12 @@ public class CsPaging {
 			endPage = totalPage;
 			System.out.println("CsPaging if endPage...");
 		}
+		
+		System.out.println("currentPage: " + currentPage);
+	    System.out.println("startPage: " + startPage);
+	    System.out.println("endPage: " + endPage);
+	    System.out.println("totalPage: " + totalPage);
+		
 	}
 	
 }

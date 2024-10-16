@@ -3,20 +3,23 @@
 
 /* 사이드바 디자인 */
 .header_continer {
-    position: relative; 
+    position: relative; /* No fixed position, it will scroll naturally */
     width: 100%;
     top: 0;
-    z-index: 1001; 
+    z-index: 1001; /* Still higher than the menu */
 }
-
 .menu_continer {
     position: fixed;
-    top: 0;
-    z-index: 1000; 
-    height: 100vh;
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
 }
 
 /* 본문 */
+
+body {
+	background-color: #fafafa;
+}
 
 .notice {
 	display: flex;
@@ -34,8 +37,8 @@
 }
 
 .noticeDetail {
-	border: 2px solid #d0d0d0;
-	background-color: #fafafa;
+	box-shadow: 0 6px 6px rgba(0,0,0,0.19);
+	background-color: #fdfdfd;
 	padding-top: 50px;
 	width: 1280px;
 }

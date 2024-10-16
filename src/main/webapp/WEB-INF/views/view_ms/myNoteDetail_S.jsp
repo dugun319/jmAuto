@@ -114,6 +114,9 @@ h2{
     gap: 15px; /* 버튼 간 간격 */
     margin-top: 20px; /* 버튼 상단 여백 */
 }
+.contentbox{
+	white-space: normal;
+}
 </style>
 <script type="text/javascript">
 
@@ -148,6 +151,7 @@ h2{
 						<tr>
 							<td>쪽지번호</td>
 							<td>보낸사람</td>
+							<td>받은사람</td>
 							<td>날짜</td>
 							<td>매물번호</td>
 							<td>제목</td>										
@@ -158,10 +162,11 @@ h2{
 							<tr>
 								<td>${Note.note_num}</td>
 								<td>${Note.note_sd}</td>
+								<td>${Note.note_rd}</td>
 								<td>${Note.note_date}</td>
 								<td>${Note.sell_num}</td>
 								<td>${Note.note_title}</td>				
-								<td>${Note.note_content}</td>						
+								<td><div class="contentbox">${Note.note_content}</div></td>						
 							</tr>	
 					</tbody>
 				</table>
@@ -170,9 +175,15 @@ h2{
 			<button type="button" onclick="deleteZzokzi(${Note.note_num})">삭제</button>
 			
 			<c:if test="${user_id.equals(Note.note_rd) && !user_id.equals(Note.note_sd)}">
-			<a href ="/view_ms/myNoteDabjangWrite?note_num=${Note.note_num}&note_rd=${Note.note_rd}">
-			<button type="button">답장하기</button></a>
+			<a href ="/view_ms/myNoteDabjangWrite_S?note_num=${Note.note_num}&note_rd=${Note.note_rd}">
+			<button value="note" onclick="window.open('/view_ms/go_noteDabjang_form?note_num=${Note.note_num}&note_sd=${Note.note_sd}&sell_num=${Note.sell_num}&note_title=${Note.note_title}', '_blank', 'width=600, height=600, left=260, top=100, scrollbars=yes'); return false;">답장하기</button>
+			</a>
 			</c:if>
+			
+			
+			
+			
+			
 			</div>
 		</main>
 	</div>

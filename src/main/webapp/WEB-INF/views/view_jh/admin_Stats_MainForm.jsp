@@ -109,7 +109,7 @@
 	    ];
 	</script>
 
-	<!-- 기업별 지불내역 조회 ---------------------------------------------------------------->
+	<!-- 기업별 비용내역 조회 ---------------------------------------------------------------->
 	<script type="text/javascript">
 		var costData = {
 			<c:set var="isFirst" value="true" />
@@ -130,25 +130,25 @@
 			</c:forEach>
 		};
     </script>
-    
-    <!-- 분기별 지불내역 조회 ---------------------------------------------------------------->
-    <script type="text/javascript">
-		var adminQuarterCostList = [
-	        <c:set var="size" value="${fn:length(admin_quarter_cost_list)}" />
-	        <c:forEach var="entry" items="${admin_quarter_cost_list}" varStatus="status"> [
-				${entry.value.QUARTER}, 
-				${entry.value.TOTAL_CAR_SALES}, 
-				${entry.value.TOTAL_CUSTOMER_COST}, 
-				${entry.value.TOTAL_SELLER_COST}, 
-				${entry.value.TOTAL_TAX}, 
-				${entry.value.TOTAL_BUZ_FEE}, 
-				${entry.value.TOTAL_AGENT_FEE}, 
-				${entry.value.TOTAL_SALES}
-			] <c:if test="${status.index < size - 1}">,</c:if> <!-- 마지막 항목 뒤에 콤마 제거 -->
-	        </c:forEach>
-		];
+      
+    <!-- 분기별 비용내역 조회 ---------------------------------------------------------------->
+	<script type="text/javascript">
+    	var adminQuarterCostList = [
+			<c:set var="size" value="${fn:length(admin_quarter_cost_list)}" />
+			<c:forEach var="entry" items="${admin_quarter_cost_list}" varStatus="status"> [
+	            '${entry.value.QUARTER}',  // QUARTER 값을 문자열로 변환
+	            ${entry.value.TOTAL_CAR_SALES}, 
+	            ${entry.value.TOTAL_CUSTOMER_COST}, 
+	            ${entry.value.TOTAL_SELLER_COST}, 
+	            ${Math.floor(entry.value.TOTAL_TAX)}, // 소수점 내림
+	            ${Math.floor(entry.value.TOTAL_BUZ_FEE)}, // 소수점 내림
+	            ${Math.floor(entry.value.TOTAL_AGENT_FEE)}, // 소수점 내림
+	            ${Math.floor(entry.value.TOTAL_SALES)} // 소수점 내림
+        	] <c:if test="${status.index < size - 1}">,</c:if>
+			</c:forEach>
+    	];
 	</script>
-       
+          
     <!-- 분기별 총매출액 조회 (분기별 지불내역 조회) -------------------------------------------->
 	<script type="text/javascript">
 	    var year = ${year};
@@ -221,7 +221,7 @@
 	 			<h5 id="admin_inquiry_gigan1">분기별 실적</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-	 		<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+	 		<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 	 		<div class="admin_inquiry_year_btn1">
 				<select name="year" class="admin_inquiry_year1">
@@ -244,7 +244,7 @@
 	 			<h5 id="admin_inquiry_gigan2">연도별 실적</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 			<input type="submit" value="✔조회" class="admin_inquiry_btn2">
 			<button type="button" onclick="resetForm()" class="admin_reset_btn">입력 초기화</button>
@@ -258,7 +258,7 @@
 	 			<h5 id="admin_inquiry_gigan3">차량/브랜드별 실적</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 	 		<div class="admin_inquiry_year_btn3">
 				<select name="year" class="admin_inquiry_year3">
@@ -281,7 +281,7 @@
 	 			<h5 id="admin_inquiry_gigan4">재고내역</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 				<input type="submit" value="✔조회" class="admin_inquiry_btn4">
 			<button type="button" onclick="resetForm()" class="admin_reset_btn">입력 초기화</button>
@@ -295,7 +295,7 @@
 	 			<h5 id="admin_inquiry_gigan5">입고내역</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 				<input type="submit" value="✔조회" class="admin_inquiry_btn5">
 			<button type="button" onclick="resetForm()" class="admin_reset_btn">입력 초기화</button>
@@ -309,7 +309,7 @@
 	 			<h5 id="admin_inquiry_gigan6">출고내역</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 				<input type="submit" value="✔조회" class="admin_inquiry_btn6">
 			<button type="button" onclick="resetForm()" class="admin_reset_btn">입력 초기화</button>
@@ -320,10 +320,10 @@
 	<div class="admin_inquiry7">
 	 	<form action="/view_jh/admin_cost_list" onsubmit="return validateForm(this);">
 	 		<div class="admin_inquiry_gigan7">
-	 			<h5 id="admin_inquiry_gigan7">기업별 지불내역</h5>
+	 			<h5 id="admin_inquiry_gigan7">사업자별 비용내역</h5>
 	 		</div>
 	 		<h5 class="accountName"></h5>
-			<input type="text" class="searchInput" name="user_id" placeholder="아이디 검색" onkeyup="getSuggestions(this)" onfocus="loadAllData(this)" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
+			<input type="text" class="searchInput" id="company" name="user_id" placeholder="아이디 검색" autocomplete="off" value="${param.user_id != null ? param.user_id : ''}" />
 				<div id="suggestions"></div>
 				<input type="submit" value="✔조회" class="admin_inquiry_btn7">
 			<button type="button" onclick="resetForm()" class="admin_reset_btn">입력 초기화</button>
@@ -334,7 +334,7 @@
    	<div class="admin_inquiry8">
 	 	<form action="/view_jh/admin_quarter_cost_list">
 	 		<div class="admin_inquiry_gigan8">
-	 			<h5 id="admin_inquiry_gigan8">분기별 지불내역</h5>
+	 			<h5 id="admin_inquiry_gigan8">분기별 비용내역</h5>
 	 		</div>
 	 		<div class="admin_inquiry_year_btn8">
 				<select name="year" class="admin_inquiry_year8">
@@ -375,8 +375,8 @@
 		<div class="cost_list_container">    
 			<button id="cost">비용내역</button>    
 				<div class="cost_list_hidden_btn"> 
-					<button id="payment_company">기업별 지불내역</button>
-					<button id="payment_quarter">분기별 지불내역</button>
+					<button id="payment_company">사업자별 비용내역</button>
+					<button id="payment_quarter">분기별 비용내역</button>
 				</div> 	
 		</div>  
    	</div>

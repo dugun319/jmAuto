@@ -13,6 +13,22 @@
 <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="<%=request.getContextPath()%>/js/html2canvas.min.js"></script>
 <style type="text/css">
+@media print {
+    #screenShot{ -webkit-print-color-adjust:exact; width: 210mm; height: 297mm; }
+    table { page-break-inside:auto; }
+    tr    { page-break-inside:avoid; page-break-after:auto; }
+    thead { display:table-header-group; }
+    tfoot { display:table-footer-group; }
+}
+/* 
+@media print {
+    html, body { -webkit-print-color-adjust:exact; width: 210mm; height: 297mm; }
+    table { page-break-inside:auto; }
+    tr    { page-break-inside:avoid; page-break-after:auto; }
+    thead { display:table-header-group; }
+    tfoot { display:table-footer-group; }
+}
+ */
 body{
 	margin: 0px;
 	padding: 30px;
@@ -101,9 +117,9 @@ table, th, td{
 	top: 1645px;
 	left: 950px;
 }
-.btn_download{
-	width: 320px;
-	height: 50px;
+.btn{
+	width: 200px;
+	height: 40px;
 	background-color: #FF4714;
 	color: #FDFDFD;
 	font-size: 16px;
@@ -119,7 +135,7 @@ table, th, td{
 <script type="text/javascript">
     $(function(){
 	        /** btnDown 버튼 클릭 **/
-	        $('.btn_download').click(function() {
+	        $('#btn_comfirm').click(function() {
 	            html2canvas(document.getElementById("screenShot")).then(function(canvas) 
 					{
 	                    if (typeof FlashCanvas != "undefined") {
@@ -135,9 +151,9 @@ table, th, td{
 	    });
 
 
-	/*
+	
 	$(function(){
-	    $(".btn_download").click(function(e){
+	    $("#btn_download").click(function(e){
 	        html2canvas(document.getElementById("screenShot")).then(function(canvas) {
 	            var imageDiv 		= document.createElement("a");
 				var imageName		= $('#sellNumVal').val() + "_contract.jpg";
@@ -148,7 +164,15 @@ table, th, td{
 	        })
 	    })
 	});
-	*/
+	
+	
+	$(function(){
+		    $("#btn_print").click(function(e){
+		        var printArea = document.getElementById("screenShot");
+		    	window.print(printArea);
+		    })
+	});
+	
 </script>
 
 </head>
@@ -278,6 +302,9 @@ table, th, td{
 			
 	</div>
 	
-	<button type="button" class="btn_download">내용확인</button>
+	<button type="button" id="btn_comfirm"	class="btn">확인</button>
+	<button type="button" id="btn_download"	class="btn">파일다운로드</button>
+	<button type="button" id="btn_print"	class="btn">인쇄하기</button>
+	
 </body>
 </html>

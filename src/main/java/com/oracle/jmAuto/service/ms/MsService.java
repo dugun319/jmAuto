@@ -59,6 +59,7 @@ public interface MsService {
 	int 					service_sending_note(Note note);
 	Review 					del_state(String approval_num);
 	int 					qnaDetailDelete(String user_id, Long qnanum);
+	Review 					hoogiya(String user_id, String approval_num);
 	
 
 	

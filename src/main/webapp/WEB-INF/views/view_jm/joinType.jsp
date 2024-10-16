@@ -53,7 +53,7 @@ h1 {
 	width: 1000px;
 	padding: 40px; /* 컨테이너 내부 여백 */
 	background-color: #fdfdfd; /* 박스 배경색 */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 박스 그림자 설정 */
+	box-shadow: 0 0 10px 5px rgb(0,0,0,0.06);
 	margin: 70px 0;
 }
 

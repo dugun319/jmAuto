@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%> 
 <link href="/css/footer.css" rel="stylesheet" type="text/css">
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@
 <body>
 	<div class="footer_container">
 		<div class="footer_main">
-			<img alt="logo이미지" src="<%=request.getContextPath()%>/images/main/logo_web.png" class="footer_img">
+			<img alt="logo이미지" src="../images/main/logo_web.png" class="footer_img">
 		</div>
 		<div class="footer_text_hed">
 			<a href="../view_jw/csNotice?noticeCls=6200" class="footer_text_hed_a1">개인정보 처리방침</a>
@@ -35,12 +35,12 @@
 		<div class="footer_text_end">
 			<div class="footer_text_hed_text3">Copyright © 제이엠카 All Rights Reserved</div>
 			<div class="footer_text_end_img">
-				<a href="https://www.facebook.com/?locale=ko_KR"><img alt="페이스북" src="<%=request.getContextPath()%>/images/main/페이스북_icon.png" class="footer_end_img"></a>
-				<a href="https://www.instagram.com/"><img alt="인스타"   src="<%=request.getContextPath()%>/images/main/인스타_icon.png"   class="footer_end_img"></a>
-				<a href="https://section.cafe.naver.com/ca-fe/home"><img alt="카페"     src="<%=request.getContextPath()%>/images/main/카페_icon.png"     class="footer_end_img"></a>
-				<a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"><img alt="블로그" 	src="<%=request.getContextPath()%>/images/main/블로그_icon.png"   class="footer_end_img"></a>
-				<a href="https://www.youtube.com/?app=desktop&hl=ko&gl=KR"><img alt="유튜브" 	src="<%=request.getContextPath()%>/images/main/유튜브_icon.png"   class="footer_end_img"></a>
-				<a href="https://x.com/?lang=ko"><img alt="트위터" 	src="<%=request.getContextPath()%>/images/main/트위터_icon.png"   class="footer_end_img"></a>
+				<a href="https://www.facebook.com/?locale=ko_KR"><img alt="페이스북" src="../images/main/페이스북_icon.png" class="footer_end_img"></a>
+				<a href="https://www.instagram.com/"><img alt="인스타"   src="../images/main/인스타_icon.png"   class="footer_end_img"></a>
+				<a href="https://section.cafe.naver.com/ca-fe/home"><img alt="카페"     src="../images/main/카페_icon.png"     class="footer_end_img"></a>
+				<a href="https://section.blog.naver.com/BlogHome.naver?directoryNo=0&currentPage=1&groupId=0"><img alt="블로그" 	src="../images/main/블로그_icon.png"   class="footer_end_img"></a>
+				<a href="https://www.youtube.com/?app=desktop&hl=ko&gl=KR"><img alt="유튜브" 	src="../images/main/유튜브_icon.png"   class="footer_end_img"></a>
+				<a href="https://x.com/?lang=ko"><img alt="트위터" 	src="../images/main/트위터_icon.png"   class="footer_end_img"></a>
 			</div>
 		</div>
 	</div>

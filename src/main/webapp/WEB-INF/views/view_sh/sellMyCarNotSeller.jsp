@@ -87,6 +87,9 @@
 
     h1 {
         margin-bottom: 50px;
+        margin-top: 50px;
+        text-align: center;
+        font-weight: bold;
     }
     
 	

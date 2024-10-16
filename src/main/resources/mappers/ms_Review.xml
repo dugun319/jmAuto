@@ -76,9 +76,16 @@
                             ) 
      </insert>
 	
-	<select id="del_state" parameterType="String" resultType="String">
+	<select id="del_state" parameterType="String" resultType="Review">
 		select del_state
 		from review
 		where approval_num=#{approval_num}
+	</select>
+	
+	<select id="hoogiya" parameterType="map" resultType="Review">
+		select *
+		from review
+		where user_id =#{user_id}
+		and approval_num = #{approval_num}
 	</select>
 </mapper> 

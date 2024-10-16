@@ -1,6 +1,7 @@
 package com.oracle.jmAuto.dao.jm;
 
 import java.util.List;
+import java.util.Map;
 
 import com.oracle.jmAuto.dto.Account;
 import com.oracle.jmAuto.dto.FullUserInfo;
@@ -10,15 +11,14 @@ import com.oracle.jmAuto.dto.User_Table;
 
 public interface JmDao {
 
+	// 로그인
 	User_Table login(String user_id);
 
+	// 회원가입 - BUYER
 	int join(User_Table user);
+	 
 
 	int confirmId(String user_id);
-
-	int insertBuz(Business business);
-
-	int insertAccount(Account account);
 
 	int sellerJoin(Business business, User_Table user_table, Account account);
 
@@ -35,8 +35,9 @@ public interface JmDao {
 
 	
 	// 관리자용 페이지 로직
+    List<User_Table> selectUserList(Map<String, Object> params);
 
-	List<User_Table> searchUserList(String keyword,int startIndex, int rowPage);
+	List<User_Table> searchUserList(String keyword,int start, int end);
 
     int createManager(User_Table user);
 
@@ -44,16 +45,20 @@ public interface JmDao {
 
     int userApprove(String user_id);
 
-    List<User_Table> selectApprovalUserList();
+    List<User_Table> selectApprovalUserList(Map<String, Object> params);
 
     int userActive(String user_id);
 
     int userDeactive(String user_id);
 
-    List<User_Table> selectUserList(int startIndex, int rowPage);
 
-	int userTotal();
+	int userTotal(Map<String, Object> params);
 
-    int userTotal(String keyword);
+    int userTotal();
+
+    int approvalTotal();
+
+    int approvalTotal(String keyword);
+
 
 }

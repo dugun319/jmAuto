@@ -6,11 +6,13 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-
+import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.Car_Image;
 import com.oracle.jmAuto.dto.Faq;
 import com.oracle.jmAuto.dto.Notice_Table;
+import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
-
+import com.oracle.jmAuto.dto.Review;
 import com.oracle.jmAuto.dto.ReviewListInfo;
 
 
@@ -144,7 +146,7 @@ public class CsDaoImpl implements CsDao {
 		return totReviewCount;
 	}
 
-	// 5-2. 고객후기 페이지 작업 2
+	// 5-2. 고객후기 메인 페이지 리스트
 	@Override
 	public List<ReviewListInfo> listReview(ReviewListInfo ri) {
 		List<ReviewListInfo> listResult = null;
@@ -161,22 +163,76 @@ public class CsDaoImpl implements CsDao {
 		return listResult; 
 	}
 
-	// 5-3. 고객후기: 해당 리뷰에 대한 모든 이미지 가져오기
+	// 5-3. 고객후기: CAR_GENERAL_INFO 테이블의 차량정보
 	@Override
-	public ReviewListInfo reviewImages(String approval_num) {
-		System.out.println("CsDaoImpl imgResult Start...");
-
-		ReviewListInfo ri = new ReviewListInfo();
+	public Car_General_Info detailCarInfo(long sell_num) {
+		System.out.println("CsDaoImpl detailCarInfo Start...");
+		
+		Car_General_Info carInfo = new Car_General_Info();
 		
 		try {
-			ri = session.selectOne("selectImage", approval_num);
-			System.out.println("CsDaoImpl reviewImages ri->"+ri);
+			carInfo = session.selectOne("selectCarInfo", sell_num);
+			System.out.println("CsDaoImpl detailCarInfo carInfo->"+carInfo);
 			
 		} catch (Exception e) {
-			System.out.println("CsDaoImpl reviewImages Exception->"+e.getMessage());
+			System.out.println("CsDaoImpl detailCarInfo Exception->"+e.getMessage());
 		}
 		
-		return ri;
+		return carInfo;
+	}
+
+	// 5-4. 고객후기: CAR_IMAGES 테이블의 차량 이미지
+	@Override
+	public Car_Image detailImage(long sell_num) {
+		System.out.println("CsDaoImpl detailImage Start...");
+		
+		Car_Image carImage = new Car_Image();
+		
+		try {
+			carImage = session.selectOne("selectImage", sell_num);
+			System.out.println("CsDaoImpl detailImage carImage->"+carImage);
+						
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl detailImage Exception->"+e.getMessage());
+		}
+		
+		return carImage;
+	}
+
+	// 5-5. 고객후기: REVIEW 테이블의 리뷰정보
+	@Override
+	public Review detailReview(String approval_num) {
+		System.out.println("CsDaoImpl detailReview Start...");
+		
+		Review review = new Review();
+		
+		try {
+			review = session.selectOne("selectReviews", approval_num);
+			System.out.println("CsDaoImpl detailReview review->"+review);
+			
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl detailReview Exception->"+e.getMessage());
+		}
+		
+		return review;
+	}
+
+	// 5-6. 고객후기: Payment 테이블의 유저 정보
+	@Override
+	public Payment detailUser(String user_id) {
+		System.out.println("CsDaoImpl detailUser Start...");
+		
+		Payment payment = new Payment();
+		
+		try {
+			payment = session.selectOne("selectUser", user_id);
+			System.out.println("CsDaoImpl detailUser payment->"+payment);
+			
+		} catch (Exception e) {
+			System.out.println("CsDaoImpl detailUser Exception->"+e.getMessage());
+		}
+		
+		return payment;
 	}
 
 

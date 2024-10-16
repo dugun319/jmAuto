@@ -8,10 +8,11 @@
 <title>고객센터</title>
 </head>
 <body>
-	<%@ include file="../header_white.jsp" %>
-	<%@ include file="../kakao.jsp" %>
-	
 
+	<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
+	<%@ include file="../kakao.jsp" %>
+
+	<!-- 메인내용 -->
 	<div class="csHeadline">
 		<h1>고객지원</h1>
       	<span class="csMent">안녕하세요. JM 고객센터입니다. 무엇을 도와드릴까요?</span>

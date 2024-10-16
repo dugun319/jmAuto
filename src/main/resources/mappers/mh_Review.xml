@@ -6,5 +6,6 @@
 	<select id="ReviewListS" resultType="Review">
 		select *
 		from Review
+		where del_state = 0
 	</select>
 </mapper>

@@ -12,6 +12,7 @@
 				.container{
 			top:200px;
 		}
+		
 
 
 		footer {
@@ -21,6 +22,8 @@
 	</style>
 	<script type="text/javascript" src="/js/jquery.js"></script>
 	<script type="text/javascript">
+	
+	let isAuthCodeVerified = false // 이메일 전송 여부
 		
 		$(function () {
 			//직접입력 인풋박스 기존에는 숨어있다가
@@ -132,7 +135,26 @@
 			$("#verifyAuthCodeBtn").on("click", verifyAuthCode);
 		});
 
+		 function chkValue() {
 
+			let isValid = true; // 제출 확인 여부 
+			
+			var auth_code = $("#auth_code").val().trim();
+
+			var verifyAuthCodeMessage = $("#verifyAuthCodeMessage");
+
+
+			isValid = true;
+			
+			if (!isAuthCodeVerified) {
+				$("#verifyAuthCodeMessage").text("인증번호를 확인 해주세요.").css("color", "red");
+				$("#auth_code").focus();
+				isValid = false;
+				return false;
+			}
+			
+			isValid = true;
+		} 
 
 	</script>
 
@@ -146,7 +168,7 @@
 			</div>
 			<div class="content">
 			<div class="container">	
-					<form method="post" name="frm" action="/view_jm/findId">
+					<form method="post" name="frm" action="/view_jm/findId" onsubmit="return chkValue();">
 						<div class="form-group">
 							<label for="user_name">이름</label>
 							<input type="text" id="user_name" name="user_name" required="required">
@@ -155,9 +177,9 @@
 						<!-- 이메일  -->
 						<div class="form-group">
 							<label for="user_email">이메일</label>
-							<input type="text" id="user_email1" name="user_email1" style="width: 30px;">
+							<input type="text" id="user_email1" name="user_email1" style="width: 30px; required="required">
 							&nbsp;@&nbsp;
-							<input type="text" id="user_email3" name="selboxDirect" />
+							<input type="text" id="user_email3" name="selboxDirect"  />
 							<select id="user_email2" name="email_domain">
 								<option value="naver.com">naver.com</option>
 								<option value="naver.com">daum.net</option>
@@ -165,16 +187,16 @@
 								<option value="hanmail.net">hanmail.net</option>
 								<option value="direct">직접입력</option>
 							</select>
-							<button type="button" onclick="emailCheck()">인증번호 전송</button>
+							<button type="button" onclick="emailCheck()" >인증번호 전송</button>
 							<p class="check_font" id="email_check"></p>
 							<!-- hidden input to hold the full email value -->
-							<input type="hidden" id="hidden_user_email" name="user_email" />
+							<input type="hidden" id="hidden_user_email" name="user_email" required="required"/>
 						</div>
 
 						<!-- 이메일 인증 번호 -->
 						<div class="form-group">
 							<label for="auth_code">인증번호</label>
-							<input type="text" id="auth_code" name="auth_code">
+							<input type="text" id="auth_code" name="auth_code" required="required">
 							<button type="button" id="verifyAuthCodeBtn">인증번호 확인</button>
 							<p class="check_font" id="verifyAuthCodeMessage"></p>
 						</div>

@@ -29,7 +29,7 @@
 		<typeAlias alias="ExpList" type="com.oracle.jmAuto.dto.ExpList"/>
 		<typeAlias alias="ReviewListInfo" type="com.oracle.jmAuto.dto.ReviewListInfo"/>
 		<typeAlias alias="Seller_Info" type="com.oracle.jmAuto.dto.Seller_Info"/>
-		
+		<typeAlias alias="TransferList" type="com.oracle.jmAuto.dto.TransferList"/>
 		
 	</typeAliases>
 </configuration> 

@@ -19,17 +19,24 @@
 
 	<insert id="joinUser" parameterType="User_Table">
 		INSERT INTO user_table
-		(user_id, user_pw, user_name, user_tel, user_zipcode, user_addr1, user_addr2,
-		user_email, user_regdate, buz_num, cert_num, user_level, user_type,
+		(user_id, user_pw, user_name, user_tel, user_zipcode, user_addr1,
+		user_addr2,
+		user_email, user_regdate, buz_num, cert_num, user_level,
+		user_type,
 		del_state, approval)
-		VALUES (#{user_id}, #{user_pw}, #{user_name}, #{user_tel}, #{user_zipcode},
-		#{user_addr1}, #{user_addr2}, #{user_email}, SYSDATE, #{buz_num,
-		jdbcType=VARCHAR}, #{cert_num, jdbcType=VARCHAR}, #{user_level},
-		#{user_type}, #{del_state}, #{approval})
+		VALUES (#{user_id}, #{user_pw},
+		#{user_name}, #{user_tel}, #{user_zipcode},
+		#{user_addr1},
+		#{user_addr2}, #{user_email}, SYSDATE, #{buz_num,
+		jdbcType=VARCHAR},
+		#{cert_num, jdbcType=VARCHAR}, #{user_level},
+		#{user_type},
+		#{del_state}, #{approval})
 	</insert>
 
 	<select id="confirmId" resultType="int" parameterType="String">
-		select count(*)
+		select
+		count(*)
 		from user_table
 		where user_id = #{user_id}
 	</select>
@@ -37,7 +44,8 @@
 	<insert id="insertBuz" parameterType="Business">
 		insert into business
 		(buz_num, buz_name, buz_addr, buz_filename, buz_url)
-		values (#{buz_num}, #{buz_name}, #{buz_addr}, #{Buz_filename}, #{buz_url})
+		values
+		(#{buz_num}, #{buz_name}, #{buz_addr}, #{Buz_filename}, #{buz_url})
 
 	</insert>
 	<insert id="insertProf" parameterType="Certified">
@@ -51,21 +59,24 @@
 	<insert id="insertAccount" parameterType="Account">
 		insert into account
 		(account_num, account_name, account_bank,user_id)
-		values (${account_num}, #{account_name}, #{account_bank}, #{user_id})
+		values
+		(${account_num}, #{account_name}, #{account_bank}, #{user_id})
 	</insert>
 
 	<select id="findId" parameterType="User_Table"
 		resultType="String">
 		select user_id
 		from user_table
-		where user_email = #{user_email} and user_name = #{user_name}
+		where user_email =
+		#{user_email} and user_name = #{user_name}
 	</select>
 
 	<select id="findPw" parameterType="User_Table"
 		resultType="User_table">
 		select *
 		from user_table
-		where user_id = #{user_id} and user_email = #{user_email}
+		where user_id = #{user_id} and
+		user_email = #{user_email}
 	</select>
 
 
@@ -83,54 +94,73 @@
 		where user_id = #{user_id}
 	</select>
 
-	<select id="selectUserList" resultType="User_Table" parameterType="Map">
-         SELECT * 
-        FROM (
-            SELECT a.*, ROWNUM rnum
-            FROM (
-                SELECT * 
-                FROM User_Table 
-                ORDER BY user_name
-            ) a
-            WHERE ROWNUM &lt;= #{startIndex} + #{rowPage}  
-        )
-        WHERE rnum &gt; #{startIndex} 
-    </select>
-	
-	<!-- <select id="userTotal" resultType="int">
-		select count(*)
-		from user_table
-	</select> -->
-
-	<select id="userTotal" parameterType="String" resultType="int">
- 			 SELECT COUNT(*) 
-    			FROM user_table
-    		WHERE 
-        (user_id LIKE '%' || #{keyword} || '%' 	
-         OR user_name LIKE '%' || #{keyword} || '%' 
-         OR user_email LIKE '%' || #{keyword} || '%')
+		
+		<select id="userTotal" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		FROM user_table
+		WHERE Approval = '1' 
+		AND user_type LIKE '%' || #{user_type} || '%'
+		AND
+		(user_id LIKE '%' || #{keyword} || '%'
+		OR user_name LIKE '%' || #{keyword} || '%'
+		)
 		</select>
 
+		<select id="approvalTotal" resultType="int" parameterType="String">
+        SELECT Count(*)
+        from user_table
+        where approval = '0' and
+       	(user_type LIKE '%' || #{user_type} || '%')
+</select>
 
-
+	<select id="selectUserList" resultType="User_Table"
+		parameterType="Map">
+		SELECT *
+		FROM (
+						SELECT a.*, ROWNUM rn
+						FROM 
+										(
+										SELECT *
+										FROM User_Table
+										WHERE approval = '1'
+										AND (user_type LIKE '%' || #{user_type} || '%')
+										ORDER BY user_name
+										) a
+						)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
 
 <select id="searchUserList" resultType="User_Table" parameterType="Map">
-   SELECT * 
+    SELECT *
     FROM (
-        SELECT a.*, ROWNUM rnum
+        SELECT a.*, ROWNUM rn
         FROM (
-            SELECT * 
-            FROM user_table
-            WHERE
-                #{keyword} IS NULL OR #{keyword} = '' OR 
-                (user_id LIKE '%' || #{keyword} || '%' 
-                 OR user_name LIKE '%' || #{keyword} || '%' 
-                 OR user_email LIKE '%' || #{keyword} || '%')
+            SELECT *
+            FROM User_Table
+            WHERE 
+            (user_id LIKE '%' || #{keyword} || '%'
+            OR user_name LIKE '%' || #{keyword} || '%')
             ORDER BY user_name
-        ) a
-            WHERE ROWNUM &lt;= #{startIndex} + #{rowPage}  
-        )
-        WHERE rnum &gt; #{startIndex} 
+      ) a
+						)
+		WHERE rn BETWEEN #{start} AND #{end}
+</select>
+
+<select id="selectUserType" resultType="User_Table" parameterType="String">
+	 SELECT *
+	 FROM (
+        SELECT a.*, ROWNUM rn
+        FROM 
+					(
+						SELECT *
+						FROM User_Table
+						WHERE 
+						(user_type LIKE '%' || #{user_type} || '%')
+						ORDER BY user_name
+					) a
+					)
+		WHERE rn BETWEEN #{start} AND #{end}
 </select>
 
 
@@ -150,11 +180,20 @@
 		where user_id = #{user_id}
 	</update>
 
-	<select id="selectApprovalUserList" resultType="User_Table">
+	<select id="selectApprovalUserList" resultType="User_Table" parameterType="Map">
 		select *
-		from
-		User_Table
-		where approval = '0'
+		from (
+			select a.*, ROWNUM rn
+			from 
+			(
+				SELECT *
+				FROM User_Table
+				where approval = '0'
+				and (user_type LIKE '%' || #{user_type} || '%')
+				ORDER BY USER_NAME
+			) a
+		)
+		WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 
 	<update id="userApprove" parameterType="String">
@@ -200,14 +239,6 @@
 		VALUES
 		(#{user_id},#{user_pw},#{user_name},#{user_email},#{user_tel},#{user_type},#{del_state},#{approval})
 	</insert>
-
-	<!-- <select id="searchUserList" parameterType="String"
-		resultType="User_Table">
-		SELECT *
-		FROM user_table
-		WHERE user_name LIKE '%' || #{keyword} || '%'
-		OR user_id LIKE '%' || #{keyword} || '%'
-	</select> -->
 
 
 </mapper> 

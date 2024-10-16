@@ -34,15 +34,6 @@ body {
 	
 }
 
-.manager_menu {
-	background: #fdfdfd;
-	box-shadow: 0 0 10px 5px rgb(0,0,0,0.06);
-	width: 100%;
-	max-width: 200px;
-	height: auto;
-	margin: 40px 0 20px;
-}
-
 .manager_header {
 	display: flex;
 	margin: 20px 0;

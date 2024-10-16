@@ -99,6 +99,7 @@ public class MsDaoImpl implements MsDao {
 	public List<Expert_Review> expertReviews(String user_id) {
 		System.out.println("msDao expertReview start...");
 		List<Expert_Review> expertReview = null;
+		System.out.println("msDao expertReview user_id->"+user_id);
 		try {
 			expertReview = session.selectList("com.oracle.jmAuto.dto.Mapper.ms.expertReview", user_id);
 		} catch (Exception e) {
@@ -331,9 +332,9 @@ public class MsDaoImpl implements MsDao {
 		System.out.println("msDao hoogiDelete start..");
 		System.out.println("msDao hoogiDelete approval_num->"+approval_num);
 		System.out.println("msDao hoogiDelete user_id->"+user_id);
-		int resultTot=0;
+		int result=0;
 		try {
-				int result = session.update("com.oracle.jmAuto.dto.Mapper.ms.hoogiDelete", Map.of("user_id", user_id, "approval_num", approval_num));
+				result = session.update("com.oracle.jmAuto.dto.Mapper.ms.hoogiDelete", Map.of("user_id", user_id, "approval_num", approval_num));
 				System.out.println("msDao hoogiDelete result->"+result);
 				System.out.println("msDao hoogiDelete user_id->"+user_id);
 				System.out.println("msDao hoogiDelete approval_num->"+approval_num);
@@ -342,7 +343,7 @@ public class MsDaoImpl implements MsDao {
 			System.out.println("msDao hoogiDelete error->"+e.getMessage());
 			e.printStackTrace();
 		}
-		return resultTot;
+		return result;
 	}
 
 	//내가 작성한 전문가 리뷰 보기
@@ -644,7 +645,25 @@ public class MsDaoImpl implements MsDao {
 		     System.out.println("msDao qnaDetailDelete error -> " + e.getMessage());
 		}
 		return resultTot;
-	}	
+	}
+
+	//hoogi작성할래 볼래 냅둘래
+	@Override
+	public Review hoogiya(String user_id, String approval_num) {
+		System.out.println("msDao hoogiya start...");
+		System.out.println("msDao hoogiya user_id..."+user_id);
+		System.out.println("msDao hoogiya approval_num..."+approval_num);
+		Review review = null;
+		try {
+			review= session.selectOne("com.oracle.jmAuto.dto.Mapper.ms.hoogiya",Map.of("user_id",user_id,"approval_num", approval_num));
+			System.out.println("msDao hoogiya review->"+review);
+		} catch (Exception e) {
+			System.out.println("msDao hoogiya error->"+e.getMessage());
+		}
+		return review;
+	}
+
+
 
 
 }

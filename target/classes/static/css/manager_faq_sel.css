@@ -31,3 +31,100 @@ body {
 	height: 100%;
 }
 
+.faq_sel_table {
+	width: 1320px;
+	height: auto;
+	padding: 0 10px;
+	border-spacing: 10px;
+}
+
+.cal_1_header {
+	font-size: 32px;
+	font-weight: 550;
+	margin: 40px 20px;
+	height: auto;
+}
+
+.faq_sel_table_title {
+	width: 300px;
+	height: auto;
+	text-align: center;
+	background-color: #323232;
+}
+
+.faq_sel_table_text {
+	font-size: 18px;
+	font-weight: 600;
+	color: #fdfdfd;
+	margin: 15px 0;
+}
+
+.faq_sel_table_input {
+	width: 970px;
+	height: auto;
+	max-height: 50px;
+	font-size: 18px;
+	padding: 15px;
+	border: none;
+}
+
+.faq_sel_table_select {
+	border: none;
+	width: 300px;
+	height: auto;
+	max-height: 50px;
+	font-size: 18px;
+	padding: 15px;
+}
+
+.faq_sel_table_textarea {
+	border: none;
+	width: 970px;
+	height: auto;
+	min-height: 100px;
+	font-size: 18px;
+	padding: 15px;
+	line-height: 25.2px;
+}
+
+.faq_sel_but_su {
+	border: none;
+	background-color: #c4c4c4;
+	color: #fdfdfd;
+	padding: 15px 70px;
+	font-size: 18px;
+	font-weight: 600;
+	cursor: pointer;
+	margin: 20px 15px 0 0;
+}
+
+.faq_sel_but_reset {
+	border: none;
+	background-color: #c4c4c4;
+	color: #fdfdfd;
+	padding: 15px 70px;
+	font-size: 18px;
+	font-weight: 600;
+	cursor: pointer;
+	margin: 20px 15px;
+}
+
+.faq_sel_but_sub {
+	border: none;
+	background-color: #ff4714;
+	color: #fdfdfd;
+	padding: 15px 70px;
+	font-size: 18px;
+	font-weight: 600;
+	cursor: pointer;
+	margin: 30px 0 0 15px;
+}
+
+.faq_sel_table_td {
+	text-align: center;
+}
+
+
+
+
+

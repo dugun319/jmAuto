@@ -161,13 +161,13 @@ a {
 		<div class="contents">
 
 			<div class="content">
-				<h1 id="title">회원가입</h1>
+				<h1 id="title">차량등록</h1>
 			</div>
 
 			
 			<div class="content">
 				<ul class="join_step">
-					<li><img alt="" src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li></li> 
+					<li><img alt="" src="/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li></li> 
                     <li><img alt="" src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_후.png"><span>차량정보 입력</span></li></li>
                     <li><img alt="" src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_입력.png"><span>등록완료</span></li></li>
 				</ul>

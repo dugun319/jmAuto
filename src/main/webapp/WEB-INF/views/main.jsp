@@ -9,6 +9,10 @@
 <title>Insert title here</title>
 <%@ include file="header.jsp"%>
 <script type="text/javascript">
+function goToLink(url) {
+    window.location.href = url;
+}
+
 $(document).ready(function() {
     $('#autoComplete').autocomplete({
         source: function(request, response) {
@@ -44,6 +48,15 @@ $(document).ready(function() {
         }
     });
 });
+
+function reviewDetail(approval_num, user_id, sell_num) {
+
+    var url = "/csReviewDetail?approval_num=" + approval_num
+                + "&user_id=" + user_id
+                + "&sell_num=" + sell_num;
+
+    window.open(url, "_blank", 'width=650,height=800,location=no,status=no,scrollbars=no,top=100,left=300');
+}
 </script>
 </head>
 <body>
@@ -51,7 +64,7 @@ $(document).ready(function() {
 	<!-- 메인배너 -->
 	<div class="main_banner">
 		<img alt="메인배너" src="<%=request.getContextPath()%>/images/main/main_banner.png" class="main_search_img">
-		<%-- <img alt="차량" src="<%=request.getContextPath()%>/images/main/car_main.gif" class="main_car_img"> --%>
+		<img alt="차량" src="<%=request.getContextPath()%>/images/main/car_main.gif" class="main_car_img">
 		<div class="main_search_div">
 			<form action="/main_search" method="get" class="main_search_form">
 				<div class="searchType_wrapper">
@@ -77,7 +90,7 @@ $(document).ready(function() {
 			<div class="exp_rev_list">
 				<c:forEach var="ExpRev" items="${expert }">
 					<div class="card_text_body">
-					  <a href="/">
+					  <a class="card_text_Exp_img" onclick="window.open('/KH/pay/expertReviewPage?expert_review_num=${ExpRev.expert_review_num }', '전문가리뷰보기', 'width=700,height=1000,location=no,status=no,scrollbars=yes,top=300,left=300')">
 					  <img src="<%=request.getContextPath()%>/images/main/gms.png" class="card-img" alt="...">
 					  <div class="card-img-overlay">
 					    <h3 class="exp_card_title">${ExpRev.user_id }전문가의 리뷰</h3>
@@ -116,7 +129,7 @@ $(document).ready(function() {
 		<!-- 추천 및 우측배너 -->
 		<div class="chutitle_all">
 			<h3 class="chuhed_title">취향저격! 추천차량</h3>
-			<a href="" class="chuhed_a">더보기 ></a>
+			<a href="/view_sh/detailSearch" class="chuhed_a">더보기 ></a>
 			<div class="chubanner_tile">
 				<h3 class="chubanner" style="margin: 0; align-items: center;">메거진</h3>
 				<a href="" class="chuhed_a2">더보기 ></a>
@@ -154,10 +167,11 @@ $(document).ready(function() {
 		<div class="rev_background">
 			<div class="rev_list">
 				<c:forEach var="review" items="${review }">
-					<div class="rev_revlist">
-						<input type="hidden" value="" id="rev_num">
-						<img alt="" src="<%=request.getContextPath()%>/images/main/377조7542_1.png" class="rev_img">
-						<div class="rev_body">
+                    <div class="rev_revlist">
+                        <a href="#" onclick="reviewDetail('${review.approval_num}', '${review.user_id}', '${review.sell_num}'); return false;">
+                            <img alt="" src="${ review.img_url }" class="rev_img">
+                            <input type="hidden" value="" id="rev_num">
+                        <div class="rev_body">
 							<div class="rev_evaluetion">
 								<c:choose>
 									<c:when test="${review.evaluation == 5}">
@@ -198,6 +212,7 @@ $(document).ready(function() {
 							<div class="rev_body_text2">${review.review_content}</div>
 							<div class="rev_body_date">${review.review_date}</div>
 						</div>
+						</a>
 					</div>
 				</c:forEach>
 			
@@ -211,7 +226,7 @@ $(document).ready(function() {
 		<div class="gogi_list">
 			<table class="gogi_table">
 				<c:forEach var="notList" items="${listNot}">
-						<tr>
+						<tr class="col-2" onclick="goToLink('/view_jw/csNoticeSelect?notice_num=${notList.notice_num}')">
 							<td><div class="gogi_text">[
 								<c:choose>
 									<c:when test="${notList.notice_cls == 6100 }">

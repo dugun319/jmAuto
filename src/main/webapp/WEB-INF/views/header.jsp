@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,10 +122,11 @@ a{
                 <c:when test="${not empty sessionScope.user}">
                     <c:choose>
 						<c:when test="${sessionScope.user.user_type eq 'A'}">
-							<a href="/view_jm/manager_userList" class="menu_login">관리자 페이지</a>
+							<a href="/view_jm/searchUser" class="menu_login">관리자 페이지</a>
 						</c:when>
 							<c:when test="${sessionScope.user.user_type eq 'S' || sessionScope.user.user_type eq 'P' || sessionScope.user.user_type eq 'B'}">
-							<a class="menu_login" href="/view_ms/myPage">마이페이지</a>
+							<a class="menu_login" href="/view_ms/myPage">
+							<span style="vertical-align: middle;">마이페이지</span></a>
 						</c:when>
 					</c:choose>
                     <button class="but_login">

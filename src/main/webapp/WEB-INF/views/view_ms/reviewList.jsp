@@ -87,36 +87,6 @@ tbody tr {
 </head>
 
 
-
-<script type="text/javascript">
-	/* 체크박스 함수 */
-		function handleSubmit(){
-			const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-			//querySelectorAll이라는 메서드를 사용해 현재 문서에 체크된 :checked요소를 모두 선택해 결과를 nodeList로 반환
-			const selectedPosts = Array.from(checkboxes).map(checkbox => (checkbox.value));
-			//map 메서드를 사용해 checkbox.value를 호출해 체크박스 값을 수집				이거는 string이니까 형변환X
-			if(selectedPosts.length===0){
-				alert('삭제할 게시물을 선택해주세요');
-				return;
-			}
-			//서버에 삭제요청을 보낸다.
-			$.ajax({
-				url: '/myHoogiDelete',
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(selectedPosts),
-				success: function(response){
-					alert('선택한 게시물이 삭제되었습니다.');
-					location.reload();
-				},
-				error: function(xhr, status, error){
-					alert('삭제실패:' + xhr.statusText);
-				}
-			});
-		}
-</script>
-
-
 <body>
 	<div class="container">
 		<main class="content">
@@ -138,17 +108,18 @@ tbody tr {
 						<c:forEach var ="Expert_Review" items="${Expert_Review}">
 						
 							<tr>
-								<td><input type="checkbox" name="post1" value=${Expert_Review.expert_review_num}></td>
+								<td></td>
 								<td><a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}">${Expert_Review.expert_review_num}</td>
-								<td><c:choose>
+								<td><a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}"><c:choose>
 										<c:when test="${fn:length(Expert_Review.content) > 10}">
            								 	${fn:substring(Expert_Review.content, 0, 10)}...
         								</c:when>
 										<c:otherwise> 
 										${Expert_Review.content}
 	        							</c:otherwise>
-									</c:choose></td>
-								<td>
+									</c:choose>
+								</td>
+								<td><a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}">
 									<div class="rating">
 									<c:set var="starCount" value="${Expert_Review.score/20}" />
 										<c:forEach var="i" begin="1" end="5">
@@ -158,8 +129,8 @@ tbody tr {
 									</div>
 								</td>
 								<td>${Expert_Review.write_date}</td>
-								<td>${Expert_Review.price}원</td>
-								<td><img alt="" src="../images/main/구매완료.png"> </td>
+								<td>${Expert_Review.total_price}원</td>
+								<td><a href="/KH/pay/expertReviewPage?expert_review_num=${Expert_Review.expert_review_num}"><img alt="" src="../images/main/구매완료.png"></td>
 							</tr>
 						</c:forEach>	
 					</tbody>

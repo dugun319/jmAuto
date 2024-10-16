@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,7 +59,7 @@ public class ShController {
 	
 	//(메인화면) 키워드 검색 결과 리스트 리턴 메소드 (국산+해외+수입차 기준은 못 가름 (깜빡함..))
 	@GetMapping(value = "/main_search")
-	public String SearchList(Car_General_Info cgi,Model model,
+	public String searchList(Car_General_Info cgi,Model model,
 							@RequestParam("searchType") Integer searchType,
 							@RequestParam("keyword") String keyword
 							) {
@@ -78,9 +79,9 @@ public class ShController {
 		int end = cgi.getEnd();
 
 		List<Car_General_Info> valueList = serviceSh.searchList(keyword, start, end,searchType);
-		System.out.println("ShController SearchList >> " + valueList);
+		System.out.println("ShController searchList >> " + valueList);
 
-		String url = "/view_sh/SearchList";
+		String url = "/view_sh/searchList";
 		
 		model.addAttribute("url", url);
 		model.addAttribute("keyword", keyword);
@@ -88,7 +89,7 @@ public class ShController {
 		model.addAttribute("total", total);
 		model.addAttribute("valueList", valueList);
 		
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 
 	//상세 검색 결과 리턴 메소드 (모델명+예산범위+검색키워드)
@@ -125,7 +126,7 @@ public class ShController {
 		model.addAttribute("min_price", min_price);
 		model.addAttribute("max_price", max_price);
 
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 
 	//국산차 리스트만 리턴하는 메소드
@@ -151,7 +152,7 @@ public class ShController {
 		model.addAttribute("page", page);
 		model.addAttribute("total", total);
 		model.addAttribute("valueList", valueList);
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 
 	//수입차 리스트만 리턴하는 메소드
@@ -176,7 +177,7 @@ public class ShController {
 		model.addAttribute("page", page);
 		model.addAttribute("total", total);
 		model.addAttribute("valueList", valueList);
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 
 	//친환경차 리스트만 리턴하는 메소드
@@ -201,7 +202,7 @@ public class ShController {
 		model.addAttribute("page", page);
 		model.addAttribute("total", total);
 		model.addAttribute("valueList", valueList);
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 
 	//모든 검색결과 페이지에서 페이지 이동을 하는 경우 검색 종류에 따라 페이지 정보에 맞는 리스트를 리턴하는 메소드
@@ -250,7 +251,7 @@ public class ShController {
 			int ecoCar_type = 3000;
 			valueList = serviceSh.car_type_Car(start, end, ecoCar_type);
 			break;
-		case "/view_sh/SearchList":
+		case "/view_sh/searchList":
 			valueList = serviceSh.searchList(keyword, start, end, null );
 			model.addAttribute("keyword", keyword);
 			break;
@@ -279,7 +280,7 @@ public class ShController {
 		model.addAttribute("valueList", valueList);
 		model.addAttribute("page", page);
 
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 
 
@@ -315,7 +316,7 @@ public class ShController {
 //		model.addAttribute("min_price", min_price);
 //		model.addAttribute("max_price", max_price);
 
-		return "view_sh/SearchList";
+		return "view_sh/searchList";
 	}
 	
 	
@@ -341,9 +342,11 @@ public class ShController {
 	        User_Table user = (User_Table) sessionUser;
 	        String type = user.getUser_type();
        
-        	// user_type 값 확인
+        	// user_type 값 확인 판매자, 관리자만 접근 가능
             System.out.println("User type: " + type);
             if ("S".equals(type)) {
+                return "view_sh/sellMyCar";
+            } else if ("A".equals(type)) {
                 return "view_sh/sellMyCar";
             } else {
                 return "view_sh/sellMyCarNotSeller";
@@ -463,8 +466,6 @@ public class ShController {
 		
 		//url = uploadPath + "\\" + savedName;
 
-		
-
 		infor.put("brand", brand);
 		infor.put("car_type", car_type);
 		infor.put("model", model_name);
@@ -479,17 +480,20 @@ public class ShController {
 		infor.put("price", price);
 		infor.put("user_id", userId);
 
-		System.out.println(infor);
+		System.out.println("Controller sellMyCarInfo infor->"+infor);
+		
+		String rtnString = "view_sh/sellUploadSuccess";
+		
 		
 		int result = serviceSh.InputCar(infor);
 		if(result==0) {
-			System.out.println("업데이트 안됨");
-			return "view_sh/sellCarFail";
+			System.out.println("InputCar 업데이트 안됨");
+			rtnString = "view_sh/sellCarFail";
 		}
 		
-		System.out.println("컨트롤러: 차량등록 완료 ^///^V");
-		return "view_sh/sellUploadSuccess";
-
+		System.out.println("컨트롤러: InputCar 차량등록 완료  ^///^V");
+		
+		return rtnString;
 	}
 
 	// 파일 정보 가져와서 세팅하는 메소드
@@ -730,8 +734,8 @@ public class ShController {
 	
 	
 	// 관리자 차량 재고 관리
-	@GetMapping("view_sh/ACar")
-	public String ACarAll(Car_General_Info cgi, Model model, 
+	@GetMapping("view_sh/manager_car")
+	public String manager_carAll(Car_General_Info cgi, Model model, 
 	                      @RequestParam(defaultValue = "1") String currentPage) {
 	    
 	    int total = serviceSh.carTotal();
@@ -751,7 +755,7 @@ public class ShController {
 	    model.addAttribute("allCar", allCar);
 	    model.addAttribute("page", page);
 	    
-	    return "view_sh/ACar";
+	    return "view_sh/manager_car";
 	}
 	
 	//검색어
@@ -800,7 +804,7 @@ public class ShController {
 	    model.addAttribute("allCar", allCar);
 	    model.addAttribute("page", page);
 	    
-	    return "view_sh/ACar";
+	    return "view_sh/manager_car";
     }
 	
     
@@ -829,8 +833,8 @@ public class ShController {
     }
     
     //전문가 리뷰 리스트
-    @GetMapping("/view_sh/pReview")
-    public String pReviewList(Expert_Review er, Model model, 
+    @GetMapping("/view_sh/manager_review")
+    public String manager_reviewList(Expert_Review er, Model model, 
     						  @RequestParam(defaultValue = "1") String currentPage) {
 	    
 	    int total = serviceSh.reviewTotal();
@@ -846,12 +850,21 @@ public class ShController {
 	    List<Expert_Review> allReview = serviceSh.allReview(er.getStart(), er.getEnd());
 	    
 	    
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    List<String> formattedDates = new ArrayList<>();
+
+	    for (Expert_Review review : allReview) {
+	        String formattedDate = sdf.format(review.getWrite_date()); // 날짜 포맷
+	        formattedDates.add(formattedDate); // 리스트에 추가
+	    }
+	    
 	    // 모델에 데이터 추가
+	    model.addAttribute("formattedDates", formattedDates);
 	    model.addAttribute("total", total);
 	    model.addAttribute("reviewlist", allReview);
 	    model.addAttribute("page", page);
 	    
-	    return "view_sh/pReview";
+	    return "view_sh/manager_review";
 	}
     
     // 전문가리뷰 검색어
@@ -905,7 +918,7 @@ public class ShController {
 	    model.addAttribute("reviewlist", reviewlist);
 	    model.addAttribute("page", page);
         
-        return "view_sh/pReview";
+        return "view_sh/manager_review";
     }
     
     

@@ -8,6 +8,7 @@
 <script type="text/javascript" src="../js/jquery.js"></script>
 
 <title>마이페이지</title>
+<%@ include file="../kakao.jsp" %>
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
@@ -58,6 +59,11 @@ tbody tr {
 }
 .block{
 	display: center;
+}
+.buttondle {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    margin-top: 10px; /* 버튼과 테이블 사이 간격 */
 }
 
 </style>
@@ -120,7 +126,7 @@ tbody tr {
 					<tbody>
 						<c:forEach var="Payment" items="${Payment}">
 							<tr>
-								<td><input type="checkbox" name="post1" value="${Payment.approval_num}"></td>								
+								<td></td>				
 								<td><a href="/view_ms/buyListDetail?approval_num=${Payment.approval_num}">${Payment.approval_num}</a></td>
 								<td>${Payment.approval_date}</td>
 								<td>${Payment.model}</td>
@@ -144,7 +150,10 @@ tbody tr {
 					</tbody>
 				</table>
 			</div>
-			<!-- <button type="button" onclick="handleSubmit()">삭제</button> -->
+			<!-- <div class="buttondle">
+		<button type="button"  style= "background:none; border: none;">
+		<img src="../images/main/삭제_but.png" alt="삭제하기" onclick="handleSubmit()" class="delete">
+		</button></div> -->
 		</div>
 </div>
 	<!------------------------------------------- 푸터 ----------------------------------------->

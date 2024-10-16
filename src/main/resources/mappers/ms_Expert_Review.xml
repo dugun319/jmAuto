@@ -5,16 +5,17 @@
  <mapper namespace="com.oracle.jmAuto.dto.Mapper.ms">
  
  	<select id="expertReview" parameterType="String" resultType="Expert_Review">
- 		select e.*, p.price
-		from expert_review e 
-		join payment p	
-		on e.sell_num = p.sell_num
-		where e.sell_num IN(
-               				 select p.sell_num
-                			 from user_table u, payment p
-                			 where u.user_id = p.user_id
+		select DISTINCT e.*, p.total_price
+		from expert_review e left join payment p	
+		on e.expert_review_num = p.expert_review_num
+		where e.expert_review_num IN (
+               				 select p.expert_review_num
+                			 from payment p, user_table u
+                			 where p.user_id = u.user_id
                   			 and u.user_id = #{user_id}
+                             and expert_review_num IS not NULL
                    			 )
+        and e.del_state =0
  	</select>
  	
  	<select id="reviewDetail" parameterType="map" resultType="Expert_Review">
@@ -51,8 +52,6 @@
  		and expert_review_num=#{expert_review_num}
  	</select>
  	
- 	<insert id="ZzimReviewWrite" parameterType="map" >
- 		insert into 
- 	</insert>
+
 	
 </mapper> 

@@ -1,27 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../kakao.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.css" >
-<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap-theme.css">
 <link href="/css/csReview.css" rel="stylesheet" type="text/css"/>
 <meta charset="UTF-8">
 <title>고객후기</title>
+
 <script type="text/javascript">
-	function reviewDetail() {
-		var approval_num 	= $("input[name=approval_num]").val();
-		var user_id 		= $("input[name=user_id]").val();
-		var sell_num 		= $("input[name=sell_num]").val();
-		
-		alert("상세보기");
-		alert(approval_num);
-		alert(user_id);
-		alert(sell_num);
-		var url = "view_jw/csReviewDetail?approval_num=" + approval_num
+	function reviewDetail(approval_num, user_id, sell_num) {
+
+		var url = "/csReviewDetail?approval_num=" + approval_num
 					+ "&user_id=" + user_id
-					+ "&sell_num=" + sell_num;		
+					+ "&sell_num=" + sell_num;
+		
 		window.open(url, "_blank", 'width=650,height=800,location=no,status=no,scrollbars=no,top=100,left=300');
 	}
 </script>
@@ -31,6 +23,7 @@
 	<!-- 사이드바 -->
 	<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 	<div class="menu_continer"><%@ include file="../view_mh/menu_CS.jsp" %></div>
+	<%@ include file="../kakao.jsp" %>
 	
 	<!-- 후기 메인 내용 -->
 	<div class="review">
@@ -40,18 +33,12 @@
 
 			<form action="view_jw/csReviewDetail" method="get">
 			    
-			    
 				<div class="reviewContent">
-					<c:forEach var="review" items="${ carInfo }">
-					<input type="hidden" name="approval_num" value="${review.approval_num}">
-			    	<input type="hidden" name="user_id" value="${review.user_id}">
-			    	<input type="hidden" name="sell_num" value="${review.sell_num}">
+					<c:forEach var="review" items="${ reviewListInfo }">
 							
-							
-							<div class="reviewList">
-								<a  class="reviewPop"></a>
-									<img onclick="reviewDetail()" src="${ review.img_url }" class="rev_img">
-								
+						<div class="reviewList">
+							<a href="#" onclick="reviewDetail('${review.approval_num}', '${review.user_id}', '${review.sell_num}'); return false;">
+								<img alt="" src="${ review.img_url }" class="rev_img">
 								<div class="reviewdetail">
 									
 									<div class="rev_evaluetion">
@@ -82,20 +69,30 @@
 									</div>
 									<div class="content">${review.review_content}</div>
 									<div class="date">${review.review_date}</div>
+									
 								</div>
-							</div>
-						</a>
+							</a>
+						</div>
+						
 					</c:forEach>
 				</div>
 			
 				<!-- 페이지작업 -->
 				<div class="reviewPage">
 					<c:set var="num" value="${page.total-page.start+1 }"></c:set>
-					<c:if test="${page.startPage > page.pageBlock }">
+					<c:if test="${page.startPage > 1 }">
 						<a href="csReview?currentPage=${page.startPage-page.pageBlock }">[이전]</a>	
 					</c:if>
+					
 					<c:forEach var="i" begin="${page.startPage }" end="${page.endPage }">
-						<a href="csReview?currentPage=${i}">[${i}]</a>
+						 <c:choose>
+				            <c:when test="${i == page.currentPage}">
+				                <a href="csReview?currentPage=${i}" class="currentPage">[${i}]</a>
+				            </c:when>
+				            <c:otherwise>
+				                <a href="csReview?currentPage=${i}">[${i}]</a>
+				            </c:otherwise>
+				        </c:choose>
 					</c:forEach>
 					
 					<c:if test="${page.endPage < page.totalPage }">

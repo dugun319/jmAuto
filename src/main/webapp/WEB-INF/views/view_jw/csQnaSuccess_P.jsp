@@ -15,6 +15,7 @@
 	<!-- 사이드바 -->
 	<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 	<div class="menu_continer"><%@ include file="../view_mh/menu_CS.jsp" %></div>
+	<%@ include file="../kakao.jsp" %>
 	<c:if test="${successYN =='1'}">
     	<script type="text/javascript">
     		alert("민원이 접수되었습니다");

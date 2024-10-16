@@ -3,19 +3,21 @@
 
 
 .header_continer {
-    position: relative; 
+    position: relative; /* No fixed position, it will scroll naturally */
     width: 100%;
     top: 0;
-    z-index: 1001; 
+    z-index: 1001; /* Still higher than the menu */
 }
-
 .menu_continer {
     position: fixed;
-    top: 0;
-    z-index: 1000; 
-    height: 100vh; 
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
 }
 
+.body {
+	background-color: #fafafa;
+}
 
 /* 메인 내용 디자인 */
 .successContainer {
@@ -24,7 +26,6 @@
 	font-size: 20px;
 	justify-content: center;
 	text-align: center;
-	background-color: #fafafa;
 	padding: 50px 0 50px 0;
 	width: 1320px;
 	margin: 100px 300px;

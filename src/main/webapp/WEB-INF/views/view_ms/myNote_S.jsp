@@ -73,6 +73,12 @@ h2{
 	padding: 20px;
 	font-weight: bold;
 }
+    .border td:nth-child(1) { width: 10%; } /* 선택 열 */
+    .border td:nth-child(2) { width: 10%; } /* 쪽지번호 */
+    .border td:nth-child(3) { width: 15%; } /* 보낸사람/받는사람 */
+    .border td:nth-child(4) { width: 15%; } /* 작성날짜 */
+    .border td:nth-child(5) { width: 30%; } /* 제목 */
+    .border td:nth-child(6) { width: 20%; } /* 매물번호 */
 </style>
 <script type="text/javascript">
 
@@ -122,7 +128,7 @@ h2{
 		        <table class="border">
 		            <thead>
 		                <tr>
-		                    <td></td>
+		                    <td>선택</td>
 		                    <td>쪽지번호</td>
 		                    <td>보낸사람</td>
 		                    <td>작성날짜</td>
@@ -134,11 +140,11 @@ h2{
 		                <c:forEach var="Note" items="${Notes}">
 		                    <tr>
 		                        <td><input type="checkbox" name="receivedPost" value="${Note.note_num}"></td>								
-		                        <td><a href="/view_ms/myNoteDetail_S?note_num=${Note.note_num}">${Note.note_num}</a></td>
-		                        <td>${Note.note_sd}</td>
-		                        <td>${Note.note_date}</td>
-		                        <td>${Note.note_title}</td>	
-		                        <td>${Note.sell_num}</td>	                        					
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_num}</td>
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_sd}</td>
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_date}</td>
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_title}</td>	
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.sell_num}</td>	                        					
 		                    </tr>					
 		                </c:forEach>
 		            </tbody>
@@ -155,8 +161,8 @@ h2{
 		                    <td>선택</td>
 		                    <td>쪽지번호</td>
 		                    <td>받은사람</td>
-							<td>제목</td>
 		                    <td>작성날짜</td>
+							<td>제목</td>                   
 		                    <td>매물번호</td>			
 		                    									    
 		                </tr>
@@ -165,12 +171,11 @@ h2{
 		                <c:forEach var="Note" items="${SendNotes}">
 		                    <tr>
 		                        <td><input type="checkbox" name="sentPost" value="${Note.note_num}"></td>								
-		                        <td><a href="/view_ms/myNoteDetail_S?note_num=${Note.note_num}">${Note.note_num}</a></td>
-		                        <td>${Note.note_rd}</td>
-		                        <td>${Note.note_title}</td>
-								<td>${Note.note_date}</td>
-		                        <td>${Note.sell_num}</td>
-		                        						
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_num}</td>
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_rd}</td>
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_date}</td>
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.note_title}</td>	
+		                        <td onclick="location.href='/view_ms/myNoteDetail_S?note_num=${Note.note_num}'" style="cursor: pointer;">${Note.sell_num}</td>                       						
 		                    </tr>					
 		                </c:forEach>
 		            </tbody>

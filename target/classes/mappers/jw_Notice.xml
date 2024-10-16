@@ -15,5 +15,5 @@
  		FROM Notice_Table
  		WHERE notice_num = #{notice_num}
  	</select>
-
+	
  </mapper>

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +13,7 @@ justify-content:space-between;
 right : 40px;
 bottom : 40px;
 color: #fff;
+z-index: 999;
 }
 </style>
 <script type="text/javascript">
@@ -39,7 +40,7 @@ $("#floatMenu").stop().animate({"top" : newPosition}, 500);
 </head>
 <body>
 <div id="floatMenu">
-     <a href="https://open.kakao.com/o/sLynhoOg"><img alt="kakao" src="<%=request.getContextPath()%>/images/main/kakao.png"
+     <a href="https://open.kakao.com/o/sLynhoOg"><img alt="kakao" src="../images/main/kakao.png"
       style="width: 56px; height: 56px;"></a>
      </div>
 </body>

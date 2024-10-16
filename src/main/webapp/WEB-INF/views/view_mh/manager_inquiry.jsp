@@ -162,7 +162,7 @@
                     <td class="col_3"><div class="manager_Qna_text_1">문의아이디</div></td>
                     <td class="col_4"><div class="manager_Qna_text_1">문의제목</div></td>
                     <td class="col_5"><div class="manager_Qna_text_1">문의날짜</div></td>
-                    <td class="col_6"><div class="manager_Qna_text_1">답변여부</div></td>
+                    <td class="col_6"><div class="manager_Qna_text_1">첨부파일</div></td>
                     <td class="col_7"><div class="manager_Qna_text_1">답변여부</div></td>
                 </tr>
                 <c:forEach var="Qna" items="${qnaList}">
@@ -204,13 +204,30 @@
                         <td colspan="5" class="col_8">
                             <div class="manager_Qna_answer">
                                 <c:if test="${Qna.ans_content != null}">
-                                	
-                                    <div class="manager_Qna_answer_text2">${Qna.ans_content}</div>
-                                    <div class="manager_Qna_answer_text1">${Qna.ans_date }</div>
+                                	<div class="manager_Qna_answer_do_1">
+                                		<div class="manager_Qna_answer_title">문의내용</div>
+                                		<div class="manager_Qna_answer_back">
+                                			<div class="manager_Qna_answer_text1">${Qna.qna_content}</div>
+                                		</div>
+                                	</div>
+                                	<div class="manager_Qna_answer_do_2">
+                                		<div class="manager_Qna_answer_title">답변내용</div>
+                                		<div class="manager_Qna_answer_back_2">
+		                                    <div class="manager_Qna_answer_text1">${Qna.ans_content}</div>
+		                                </div>
+		                                <div class="manager_Qna_answer_text3">답변 날짜 : ${Qna.ans_date }</div>
+                                    </div>
                                 </c:if>
                                 <c:if test="${Qna.ans_content == null}">
-                                    <textarea id="answerRow_${Qna.qna_num}" placeholder="답변을 입력해주세요..." class="manager_Qna_answer_textarea"></textarea>
-   									<button class="manager_Qna_answer_but" onclick="submitAnswer(${Qna.qna_num});">답변 제출</button>
+                                	<div class="manager_Qna_answer_do_3">
+                                		<div class="manager_Qna_answer_title">문의내용</div>
+                                		<div class="manager_Qna_answer_back">
+	                                		<div class="manager_Qna_answer_text1">${Qna.qna_content}</div>
+	                                	</div>
+	                                	<div class="manager_Qna_answer_title">답변내용작성</div>
+	                                   	<textarea id="answerRow_${Qna.qna_num}" placeholder="답변을 입력해주세요..." class="manager_Qna_answer_textarea"></textarea>
+	   									<button class="manager_Qna_answer_but" onclick="submitAnswer(${Qna.qna_num});">답변 제출</button>
+   									</div>
                                 </c:if>
                             </div>
                         </td>
@@ -243,7 +260,8 @@
 		                <span class="manager_pagination_current">${i}</span>
 		            </c:when>
 		            <c:otherwise>
-		                <a class="manager_pagination_a" href="?pageNum=${i}<c:if test='${answerStatus != null}'> &answerStatus=${answerStatus}</c:if>">${i}</a>
+		                <a class="manager_pagination_a" 
+		                	href="?pageNum=${i}<c:if test='${keyword != null}'>&keyword=${keyword}</c:if><c:if test='${answerStatus != null}'> &answerStatus=${answerStatus}</c:if>">${i}</a>
 		            </c:otherwise>
 		        </c:choose>
 		    </c:forEach>

@@ -209,6 +209,10 @@ input[type="radio"] {
 	height: auto;
 }
 
+.card_text_Exp_img{
+	cursor: pointer;
+}
+
 
 /* 프리미엄 차량 */
 .prm_hed {
@@ -492,6 +496,7 @@ input[type="radio"] {
 .rev_revlist {
 	background: #ffffff;
 	box-shadow: 0 0 10px 5px rgb(0,0,0,0.04);
+	height: auto;
 }
 
 .rev_img {
@@ -509,7 +514,8 @@ input[type="radio"] {
     word-break: keep-all;
     white-space: normal;
     width: 360px;
-    height: 64px;
+    height: auto;
+    max-height: 64px;
     font-family: 'Pretendard', ExtraBold;
     font-weight: bold;
     font-size: 21px;
@@ -526,7 +532,8 @@ input[type="radio"] {
     word-break: break-all;
     white-space: normal;
     width: 360px;
-    height: 64px;
+    height: auto;
+    max-height: 64px;
     margin: 10px 20px;
     font-size: 14px;
 }
@@ -534,7 +541,7 @@ input[type="radio"] {
 .rev_body_date {
 	display: flex;
 	justify-content: flex-end;
-	margin: 10px 20px 20px;
+	padding: 0 20px 20px;
 	right: 0px;
 	bottom: 0px;
 	font-weight: bold;
@@ -586,7 +593,9 @@ input[type="radio"] {
 }
 
 
-
+.col-2 {
+	cursor: pointer;
+}
 
 
 

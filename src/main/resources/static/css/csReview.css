@@ -1,7 +1,7 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
 
-header_continer {
+.header_continer {
     position: relative; 
     width: 100%;
     top: 0;
@@ -25,7 +25,7 @@ header_continer {
 	text-align: center;
 	justify-content: space-between;
 	background-color: #fafafa;
-	width: 1620px;
+	width: 1920px;
 	margin: 0 auto;
 }
 
@@ -125,4 +125,14 @@ h1 {
 /* 페이지버튼 */
 .reviewPage {
 	margin: 20px auto 50px auto;
+	font-size: 18px;
+}
+
+.reviewPage a.currentPage {
+	font-weight: bold;
+    color: #ff4714;
+}
+
+.reviewPage a.preNext {
+	font-size: 18px;	
 }

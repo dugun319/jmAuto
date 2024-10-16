@@ -4,8 +4,6 @@
 <html>
 <head>
 <%@ include file="../header_white.jsp" %>
-<!-- CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- 테마 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <meta charset="UTF-8">
@@ -28,7 +26,7 @@
 		}
 	
 		.gray {
-			background-color: #ededed;
+			background-color: #fafafa;
 		}
 		
 		.gray h1 {
@@ -42,13 +40,24 @@
             grid-template-columns: 1fr;
             grid-column-gap: 20px;
             grid-row-gap: 20px;
-            width: 1000px;
+            width: 1020px;
             margin: 0 auto;
             background-color: #fff;
-            padding: 100px;
+            padding: 150px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: left;
             margin-bottom: 50px;
+		}
+		
+		.contract {
+			margin: 10px auto 10px;
+		    text-align: right;
+		}
+		
+		.contract .requtxt{
+			text-align: left;
+			margin-bottom: 10px;
+			
 		}
 		
 		.img{
@@ -61,12 +70,6 @@
 		.circle{
 			margin-top: 50px;
 			text-align:center;
-		}
-		
-		 .contract .requtxt{
-			text-align: left;
-			margin-bottom: 10px;
-			
 		}
 		
 		#orange{
@@ -82,12 +85,6 @@
 			font-weight: bold;
 		}
 		
-		.contract {
-			margin: 10px auto 10px;
-		    width: 1200px;
-		    text-align: right;
-		}
-		
 		.contract .text {
 			text-align: left;
 		    height: 230px; 
@@ -99,10 +96,17 @@
 		    border: #e2e8ee 1px solid;
 		}
 		
+		
+		.contract .chk {
+		    display: inline-block;
+		    margin-bottom: 100px;
+		}
+		
 		.text{
 			margin-top: 5px;
 			padding: 0px 30px;
 			border: #e2e8ee 1px solid;	
+			width: auto;
 		}
 		
 		.butt {
@@ -115,12 +119,6 @@
 		    background: none; /* 버튼 배경 제거 */
 		    border: none; /* 버튼 테두리 제거 */
 		    padding: 0; /* 버튼 패딩 제거 */
-		}
-		
-		
-		.contract .chk {
-		    display: inline-block;
-		    margin-bottom: 100px;
 		}
 		
 		.contract .chk h5 {
@@ -230,13 +228,13 @@
 
 	<div class="img">
 		<div class="content">
-				<h1>차량등록</h1>
-				<ul class="join_step">
-					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_선택.png"><span>약관동의</span></li>
-					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_전.png"><span>차량정보 입력</span></li>
-					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
-				</ul>
-			</div>
+			<h1>차량등록</h1>
+			<ul class="join_step">
+				<li><img src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_선택.png"><span>약관동의</span></li>
+				<li><img src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_전.png"><span>차량정보 입력</span></li>
+				<li><img src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
+			</ul>
+		</div>
 
 		<form class="contract" action="/sellCarInfor">
 			<div class="requtxt">

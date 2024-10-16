@@ -2,18 +2,17 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
 
 /* 사이드바 디자인 */
-header_continer {
-    position: relative; 
+.header_continer {
+    position: relative; /* No fixed position, it will scroll naturally */
     width: 100%;
     top: 0;
-    z-index: 1001; 
+    z-index: 1001; /* Still higher than the menu */
 }
-
 .menu_continer {
     position: fixed;
-    top: 0;
-    z-index: 1000; 
-    height: 100vh;
+    top: 0; /* Stays fixed at the top */
+    z-index: 1000; /* Lower than the header */
+    height: 100vh; /* Full viewport height */
 }
 
 /* 가운데 내용들 포함 틀 */
@@ -89,7 +88,7 @@ h1 {
 	display: flex;
 	flex-direction: row;
 	padding: 0 100px;
-
+	margin-bottom: 70px; 
 }
 
 /* DB에서 불러온 분류, 문의내용, 문의제목 */

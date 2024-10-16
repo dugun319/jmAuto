@@ -9,13 +9,6 @@
 <title>Insert title here</title>
 </head>
 
-<!-- CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 테마 -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
 	<%@ include file="../header_white.jsp" %>
 
  <style>
@@ -28,10 +21,10 @@
 	}
  	
       body {
-          background-color: #ededed;
-         font-family: 'Pretendard-Regular';
-	    font-weight: 400;
-	    font-style: normal;
+        background-color: #fafafa;
+        font-family: 'Pretendard-Regular';
+    	font-weight: 400;
+    	font-style: normal;
       }
 
       form {
@@ -39,14 +32,20 @@
           grid-template-columns: 1fr;
           grid-column-gap: 20px;
           grid-row-gap: 20px;
-          width: 1200px;
+          width: 1020px;
           margin: 0 auto;
           background-color: #fff;
-          padding: 100px;
+          padding: 150px;
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
           text-align: left;
           margin-bottom: 50px;
       }
+      
+     #h1Infor {
+		margin-top: 50px;
+		text-align: center;
+		font-weight: bold;
+	}
       
       .circle {
 			margin-top: 50px;
@@ -116,10 +115,12 @@
       .width-2 {
          width: 22%;
          border: #e2e8ee 1px solid;
+         height: 25px;
       }
       
       .yymm {
       	text-align: right;
+      	height: 25px;
       }
 
       .inlineText {
@@ -132,14 +133,17 @@
 
 	  #car_num {
           width:50%;
+          height: 25px;
       }
 
       .oneLine {
           width: 62%;
+          height: 25px;
       }
 
       .kmoneLine {
           width: 35%;
+          height: 25px;
       }
 
       .note {
@@ -169,7 +173,7 @@
       
       #carNumButton {
       	width: 130px;
-      	height: 26px;
+      	height: 30px;
       	color: white;
       	background-color: #ff4714;
       	display: flex;
@@ -260,7 +264,7 @@
 	    background-color: #FF4714;
 	    cursor: pointer;
 	    width: 150px;
-	    height: 30px;
+	    height: 25px;
 	    margin-left: 10px;
 	}
 	
@@ -642,13 +646,14 @@
 </head>
 <body>
 
-		<<div class="content">
-				<ul class="join_step">
-					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li>
-					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_입력.png"><span>차량정보 입력</span></li>
-					<li><img src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
-				</ul>
-			</div>
+		<div class="content">
+			<h1 id="h1Infor">차량정보 입력</h1>
+			<ul class="join_step">
+				<li><img src="<%=request.getContextPath()%>/images/sellMyCar/약관동의_후.png"><span>약관동의</span></li>
+				<li><img src="<%=request.getContextPath()%>/images/sellMyCar/차량등록_입력.png"><span>차량정보 입력</span></li>
+				<li><img src="<%=request.getContextPath()%>/images/sellMyCar/가입완료_전.png"><span>등록완료</span></li>
+			</ul>
+		</div>
 
 
         <form action="/view_sh/sellMyCarInfo" method="post" enctype="multipart/form-data" name="frm" id="myForm" onsubmit="return chkValue()">

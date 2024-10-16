@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.xml.transform.Result;
+
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +53,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -392,6 +395,12 @@ public class MsController {
 		boolean reviewExists = ms.reviewExists(user_id,approval_num);
 		System.out.println("MsController buyListDetail reviewExists->"+reviewExists);
 		model.addAttribute("reviewExists",reviewExists);		
+			
+		//후기말고 그냥 값으로 가져오기..
+		Review review = ms.hoogiya(user_id, approval_num);
+		System.out.println("mscontroller buyListDetail review->"+ review);
+		model.addAttribute("hoogiya",review);
+		
 		return "view_ms/buyListDetail";
 	}
 
@@ -414,12 +423,10 @@ public class MsController {
 	public String hoogiwrite( HttpServletRequest request,
 							  HttpSession session, 
 							  Model model,
-							  ReviewListInfo ri
-							 )
-							  throws IOException, ServletException {
+							  RedirectAttributes redirectAttributes,
+							  ReviewListInfo ri) throws IOException, ServletException {
 		
 		System.out.println("msController hoogiwrite start..");
-
 		
 		// 유저 정보 가져오기
 		User_Table user_table = (User_Table) session.getAttribute("user");
@@ -503,13 +510,19 @@ public class MsController {
 			
 		model.addAttribute("review", review);
 		System.out.println("mscontroller hoogiwrite review->"+review);
+		
+		// FlashAttribute로 메시지를 전달
+	    redirectAttributes.addFlashAttribute("message", "후기 작성이 완료되었습니다");
+
+	    // 리다이렉트 후 상세 페이지로 이동
+	    String redirectUrl = "/view_ms/reviewDetail?approval_num=" + approval_num;
 	   
-			
-		return "redirect:/view_ms/reviewDetail?approval_num=" + approval_num;
-			
+		return "redirect:" + redirectUrl;		
 	}
 	
 
+	
+	
 	// 파일 확장자 구하기  
 	private  String getfileName(String fileName, int gubun) {
 		String rtnName = "";
@@ -597,7 +610,7 @@ public class MsController {
 	@GetMapping(value = "/view_ms/reviewDetail")
     public String reviewDetail(HttpSession session, 
                                 Model model,
-                                @RequestParam("approval_num") String approval_num) {
+                                @RequestParam(name="approval_num", required = true) String approval_num) {
         System.out.println("위의 approval_num->"+approval_num);
 
 
@@ -612,6 +625,7 @@ public class MsController {
 
         model.addAttribute("ri", ri);
         System.out.println("mscontroller reviewDetail ri->" + ri);
+        
         
         Review review = ms.del_state(approval_num);
         System.out.println("mscontroller reviewDetail review->"+ review);
@@ -661,10 +675,16 @@ public class MsController {
 		List<Expert_Review> expertReviews = null;
 		expertReviews = ms.expertReviews(user_id);
 		model.addAttribute("Expert_Review", expertReviews);
+		
+		
+		
+		
 		System.out.println("mscontroller reviewList expertreviews->" + expertReviews);
 		return "view_ms/reviewList";
 	}
 
+	
+	
 	// 구매자(구매한 전문가리뷰) -> 상세페이지(현재는 리스트 항목에 대해 클릭한 데이터를 보여주기만 할뿐 화면이X)
 	@GetMapping(value = "/view_ms/reviewListDetail")
 	public String reviewDetail(Model model, HttpSession session, @RequestParam String expert_review_num) {
@@ -902,7 +922,7 @@ public class MsController {
 		System.out.println("mscontroller myNoteDetail start....");
 		User_Table user_table =(User_Table)session.getAttribute("user");
 		String user_id = user_table.getUser_id();
-		session.setAttribute("user_id", user_id);
+		session.getAttribute("user_id");
 		System.out.println("mscontroller myNoteDetail note_sd->"+user_id);	
 		System.out.println("mscontroller myNoteDetail note_num->"+note_num);
 		
@@ -918,7 +938,7 @@ public class MsController {
 		System.out.println("mscontroller myNoteDetail_S start....");
 		User_Table user_table =(User_Table)session.getAttribute("user");
 		String user_id = user_table.getUser_id();
-		session.setAttribute("user_id", user_id);
+		session.getAttribute("user_id");
 		System.out.println("mscontroller myNoteDetail_S note_sd->"+user_id);	
 		System.out.println("mscontroller myNoteDetail_S note_num->"+note_num);
 		
@@ -994,6 +1014,8 @@ public class MsController {
 		System.out.println("mscontroller myNoteDetail myNoteList->"+noteDetail);
 		return "view_ms/myNoteDabjangWrite";
 	}
+	
+	
 	
 	//판매자(쪽지 답장하기 페이지)
 	@GetMapping("/view_ms/myNoteDabjangWrite_S")
@@ -1144,7 +1166,8 @@ public class MsController {
 
 		int hoogiDelete = ms.hoogiDelete(user_id, approval_num);
 		System.out.println("mscontroller myHoogiDelete hoogiDelete->" + hoogiDelete);
-		return "redirect:/view_ms/buyListDetail";
+		session.setAttribute("approval_num", approval_num);
+		return "redirect:/view_ms/buyListDetail?approval_num="+approval_num;
 	}
 
 

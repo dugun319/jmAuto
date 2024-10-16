@@ -127,33 +127,22 @@ tbody tr {
 								<td><input type="checkbox" name="post1"
 									value="${Qna.qna_num}"></td>
 								<!-- 제목을 일부만 보여주기 -->
-								<td
-									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
-									style="cursor: pointer;">${fn:substring(Qna.qna_date, 0, 10)}
+								<td	onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'" style="cursor: pointer;">${fn:substring(Qna.qna_date, 0, 10)}
 									<!-- 날짜는 처음 10자만 -->
 								</td>
-								<td
-									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
-									style="cursor: pointer;" ">${fn:substring(Qna.qna_title, 0, 20)}...
+								<td	onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'" style="cursor: pointer;">${fn:substring(Qna.qna_title, 0, 20)}...
 									<!-- 제목을 처음 20자만 보여주기 -->
 								</td>
-								<td
-									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
-									style="cursor: pointer;">${fn:substring(Qna.qna_content, 0, 50)}...
-									<!-- 내용은 처음 50자만 보여주기 -->
+								<td onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'" style="cursor: pointer;">${fn:substring(Qna.qna_content, 0, 20)}...
+									<!-- 내용은 처음 20자만 보여주기 -->
 								</td>
-								<td
-									onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'"
-									style="cursor: pointer;">
+								<td	onclick="location.href='/view_ms/myQnaDetail?qna_num=${Qna.qna_num}'" style="cursor: pointer;">
 									<c:if test="${Qna.qna_useyn ==  1 }">
-										<a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}"> <img
-											alt="" src="../images/main/답변완료.png">
-										</a>
+										<a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}"> <img alt="" src="../images/main/답변완료.png"></a>
 									</c:if> <c:if test="${Qna.qna_useyn == 0}">
-										<a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}"> <img
-											alt="" src="../images/main/답변대기중.png">
-										</a>
-									</c:if></td>
+										<a href="/view_ms/myQnaDetail?qna_num=${Qna.qna_num}"> <img alt="" src="../images/main/답변대기중.png"></a>
+									</c:if>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>

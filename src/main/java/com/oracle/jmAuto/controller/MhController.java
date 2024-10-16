@@ -31,8 +31,10 @@ import com.oracle.jmAuto.dto.Car_Image;
 import com.oracle.jmAuto.dto.Faq;
 import com.oracle.jmAuto.dto.Notice_Table;
 import com.oracle.jmAuto.dto.Qna;
+import com.oracle.jmAuto.dto.ReviewListInfo;
 import com.oracle.jmAuto.dto.User_Table;
 import com.oracle.jmAuto.dto.Zzim;
+import com.oracle.jmAuto.service.jw.CsService;
 import com.oracle.jmAuto.service.mh.MhService;
 
 import jakarta.servlet.http.HttpSession;
@@ -44,6 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MhController {
 	private final MhService ms;
+	private final CsService cs;
 	
 	@GetMapping(value = "/")
 	public String listReviewcount(Model model){
@@ -128,14 +131,6 @@ public class MhController {
 		System.err.println("MhController carInfo userTableInfo => " + userTableInfo);
 		
 		List<FaqDao> faqList = ms.faqList();
-		
-		/*
-		int size = 0;
-		
-		if(faqList != null) {
-			size = 	faqList.size();					
-		}
-		*/
 		List<FaqDao> faqListSel = faqList.subList(0, Math.min(5, faqList.size()));
 		
 		List<Expert_ReviewDao> selexpList = ms.selExpList(sellNum);
@@ -171,7 +166,7 @@ public class MhController {
 
 			return ResponseEntity.ok("찜등록~");
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("error");
+			return ResponseEntity.status(500).body("찜등록 중 에러발생");
 		}
 		
 	}
@@ -426,4 +421,6 @@ public class MhController {
 		
 		return "redirect:/manager/CS/gogi";
 	}
+	
+
 }

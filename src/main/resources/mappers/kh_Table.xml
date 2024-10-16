@@ -19,6 +19,18 @@
 		</where>
 	</select>
 	
+	
+	<select id="getTotTfListByCon" 			parameterType="TransferList" resultType="int">
+		SELECT COUNT(*) 
+		FROM payment
+		<where> 					
+			<if test="keyword !=null">
+			${search} LIKE '%'||#{keyword}||'%'
+			</if>
+		</where>
+	</select>
+	
+	
 	<select id="getTotExpertReview" 		parameterType="ExpList"		resultType="int">
 		SELECT COUNT(*) 
 		FROM expert_review
@@ -343,7 +355,7 @@
 	</select>
 	
 	
-	<select id="getSellerInfoById" 				parameterType="String"		resultType="Seller_Info">
+	<select id="getSellerInfoById" 				parameterType="String"			resultType="Seller_Info">
 	
 	SELECT 	s.user_id,
 			s.user_name,
@@ -357,6 +369,45 @@
 		ON	s.buz_num = b.buz_num
 	WHERE	s.user_id = #{user_id}
 	
+	</select>
+	
+	<select id="getTransferListCon" 			parameterType="TransferList"	 resultType="TransferList">
+	SELECT *	
+    FROM (
+        SELECT ROWNUM AS rn, paymentAll.*
+            FROM (
+                    SELECT  p.approval_num,
+                            p.approval_date,
+                            p.sell_num,
+                            p.expert_review_num,
+                            p.price,
+                            p.tax,
+                            p.fee,
+                            p.total_price,
+                            p.buz_fee,
+                            p.buz_money,
+                            c.user_id,
+                            e.user_id AS expert_id,
+                            a.account_num,
+                            a.account_name,
+                            a.account_bank
+                    FROM    payment p
+                    LEFT OUTER JOIN car_general_info c
+                       ON p.sell_num = c.sell_num
+                    LEFT OUTER JOIN expert_review e
+                       ON p.expert_review_num = e.expert_review_num
+                    LEFT OUTER JOIN account a
+                       ON c.user_id = a.user_id
+                       OR e.user_id = a.user_id
+                    ORDER BY approval_date
+                    ) paymentAll
+                <where> 					
+					<if test="keyword !=null">
+					${search} LIKE '%'||#{keyword}||'%'
+					</if>
+				</where>
+            )
+	WHERE ROWNUM	BETWEEN 1 AND 10 
 	</select>
 	
 	

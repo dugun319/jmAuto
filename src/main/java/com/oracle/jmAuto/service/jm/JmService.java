@@ -1,6 +1,7 @@
 package com.oracle.jmAuto.service.jm;
 
 import java.util.List;
+import java.util.Map;
 
 import com.oracle.jmAuto.dto.Account;
 import com.oracle.jmAuto.dto.FullUserInfo;
@@ -10,15 +11,13 @@ import com.oracle.jmAuto.dto.User_Table;
 
 public interface JmService {
 
+	// 로그인
 	User_Table login(String user_id, String user_pw);
 
+	// 회원가입 
 	int join(User_Table user);
 
 	int confirmId(String user_id);
-
-	int insertBuz(Business business);
-
-	int accountInsert(Account account);
 
 	int sellerJoin(Business business, User_Table user_table, Account account);
 
@@ -39,7 +38,7 @@ public interface JmService {
     int userActive(String user_id);
 	
 
-    List<User_Table> selectApprovalUser();
+    List<User_Table> selectApprovalUser(Map<String, Object> params);
 
     int userApprove(String user_id);
 
@@ -47,13 +46,20 @@ public interface JmService {
 
     int createManager(User_Table user);
 
-	List<User_Table> searchUserList(String keyword,int startIndex, int rowPage);
+	List<User_Table> selectUserList(Map<String, Object> params);
 
-	int userTotal();
+	List<User_Table> searchUserList(String keyword,int start, int end);
 
-	List<User_Table> selectUserList(int startIndex, int rowPage);
+	int userTotal(Map<String, Object> params);
 
-    int userTotal(String keyword);
+
+    int userTotal();
+
+	int approvalTotal();
+
+    int approvalTotal(String keyword);
+
+
 
 
 	

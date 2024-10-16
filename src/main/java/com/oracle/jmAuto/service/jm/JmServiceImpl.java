@@ -1,7 +1,10 @@
 package com.oracle.jmAuto.service.jm;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
+import javax.swing.Spring;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,16 +24,14 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class JmServiceImpl implements JmService {
 	private final JmDao jd;
-	// 비밀번호를 해시화 하여 DB에 저장
+  // Spring Security에서 제공하는 비밀번호 암호화(해싱) 클래스
 	private final BCryptPasswordEncoder passwordEncoder;
 
-	// NOTE - 로그인 처리 로직
+	// NOTE - 로그인 처리 로직 **********************************
 	@Override
 	public User_Table login(String user_id, String user_pw) {
 		System.out.println("JmServiceImpl.login start....");
 
-		String pass = passwordEncoder.encode("1111");
-		System.out.println("pass ----->>>>>" + pass);
 		// DB에서 user_id로 사용자 조회
 		User_Table user_table = jd.login(user_id);
 
@@ -42,10 +43,6 @@ public class JmServiceImpl implements JmService {
 		// 입력한 비밀번호와 DB에 저장된 해시된 비밀번호를 비교
 		boolean passwordMatch = passwordEncoder.matches(user_pw, user_table.getUser_pw());
 
-		// System.out.println("JmServiceImpl.login user_Table--->" + user_table);
-		// 비밀번호가 일치하면 사용자 객체 반환 아니면 null 반환
-		// return passwordMatch ? user_table : null;
-
 		// 비밀번호 불일치 처리
 		if (!passwordMatch) {
 			return null; // 비밀번호 불일치
@@ -55,7 +52,7 @@ public class JmServiceImpl implements JmService {
 		return user_table;
 	}
 
-	// NOTE - 회원가입
+	// NOTE - 회원가입 *******************************************
 	@Override
 	public int join(User_Table user) {
 		// 비밀번호를 해시화하여 Db에 저장
@@ -77,30 +74,8 @@ public class JmServiceImpl implements JmService {
 		return result;
 	}
 
-	// // NOTE - seller 가입 business 정보 insert 
-	@Override
-	public int insertBuz(Business business) {
-		System.out.println("JmServiceImpl.insertBuz start....");
 
-		int result = 0;
-		result = jd.insertBuz(business);
 
-		System.out.println("JmServiceImpl.insertBuz result -->" + result);
-
-		return result;
-	}
-
-	// // NOTE - 계좌 정보 입력
-	@Override
-	public int accountInsert(Account account) {
-		System.out.println("JmServiceImpl.accountInsert start...");
-
-		int accoutResult = jd.insertAccount(account);
-
-		System.out.println("JmServiceImpl.accountInsert accountResult -->" + accoutResult);
-
-		return accoutResult;
-	}
 
 	// NOTE - 회원 가입 SELLER
 	@Override
@@ -201,21 +176,21 @@ public class JmServiceImpl implements JmService {
 
 	// NOTE - 회원목록 조회
 	@Override
-	public List<User_Table> selectUserList(int startIndex, int rowPage) {
+	public List<User_Table> selectUserList(Map<String, Object> params) {
 
 		System.out.println("AdminServiceImpl.selectUserList() start....");
-		List<User_Table> userList = jd.selectUserList(startIndex,rowPage);
+		List<User_Table> userList = jd.selectUserList(params);
 
 		return userList;
 	}
 	
 	
-	// NOTE - 회원 검색 리스
+	// NOTE - 회원 검색 목록
 	@Override
-	public List<User_Table> searchUserList(String keyword,int startIndex, int rowPage) {
-		System.out.println("AdminServiceImpl.selectUserList() start....");
+	public List<User_Table> searchUserList(String keyword,int start, int end) {
+		System.out.println("AdminServiceImpl.searchUserList() start....");
 
-		List<User_Table> userList = jd.searchUserList(keyword, startIndex,rowPage);
+		List<User_Table> userList = jd.searchUserList(keyword, start,end);
 
 		return userList;
 	}
@@ -242,9 +217,9 @@ public class JmServiceImpl implements JmService {
 
 	// NOTE - 승인 요청한 회원 목록
 	@Override
-	public List<User_Table> selectApprovalUser() {
+	public List<User_Table> selectApprovalUser(Map<String, Object> params) {
 		System.out.println("AdminServiceImpl.selectApprovalUser start....");
-		List<User_Table> userList = jd.selectApprovalUserList();
+		List<User_Table> userList = jd.selectApprovalUserList(params);
 
 		return userList;
 	}
@@ -286,16 +261,35 @@ public class JmServiceImpl implements JmService {
 	
 	// NOTE - 총 회원수 
 	@Override
-	public int userTotal() {
+	public int userTotal(Map<String, Object> params) {
 		System.out.println("AdminServiceImpl.userTotal() start...");
-		return jd.userTotal();
+		return jd.userTotal(params);
 	}
 
 	// NOTE - 검색어가 있는 총 회원 수 
 	@Override
-	public int userTotal(String keyword) {
+	public int userTotal() {
 		System.out.println("AdminServiceImpl.userTotal(keyword) start... 키워드 검색 회원 수 ");
-		return jd.userTotal(keyword);
+		return jd.userTotal();
 	}
 
-}
+	// NOTE - 승인 요청 회원 수 
+	@Override
+	public int approvalTotal() {
+		System.out.println("JmServiceImpl.approvalTotal() start.....");
+
+		return jd.approvalTotal();
+	}
+
+	@Override
+	public int approvalTotal(String keyword) {
+		System.out.println("JmServiceImpl.approvalTotal() start.....");
+
+		return jd.approvalTotal(keyword);
+	}
+
+
+
+	}
+
+

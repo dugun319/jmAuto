@@ -29,7 +29,8 @@ public class Expert_Review {
 	
 	// 마이페이지용 
 	private String color; 					/* 미숙 추가 전문가 리뷰 작성 리스트 */
-	private String price;
+	private long price;
+	private long total_price;
 	private String car_num;
 	private String img_url; // 검색하면 나오는 메인이미지 담기 위함
 	private String img_name;

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -209,7 +209,39 @@
 .mon_nav_items a:hover:after {
   opacity: 1;
 }
+.mon_nav_items button {
+  position: relative;
+  display: block;
+  padding-left: 40px;
+  padding-right: 25px;
+  margin: 10px 0;
+  text-decoration: none;
+  color: #e2e8ee;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  background: transparent; /* 배경색 없애기 */
+  border: none; /* 테두리 없애기 */
+}
 
+/* 서브메뉴 항목에 배경효과 추가 */
+.mon_nav_items button:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 2px;
+  background: radial-gradient(circle at 94.02% 88.03%, #ff4714, transparent 100%);
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: -10;
+}
+
+/* 서브메뉴 항목에 마우스를 올렸을 때 배경효과 활성화 */
+.mon_nav_items button:hover:after {
+  opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -218,20 +250,20 @@
   <ul class="nav">
     <li class="nav__items3">
 	  <img alt="icon" src="<%=request.getContextPath()%>/images/main/회원관리_icon.png" class="nav_items_img3">
-      <a href="/view_jm/manager_userList" class="nav_items_text3">회원</a>
+      <a href="/view_jm/searchUser" class="nav_items_text3">회원</a>
       <div class="mon_nav_items">
-      	<a href="/view_jm/manager_userList">회원관리</a>
+      	<a href="/view_jm/searchUser">회원관리</a>
       	<a href="/view_jm/manager_userApproval">가입요청관리</a>
       </div>
     </li>
       
-    <li class="nav__items3">
+       <li class="nav__items3">
       <img alt="icon" src="<%=request.getContextPath()%>/images/main/차량관리_icon.png" class="nav_items_img3">
      <a href="/view_sh/ACar" class="nav_items_text3">차량</a>
      <div class="mon_nav_items">
-      	<a href="/view_sh/ACar">차량관리</a>
-      	<a href="/view_sh/pReview">전문가 리뷰 관리</a>
-      	<a href="/KH/pay/expertReviewListCon">전문가 리뷰 관리</a>
+      	<a href="/view_sh/manager_car">차량관리</a>
+      	<a href="/view_sh/manager_review">전문가 리뷰 관리</a>
+      	<a href="/KH/pay/transferSellMoney">송금</a>
       	<a href="/KH/pay/paymentListCon">환불</a>
       </div>
     </li>
@@ -246,13 +278,14 @@
       </div>
     </li>
     
-    <li class="nav__items3">
+     <li class="nav__items3">
       <img alt="icon" src="<%=request.getContextPath()%>/images/main/jh_stats_wi.png" class="nav_items_img3">
-      <a href="/manager/CS/faq" class="nav_items_text3">통계</a>
+      <a class="nav_items_text3">통계</a>
       <div class="mon_nav_items">
-      	<button id="stats" onclick="window.open('/view_jh/admin_Stats_MainForm', '_blank', 'width=1270, height=1000, left=315, scrollbars=yes')">관리자 통계</button>
+      	<button id="stats" onclick="window.open('/view_jh/admin_Stats_MainForm', '_blank', 'width=1400, height=1000, left=250, scrollbars=yes')">관리자 통계</button>
       </div>
     </li>
+
   </ul>
 </nav>
 

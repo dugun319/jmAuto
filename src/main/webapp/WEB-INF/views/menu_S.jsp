@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -341,10 +341,11 @@ table.List {
       <a href="/view_ms/myPageEditCheck_S" class="nav_items_text">회원정보수정</a>
     </li>
     
-        <li class="nav__items">
+       <li class="nav__items">
       <img alt="icon" src="../images/main/jh_stats.png" class="nav_items_img">
-      <button id="stats" onclick="window.open('/view_jh/seller_Stats_MainForm', '_blank', 'width=1270, height=1000, left=315, scrollbars=yes')">판매자 통계</button>
+      <button id="stats" onclick="window.open('/view_jh/seller_Stats_MainForm', '_blank', 'width=1400, height=1000, left=250, scrollbars=yes')">판매자 통계</button>
     </li>
+
 
     <style>
 	    #stats {

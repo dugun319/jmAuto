@@ -124,7 +124,7 @@ body {
 .col_5 { width: 160px; text-align: center;}  /* 문의날짜 */
 .col_6 { width: 120px; text-align: center;} /* 문의file */
 .col_7 { width: 140px; height:auto; text-align: center; display: flex; justify-content: center;} /* 답변여부 */
-.col_8 { width: 100%; max-width:1220px; text-align: center; height: auto;}
+.col_8 { width: 100%; max-width:1230px; height: auto;}
 
 .tr_1 {
 	margin: 20px 0;
@@ -135,7 +135,7 @@ body {
 .answer_item {
 	display: flex;
 	justify-content: space-between;
-	border-top: 0.4px solid #e2e8ee; 
+	border-top: 0.4px solid #d1dbe4; 
 	padding: 20px 0;
 	cursor: pointer;
 	width: 100%;
@@ -152,13 +152,20 @@ body {
 .answerRow {
 	display: none;
 	width: 100%;
-	max-width: 1220px;
+	max-width: 1230px;
 	height: auto;
 }
 
 .manager_Qna_answer_textarea{
 	width: 1190px;
-	height: 100px;
+	height: auto;
+	min-height: 100px;
+	border: none;
+	padding: 15px;
+	background-color: #fdfdfd;
+	margin: 10px 20px;
+	font-size: 14px;
+	line-height: 19.6px;
 }
 
 .manager_Qna_td_box1 {
@@ -196,8 +203,9 @@ body {
 }
 
 .manager_Qna_answer {
-	background: #999999;
-	width: 100%;
+	background: #fafafa;
+	width: 1230px;
+	
 }
 
 .a_but_img {
@@ -243,3 +251,65 @@ body {
 	font-weight: 700;
 	margin: 0 5px;
 }
+
+.manager_Qna_answer_back{
+	background-color: #fdfdfd;
+	width: 1190px;
+	max-width: 1190px;
+	height: auto;
+	min-height: 100px;
+	margin: 10px auto 0;
+}
+
+.manager_Qna_answer_text1 {
+	padding: 15px;
+	width: 1160px;
+	word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    line-height: 19.6px;
+}
+
+.manager_Qna_answer_title {
+	font-size: 16px;
+	font-weight: 900;
+	color: #323232;
+	padding: 20px 20px 0;
+}
+
+.manager_Qna_answer_back_2{
+	background-color: #fdfdfd;
+	width: 1190px;
+	max-width: 1190px;
+	height: auto;
+	min-height: 100px;
+	margin: 10px auto;
+}
+
+.manager_Qna_answer_text3 {
+	margin: 0 0 0 1070px;
+	font-size: 14px;
+	padding: 0 0 20px; 
+}
+
+.manager_Qna_answer_back_2 {
+	width: 1230px;
+}
+
+.manager_Qna_answer_but {
+	border: none;
+	background: #ff4714;
+	color: #fdfdfd;
+	padding: 5px 10px 8px;
+	transition: background-color 0.3s ease;
+	margin: 10px 0 20px 1138px;
+	align-items: center;
+	font-weight: 600;
+}
+
+.manager_Qna_answer_but:hover {
+	background-color: #323232; 
+}
+
+

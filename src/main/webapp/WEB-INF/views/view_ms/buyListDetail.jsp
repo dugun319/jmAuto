@@ -6,12 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>구매자 마이페이지</title>
-<script type="text/javascript"><%@ include file="../kakao.jsp" %></script>
+<%@ include file="../kakao.jsp" %>
 <link rel="stylesheet" href="../css/myPage.css">
-<div class="header_continer"><%@ include file="../header_white.jsp"%></div>
+<div class="header_continer">
+<%@ include file="../header_white.jsp"%>
+</div>
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
-<script type="text/javascript" src="../js/jquery.js"></script>
 
+<script type="text/javascript" src="../js/jquery.js"></script>
 </head>
 <style>
 body {
@@ -87,15 +89,15 @@ button{
 						<tr><th>판매자 : <td>${Payment.receiver_name}</td></th></tr>
 						<tr><th>진행상황 : <td style="color:red">차량구매 완료</td></th></tr>	
 						<tr><th style="color: gray; font-size: 14px; text-decoration: underline; margin-top: 20px;">
-        					<a href="" onclick="window.open('/view_jw/csQna','_blank', 'width=600, height=800'); return false;">
-							환불 신청하기</a></th></tr>
+        					<a href="#" onclick="window.open('/view_jw/csQna?mode=refund&qna_cls=환불','_blank', 'width=600, height=800'); return false;">
+                            환불 신청하기</a></th></tr>
 					</table>
 				</div>
 		
 				<div class="right-block" >
 					<table class="gumaeCar" >						
 						<tr><td class="">
-							<c:if test="${reviewExists}">
+							<c:if test="${reviewExists && hoogiya.del_state == 0}">
 								<a href="/view_ms/reviewDetail?approval_num=${Payment.approval_num}">
 									<button type="button">후기보기</button>
 								</a>
@@ -105,11 +107,13 @@ button{
 									<button type="button">후기작성</button>
 								</a>
 							</c:if>
+							<c:if test="${reviewExists && hoogiya.del_state == 1}">
+									<button type="button">후기만료</button>
+							</c:if>
 						</td></tr>			
 						<tr><td style="color:red; ">${Payment.approval_date} 차량구매 완료</td></tr>					
 						<tr>
                     		<td><img alt="chuCarimg" src="${Payment.img_url }" class="chu-img"></td>
-                    		<%-- <img src="${Zzim.img_url }" class="cardlist_img_src"> --%>
             			</tr>
         				
         				<tr><td style="display: flex; justify-content: flex-end;">

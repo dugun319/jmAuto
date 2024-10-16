@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>구매자 - 내가 쓴 후기</title>
-<%@ include file="../kakao.jsp"%>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript"></script>
 <link rel="stylesheet" href="../css/myPage.css">
 <div class="header_continer"><%@ include file="../header_white.jsp"%></div>
 <div class="menu_continer"><%@ include file="../menu_B.jsp" %></div>
+<%@ include file="../kakao.jsp"%>
 </head>
 
 <style type="text/css">
@@ -98,23 +98,23 @@ hr {
 
 
 <script type="text/javascript">
-	function deletehoogi(approval_num){
-		alert('approval_num->'+approval_num);
-		if(confirm('삭제하시겠습니까?')){
-			$.ajax({
-				url: '/myHoogiDelete',
-				type: 'POST',
-				data: {approval_num : approval_num}, 
-				success: function(response){
-					alert('후기가 삭제되었습니다.');
-					window.location.href='/view_ms/buyListDetail';
-				},
-				error: function(xhr, status, error){
-					alert('후기의 삭제여부가 변경되었습니다.');
-				}
-			});
+
+		function deletehoogi(approval_num){
+			if(confirm('삭제하시겠습니까?')){
+				$.ajax({
+					url: '/myHoogiDelete',
+					type: 'POST',
+					data: {approval_num : approval_num}, 
+					success: function(response){
+						alert('후기가 삭제되었습니다.');
+						window.history.back();
+					},
+					error: function(xhr, status, error){
+						alert('후기의 삭제여부가 변경되었습니다.');
+					}
+				});
+			}
 		}
-	}
 </script>
 
 

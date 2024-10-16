@@ -60,7 +60,7 @@ public class ReviewPaymentCarInfo {
 	
 	//oracle에서 따로 만든 컬럼
 	private String manu_date_char;
-	
+	private String img_url;
 	
 	
 }

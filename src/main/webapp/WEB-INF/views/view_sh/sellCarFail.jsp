@@ -42,7 +42,7 @@
 /* 제목 스타일 */
 #title {
 	position: absolute;
-	top: 150px;
+	top: 300px;
 	text-align: center;
 	color: #313131;
 }
@@ -114,11 +114,6 @@ input[type="checkbox"] {
 
 }
 
-.form-group h1{
- text-align: center;
-
-}
-
 button {
 	text-align: center;
 	width: calc(100% - 70%);
@@ -161,11 +156,9 @@ a {
 
 		<div class="contents">
 
-			<div class="content">
-				<h1 id="title">회원가입</h1>
-			</div>
 
 			<div class="content">
+				<h1 id="title">차량등록</h1>
 				<div class="container">
 					<div class="form-group">
                             <h1>차량 등록에 실패했습니다</h1>

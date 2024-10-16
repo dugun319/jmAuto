@@ -111,7 +111,7 @@
                     userId: userId
                 }),
                 success: function(response) {
-                    alert(response); // Handle success
+                	showZzimEffect(response); // Handle success
                 },
                 error: function(xhr, status, error) {
                     alert("Error: " + error); // Handle error
@@ -119,9 +119,18 @@
             });
         });
     });
+    function showZzimEffect(message) {
+	    const overlay = document.getElementById('overlay');
+	    overlay.style.display = 'flex';
+	
+	    setTimeout(() => {
+	        overlay.style.display = 'none';
+	        alert(message); 
+	    }, 2000); 
+	}
 </script>
 
-<%@ include file="../kakao.jsp" %>
+<div class="div_kakao"><%@ include file="../kakao.jsp" %></div>
 </head>
 <body>
 <main class="main_container">
@@ -294,7 +303,16 @@
 							<div class="Info_user_id_text2">${user.buz_name }</div>
 							<div class="Info_user_id_text3">${user.user_tel }</div>
 							<div class="Info_user_id_but1">
-								<button type="button" value="/" class="Info_user_id_but1_but">쪽지하기</button>
+							 <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <button value="note" class="Info_user_id_but1_but" onclick="window.open('/view_ms/go_note_form?sellNum=${sellNum}&id=${id}', '_blank', 'width=600, height=600, left=260, top=100, scrollbars=yes'); return false;">
+                            쪽지하기</button>
+                        </c:when>
+
+                        <c:otherwise>
+                            <button value="note" class="Info_user_id_but1_but" onclick="alert('로그인이 필요한 서비스입니다.'); window.location.href='/view_jm/login'; return false;">쪽지하기</button>
+                        </c:otherwise>
+                    </c:choose>
 							</div>
 						</div>
 					</c:forEach>
@@ -324,7 +342,16 @@
 						<li>토요일은 전화를 통한 예약만 가능합니다.</li>
 						<li>예약 차량은 다른 고객에게 판매하지 않습니다.</li>
 					</ul>
-					<button type="submit" value="note" class="Info_map_content_but_1">쪽지남기기</button>
+					 <c:choose>
+                        <c:when test="${not empty sessionScope.user}">
+                            <button value="submit" value="note" class="Info_map_content_but_1" onclick="window.open('/view_ms/go_note_form?sellNum=${sellNum}&id=${id}', '_blank', 'width=600, height=600, left=260, top=100, scrollbars=yes'); return false;">
+                            쪽지 남기기</button>
+                        </c:when>
+
+                        <c:otherwise>
+                            <button value="submit" value="note" class="Info_map_content_but_1" onclick="alert('로그인이 필요한 서비스입니다.'); window.location.href='/view_jm/login'; return false;">쪽지 남기기</button>
+                        </c:otherwise>
+                    </c:choose>
 				</div>
 				<hr/>
 			</div>
@@ -511,6 +538,11 @@
 					<c:forEach var="car" items="${carInfoList }">
 						<button class="zzim_insert" data-sell_Num="${car.sell_num }" data-user_id="${sessionScope.user.user_id }">찜하기</button>
 					</c:forEach>
+					<div class="overlay" id="overlay" style="display: none;">
+						<div class="overlay_content">
+							<img alt="찜하기 등록!" src="<%=request.getContextPath()%>/images/main/찜하기_mov.gif">
+						</div>
+					</div>
 					<div class="Info_purchase_but_isu_text">│</div>
 					<button>공유하기</button>
 				</div>
@@ -521,6 +553,6 @@
 </main>
 </body>
 <footer class="footer">
-	<%@ include file="../footer.jsp" %>
+	<div class="div_footer"><%@ include file="../footer.jsp" %></div>
 </footer>
 </html>

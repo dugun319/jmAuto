@@ -43,6 +43,7 @@
 
 		}
 
+		
 		footer{
 			position: relative;
 			top: 50px;
@@ -67,10 +68,10 @@
 					</div>
 					<div class="form-group">
 						<c:choose>
-							<c:when test="${not empty user_id}">
+							<c:when test="${not empty find_id}">
 								<!-- 1.사용자가 확인 되었으면 아이디를 알려주기-->
 								<label for="user_id">아이디</label>
-								<div name="userid" id="user"><span id="user_id">${user_id}</span></div>
+								<div name="userid" id="user"><span id="user_id">${find_id}</span></div>
 					</div>
 					<!-- 2. 로그인 페이지 or 비밀번호 찾기 페이지 이동  -->
 					<div class="form-group">
@@ -89,7 +90,7 @@
 						<div class="form-group">
 							<div class="moveBtn">
 								<a href="/view_jm/findId.jsp">
-									<button id="submitBtn">다시 아이디 찾기</button>
+									<button id="submitBtn" style="position: relative;left: 180px;">다시 아이디 찾기</button>
 								</a>
 							</div>
 						</div>

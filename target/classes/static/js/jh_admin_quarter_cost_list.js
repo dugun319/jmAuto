@@ -6,7 +6,7 @@
         function drawTable() {
 			
             var data = new google.visualization.DataTable();
-            data.addColumn('number', '분기');
+            data.addColumn('string', '분기');
             data.addColumn('number', '자동차 판매량 합계');
             data.addColumn('number', '소비자 입금액 합계(억원)');
             data.addColumn('number', '판매자 입금액 합계(억원)');
@@ -14,8 +14,22 @@
             data.addColumn('number', '판매 수수료(5%) 합계(만원)');
             data.addColumn('number', '대행수수료 합계(만원)');
             data.addColumn('number', '매출 합계(만원)');
-            
-   			data.addRows(adminQuarterCostList);          
+ 
+ 
+			let total = [0, 0, 0, 0, 0, 0, 0, 0]; // 각 항목의 합계를 저장할 배열
+		
+		    adminQuarterCostList.forEach(entry => {
+		        data.addRow(entry); // 행 추가
+		
+		        // 합계 계산
+		        for (let i = 1; i < total.length; i++) {
+		            total[i] += entry[i]; // 항목별 합계 계산
+		        }
+		    });
+		
+		    // '합계' 행 추가
+		    data.addRow(['합계', total[1], total[2], total[3], total[4], total[5], total[6], total[7]]);
+
 
             var table = new google.visualization.Table(document.getElementById('quarter_cost_chart_div'));
             table.draw(data);
@@ -51,7 +65,7 @@
 			    	height         : 373,
 			 		animation      : {
 			        	startup    : true,
-			        	duration   : 1000, 
+			        	duration   : 1200, 
 			        	easing     : 'out'
 			    	},
 			    	legend: {

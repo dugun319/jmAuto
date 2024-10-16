@@ -6,10 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.oracle.jmAuto.dao.jw.CsDao;
-
+import com.oracle.jmAuto.dto.Car_General_Info;
+import com.oracle.jmAuto.dto.Car_Image;
 import com.oracle.jmAuto.dto.Faq;
 import com.oracle.jmAuto.dto.Notice_Table;
+import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Qna;
+import com.oracle.jmAuto.dto.Review;
 import com.oracle.jmAuto.dto.ReviewListInfo;
 
 
@@ -102,7 +105,7 @@ public class CsServiceImpl implements CsService {
 		return totReviewCnt;
 	}
 
-	// 5-2. 고객후기: 차량 정보, 리뷰, 결제정보 뽑아오기
+	// 5-2. 고객후기 메인 페이지 리스트
 	@Override
 	public List<ReviewListInfo> listReview(ReviewListInfo ri) {
 		List<ReviewListInfo> reviewList = null;
@@ -114,16 +117,52 @@ public class CsServiceImpl implements CsService {
 		return reviewList;
 	}
 
-	// 5-3. 고객후기: 해당 리뷰에 대한 모든 이미지 가져오기
+	// 5-3. 고객후기: CAR_GENERAL_INFO 테이블의 차량정보
 	@Override
-	public ReviewListInfo reviewImages(String approval_num) {
-		ReviewListInfo reviewimg = null;
-		System.out.println("CsServiceImpl reviewImages Start...");
-
-		reviewimg = cd.reviewImages(approval_num);
-		System.out.println("CsServiceImpl reviewImages reviewim->"+reviewimg);
+	public Car_General_Info getCarDetail(long sell_num) {
+		Car_General_Info carInfo = null;
+		System.out.println("CsServiceImpl getCarDetail Start...");
 		
-		return reviewimg;
+		carInfo = cd.detailCarInfo(sell_num);
+		System.out.println("CsServiceImpl getCarDetail carInfo->"+carInfo);
+		
+		return carInfo;
+	}
+
+	// 5-4. 고객후기: CAR_IMAGES 테이블의 차량 이미지
+	@Override
+	public Car_Image getCarImage(long sell_num) {
+		Car_Image carImage = null;
+		System.out.println("CsServiceImpl getCarImage Start...");
+		
+		carImage = cd.detailImage(sell_num);
+		System.out.println("CsServiceImpl getCarImage carImage->"+carImage);
+		
+		return carImage;
+	}
+
+	// 5-5. 고객후기: REVIEW 테이블의 리뷰정보
+	@Override
+	public Review getReviewDetail(String approval_num) {
+		Review review = null;
+		System.out.println("CsServiceImpl getReviewDetail Start...");
+		
+		review = cd.detailReview(approval_num);
+		System.out.println("CsServiceImpl getReviewDetail review->"+review);
+		
+		return review;
+	}
+
+	// 5-6. 고객후기: Payment 테이블의 유저 정보
+	@Override
+	public Payment getPayment(String user_id) {
+		Payment payment = null;
+		System.out.println("CsServiceImpl getPayment Start...");
+		
+		payment = cd.detailUser(user_id);
+		System.out.println("CsServiceImpl getPayment payment->"+payment);
+		
+		return payment;
 	}
 	
 }

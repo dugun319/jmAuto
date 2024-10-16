@@ -13,6 +13,7 @@ import com.oracle.jmAuto.dto.Expert_Review;
 import com.oracle.jmAuto.dto.PayList;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.Seller_Info;
+import com.oracle.jmAuto.dto.TransferList;
 import com.oracle.jmAuto.dto.User_Table;
 
 import lombok.RequiredArgsConstructor;
@@ -201,5 +202,19 @@ public class KHTableServiceImplementation implements KHTableService {
 		Seller_Info sellerInfo = khTableDao.getSellerInfoById(user_id);
 		
 		return sellerInfo;
+	}
+
+	@Override
+	public int getTotTfListByCon(TransferList tfList) {
+		int totTfList = khTableDao.getTotTfListByCon(tfList);
+		return totTfList;
+	}
+
+	@Override
+	public List<TransferList> getTransferListCon(TransferList tfList) {
+		
+		List<TransferList> transferList	= khTableDao.getTransferListCon(tfList);
+		
+		return transferList;
 	}
 }

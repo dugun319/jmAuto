@@ -351,7 +351,16 @@ public class MsServiceImpl implements MsService {
 		return result;
 	}
 
-	
+	//hoogiya~~~
+	@Override
+	public Review hoogiya(String user_id, String approval_num) {
+		System.out.println("msService hoogiya start...");
+		System.out.println("msService hoogiya user_id..."+user_id);
+		System.out.println("msService hoogiya approval_num..."+approval_num);
+		return md.hoogiya(user_id, approval_num);
+	}
+
+
 
 
 }
