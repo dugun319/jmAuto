@@ -688,7 +688,7 @@ public class KhPayController {
 	
 	
 	@GetMapping(value = "/sendRefundPassword")
-	public String sendRefundPassword(String tid, Model model) {
+	public String sendRefundPassword(String tid, Model model) throws Exception {
 		log.info("KhController sendRefundPassword is called");
 		String sendRefundPassword		= payService.sendRefundPassword(tid);
 		String user_id					= khTableService.getUserIdByApprovalNum(tid);
@@ -841,6 +841,22 @@ public class KhPayController {
 		redirectView.setUrl(readyResponse.getNext_redirect_pc_url());
 
 		return redirectView;
+	}
+	
+	
+	@GetMapping(value = "/mailConfirm")
+	public void mailConfirm(HttpServletRequest request) {
+		log.info("KhController mailConfirm is called");
+		String cmd 		= request.getParameter("cmd");
+		String mailNo 	= request.getParameter("mailNo");
+		
+		System.out.println("KhController mailConfirm cdm / mailNo " + cmd + mailNo);
+	}
+	
+	@GetMapping(value = "/treeList") 
+	public String treeList(Model model) {
+		
+		return "view_kh/treeList";
 	}
 	
 }

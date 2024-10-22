@@ -3,15 +3,14 @@ package com.oracle.jmAuto.service.kh;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.oracle.jmAuto.dao.kh.KHTableDao;
 import com.oracle.jmAuto.dto.Car_General_Info;
@@ -22,15 +21,18 @@ import com.oracle.jmAuto.dto.KakaoPayReadyResponse;
 import com.oracle.jmAuto.dto.Payment;
 import com.oracle.jmAuto.dto.SessionUtils;
 
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class KHPayServiceImplementation implements KHPayService {
 
 	private KakaoPayReadyResponse readyResponse;
 	private final KHTableDao khTableDao;
-	private final MailSender mailSender;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 
 	@Override
 	public KakaoPayReadyResponse kakaoPayReadyCar(long sell_num) {
@@ -185,26 +187,28 @@ public class KHPayServiceImplementation implements KHPayService {
 	}
 
 	@Override
-	public String sendRefundPassword(String tid) {
-		SimpleMailMessage msg = new SimpleMailMessage();
+	public String sendRefundPassword(String tid) throws Exception {
 		String mailAddress	  =	"dugun319@gmail.com";
 		String refundPassword = khTableDao.getRefundPassword(tid);
-		String mailStr		  = "환불비밀번호는 " + refundPassword + "입니다";
+		String mailStr		  = "<h3>환불비밀번호는" 
+								+ refundPassword 
+								+ "입니다</h3>"
+								+ "<img src='localhost:8888/KH/pay/mailConfirm‎?cmd=mail/>"
+								+ "<a href='http://localhost:8888/KH/pay/mailConfirm‎?cmd=mail'>확인<a/>";
 		
-		// 받는 사람 이메일
-		msg.setTo(mailAddress);
-		
-		// 이메일 제목
-        msg.setSubject("jmAuto에서 발송하는 환불비밀번호입니다");
-        
-        // 이메일 내용
-        msg.setText(mailStr);
-        
-        try {
-            // 메일 보내기
-            this.mailSender.send(msg);
-            System.out.println("KHPayServiceImplementation sendRefundPassword is completed!");
-        } catch (MailException e) {
+		try {
+            MimeMessage mail 				= mailSender.createMimeMessage();
+            MimeMessageHelper mailHelper 	= new MimeMessageHelper(mail,true,"UTF-8");            // true는 멀티파트 메세지를 사용하겠다는 의미
+                  
+            mailHelper.setFrom(mailAddress);											           // 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
+            mailHelper.setTo("dugun319@naver.com");
+            mailHelper.setSubject("jmAuto에서 발송하는 환불비밀번호입니다");
+            mailHelper.setText(mailStr, true);            											// true는 html을 사용하겠다는 의미
+            
+            mailSender.send(mail);
+
+            
+        } catch (Exception e) {
             throw e;
         }
         

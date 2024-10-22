@@ -51,12 +51,15 @@ public class JmController {
 
 	// NOTE - 로그인 처리 로직 **********************************************
 	@PostMapping(value = "/login")
-	public String login(
-										@RequestParam("user_id") String user_id, 
-										@RequestParam("user_pw") String user_pw, Model model,
-										HttpSession session, HttpServletRequest request) {
+	public String login(HttpServletRequest request, HttpSession session, Model model) {
 		
+		/*
+		 	@RequestParam("user_id") String user_id, 
+			@RequestParam("user_pw") String user_pw, 
+		 */
 		
+		String user_id	= request.getParameter("user_id");
+		String user_pw	= request.getParameter("user_pw");
 
 		log.info(" user_id  => {}", user_id);
 		User_Table user_table = new User_Table();

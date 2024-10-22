@@ -75,6 +75,7 @@ function reviewDetail(approval_num, user_id, sell_num) {
 					<input type="radio" id="eco" 	value="3000" name="searchType" class="searchType_but3">
 					<label for="eco"></label>
 				</div>
+				<a href="/KH/pay/treeList">연결</a>
 				<div class="search_input">
 					<input type="text" id="autoComplete" class="search" name="keyword" placeholder="검색어를 입력하세요."/>
 					<button type="submit" class="search_submit"></button>
